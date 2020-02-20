@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="nPhysics::iBallComponent" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>physics\iBallComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nPhysics::iCollisionListener" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>physics\iCollisionListener.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nPhysics::iDebugRenderer" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>physics\iDebugRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nPhysics::iPhysicsComponent" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>0IAAoAAACAAALAAQAgBEQAADAAAECIAACARAAAAAAAA=</HashCode>
+      <FileName>physics\iPhysicsComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nPhysics::iPhysicsFactory" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>physics\iPhysicsFactory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nPhysics::iPhysicsWorld" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAIAAAAAAAAAAAAAAAAAAAEAEAAAAAAAAA=</HashCode>
+      <FileName>physics\iPhysicsWorld.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nPhysics::iPlaneComponent" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>physics\iPlaneComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="nPhysics::sBallDef" Collapsed="true">
+    <Position X="5.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>physics\iBallComponent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="nPhysics::sPlaneDef" Collapsed="true">
+    <Position X="7" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAgAAAAAAAAAgAA=</HashCode>
+      <FileName>physics\iPlaneComponent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="nPhysics::eComponentType" Collapsed="true">
+    <Position X="5.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAACABAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>physics\eComponentType.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

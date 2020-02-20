@@ -1,0 +1,24 @@
+GameObject terrain FriendlyName terrain Position 0 0 0 Rotation 0 0 0 Scale 1 Color 1 1 1 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject hills FriendlyName hills Position -14 0 -106 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject skullrock FriendlyName skullrock Position 69 198 178 Rotation 0 3 0 Scale 1 Color 0.5607 0.596 0.6509 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerockone FriendlyName largerockone1 Position 126 8 -102 Rotation 0.4 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerocktwo FriendlyName largerocktwo1 Position 192 72 6 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerockthree FriendlyName largerockthree1 Position -162 18 126 Rotation 0 0.5 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerockfour FriendlyName largerockfour1 Position -21 112 40 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerockfive FriendlyName largerockfive1 Position 84 0 6 Rotation 0 1.8 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerocksix FriendlyName largerocksix1 Position 172 82 -38 Rotation 0 0.9 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerockseven FriendlyName largerockseven1 Position -2 134 164 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerockeight FriendlyName largerockeight1 Position -96 0 112 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerocknine FriendlyName largerocknine1 Position 40 162 100 Rotation 0 -1.5 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerockten FriendlyName largerockten1 Position 0 0 0 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject largerockeleven FriendlyName largerockeleven1 Position 26 150 36 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject arch FriendlyName arch1 Position 198 2 116 Rotation 0.5 -0.9 0 Scale 1 Color 0.5607 0.596 0.6509 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject arch FriendlyName arch2 Position -104 0 54 Rotation 0.6 1.4 0.1 Scale 1 Color 0.5607 0.596 0.6509 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject arch FriendlyName arch3 Position 96 0 56 Rotation 0 1.9 0 Scale 1 Color 0.5607 0.596 0.6509 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject srockone FriendlyName srockone1 Position 224 2 90 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject srocktwo FriendlyName srocktwo1 Position -126 0 72 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject srockthree FriendlyName srockthree1 Position 126 0 40 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject skeleton FriendlyName skeleton1 Position 4 6 -20 Rotation 0 0 0 Scale 1 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject skeleton FriendlyName skeleton2 Position -8 4 -20 Rotation 0 0 0 Scale 0.5 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+GameObject skeleton FriendlyName skeleton3 Position -28 12 -24 Rotation 0 -3.1 0 Scale 2 Color 0.9882 0.7568 0.4078 dColor 1 0 1 velocity 0 0 0 acceleration 0 0 0 Mass 0 SphereRadius 1 Wireframe 0
+end

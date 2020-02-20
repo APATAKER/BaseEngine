@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="cDebugRenderer" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABgREn25QBBECCIBFA+CFOCEQBBFxyIJwWgghbv8A9o=</HashCode>
+      <FileName>DebugRenderer\cDebugRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CErrorLog" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACBgBRAAABAgAAAAAFCIIECAIMBEAAQAIQCIAICAAEA=</HashCode>
+      <FileName>DebugRenderer\CErrorLog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cGLRenderStateHelper" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAFAAAAAAAgBAQAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DebugRenderer\cGLRenderStateHelper.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COpenGLError" Collapsed="true">
+    <Position X="6" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAIAAACAAAAQAAAgAAA=</HashCode>
+      <FileName>DebugRenderer\COpenGLError.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iDebugRenderer" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQABgAAAAABAAAAAAAAEAAAAAAACAAAYAgAAEIAAA=</HashCode>
+      <FileName>DebugRenderer\iDebugRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cLowPassFilter" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAABAAQAAAAAAAABEAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DeltaTime\cLowPassFilter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cFlyCamera" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQQCGAICYgAAgAEAAAQMAAAECBNQQIbqAAEEAFAAAE=</HashCode>
+      <FileName>FlyCamera\cFlyCamera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iCamera" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQACAACQAAAAAAAAAAAAABAAAAAAASgAAAAAAAAAA=</HashCode>
+      <FileName>FlyCamera\iCamera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cGameObject" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EKSAgICAoEWAAQDLBVACAiAiCBBGIDIANERlECAECAE=</HashCode>
+      <FileName>GameObject\cGameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cJSONUtility" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>JsonLoader\cLoad.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cMesh" Collapsed="true">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACABAAAACAAAAAAAAAAAAIAAAAAAAEAAAAAAAAAAI=</HashCode>
+      <FileName>ModelLoading\cMesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cModelLoader" Collapsed="true">
+    <Position X="11.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAASAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>ModelLoading\cModelLoader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cPhysics" Collapsed="true">
+    <Position X="7.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAgABIABgIgAAAAGQAACABAgoAQAQIBRAAaAQoAAI=</HashCode>
+      <FileName>Physics\Physics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cShaderManager" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAQEAAAAAAQAAAAAAAAAkwAAAAEAACAkAAAYg=</HashCode>
+      <FileName>shader\cShaderManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cBasicTextureManager" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQCIAAgACAAAAAAAAAAAABAAAAQAAAAAAAQAAAQI=</HashCode>
+      <FileName>Textures\cBasicTextureManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTextureFromBMP" Collapsed="true">
+    <Position X="11.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKAEiBEAIZBEjAwIAhAYcMalpJgYDEBCIwQWGFECYpc=</HashCode>
+      <FileName>Textures\CTextureFromBMP.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cVAOManager" Collapsed="true">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAABAAAAAAAAAAAAAgAQAAAAAAAAAAIA=</HashCode>
+      <FileName>VAO\cVAOManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="sPlyVertexXYZ_N_UV" Collapsed="true">
+    <Position X="7.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAQBJgAQAAABA=</HashCode>
+      <FileName>ModelLoading\cMesh.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="sPlyTriangle" Collapsed="true">
+    <Position X="6" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModelLoading\cMesh.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="State" Collapsed="true">
+    <Position X="9.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Physics\Physics.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Derivative" Collapsed="true">
+    <Position X="9.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Physics\Physics.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="C24BitBMPpixel" Collapsed="true">
+    <Position X="6" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAgAAAAgEAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Textures\C24BitBMPpixel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="C32BitBMPpixel" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACgAAAAgAAAAAAAAABAEAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Textures\C24BitBMPpixel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="sVertex" Collapsed="true">
+    <Position X="11.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAABIgAAAoQRphAQAAABA=</HashCode>
+      <FileName>VAO\cVAOManager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="sModelDrawInfo" Collapsed="true">
+    <Position X="11.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BHAACBAAAEAAAAAAPAIAgQAAAAABAAAAECAESHAAAAA=</HashCode>
+      <FileName>VAO\cVAOManager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="PFNWGLGETPROCADDRESSPROC_PRIVATE" Collapsed="true">
+    <Position X="7.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>glad.c</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="PFNGLXGETPROCADDRESSPROC_PRIVATE" Collapsed="true">
+    <Position X="6" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>glad.c</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="drTri" Collapsed="true">
+    <Position X="11.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DebugRenderer\iDebugRenderer.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="drLine" Collapsed="true">
+    <Position X="6" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DebugRenderer\iDebugRenderer.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="drPoint" Collapsed="true">
+    <Position X="9.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DebugRenderer\iDebugRenderer.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="drMesh" Collapsed="true">
+    <Position X="7.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DebugRenderer\iDebugRenderer.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uchar" Collapsed="true">
+    <Position X="9.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Textures\C24BitBMPpixel.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="eShapeTypes" Collapsed="true">
+    <Position X="6" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAACABAAAAAAAABAAAAAAAAAAAAAAAAACEAAAAA=</HashCode>
+      <FileName>GameObject\cGameObject.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

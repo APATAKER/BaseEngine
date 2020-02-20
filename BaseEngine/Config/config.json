@@ -1,0 +1,1122 @@
+{
+  "shaders": {
+    "vert": "assets/shaders/vertexShader01.glsl",
+    "frag": "assets/shaders/fragmentShader01.glsl"
+  },
+  "models": [
+    "assets/models/AIGroundTerrain.ply",
+    "assets/models/AIGroundTerrain_Scalex2.ply",
+    "assets/models/AIGroundTerrain_wall_left(z-90).ply",
+    "assets/models/Sphere_Radius_1_XYZ_n_uv.ply",
+    "assets/models/Sphere_Radius_2_XYZ_n_uv.ply",
+    "assets/models/Sphere_Radius_3_XYZ_n_uv.ply",
+    "assets/models/Sphere_Radius_5_XYZ_n_uv.ply",
+    "assets/models/Sphere_Radius_0.5_XYZ_n_uv.ply",
+    "assets/models/kunai_n_uv.ply",
+    "assets/models/cube_flat_shaded_xyz_n_uv.ply",
+    "assets/models/RetroTV.edited.bodyonly.ply",
+    "assets/models/RetroTV.edited.screenonly.ply",
+    "assets/models/RPG-Character(FBX2013).FBX"
+  ],
+  "MeshName": [
+    "ground",
+    "ground2",
+    "wall1",
+    "sphere1",
+    "sphere2",
+    "sphere3",
+    "sphere5",
+    "bullet",
+    "kunai",
+    "mazecube",
+    "tvbody",
+    "tvscreen",
+    "rpgcharacter"
+  ],
+  "Textures": [
+    "defaultTex.bmp",
+    "PlasmaRing.bmp",
+    "blacktex.bmp",
+    "redtex.bmp",
+    "bluetex.bmp",
+    "cyantex.bmp",
+    "greentex.bmp",
+    "yellowtex.bmp",
+    "violettex.bmp"
+  ],
+  "Lights": [
+    {
+      "lightID": 1,
+      "lightPosition": {
+        "x": -25.0,
+        "y": 300.0,
+        "z": -150.0
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 2,
+      "lightPosition": {
+        "x": 25.0,
+        "y": 500.0,
+        "z": 150.0
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    }
+  ],
+  "GameObjects": [
+    {
+      "meshname": "ground2",
+      "friendlyname": "ground",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "blacktex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 1
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1
+    },
+    {
+      "meshname": "ground2",
+      "friendlyname": "wall1",
+      "position": {
+        "x": 256.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 90.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "blacktex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": -1.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "constant": 1
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1
+    },
+    {
+      "meshname": "ground2",
+      "friendlyname": "wall2",
+      "position": {
+        "x": -256.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -90.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "blacktex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "constant": 1
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1
+    },
+    {
+      "meshname": "ground2",
+      "friendlyname": "wall3",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 256.0
+      },
+      "rotation": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "blacktex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -1.0
+        },
+        "constant": 1
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1
+    },
+    {
+      "meshname": "ground2",
+      "friendlyname": "wall4",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -256.0
+      },
+      "rotation": {
+        "x": 90.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "blacktex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 1.0
+        },
+        "constant": 1
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere1",
+      "friendlyname": "skybox",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 7500.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "defaultTex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere3",
+      "friendlyname": "player",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "redtex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 0,
+      "sphereRadius": 3.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 3
+      },
+      "mass": 3,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere5",
+      "friendlyname": "enemy1",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 100.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "yellowtex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 1,
+      "sphereRadius": 5.0,
+      "bulletCollisionRadius": 50.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 5
+      },
+      "mass": 5,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere2",
+      "friendlyname": "enemy2",
+      "position": {
+        "x": 100.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 2
+      },
+      "mass": 2,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere2",
+      "friendlyname": "enemy3",
+      "position": {
+        "x": 10.0,
+        "y": 50.0,
+        "z": 100.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 2
+      },
+      "mass": 2,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere2",
+      "friendlyname": "enemy4",
+      "position": {
+        "x": 15.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "greentex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 2
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere2",
+      "friendlyname": "enemy5",
+      "position": {
+        "x": 15.0,
+        "y": 50.0,
+        "z": 15.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "greentex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 2
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere2",
+      "friendlyname": "enemy6",
+      "position": {
+        "x": -10.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "greentex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 2
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere2",
+      "friendlyname": "enemy7",
+      "position": {
+        "x": -10.0,
+        "y": 50.0,
+        "z": 10.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "greentex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 2
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere2",
+      "friendlyname": "enemy8",
+      "position": {
+        "x": -10.0,
+        "y": 50.0,
+        "z": -10.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "violettex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 2
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "sphere2",
+      "friendlyname": "enemy9",
+      "position": {
+        "x": 10.0,
+        "y": 50.0,
+        "z": -10.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "violettex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 2
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "mazecube",
+      "friendlyname": "staticObject",
+      "position": {
+        "x": 10.0,
+        "y": 100.0,
+        "z": -10.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "violettex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "tvbody",
+      "friendlyname": "tvbody1",
+      "position": {
+        "x": 50.0,
+        "y": 100.0,
+        "z": -200.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "violettex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "tvscreen",
+      "friendlyname": "tvscreen1",
+      "position": {
+        "x": 50.0,
+        "y": 100.0,
+        "z": -200.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "violettex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "tvbody",
+      "friendlyname": "tvbody2",
+      "position": {
+        "x": -150.0,
+        "y": 100.0,
+        "z": -200.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "violettex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "tvscreen",
+      "friendlyname": "tvscreen2",
+      "position": {
+        "x": -150.0,
+        "y": 100.0,
+        "z": -200.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "violettex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1
+    },
+    {
+      "meshname": "rpgcharacter",
+      "friendlyname": "staticObject",
+      "position": {
+        "x": 100.0,
+        "y": 50.0,
+        "z": 100.0
+      },
+      "rotation": {
+        "x": -90.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "violettex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1
+    }
+  ]
+  
+}
