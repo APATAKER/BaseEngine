@@ -231,7 +231,7 @@ void cSimpleAssimpSkinnedMesh::BoneTransform( float TimeInSeconds,
 	Globals.resize(this->mNumBones);
 	Offsets.resize(this->mNumBones);
 
-	for ( unsigned int BoneIndex = 0; BoneIndex < this->mNumBones; BoneIndex++ )
+	for (unsigned int BoneIndex = 0; BoneIndex < this->mNumBones; BoneIndex++)
 	{
 		FinalTransformation[BoneIndex] = this->mBoneInfo[BoneIndex].FinalTransformation;
 		Globals[BoneIndex] = this->mBoneInfo[BoneIndex].ObjectBoneTransformation;
@@ -239,7 +239,7 @@ void cSimpleAssimpSkinnedMesh::BoneTransform( float TimeInSeconds,
 	}
 }
 
-void cSimpleAssimpSkinnedMesh::LoadBones(const aiMesh* Mesh, std::vector<sVertexBoneData> &vertexBoneData)
+void cSimpleAssimpSkinnedMesh::LoadBones(const aiMesh* Mesh, std::vector<sVertexBoneData>& vertexBoneData)
 {
 	for ( unsigned int boneIndex = 0; boneIndex != Mesh->mNumBones; boneIndex++ )
 	{

@@ -20,7 +20,9 @@
 // Global Pointers and variables
 cBasicTextureManager* g_pTextureManager = nullptr;
 cMazeMaker* p_maze_maker = nullptr;
-cFBO* p_fbo = nullptr;
+cFBO* p_fbo1 = nullptr;
+cFBO* p_fbo2 = nullptr;
+cFBO* p_fbo3 = nullptr;
 GLFWwindow* window = nullptr;
 cDebugRenderer* g_pDebugRenderer = nullptr;
 cFlyCamera* g_pFlyCamera = nullptr;
@@ -36,6 +38,9 @@ std::vector<cGameObject*> vec_bullets;
 
 rapidjson::Document document;
 
+std::string g_HACK_currentAnimationName = "jump";
+float HACK_FrameTime = 0.0f;
+glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 
 
 
@@ -235,12 +240,30 @@ int main()
 
 	
 	// Set up the FBO object
-	p_fbo = new cFBO();
+	p_fbo1 = new cFBO();
+	p_fbo2 = new cFBO();
+	p_fbo3 = new cFBO();
 	// Usually we make this the size of the screen.
 	std::string FBOError;
-	if (p_fbo->init(1280, 720, FBOError))
+	if (p_fbo1->init(1280, 720, FBOError))
 	{
-		std::cout << "Frame buffer is OK" << std::endl;
+		std::cout << "Frame buffer 1 is OK" << std::endl;
+	}
+	else
+	{
+		std::cout << "FBO Error: " << FBOError << std::endl;
+	}
+	if (p_fbo2->init(1280, 720, FBOError))
+	{
+		std::cout << "Frame buffer 2 is OK" << std::endl;
+	}
+	else
+	{
+		std::cout << "FBO Error: " << FBOError << std::endl;
+	}
+	if (p_fbo3->init(1280, 720, FBOError))
+	{
+		std::cout << "Frame buffer 3 is OK" << std::endl;
 	}
 	else
 	{
@@ -260,17 +283,20 @@ int main()
 	//############################## Game Loop Starts Here ##################################################################
 	while (!glfwWindowShouldClose(window))
 	{
-		//Draw everything to a Frame Bufer
-		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo->ID);
-
-		p_fbo->clearBuffers(true, true);
-
-		// Set the passNumber to 0
+		// temp variables
+		float ratio;
+		int width, height;
+		glm::mat4 p, v;
 		GLint passNumber_UniLoc = glGetUniformLocation(shader_program_ID, "passNumber");
-		glUniform1i(passNumber_UniLoc, 0);
+		GLint SelectEffect_UL = glGetUniformLocation(shader_program_ID, "selectEffect");
+		GLint eyeLocation_UL = glGetUniformLocation(shader_program_ID, "eyeLocation");
+		GLint matView_UL = glGetUniformLocation(shader_program_ID, "matView");
+		GLint matProj_UL = glGetUniformLocation(shader_program_ID, "matProj");
+		std::stringstream ssTitle;
+		// temp variables
 		
-		PhysicsInit();
-		// Updating DeltaTime
+		
+		// Updating DeltaTime *********************************************
 			// Get the initial time
 		double current_time = glfwGetTime();
 		// Frame time... (how many seconds since last frame)
@@ -281,7 +307,7 @@ int main()
 		{
 			deltaTime = SOME_HUGE_TIME;
 		}
-		// Updating DeltaTime
+		// Updating DeltaTime *********************************************
 
 
 		ProcessAsyncKeys(window);		// Listening to keyboard keys
@@ -289,11 +315,28 @@ int main()
 
 		glUseProgram(shader_program_ID);		// using current shader
 
+		// Window title Printing
+		ssTitle
+			<< g_pFlyCamera->eye.x << ", "
+			<< g_pFlyCamera->eye.y << ", "
+			<< g_pFlyCamera->eye.z
+			<< "object postion: "
+			<< g_vec_pGameObjects[4]->friendlyName << " "
+			<< "at vector player: " << g_vec_pGameObjects[4]->m_at.x << " " << g_vec_pGameObjects[4]->m_at.y << " " << g_vec_pGameObjects[4]->m_at.z << ",ai: "
+			<< g_vec_pGameObjects[5]->m_at.x << " " << g_vec_pGameObjects[5]->m_at.y << " " << g_vec_pGameObjects[5]->m_at.z;
+		glfwSetWindowTitle(window, ssTitle.str().c_str());
 
-		// Creating the GL_ViewPort   This is Pass 1
-		float ratio;
-		int width, height;
-		glm::mat4 p, v;
+		////lights into shader
+		p_light_stuff->loadLightIntoShader(shader_program_ID, vec_lightObjects.size());
+
+
+		
+		//PASS 1 - original COLOR return *****************************
+		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo1->ID);
+		p_fbo1->clearBuffers(true, true);
+		glUniform1i(passNumber_UniLoc, 0);		//Normal Pass
+		glUniform1i(SelectEffect_UL, 0);		//Original Color
+		// Creating the GL_ViewPort   This is Pass 1 
 		glfwGetFramebufferSize(window, &width, &height);
 		ratio = width / (float)height;
 		// Projection matrix
@@ -303,43 +346,18 @@ int main()
 			10000.0f);		// Far clipping plane
 		// View matrix
 		v = glm::mat4(1.0f);
-
 		v = glm::lookAt(::g_pFlyCamera->getEye(),
 			::g_pFlyCamera->getAtInWorldSpace(),
 			::g_pFlyCamera->getUpVector());
 		glViewport(0, 0, width, height);
-
-		
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Clear buffers
-
-
-		////lights into shader
-		p_light_stuff->loadLightIntoShader(shader_program_ID, vec_lightObjects.size());
 		// camera into shader
-		GLint eyeLocation_UL = glGetUniformLocation(shader_program_ID, "eyeLocation");
 		glUniform4f(eyeLocation_UL,
 			::g_pFlyCamera->getEye().x,
 			::g_pFlyCamera->getEye().y,
 			::g_pFlyCamera->getEye().z, 1.0f);
 		//view and projection into shader
-		GLint matView_UL = glGetUniformLocation(shader_program_ID, "matView");
-		GLint matProj_UL = glGetUniformLocation(shader_program_ID, "matProj");
 		glUniformMatrix4fv(matView_UL, 1, GL_FALSE, glm::value_ptr(v));
 		glUniformMatrix4fv(matProj_UL, 1, GL_FALSE, glm::value_ptr(p));
-
-		// Window title Printing
-		std::stringstream ssTitle;
-		ssTitle
-			<< g_pFlyCamera->eye.x << ", "
-			<< g_pFlyCamera->eye.y << ", "
-			<< g_pFlyCamera->eye.z
-			<< "object postion: "
-			<< g_vec_pGameObjects[4]->friendlyName<<" "
-		<<"at vector player: "<<g_vec_pGameObjects[4]->m_at.x<<" "<< g_vec_pGameObjects[4]->m_at.y<<" "<< g_vec_pGameObjects[4]->m_at.z<<",ai: "
-		<< g_vec_pGameObjects[5]->m_at.x<<" "<< g_vec_pGameObjects[5]->m_at.y<<" "<< g_vec_pGameObjects[5]->m_at.z;
-		glfwSetWindowTitle(window, ssTitle.str().c_str());
-
-
 		// GameObject Draw Call
 		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
 		{
@@ -350,24 +368,14 @@ int main()
 			{
 				pCurrentObject->m_physics_component->GetTransform(matModel);
 			}
-			else
-			{
-
-			}
-			
-			
+			else{}
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
-
 		}//for (int index...
-
-
 		// Maze Draw
-
 		for(int a =0,draw1=0;a<maze_width-1;a++,draw1+=1)
 			for(int b=0,draw2=0;b<maze_height-1;b++,draw2+=1)
 			{
-				
 				if(p_maze_maker->maze[a][b][0] == true)
 				{
 					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
@@ -378,11 +386,7 @@ int main()
 			}
 		// Maze Draw
 		
-		//Physics implementation
-
-		PhysicsUpdate(deltaTime);
-		
-		//Physics implementation
+		//PASS 1 *********************************************************
 
 
 
@@ -426,14 +430,61 @@ int main()
 		//glm::mat4 matQuad = glm::mat4(1.0f);
 		//DrawObject(matQuad, pQuadOrIsIt, shader_program_ID, p_vao_manager);
 
-		// 2nd Pass  // Draw image on screen
 
+		// PASS 2 - Normals color return *****************************
+		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo2->ID);
+		p_fbo2->clearBuffers(true, true);
+		glUniform1i(passNumber_UniLoc, 0);				// Normal Pass
+		glUniform1i(SelectEffect_UL, 1);				// Normals color
+		// GameObject Draw Call
+		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
+		{
+			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
+			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
+
+			if (pCurrentObject->m_physics_component)
+			{
+				pCurrentObject->m_physics_component->GetTransform(matModel);
+			}
+			else {}
+			DrawObject(matModel, pCurrentObject,
+				shader_program_ID, p_vao_manager);
+		}//for (int index...
+		// PASS 2 *****************************************************
+
+
+		
+		// PASS 3 - Depth color return *****************************
+		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo3->ID);
+		p_fbo3->clearBuffers(true, true);
+		glUniform1i(passNumber_UniLoc, 0);				// Normal Pass
+		glUniform1i(SelectEffect_UL, 2);				// Depths color
+		// GameObject Draw Call
+		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
+		{
+			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
+			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
+
+			if (pCurrentObject->m_physics_component)
+			{
+				pCurrentObject->m_physics_component->GetTransform(matModel);
+			}
+			else {}
+			DrawObject(matModel, pCurrentObject,
+				shader_program_ID, p_vao_manager);
+		}//for (int index...
+		// PASS 2 *****************************************************
+
+
+
+		
+		// 3nd Pass  // Draw image on screen
 		// 1. Set the framebuffer to the Actual screen
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 		// 2. Clear the screen (glClear())
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		
 		GLint screenWidth_UnitLoc = glGetUniformLocation(shader_program_ID, "screenWidth");
 		GLint screenHeight_UnitLoc = glGetUniformLocation(shader_program_ID, "screenHeight");
 		glfwGetFramebufferSize(window, &width, &height);
@@ -446,19 +497,25 @@ int main()
 		
 		// 3. Set up the textures for the TV screen (From the FBO)
 		glActiveTexture(GL_TEXTURE0 + 40);				// Texture Unit 40
-		glBindTexture(GL_TEXTURE_2D, p_fbo->colourTexture_0_ID);	// Texture now asbsoc with texture unit 40      // Basically binding to
+		glBindTexture(GL_TEXTURE_2D, p_fbo1->colourTexture_0_ID);	// Texture now asbsoc with texture unit 40      // Basically binding to
 		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);													// out vec4 pixelColor
 		GLint color_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassColourTexture");             
 		glUniform1i(color_pass_texture_UL, 40);	// Texture unit 40
 
+		//glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
+		//glBindTexture(GL_TEXTURE_2D, p_fbo1->normalTexture_ID);	// Texture now asbsoc with texture unit 41
+		////glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
+		//GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			// Basically binding to
+		//glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												// out vec4 pixelNormal
+
 		glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
-		glBindTexture(GL_TEXTURE_2D, p_fbo->normalTexture_ID);	// Texture now asbsoc with texture unit 41
+		glBindTexture(GL_TEXTURE_2D, p_fbo2->colourTexture_0_ID);	// Texture now asbsoc with texture unit 41
 		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			// Basically binding to
-		glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												// out vec4 pixelNormal
+		GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			
+		glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												
 
 		glActiveTexture(GL_TEXTURE0 + 42);				// Texture Unit 42
-		glBindTexture(GL_TEXTURE_2D, p_fbo->depthTexture_ID);	// Texture now asbsoc with texture unit 42
+		glBindTexture(GL_TEXTURE_2D, p_fbo3->colourTexture_0_ID);	// Texture now asbsoc with texture unit 42
 		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
 		GLint depth_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassDepthTexture");			
 		glUniform1i(depth_pass_texture_UL, 42);	// Texture unit 42												
@@ -466,6 +523,7 @@ int main()
 		
 		// 4. Draw the TV and Screen
 		glUniform1i(passNumber_UniLoc, 0);
+		glUniform1i(SelectEffect_UL, 0);
 		// GameObject Draw Call
 		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
 		{
@@ -477,11 +535,11 @@ int main()
 				pCurrentObject->m_physics_component->GetTransform(matModel);
 			}
 			else
-			{
-
-			}
-
-			if ((pCurrentObject->friendlyName) != "tvscreen1" && (pCurrentObject->friendlyName) != "tvscreen2")
+			{}
+			if ((pCurrentObject->friendlyName) != "tvscreen1"
+				&& (pCurrentObject->friendlyName) != "tvscreen2"
+				&& (pCurrentObject->friendlyName) != "tvscreen3" 
+				&& (pCurrentObject->friendlyName) != "tvscreen4")
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
 
@@ -494,14 +552,32 @@ int main()
 
 
 		
-		glUniform1i(passNumber_UniLoc, 4);
+		glUniform1i(passNumber_UniLoc, 3);
 		cGameObject* p_TV_screen2 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen2");
 		glm::mat4 mat4_TV_screen2 = glm::mat4(1.f);
 		DrawObject(mat4_TV_screen2, p_TV_screen2, shader_program_ID, p_vao_manager);
 
-		// Place the camera somewhere stationary
+		glUniform1i(passNumber_UniLoc, 4);
+		cGameObject* p_TV_screen3 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen3");
+		glm::mat4 mat4_TV_screen3 = glm::mat4(1.f);
+		DrawObject(mat4_TV_screen3, p_TV_screen3, shader_program_ID, p_vao_manager);
+
+		glUniform1i(passNumber_UniLoc, 5);
+		cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
+		glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
+		DrawObject(mat4_TV_screen4, p_TV_screen4, shader_program_ID, p_vao_manager);
+
+
+		
 		glUniform1i(passNumber_UniLoc, 0);
 
+		
+		//Physics implementation
+		
+		PhysicsInit();
+		PhysicsUpdate(deltaTime);
+
+		//Physics implementation
 
 		glfwSwapBuffers(window);		// Buffer Swap
 		glfwPollEvents();
@@ -685,10 +761,73 @@ void DrawObject(glm::mat4 matModel,
 		glEnable(GL_DEPTH);								// Write to depth buffer
 	}
 
+	// Performing Animations
+	GLint isSkinnedMesh_UniLoc = glad_glGetUniformLocation(shaderProgID, "isSkinnedMesh");
+	if (pCurrentObject->p_skinned_mesh != NULL)
+	{
+		glUniform1f(isSkinnedMesh_UniLoc, (float)GL_TRUE);
 
-	//		glDrawArrays(GL_TRIANGLES, 0, 2844);
-	//		glDrawArrays(GL_TRIANGLES, 0, numberOfVertsOnGPU);
+		// Set to all identity
+		const int NUMBEROFBONES = 100;
+		//glm::mat4 matBones[NUMBEROFBONES];
 
+		//for (int index = 0; index != NUMBEROFBONES; index++)
+		//{
+		//	matBones[index] = glm::mat4(1.0f);	// Identity
+		//}
+
+		// Taken from "Skinned Mesh 2 - todo.docx"
+		std::vector< glm::mat4x4 > vecFinalTransformation;
+		std::vector< glm::mat4x4 > vecOffsets;
+		std::vector< glm::mat4x4 > vecObjectBoneTransformation;
+
+		// This loads the bone transforms from the animation model
+		pCurrentObject->p_skinned_mesh->BoneTransform(HACK_FrameTime,	// 0.0f // Frame time
+			::g_HACK_currentAnimationName,
+			vecFinalTransformation,
+			vecObjectBoneTransformation,
+			vecOffsets);
+
+		// Wait until all threads are done updating.
+
+		HACK_FrameTime += 0.01f;
+
+		{// Forward kinematic stuff
+
+			// "Bone" location is at the origin
+			glm::vec4 boneLocation = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+			// bone #22 is "B_R_Hand" in this model
+			glm::mat4 matSpecificBone = vecFinalTransformation[22];
+
+			// Transformed into "model" space where that bone is.
+			::g_HACK_vec3_BoneLocationFK = matSpecificBone * boneLocation;
+
+			//			// If it's in world space
+			//			::g_HACK_vec3_BoneLocationFK = matModel * ::g_HACK_vec3_BoneLocationFK;
+
+
+		}// Forward kinematic 
+
+
+			// Copy all 100 bones to the shader
+		GLint matBonesArray_UniLoc = glGetUniformLocation(shaderProgID, "matBonesArray");
+		// The "100" is to pass 100 values, starting at the pointer location of matBones[0];
+		//glUniformMatrix4fv(matBonesArray_UniLoc, 100, GL_FALSE, glm::value_ptr(matBones[0]));
+
+		GLint numBonesUsed = (GLint)vecFinalTransformation.size();
+
+		glUniformMatrix4fv(matBonesArray_UniLoc, numBonesUsed,
+			GL_FALSE,
+			glm::value_ptr(vecFinalTransformation[0]));
+
+	}
+	else
+	{
+		glUniform1f(isSkinnedMesh_UniLoc, (float)GL_FALSE);
+	}
+	// ************************************************
+	
 	sModelDrawInfo drawInfo;
 	//if (pTheVAOManager->FindDrawInfoByModelName("bunny", drawInfo))
 	if (pVAOManager->FindDrawInfoByModelName(pCurrentObject->meshName, drawInfo))

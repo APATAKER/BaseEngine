@@ -50,6 +50,7 @@ uniform bool useHeightMap;	// If true, use heightmap
 // Pass 0 is the pass to the FBO (the 1st one)
 // Pass 1 is the "2nd" pass, texturing the "quad"
 uniform int passNumber; 
+uniform int selectEffect;
 
 
 uniform vec4 tex_0_3_ratio;		// x = 0, y = 1, z = 2, w = 3
@@ -95,70 +96,29 @@ uniform sLight theLights[NUMBEROFLIGHTS];  	// 80 uniforms
 // uniform vec4 theLights[0].param1
 // uniform vec4 theLights[0].param2
 
+
 vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal, 
                             vec3 vertexWorldPos, vec4 vertexSpecular );
+
+void colorOutput();
+void normalsOutput();
+void DepthOutput();
 	 
 void main()  
 {
-	// What pass is this? 
-	// Is it the 2nd pass? 
+	// regular color
 	if ( passNumber == 1 )
 	{
-		//// It's the 2nd pass
-		//pixelColour = vec4( 0.0f, 1.0f, 0.0f, 1.0f );
-
 		vec3 texRGB = texture(secondPassColourTexture, fUVx2.st).rgb;
-		
 		pixelColour.rgb = texRGB;
-		
 		pixelColour.a = 1.f;
-		
-		//float bo = 0.01f;		// For "blurr offset"
-		//
-		//// *  *  *
-		//// *  O  *
-		//// *  *  *
-		//
-		//// This is a Gaussian Kernel (Goo
-		//// * * * * *          *
-		//// * * * * *          *
-		//// * * O * *		**O**
-		//// * * * * *          *
-		//// * * * * *          *
-		//
-		//vec3 texRGB1 = texture( secondPassColourTexture, vec2(fUVx2.s + 0.0f, fUVx2.t + 0.0f) ).rgb;
-		//
-		//vec3 texRGB2 = texture( secondPassColourTexture, vec2(fUVx2.s - bo, fUVx2.t + 0.0f) ).rgb;
-		//vec3 texRGB3 = texture( secondPassColourTexture, vec2(fUVx2.s + bo, fUVx2.t + 0.0f) ).rgb;
-		//vec3 texRGB4 = texture( secondPassColourTexture, vec2(fUVx2.s + 0.0f, fUVx2.t - bo) ).rgb;
-		//vec3 texRGB5 = texture( secondPassColourTexture, vec2(fUVx2.s + 0.0f, fUVx2.t + bo) ).rgb;
-		//
-		//vec3 RGB = 0.5f * texRGB1 +
-		//           0.125f * texRGB2 +
-		//		   0.125f * texRGB3 +
-		//		   0.125f * texRGB4 +
-		//		   0.125f * texRGB5;
-		//
-		//pixelColour.rgb = RGB * 2.0f;			// 2.0f because the projector is really dark!!
-		//pixelColour.a = 1.0f;
-		//
-		// This will calculate the screen texture coordinates based 
-		// on what's actually being rendered on the screen. 
-		// So you just need to FILL the ENTIRE screen with something.
-		//vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, 
-		//                         gl_FragCoord.y / screenHeight );
-		//vec3 texRGB = texture(secondPassColourTexture, fUVx2.st ).rgb;
-		//pixelColour.rgb = (texRGB);
-		//pixelColour.a = 1.0f;
-		//
 		//float depthValue = texture( secondPassColourTexture, textCoords.st ).r;
 		//depthValue /= 10.0f;
 		//pixelColour.rgb = vec3(depthValue,depthValue,depthValue);
 		//pixelColour.a = 1.0f;
-	
 		return;
 	}
-	// Pass 3 for effects (blur 5 set gaussian)
+	// Pass 2 for effects (blur 5 set gaussian)
 	if (passNumber == 2)
 	{
 		float bo = 0.05f;		// For "blurr offset"
@@ -180,139 +140,256 @@ void main()
 
 		return;
 	}
-	// Normal
+	// Normal (In-Testing) (working long way)
 	if (passNumber == 3)
 	{
-		/*vec2 textCoords = vec2(gl_FragCoord.x / screenWidth,
-			gl_FragCoord.y / screenHeight);*/
+		float scrWidth = 1920;
+		float scrHeight = 1080;
+		//vec2 textCoords = vec2(gl_FragCoord.x / screenWidth,
+		//	gl_FragCoord.y / screenHeight);
+		//vec2 textCoords = vec2(gl_FragCoord.x / scrWidth,
+		//	gl_FragCoord.y / scrHeight);
+		vec2 textCoords = vec2(fVertWorldLocation.x ,
+			fVertWorldLocation.y);
+
 		vec3 normRGB = texture(secondPassNormalTexture, fUVx2.st).rgb;
 		pixelColour.rgb = normRGB;
 		pixelColour.a = 1.f;
-
+			
 		return;
 	}
 	// Grayscale
 	if (passNumber == 4)
 	{
-
-
 		float depthValue = texture(secondPassColourTexture, fUVx2.st).r;
 		depthValue /= 2.0f;
 		pixelColour.rgb = vec3(depthValue, depthValue, depthValue);
 		pixelColour.a = 1.0f;
-
+		return;
+	}
+	// Depth
+	if (passNumber == 5)
+	{
+		vec3 depthRGB = texture(secondPassDepthTexture, fUVx2.st).rgb;
+		pixelColour.rgb = depthRGB;
+		pixelColour.a = 1.f;
 		return;
 	}
 
-	// Shader Type #1  	
-	if ( bDoNotLight )
+//	// Shader Type #1  	
+//	if ( bDoNotLight )
+//	{
+//		pixelColour.rgb = debugColour.rgb;
+//		pixelColour.a = 1.0f;				// NOT transparent
+//		return;
+//	}
+//	if ( useHeightMap )
+//	{
+//		pixelColour.rgb = vec3(1.0f, 0.0f, 0.0f);
+//		pixelColour.a = 1.0f;
+//		return;
+//	}
+//	if ( bIsImposter )
+//	{
+//		// If true, then:
+//		// - don't light
+//		// - texture map
+//		// - Use colour to compare to black and change alpha 
+//		// - Use colour to compare the black for discard
+//		vec3 texRGB = texture( textSamp00, fUVx2.st ).rgb;
+//		pixelColour.rgb = texRGB.rgb;
+//		// Note that your eye doesn't see this, 
+//		// Use this equation instead: 0.21 R + 0.72 G + 0.07 B
+//		float grey = (texRGB.r + texRGB.g + texRGB.b)/3.0f;
+//		// If it's REALLY black, then discard
+//		if ( grey < 0.05 ) 	{	discard; }
+//		// Otherwise control alpha with "black and white" amount
+//		pixelColour.a = grey;
+//		if ( pixelColour.a < diffuseColour.a )
+//		{
+//			pixelColour.a = diffuseColour.a;
+//		}
+////		pixelColour.a = diffuseColour.a;
+//		return;
+//	}
+//	if ( bIsSkyBox )
+//	{
+//		// I sample the skybox using the normal from the surface
+//		vec3 skyColour = texture( skyBox, fNormal.xyz ).rgb;
+//		pixelColour.rgb = skyColour.rgb;
+//		pixelColour.a = 1.0f;				// NOT transparent
+//		return;
+//	}
+//	vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
+//		
+//	
+//	// Shader Type #2
+//	vec4 materialColour = diffuseColour;
+//	vec3 tex0_RGB = texture( textSamp00, fUVx2.st ).rgb;
+//	vec3 tex1_RGB = texture( textSamp01, fUVx2.st ).rgb;
+//	vec3 tex2_RGB = texture( textSamp02, fUVx2.st ).rgb;
+//	vec3 tex3_RGB = texture( textSamp03, fUVx2.st ).rgb;
+//	vec3 texRGB =   ( tex_0_3_ratio.x * tex0_RGB ) 
+//				  + ( tex_0_3_ratio.y * tex1_RGB )
+//				  + ( tex_0_3_ratio.z * tex2_RGB )
+//				  + ( tex_0_3_ratio.w * tex3_RGB );
+//	//vec4 outColour = calcualteLightContrib( texRGB.rgb, skyColour.xyz,
+//	//                                        fVertWorldLocation.xyz, specularColour );
+//	vec4 outColour = calcualteLightContrib( texRGB.rgb, fNormal.xyz, 
+//	                                        fVertWorldLocation.xyz, specularColour );
+//											
+//	// for cube map refection and refraction			  	  
+//	// Bunny is chome (reflective)
+//	//
+////	vec3 eyeVector = eyeLocation.xyz - fVertWorldLocation.xyz;
+////	eyeVector = normalize(eyeVector);
+////	
+////	vec3 reflectVector = reflect( eyeVector, fNormal.xyz );
+////	vec3 refractVector = refract( eyeVector, fNormal.xyz, 1.4f );
+////	
+////	vec3 reflectColour = texture( skyBox, reflectVector.xyz ).rgb;
+////	vec3 refractColour = texture( skyBox, refractVector.xyz ).rgb;
+////	
+////	vec3 finalColour = 0.0f * reflectColour + 1.0f * refractColour;
+////
+////	outColour = calcualteLightContrib( surfaceColour.rgb, fNormal.xyz, 
+////	                                        fVertWorldLocation.xyz, specularColour );
+//						
+//	pixelColour.rgb = outColour.rgb;
+//	pixelColour.a = diffuseColour.a;	// Alpha 
+//  pixelNormal.rgb = outColour.rgb;
+//	pixelNormal.a = diffuseColour.a;
+//	pixelNormal.rgb += fNormal.xyz;
+
+// Shader Type #1  	
+
+	if (bDoNotLight)
 	{
 		pixelColour.rgb = debugColour.rgb;
 		pixelColour.a = 1.0f;				// NOT transparent
 		return;
 	}
-	
-	if ( useHeightMap )
+	if (useHeightMap)
 	{
 		pixelColour.rgb = vec3(1.0f, 0.0f, 0.0f);
 		pixelColour.a = 1.0f;
 		return;
 	}
-
-	
-	if ( bIsImposter )
+	if (bIsImposter)
 	{
 		// If true, then:
 		// - don't light
 		// - texture map
 		// - Use colour to compare to black and change alpha 
 		// - Use colour to compare the black for discard
-		vec3 texRGB = texture( textSamp00, fUVx2.st ).rgb;
-		
+		vec3 texRGB = texture(textSamp00, fUVx2.st).rgb;
 		pixelColour.rgb = texRGB.rgb;
-		
 		// Note that your eye doesn't see this, 
 		// Use this equation instead: 0.21 R + 0.72 G + 0.07 B
-		float grey = (texRGB.r + texRGB.g + texRGB.b)/3.0f;
-		
+		float grey = (texRGB.r + texRGB.g + texRGB.b) / 3.0f;
 		// If it's REALLY black, then discard
-		if ( grey < 0.05 ) 	{	discard; }
-		
+		if (grey < 0.05) { discard; }
 		// Otherwise control alpha with "black and white" amount
 		pixelColour.a = grey;
-		if ( pixelColour.a < diffuseColour.a )
+		if (pixelColour.a < diffuseColour.a)
 		{
 			pixelColour.a = diffuseColour.a;
 		}
-		
-//		pixelColour.a = diffuseColour.a;
+		//		pixelColour.a = diffuseColour.a;
 		return;
 	}
-
-	
-
-	if ( bIsSkyBox )
+	if (bIsSkyBox)
 	{
 		// I sample the skybox using the normal from the surface
-		vec3 skyColour = texture( skyBox, fNormal.xyz ).rgb;
+		vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
 		pixelColour.rgb = skyColour.rgb;
 		pixelColour.a = 1.0f;				// NOT transparent
 		return;
 	}
-	vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
-		
-	
-	// Shader Type #2
-	vec4 materialColour = diffuseColour;
-	
-	vec3 tex0_RGB = texture( textSamp00, fUVx2.st ).rgb;
-	vec3 tex1_RGB = texture( textSamp01, fUVx2.st ).rgb;
-	vec3 tex2_RGB = texture( textSamp02, fUVx2.st ).rgb;
-	vec3 tex3_RGB = texture( textSamp03, fUVx2.st ).rgb;
-	
-	vec3 texRGB =   ( tex_0_3_ratio.x * tex0_RGB ) 
-				  + ( tex_0_3_ratio.y * tex1_RGB )
-				  + ( tex_0_3_ratio.z * tex2_RGB )
-				  + ( tex_0_3_ratio.w * tex3_RGB );
-				  
-	//vec4 outColour = calcualteLightContrib( texRGB.rgb, skyColour.xyz,
-	//                                        fVertWorldLocation.xyz, specularColour );
-	vec4 outColour = calcualteLightContrib( texRGB.rgb, fNormal.xyz, 
-	                                        fVertWorldLocation.xyz, specularColour );
-											
-				  	  
-	// Bunny is chome (reflective)
-	//
-//	vec3 eyeVector = eyeLocation.xyz - fVertWorldLocation.xyz;
-//	eyeVector = normalize(eyeVector);
-//	
-//	vec3 reflectVector = reflect( eyeVector, fNormal.xyz );
-//	vec3 refractVector = refract( eyeVector, fNormal.xyz, 1.4f );
-//	
-//	vec3 reflectColour = texture( skyBox, reflectVector.xyz ).rgb;
-//	vec3 refractColour = texture( skyBox, refractVector.xyz ).rgb;
-//	
-//	vec3 finalColour = 0.0f * reflectColour + 1.0f * refractColour;
-//
-//	outColour = calcualteLightContrib( surfaceColour.rgb, fNormal.xyz, 
-//	                                        fVertWorldLocation.xyz, specularColour );
-						
-	pixelColour.rgb = outColour.rgb;
-	pixelColour.a = diffuseColour.a;	// Alpha 
-	
-	pixelNormal.rgb = outColour.rgb;
-	pixelNormal.a = diffuseColour.a; 
-	pixelNormal.rgb += fNormal.xyz;
 
-	//pixelColour = pixelNormal;
+	if (selectEffect == 0)
+	{
+		colorOutput();
+	}
+	else if (selectEffect == 1)
+	{
+		normalsOutput();
+	}
+	else if (selectEffect == 2)
+	{
+		DepthOutput();
+	}
 
+	//effects 
 	//pixelColour.rgb += fNormal.xyz;
 	//pixelColour.rgb += fVertWorldLocation.xyz;
-	// Projector is too dim
 	pixelColour.rgb *= 1.8f;
 
 }	
 
+void colorOutput()
+{
+	
+	vec4 materialColour = diffuseColour;
+	vec3 tex0_RGB = texture(textSamp00, fUVx2.st).rgb;
+	vec3 tex1_RGB = texture(textSamp01, fUVx2.st).rgb;
+	vec3 tex2_RGB = texture(textSamp02, fUVx2.st).rgb;
+	vec3 tex3_RGB = texture(textSamp03, fUVx2.st).rgb;
+	vec3 texRGB = (tex_0_3_ratio.x * tex0_RGB)
+		+ (tex_0_3_ratio.y * tex1_RGB)
+		+ (tex_0_3_ratio.z * tex2_RGB)
+		+ (tex_0_3_ratio.w * tex3_RGB);
+
+	vec3 eyeVector = eyeLocation.xyz - fVertWorldLocation.xyz;
+	eyeVector = normalize(eyeVector);
+	vec3 reflectVector = reflect(eyeVector, fNormal.xyz);
+	vec3 refractVector = refract(eyeVector, fNormal.xyz, 1.4f);
+	vec3 reflectColour = texture(skyBox, reflectVector.xyz).rgb;
+	vec3 refractColour = texture(skyBox, refractVector.xyz).rgb;
+	vec3 finalColour = 0.0f * reflectColour + 1.0f * refractColour;
+
+	vec3 surfaceColour = (texRGB * 0.5) + (finalColour * 0.5);				// Cube map refelection and refraction
+	
+	vec4 outColour = calcualteLightContrib(surfaceColour.rgb, fNormal.xyz,
+		fVertWorldLocation.xyz, specularColour);
+
+
+	pixelColour.rgb = outColour.rgb;
+	pixelColour.a = diffuseColour.a;	// Alpha 
+}
+
+void normalsOutput()
+{
+	vec4 materialColour = diffuseColour;
+	vec3 tex0_RGB = texture(textSamp00, fUVx2.st).rgb;
+	vec3 tex1_RGB = texture(textSamp01, fUVx2.st).rgb;
+	vec3 tex2_RGB = texture(textSamp02, fUVx2.st).rgb;
+	vec3 tex3_RGB = texture(textSamp03, fUVx2.st).rgb;
+	vec3 texRGB = (tex_0_3_ratio.x * tex0_RGB)
+		+ (tex_0_3_ratio.y * tex1_RGB)
+		+ (tex_0_3_ratio.z * tex2_RGB)
+		+ (tex_0_3_ratio.w * tex3_RGB);
+	vec4 outColour = calcualteLightContrib(texRGB.rgb, fNormal.xyz,
+		fVertWorldLocation.xyz, specularColour);
+
+	pixelColour.rgb = outColour.rgb;
+	pixelColour.a = diffuseColour.a;	// Alpha 
+
+	pixelColour.rgb += fNormal.xyz;
+}
+
+void DepthOutput()
+{
+	
+	// Depth Buffer rendering to screen
+	float farPlane = 1000.f;
+	float nearPlane = 1.f;
+	float planeDepth = farPlane - nearPlane;
+	//float newZ = (((gl_FragCoord.z * 2.f - 1.f) / gl_FragCoord.w) + nearPlane) / (nearPlane + farPlane);
+	float newZ = (((gl_FragCoord.z * 2.f - 1.f) / gl_FragCoord.w) + nearPlane) / (planeDepth);
+	pixelColour.rgb = vec3(newZ);
+	pixelColour.w = 1.f;
+}
 
 vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal, 
                             vec3 vertexWorldPos, vec4 vertexSpecular )
