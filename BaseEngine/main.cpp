@@ -1,8 +1,8 @@
 #include "commonHeaders.h"						// common headers
 #include "ProjectStuff/openGLStuff.h"			// userInput and create OpenGL window
-#include "ModelLoading/cModelLoader.h"			// PLY model loader and ASSIMP model Loader
+#include "ModelLoadingAndVAO/cModelLoader.h"	// PLY model loader and ASSIMP model Loader
 #include "shader/cShaderManager.h"				// Shader stuff
-#include "VAO/cVAOManager.h"					// VAO loader from model
+#include "ModelLoadingAndVAO/cVAOManager.h"		// VAO loader from model
 #include "Textures/cBasicTextureManager.h"		// Texture loading
 #include "DebugRenderer/cDebugRenderer.h"		// DebugRenderer
 #include "GameObject/cGameObject.h"				// GameObjects
@@ -676,10 +676,16 @@ void DrawObject(glm::mat4 matModel,
 	if (pVAOManager->FindDrawInfoByModelName(pCurrentObject->meshName, drawInfo))
 	{
 		glBindVertexArray(drawInfo.VAO_ID);
-		glDrawElements(GL_TRIANGLES,
+		//glDrawElements(GL_TRIANGLES,
+		//	drawInfo.numberOfIndices,
+		//	GL_UNSIGNED_INT,
+		//	0);
+		glDrawElementsBaseVertex(GL_TRIANGLES,
 			drawInfo.numberOfIndices,
 			GL_UNSIGNED_INT,
+			0,
 			0);
+
 		glBindVertexArray(0);
 	}
 

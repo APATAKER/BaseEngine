@@ -42,7 +42,23 @@ public:
 		// Returns -1 (just like OpenGL) if NOT found
 		int getUniformID_From_Name(std::string name);
 		// Look up the uniform location and save it.
-		bool LoadUniformLocation(std::string variableName); 
+		bool LoadUniformLocation(std::string variableName);
+
+		// ** Call this once, when compiled and linked)
+		// When called, this will load the map of uniforms. 
+		void LoadActiveUniforms(void);
+		std::map<std::string /*uniform name*/,
+			int /*uniform location*/> map_UniformNameToLocID;
+		// This looks up the map, instead of calling glGetUniformLocation() over and over
+		int getUniformLocID(std::string uniformname);
+
+		//		void glUniform( std::string name, glm::vec4 value );
+		//
+		//		void glUniform1f( std::string name, float value );
+		//		void glUniform2f( std::string name, glm::vec2 value );
+		//		void glUniform3f( std::string name, glm::vec3 value );
+
+		std::string getNameStringFromType(int glVariableType);	
 
 	};
 
@@ -53,7 +69,8 @@ public:
 	bool useShaderProgram( std::string friendlyName );
 	bool createProgramFromFile( std::string friendlyName, 
 		                        cShader &vertexShad, 
-					            cShader &fragShader );
+					            cShader &fragShader,
+								bool replaceExisting = true);
 	void setBasePath( std::string basepath );
 	unsigned int getIDFromFriendlyName( std::string friendlyName );
 

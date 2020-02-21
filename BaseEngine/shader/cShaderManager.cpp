@@ -277,10 +277,34 @@ bool cShaderManager::m_compileShaderFromSource( cShaderManager::cShader &shader,
 bool cShaderManager::createProgramFromFile( 
 	        std::string friendlyName,
 			cShader &vertexShad, 
-			cShader &fragShader )
+			cShader &fragShader,
+			bool replaceExisting /*=true*/)
 {
 	std::string errorText = "";
 
+	// See if the shader is already there (the name)
+	cShaderManager::cShaderProgram* pShaderProgram = this->pGetShaderProgramFromFriendlyName(friendlyName);
+
+	if (pShaderProgram != NULL)
+	{
+		// There is an existing shader, already
+
+		if (replaceExisting)
+		{
+			// TODO: Find the shader in the two maps and delete them from the map
+			// (If it's single threaded, do I ever need to do this???)
+
+			// Call glDeleteShader() with the ID, to delete from the GPU
+			glDeleteShader(pShaderProgram->ID);
+
+			// TODO: Delete the shader pointer
+			delete pShaderProgram;
+
+			pShaderProgram = NULL;
+		}
+
+	}//if (pShaderProgram != NULL)
+	
 
 	// Shader loading happening before vertex buffer array
 	vertexShad.ID = glCreateShader(GL_VERTEX_SHADER);

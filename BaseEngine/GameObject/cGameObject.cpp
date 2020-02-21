@@ -53,6 +53,8 @@ cGameObject::cGameObject()
 	this->world_transform = glm::mat4(1.f);
 	this->is_static = true;
 
+	this->p_skinned_mesh = nullptr;
+
 	return;
 }
 

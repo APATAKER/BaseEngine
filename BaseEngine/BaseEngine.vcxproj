@@ -181,16 +181,17 @@
     <ClCompile Include="LightManager\cLightStuff.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MazeGen\cMazeMaker.cpp" />
-    <ClCompile Include="ModelLoading\cMesh.cpp" />
-    <ClCompile Include="ModelLoading\cModelLoader.cpp" />
-    <ClCompile Include="ModelLoading\cModelLoader_assimp.cpp" />
+    <ClCompile Include="ModelLoadingAndVAO\cMesh.cpp" />
+    <ClCompile Include="ModelLoadingAndVAO\cModelLoader.cpp" />
+    <ClCompile Include="ModelLoadingAndVAO\cModelLoader_assimp.cpp" />
+    <ClCompile Include="ModelLoadingAndVAO\cSimpleAssimpSkinnedMeshLoader_OneMesh.cpp" />
+    <ClCompile Include="ModelLoadingAndVAO\cVAOManager.cpp" />
     <ClCompile Include="ProjectStuff\openGLStuff.cpp" />
     <ClCompile Include="shader\cShader.cpp" />
     <ClCompile Include="shader\cShaderManager.cpp" />
     <ClCompile Include="Textures\C24BitBMPpixel.cpp" />
     <ClCompile Include="Textures\cBasicTextureManager.cpp" />
     <ClCompile Include="Textures\CTextureFromBMP.cpp" />
-    <ClCompile Include="VAO\cVAOManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonHeaders.h" />
@@ -209,8 +210,12 @@
     <ClInclude Include="JsonLoader\cLoad.h" />
     <ClInclude Include="LightManager\cLightStuff.h" />
     <ClInclude Include="MazeGen\cMazeMaker.h" />
-    <ClInclude Include="ModelLoading\cMesh.h" />
-    <ClInclude Include="ModelLoading\cModelLoader.h" />
+    <ClInclude Include="ModelLoadingAndVAO\cMesh.h" />
+    <ClInclude Include="ModelLoadingAndVAO\cModelLoader.h" />
+    <ClInclude Include="ModelLoadingAndVAO\cSimpleAssimpSkinnedMeshLoader_OneMesh.h" />
+    <ClInclude Include="ModelLoadingAndVAO\cVAOManager.h" />
+    <ClInclude Include="ModelLoadingAndVAO\sModelDrawInfo.h" />
+    <ClInclude Include="ModelLoadingAndVAO\sVertex_xyz_rgba_n_uv2_bt_4Bones.h" />
     <ClInclude Include="physWrapper\cBallComponent.h" />
     <ClInclude Include="physWrapper\cPhysComponent.h" />
     <ClInclude Include="physWrapper\cPhysFactory.h" />
@@ -223,7 +228,6 @@
     <ClInclude Include="Textures\C24BitBMPpixel.h" />
     <ClInclude Include="Textures\cBasicTextureManager.h" />
     <ClInclude Include="Textures\CTextureFromBMP.h" />
-    <ClInclude Include="VAO\cVAOManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fragmentShader01.glsl" />

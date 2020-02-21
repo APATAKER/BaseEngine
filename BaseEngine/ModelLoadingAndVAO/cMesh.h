@@ -19,10 +19,10 @@ struct sPlyVertexXYZ_N_UV
 	float nx, ny, nz;		
 	float u, v;				// NOW with TEXTURE COORDINATES!!!
 	// Add this, too:
-	float bi_x, bi_y, bi_z;
-	float tan_x, tan_y, tan_z;
-	float boneID[4];		// Which bone impacts this vertex
-	float boneWeights[4];	// How much does each bone				// NOW with BONE ID AND WEIGHTS!!!
+	//float bi_x, bi_y, bi_z;
+	//float tan_x, tan_y, tan_z;
+	//float boneID[4];		// Which bone impacts this vertex
+	//float boneWeights[4];	// How much does each bone				// NOW with BONE ID AND WEIGHTS!!!
 };
 struct sPlyTriangle
 {

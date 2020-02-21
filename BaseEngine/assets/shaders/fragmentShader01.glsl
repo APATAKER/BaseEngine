@@ -218,6 +218,7 @@ void main()
 		pixelColour.a = 1.0f;
 		return;
 	}
+
 	
 	if ( bIsImposter )
 	{
@@ -258,7 +259,7 @@ void main()
 		pixelColour.a = 1.0f;				// NOT transparent
 		return;
 	}
-	
+	vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
 		
 	
 	// Shader Type #2
@@ -274,6 +275,8 @@ void main()
 				  + ( tex_0_3_ratio.z * tex2_RGB )
 				  + ( tex_0_3_ratio.w * tex3_RGB );
 				  
+	//vec4 outColour = calcualteLightContrib( texRGB.rgb, skyColour.xyz,
+	//                                        fVertWorldLocation.xyz, specularColour );
 	vec4 outColour = calcualteLightContrib( texRGB.rgb, fNormal.xyz, 
 	                                        fVertWorldLocation.xyz, specularColour );
 											

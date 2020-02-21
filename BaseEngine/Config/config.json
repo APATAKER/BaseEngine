@@ -16,7 +16,8 @@
     "assets/models/cube_flat_shaded_xyz_n_uv.ply",
     "assets/models/RetroTV.edited.bodyonly.ply",
     "assets/models/RetroTV.edited.screenonly.ply",
-    "assets/models/RPG-Character(FBX2013).FBX"
+    "assets/models/RPG-Character(FBX2013).FBX",
+    "assets/models/RPG-Character_Unarmed-Jump(FBX2013).FBX"
   ],
   "MeshName": [
     "ground",
@@ -31,7 +32,8 @@
     "mazecube",
     "tvbody",
     "tvscreen",
-    "rpgcharacter"
+    "rpgcharbindpose",
+    "jumpanim"
   ],
   "Textures": [
     "defaultTex.bmp",
@@ -1071,7 +1073,7 @@
       "isVisible": 1
     },
     {
-      "meshname": "rpgcharacter",
+      "meshname": "rpgcharbindpose",
       "friendlyname": "staticObject",
       "position": {
         "x": 100.0,

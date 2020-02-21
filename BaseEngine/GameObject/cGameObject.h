@@ -7,12 +7,12 @@
 
 // NOTE: We are including the INTERFACE, not the actual renderer
 #include "../DebugRenderer/iDebugRenderer.h"
-#include "../ModelLoading/cMesh.h"
+#include "../ModelLoadingAndVAO/cMesh.h"
 #include "../physWrapper/eShapeType.h"
 //#include "cPhysComponent.h"
 #include "physics/iPhysInterfaces.h"
 
-
+class cSimpleAssimpSkinnedMesh;
 
 class cGameObject
 {
@@ -72,7 +72,9 @@ public:
 	glm::vec3 getEulerAngle(void);
 
 	
-
+	// skinned mesh
+	cSimpleAssimpSkinnedMesh* p_skinned_mesh;
+	//cAnimationState* pAniState;
 
 
 	
