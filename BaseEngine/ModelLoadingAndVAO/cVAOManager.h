@@ -23,6 +23,10 @@ public:
 						  sModelDrawInfo &drawInfo, 
 						  unsigned int shaderProgramID);
 
+	// Temp thing to see if the skinned mesh loader loaded the draw info OK
+	bool LoadModelDrawInfoIntoVAO(sModelDrawInfo& drawInfo,
+		unsigned int shaderProgramID);
+
 	// We don't want to return an int, likely
 	bool FindDrawInfoByModelName(std::string filename,
 								 sModelDrawInfo &drawInfo);

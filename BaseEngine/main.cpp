@@ -1,16 +1,17 @@
-#include "commonHeaders.h"						// common headers
-#include "ProjectStuff/openGLStuff.h"			// userInput and create OpenGL window
-#include "ModelLoadingAndVAO/cModelLoader.h"	// PLY model loader and ASSIMP model Loader
-#include "shader/cShaderManager.h"				// Shader stuff
-#include "ModelLoadingAndVAO/cVAOManager.h"		// VAO loader from model
-#include "Textures/cBasicTextureManager.h"		// Texture loading
-#include "DebugRenderer/cDebugRenderer.h"		// DebugRenderer
-#include "GameObject/cGameObject.h"				// GameObjects
-#include "FlyCamera/cFlyCamera.h"				// Camera
-#include "DeltaTime/cLowPassFilter.h"			// DeltaTime calcu
-#include "JsonLoader/cLoad.h"					// Json Loader
-#include <physics/iPhysInterfaces.h>			// Physics
-#include "global.h"								// Global Loading AND func in future
+#include "commonHeaders.h"												// common headers
+#include "ProjectStuff/openGLStuff.h"									// userInput and create OpenGL window
+#include "ModelLoadingAndVAO/cModelLoader.h"							// PLY model loader and ASSIMP model Loader
+#include "ModelLoadingAndVAO/cVAOManager.h"								// VAO loader from model
+#include "ModelLoadingAndVAO/cSimpleAssimpSkinnedMeshLoader_OneMesh.h"	// FBX animation Loading
+#include "shader/cShaderManager.h"										// Shader stuff
+#include "Textures/cBasicTextureManager.h"								// Texture loading
+#include "DebugRenderer/cDebugRenderer.h"								// DebugRenderer
+#include "GameObject/cGameObject.h"										// GameObjects
+#include "FlyCamera/cFlyCamera.h"										// Camera
+#include "DeltaTime/cLowPassFilter.h"									// DeltaTime calcu
+#include "JsonLoader/cLoad.h"											// Json Loader
+#include <physics/iPhysInterfaces.h>									// Physics
+#include "global.h"														// Global Loading AND func in future
 #include "FBO/cFBO.h"
 #include "MazeGen/cMazeMaker.h"
 #include "LightManager/cLightStuff.h"
@@ -100,6 +101,7 @@ int main()
 			std::cout << "\nerror:" << error_string << std::endl;
 		}
 	}
+	
 	///######################## MODEL #### LOADING ##### ENDS ### HERE ##########################################
 
 	
@@ -187,11 +189,27 @@ int main()
 			gameobject->textureRatio[i] = jgameobj["texratio"][i].GetFloat();
 		}
 		gameobject->objectType = (cGameObject::eObjectType)jgameobj["objectype"].GetInt();
-		gameobject->GameObjectMesh = findMeshByName(vec_model_mesh, gameobject->meshName);
+		//gameobject->GameObjectMesh = findMeshByName(vec_model_mesh, gameobject->meshName);
 		gameobject->SPHERE_radius = jgameobj["sphereRadius"].GetFloat();
 		gameobject->collision_radius = jgameobj["bulletCollisionRadius"].GetFloat();
 		gameobject->isVisible = jgameobj["isVisible"].GetInt();
 		gameobject->is_static = jgameobj["isStatic"].GetInt();
+			
+		if(jgameobj["isSkinnedMesh"].GetInt() == 1)
+		{
+			gameobject->p_skinned_mesh = new cSimpleAssimpSkinnedMesh();
+			gameobject->p_skinned_mesh->LoadMeshFromFile(jgameobj["meshname"].GetString(), jgameobj["meshfile"].GetString());
+			sModelDrawInfo* pDI = gameobject->p_skinned_mesh->CreateModelDrawInfoObjectFromCurrentModel();
+			if(pDI)
+			{
+				p_vao_manager->LoadModelDrawInfoIntoVAO(*pDI, shader_program_ID);
+			}
+			size_t num_of_animations = jgameobj["animations"].Size();
+			for(size_t c=0;c<num_of_animations;c++)
+			{
+				gameobject->p_skinned_mesh->LoadMeshAnimation(jgameobj["animationName"][c].GetString(), jgameobj["animations"][c].GetString());
+			}
+		}
 		g_vec_pGameObjects.push_back(gameobject);
 	}
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################################################################

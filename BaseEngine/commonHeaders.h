@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <iterator>
 
+#define NOMINMAX
 #include <Windows.h>
 
 #endif // !_commonHeader_HG_
