@@ -15,7 +15,9 @@
     "assets/models/kunai_n_uv.ply",
     "assets/models/cube_flat_shaded_xyz_n_uv.ply",
     "assets/models/RetroTV.edited.bodyonly.ply",
-    "assets/models/RetroTV.edited.screenonly.ply"
+    "assets/models/RetroTV.edited.screenonly.ply",
+    "assets/models/Room_2_Bigger_Triangulated.ply",
+    "assets/models/Room_2_Bigger_Doorways.ply"
   ],
   "MeshName": [
     "ground",
@@ -29,7 +31,9 @@
     "kunai",
     "mazecube",
     "tvbody",
-    "tvscreen"
+    "tvscreen",
+    "roombody",
+    "roomdoors"
   ],
   "Textures": [
     "defaultTex.bmp",

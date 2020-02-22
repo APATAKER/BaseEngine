@@ -280,6 +280,13 @@ int main()
 	p_light_stuff = new mLight::cLightStuff();
 	mLight::LoadLightFromJson();
 
+	int numberOfStencilBits = 0;
+	glGetFramebufferAttachmentParameteriv(
+		GL_FRAMEBUFFER,
+		GL_STENCIL,
+		GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE, &numberOfStencilBits);
+	std::cout << "Stencil buffer is " << numberOfStencilBits << " bits" << std::endl;
+
 	//############################## Game Loop Starts Here ##################################################################
 	while (!glfwWindowShouldClose(window))
 	{
@@ -358,6 +365,10 @@ int main()
 		//view and projection into shader
 		glUniformMatrix4fv(matView_UL, 1, GL_FALSE, glm::value_ptr(v));
 		glUniformMatrix4fv(matProj_UL, 1, GL_FALSE, glm::value_ptr(p));
+
+		glScissor(100, 100,	// Lower left hand corner
+			512, 512);	// Width and height of the region
+		glEnable(GL_SCISSOR_TEST);
 		// GameObject Draw Call
 		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
 		{
@@ -432,6 +443,7 @@ int main()
 
 
 		// PASS 2 - Normals color return *****************************
+		glDisable(GL_SCISSOR_TEST);
 		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo2->ID);
 		p_fbo2->clearBuffers(true, true);
 		glUniform1i(passNumber_UniLoc, 0);				// Normal Pass
@@ -483,6 +495,8 @@ int main()
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		// 2. Clear the screen (glClear())
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		
 
 		
 		GLint screenWidth_UnitLoc = glGetUniformLocation(shader_program_ID, "screenWidth");
