@@ -38,7 +38,7 @@ std::vector<cGameObject*> vec_bullets;
 
 rapidjson::Document document;
 
-std::string g_HACK_currentAnimationName = "jump";
+std::string g_HACK_currentAnimationName = "idle";
 float HACK_FrameTime = 0.0f;
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 
@@ -184,6 +184,7 @@ int main()
 												jgameobj["objectcolor"]["g"].GetFloat(),
 												jgameobj["objectcolor"]["b"].GetFloat(),
 												jgameobj["objectcolor"]["a"].GetFloat());
+		gameobject->isWireframe = jgameobj["isWireframe"].GetInt();
 		gameobject->debugColour = glm::vec4(jgameobj["debugcolor"]["r"].GetFloat(),
 											jgameobj["debugcolor"]["g"].GetFloat(),
 											jgameobj["debugcolor"]["b"].GetFloat(),
@@ -212,13 +213,29 @@ int main()
 			size_t num_of_animations = jgameobj["animations"].Size();
 			for(size_t c=0;c<num_of_animations;c++)
 			{
-				gameobject->p_skinned_mesh->LoadMeshAnimation(jgameobj["animationName"][c].GetString(), jgameobj["animations"][c].GetString());
+				gameobject->p_skinned_mesh->LoadMeshAnimation(jgameobj["animationName"][c].GetString(),
+																 jgameobj["animations"][c].GetString());
 			}
+			gameobject->p_skinned_mesh->defaultAnimation = gameobject->p_skinned_mesh->FindAnimationByFriendlyName(
+															jgameobj["defaultAnimation"].GetString());
+			gameobject->pAniState = new cAnimationState();
+			//Animation details
+			gameobject->pAniState->defaultAnimation.name = gameobject->p_skinned_mesh->defaultAnimation.friendlyName;
+			gameobject->pAniState->defaultAnimation.totalTime = gameobject->p_skinned_mesh->FindAnimationTotalTime(gameobject->pAniState->defaultAnimation.name);
+			//gameobject->pAniState->defaultAnimation.frameStepTime = gameobject->p_skinned_mesh->FindAnimationFramesPerSecond(gameobject->pAniState->defaultAnimation.name) / 100;
 		}
 		g_vec_pGameObjects.push_back(gameobject);
 	}
+	cGameObject* debug_sphere = new cGameObject();
+	debug_sphere->meshName = "sphere5";
+	debug_sphere->scale = 5.f;
+	debug_sphere->isWireframe = true;
+	debug_sphere->isVisible = false;
+	debug_sphere->physicsShapeType = eShapeTypes::STATIC;
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################################################################
 
+	
+	
 
 	
 
@@ -396,50 +413,7 @@ int main()
 				}
 			}
 		// Maze Draw
-		
 		//PASS 1 *********************************************************
-
-
-
-		//// This is Pass 2
-		////The Whole scene is now drawn (to the FBO)
-		//// 1. Disable the FBO
-		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		//// 2. Clear the actual screen buffer
-		//glViewport(0, 0, width, height);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//// 3. Use the FBO colour texture as the texture on the quad
-		////glUniform1i(passNumber_UniLoc, 1);
-		////Tie the texture to the texture unit
-		//glActiveTexture(GL_TEXTURE22);				// Texture Unit 22
-		//glBindTexture(GL_TEXTURE_2D, p_fbo->colourTexture_0_ID);	// Texture now assoc with texture unit 0
-		////glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		//GLint textSamp00_UL = glGetUniformLocation(shader_program_ID, "secondPassColourTexture");
-		//glUniform1i(textSamp00_UL, 22);	// Texture unit 22
-		//// 4. Draw a single object ( a triangle or quad)
-		//cGameObject* pQuadOrIsIt = findGameObjectByFriendlyName(g_vec_pGameObjects,"ground");
-		//pQuadOrIsIt->isVisible = true;
-		////pQuadOrIsIt->setOrientation(glm::vec3(-90, 0, 0));
-		////pQuadOrIsIt->setRotationXYZ(glm::vec3(glm::radians(180.0f), 0, 0));
-		//
-		//*v = glm::lookAt(glm::vec3(0.0f, 100.0f, -300.0f),
-		//	glm::vec3(0.0f, 0.0f, 0.0f),
-		//	glm::vec3(0.0f, 1.0f, 0.0f));
-		//
-		//glUniformMatrix4fv(matView_UL, 1, GL_FALSE, glm::value_ptr(v));*/
-		//
-		//// Set the actual screen size
-		//GLint screenWidth_UnitLoc = glGetUniformLocation(shader_program_ID, "screenWidth");
-		//GLint screenHeight_UnitLoc = glGetUniformLocation(shader_program_ID, "screenHeight");
-		//
-		//// Get the "screen" framebuffer size 
-		//glfwGetFramebufferSize(window, &width, &height);
-		//
-		//glUniform1f(screenWidth_UnitLoc, width);
-		//glUniform1f(screenHeight_UnitLoc, height);
-		//
-		//glm::mat4 matQuad = glm::mat4(1.0f);
-		//DrawObject(matQuad, pQuadOrIsIt, shader_program_ID, p_vao_manager);
 
 
 		// PASS 2 - Normals color return *****************************
@@ -565,6 +539,16 @@ int main()
 				shader_program_ID, p_vao_manager);
 
 		}//for (int index...
+
+		{
+			//cGameObject* debug_sphere = findGameObjectByFriendlyName(g_vec_pGameObjects, "debugsphere");
+			debug_sphere->isVisible = true;
+			debug_sphere->m_position = g_HACK_vec3_BoneLocationFK;
+			glm::mat4 identmat = glm::mat4(1.0f);
+			DrawObject(identmat, debug_sphere, shader_program_ID, p_vao_manager);
+			debug_sphere->isVisible = false;
+			//debug_sphere->m_position = debug_sphere_old;	
+		}
 		
 		//GLint passNumber_UniLoc = glGetUniformLocation(shader_program_ID, "passNumber");
 		glUniform1i(passNumber_UniLoc, 2);
@@ -592,7 +576,7 @@ int main()
 
 		
 		glUniform1i(passNumber_UniLoc, 0);
-
+		
 		// Clear the stencil  (and everything else)
 		glClearStencil(10);			// Buffer will be cleared to 47 (because it's a strange number)
 
@@ -645,6 +629,8 @@ int main()
 				}
 			}
 		glDisable(GL_STENCIL_TEST);
+
+		
 		
 		//Physics implementation
 		
@@ -841,60 +827,70 @@ void DrawObject(glm::mat4 matModel,
 	{
 		glUniform1f(isSkinnedMesh_UniLoc, (float)GL_TRUE);
 
-		// Set to all identity
-		const int NUMBEROFBONES = 100;
-		//glm::mat4 matBones[NUMBEROFBONES];
+		std::string animationToPlay = "";
+		float curFrameTime = 0.0;
+		cAnimationState* pAniState = pCurrentObject->pAniState;
+		// Are there any animations in the queue of animations
+		if (!pAniState->vecAnimationQueue.empty())
+		{
+			// Play the "1st" animation in the queue 
+			animationToPlay = pAniState->vecAnimationQueue[0].name;
+			curFrameTime = pAniState->vecAnimationQueue[0].currentTime;
 
-		//for (int index = 0; index != NUMBEROFBONES; index++)
-		//{
-		//	matBones[index] = glm::mat4(1.0f);	// Identity
-		//}
+			// Increment the top animation in the queue
+			if (pAniState->vecAnimationQueue[0].IncrementTime())
+			{
+				// The animation reset to zero on increment...
+				// ...meaning that the 1st animation is done
+				// (WHAT!? Should you use a vector for this???)
+				pAniState->vecAnimationQueue.erase(pAniState->vecAnimationQueue.begin());
 
+			}//vecAnimationQueue[0].IncrementTime()
+		}
+		else
+		{	// Use the default animation.
+			pAniState->defaultAnimation.IncrementTime();
+
+			animationToPlay = pAniState->defaultAnimation.name;
+			curFrameTime = pAniState->defaultAnimation.currentTime;
+
+		}//if ( pAniState->vecAnimationQueue.empty()
+
+		
 		// Taken from "Skinned Mesh 2 - todo.docx"
 		std::vector< glm::mat4x4 > vecFinalTransformation;
 		std::vector< glm::mat4x4 > vecOffsets;
 		std::vector< glm::mat4x4 > vecObjectBoneTransformation;
-
+		
 		// This loads the bone transforms from the animation model
-		pCurrentObject->p_skinned_mesh->BoneTransform(HACK_FrameTime,	// 0.0f // Frame time
-			::g_HACK_currentAnimationName,
+		pCurrentObject->p_skinned_mesh->BoneTransform(curFrameTime,	
+			animationToPlay,
 			vecFinalTransformation,
 			vecObjectBoneTransformation,
 			vecOffsets);
-
-		// Wait until all threads are done updating.
-
-		HACK_FrameTime += 0.01f;
-
-		{// Forward kinematic stuff
-
+		
+		// Forward kinematic stuff
+		{	
+			//glm::vec3 debug_sphere_old = debug_sphere->m_position;
 			// "Bone" location is at the origin
 			glm::vec4 boneLocation = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-
+			glm::mat4 matSpecificBone = vecObjectBoneTransformation[22];
+			//boneLocation = matSpecificBone * boneLocation;
 			// bone #22 is "B_R_Hand" in this model
-			glm::mat4 matSpecificBone = vecFinalTransformation[22];
-
 			// Transformed into "model" space where that bone is.
-			::g_HACK_vec3_BoneLocationFK = matSpecificBone * boneLocation;
-
+			::g_HACK_vec3_BoneLocationFK = matSpecificBone * boneLocation;	
 			//			// If it's in world space
 			//			::g_HACK_vec3_BoneLocationFK = matModel * ::g_HACK_vec3_BoneLocationFK;
-
-
-		}// Forward kinematic 
-
-
-			// Copy all 100 bones to the shader
+		}
+		// Forward kinematic 
+		
+	
+		
 		GLint matBonesArray_UniLoc = glGetUniformLocation(shaderProgID, "matBonesArray");
-		// The "100" is to pass 100 values, starting at the pointer location of matBones[0];
-		//glUniformMatrix4fv(matBonesArray_UniLoc, 100, GL_FALSE, glm::value_ptr(matBones[0]));
-
 		GLint numBonesUsed = (GLint)vecFinalTransformation.size();
-
 		glUniformMatrix4fv(matBonesArray_UniLoc, numBonesUsed,
 			GL_FALSE,
 			glm::value_ptr(vecFinalTransformation[0]));
-
 	}
 	else
 	{

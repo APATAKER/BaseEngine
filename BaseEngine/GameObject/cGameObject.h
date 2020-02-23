@@ -10,9 +10,10 @@
 #include "../ModelLoadingAndVAO/cMesh.h"
 #include "../physWrapper/eShapeType.h"
 //#include "cPhysComponent.h"
+#include "../Animations/cAnimationState.h"
+#include "../ModelLoadingAndVAO/cSimpleAssimpSkinnedMeshLoader_OneMesh.h"
 #include "physics/iPhysInterfaces.h"
 
-class cSimpleAssimpSkinnedMesh;
 
 class cGameObject
 {
@@ -74,7 +75,7 @@ public:
 	
 	// skinned mesh
 	cSimpleAssimpSkinnedMesh* p_skinned_mesh;
-	//cAnimationState* pAniState;
+	cAnimationState* pAniState;
 
 
 	

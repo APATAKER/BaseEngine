@@ -114,6 +114,26 @@ float cSimpleAssimpSkinnedMesh::FindAnimationTotalTime(std::string animationName
 	return (float)itAnimation->second.pAIScene->mAnimations[0]->mDuration;	
 }
 
+float cSimpleAssimpSkinnedMesh::FindAnimationFramesPerSecond(std::string animationname)
+{
+	std::map< std::string /*animation FRIENDLY name*/,
+		sAnimationInfo >::iterator itAnimation = this->mapAnimationFriendlyNameTo_pScene.find(animationname);
+	if (itAnimation == this->mapAnimationFriendlyNameTo_pScene.end())
+	{	// Nope.
+		return 0.0f;
+	}
+	return (float)itAnimation->second.pAIScene->mAnimations[0]->mTicksPerSecond;
+}
+
+cSimpleAssimpSkinnedMesh::sAnimationInfo cSimpleAssimpSkinnedMesh::FindAnimationByFriendlyName(std::string AnimationFriendlyName)
+{
+	std::map< std::string,
+		sAnimationInfo >::iterator it;
+	it= mapAnimationFriendlyNameTo_pScene.find(AnimationFriendlyName);
+
+	return it->second;
+}
+
 
 bool cSimpleAssimpSkinnedMesh::LoadMeshAnimation( const std::string &friendlyName,
 												  const std::string &filename )	// Only want animations
@@ -216,13 +236,37 @@ void cSimpleAssimpSkinnedMesh::BoneTransform( float TimeInSeconds,
 								              std::vector<glm::mat4> &Offsets)
 {
 	glm::mat4 Identity(1.0f);
-
-	float TicksPerSecond = static_cast<float>( this->pScene->mAnimations[0]->mTicksPerSecond != 0 ?
-	                                           this->pScene->mAnimations[0]->mTicksPerSecond : 25.0 );
-
-	float TimeInTicks = TimeInSeconds * TicksPerSecond;
-	float AnimationTime = fmod(TimeInTicks, (float)this->pScene->mAnimations[0]->mDuration);
+	float TicksPerSecond;
+	float TimeInTicks;
+	float currentAnimationDuration;
+	std::map<std::string, sAnimationInfo>::iterator it;
+	it = this->mapAnimationFriendlyNameTo_pScene.find(animationName);
+	sAnimationInfo animation_info = it->second;
+	/*if(animationName == "walk")
+	{
+		
+	TicksPerSecond = static_cast<float>( this->pScene->mAnimations[1]->mTicksPerSecond != 0 ?
+	                                           this->pScene->mAnimations[1]->mTicksPerSecond : 25.0 );
+	TimeInTicks = TimeInSeconds * TicksPerSecond;
+	currentAnimationDuration = this->pScene->mAnimations[1]->mDuration;
+	}
+	else*/
 	
+
+	{
+		
+	//TicksPerSecond = static_cast<float>( this->pScene->mAnimations[0]->mTicksPerSecond != 0 ?
+	//                                     this->pScene->mAnimations[0]->mTicksPerSecond : 25.0 );
+	//TimeInTicks = TimeInSeconds * TicksPerSecond;
+	//currentAnimationDuration = this->pScene->mAnimations[0]->mDuration;
+		TicksPerSecond = static_cast<float>(animation_info.pAIScene->mAnimations[0]->mTicksPerSecond != 0 ?
+			animation_info.pAIScene->mAnimations[0]->mTicksPerSecond : 25.0 );
+	TimeInTicks = TimeInSeconds * TicksPerSecond;
+	currentAnimationDuration = animation_info.pAIScene->mAnimations[0]->mTicksPerSecond;
+	}
+	float AnimationTime = fmod(TimeInTicks, currentAnimationDuration/*(float)this->pScene->mAnimations[0]->mDuration*/);
+	//float AnimationTime = TimeInTicks;
+
 	// use the "animation" file to look up these nodes
 	// (need the matOffset information from the animation file)
 	this->ReadNodeHeirarchy(AnimationTime, animationName, this->pScene->mRootNode, Identity);

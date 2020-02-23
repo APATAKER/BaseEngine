@@ -166,6 +166,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animations\cAnimationState.cpp" />
     <ClCompile Include="DebugRenderer\cDebugRenderer.cpp" />
     <ClCompile Include="DebugRenderer\cDebugRenderer_BuiltInShapes.cpp" />
     <ClCompile Include="DebugRenderer\CErrorLog.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="Textures\CTextureFromBMP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animations\cAnimationState.h" />
     <ClInclude Include="commonHeaders.h" />
     <ClInclude Include="DebugRenderer\cDebugRenderer.h" />
     <ClInclude Include="DebugRenderer\cDebugRenderer_built_in_shaders.h" />

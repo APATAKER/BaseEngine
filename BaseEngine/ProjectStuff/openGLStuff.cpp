@@ -2,6 +2,7 @@
 #include"../FlyCamera/cFlyCamera.h"
 #include "../GameObject/cGameObject.h"
 #include "../global.h"
+#include "../Animations/cAnimationState.h"
 
 bool g_MouseIsInsideWindow = false;
 bool g_MouseLeftButtonIsDown = false;
@@ -10,6 +11,8 @@ extern cFlyCamera* g_pFlyCamera;
 extern nPhysics::iPhysicsWorld* physics_world;
 extern bool changePhys;
 extern int dataLoaded;
+extern std::string g_HACK_currentAnimationName;
+extern float HACK_FrameTime;
 
 bool isOnlyShiftKeyDown(int mods);
 bool isOnlyCtrlKeyDown(int mods);
@@ -56,41 +59,63 @@ GLFWwindow* creatOpenGL(GLFWwindow* win)
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	cGameObject* player = findGameObjectByFriendlyName(g_vec_pGameObjects, "player");
+	cGameObject* player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar1");
 	cGameObject* bullet = findGameObjectByFriendlyName(g_vec_pGameObjects, "bullet1");
 	cGameObject* current_sphere_in_control = g_vec_pGameObjects[currentSphere];
 	if(isOnlyCtrlKeyDown(mods))
 	{
-		if(glfwGetKey(window, GLFW_KEY_W))
+		if(glfwGetKey(window, GLFW_KEY_W) && action == GLFW_PRESS)		// walk forward
 		{
-			current_sphere_in_control->m_physics_component->ApplyForce(glm::vec3(0,0,-50));
+			cAnimationState::sStateDetails state;
+			state.name = "walk";
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name);
+			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			player->pAniState->vecAnimationQueue.push_back(state);
 		}
-		if(glfwGetKey(window, GLFW_KEY_S))
+		if(glfwGetKey(window, GLFW_KEY_S))		// walk backward
 		{
-			current_sphere_in_control->m_physics_component->ApplyForce(glm::vec3(0, 0, 50));
+			g_HACK_currentAnimationName = "strafeback";
+			HACK_FrameTime = 0.f;
+			
 		}
 		if (glfwGetKey(window, GLFW_KEY_D))
 		{
-			current_sphere_in_control->m_physics_component->ApplyForce(glm::vec3(50, 0, 0));
+			g_HACK_currentAnimationName = "straferight";
+			HACK_FrameTime = 0.f;
 		}
+			
 		if (glfwGetKey(window, GLFW_KEY_A))
 		{
-			current_sphere_in_control->m_physics_component->ApplyForce(glm::vec3(-50, 0, 0));
+			g_HACK_currentAnimationName = "strafeleft";
+			HACK_FrameTime = 0.f;
+		}
+		if (glfwGetKey(window, GLFW_KEY_E) && action == GLFW_PRESS)		// walk forward
+		{
+			cAnimationState::sStateDetails state;
+			state.name = "punchright";
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name);
+			state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			player->pAniState->vecAnimationQueue.push_back(state);
+		}
+		if (glfwGetKey(window, GLFW_KEY_Q) && action == GLFW_PRESS)		// walk forward
+		{
+			cAnimationState::sStateDetails state;
+			state.name = "punchleft";
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name);
+			state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			player->pAniState->vecAnimationQueue.push_back(state);
 		}
 
 		if(glfwGetKey(window,GLFW_KEY_SPACE) && action == GLFW_PRESS)
 		{
-			current_sphere_in_control->m_physics_component->ApplyForce((glm::vec3(0, 1000, 0)));
-			
+			g_HACK_currentAnimationName = "jump";
+			HACK_FrameTime = 0.f;
 		}
 		if(glfwGetKey(window,GLFW_KEY_N) && action == GLFW_PRESS)
 		{
 			
-			currentSphere++;
-			if (currentSphere > (int)g_vec_pGameObjects.size()-1)
-			{
-				currentSphere = 6;
-			}
+			
+			
 			
 		}
 		if (glfwGetKey(window, GLFW_KEY_1) && action == GLFW_PRESS)

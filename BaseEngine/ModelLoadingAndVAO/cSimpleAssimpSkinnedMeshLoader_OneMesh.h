@@ -88,10 +88,12 @@ public:
 
 	std::map< std::string /*animation FRIENDLY name*/,
 		      sAnimationInfo > mapAnimationFriendlyNameTo_pScene;		// Animations
-
+	sAnimationInfo defaultAnimation;
+	
 	// Looks in the animation map and returns the total time
 	float FindAnimationTotalTime( std::string animationName );
-
+	float FindAnimationFramesPerSecond(std::string animationname);
+	sAnimationInfo FindAnimationByFriendlyName(std::string AnimationFriendlyName);
 
 //	// Returns NULL (0) if there is no mesh at that index
 //	cMesh* CreateMeshObjectFromCurrentModel( unsigned int meshIndex = 0 );

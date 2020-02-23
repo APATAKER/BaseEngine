@@ -50,6 +50,9 @@ void PhysicsInit()
 			
 		for(int i=0;i< g_vec_pGameObjects.size();i++)
 		{
+			if(!g_vec_pGameObjects[i]->isWireframe)
+			{
+				
 			rapidjson::Value& jgameobj = document["GameObjects"][i];
 			switch (g_vec_pGameObjects[i]->physicsShapeType)
 			{
@@ -79,6 +82,7 @@ void PhysicsInit()
 				break;
 			}
 			physics_world->AddComponent(g_vec_pGameObjects[i]->m_physics_component);
+			}
 		}
 		dataLoaded = 1;
 	}
