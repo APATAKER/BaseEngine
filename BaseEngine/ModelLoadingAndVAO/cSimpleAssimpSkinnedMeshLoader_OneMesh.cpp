@@ -111,7 +111,14 @@ float cSimpleAssimpSkinnedMesh::FindAnimationTotalTime(std::string animationName
 	}
 
 	// This is scaling the animation from 0 to 1
-	return (float)itAnimation->second.pAIScene->mAnimations[0]->mDuration;	
+	if(animationName =="idle")
+	{
+	return (float)itAnimation->second.pAIScene->mAnimations[0]->mDuration;		
+	}
+	else
+	{
+	return (float)itAnimation->second.pAIScene->mAnimations[1]->mDuration;	
+	}
 }
 
 float cSimpleAssimpSkinnedMesh::FindAnimationFramesPerSecond(std::string animationname)
@@ -122,7 +129,11 @@ float cSimpleAssimpSkinnedMesh::FindAnimationFramesPerSecond(std::string animati
 	{	// Nope.
 		return 0.0f;
 	}
+	if(animationname=="idle")
 	return (float)itAnimation->second.pAIScene->mAnimations[0]->mTicksPerSecond;
+	else
+	return (float)itAnimation->second.pAIScene->mAnimations[1]->mTicksPerSecond;
+	
 }
 
 cSimpleAssimpSkinnedMesh::sAnimationInfo cSimpleAssimpSkinnedMesh::FindAnimationByFriendlyName(std::string AnimationFriendlyName)
@@ -242,27 +253,25 @@ void cSimpleAssimpSkinnedMesh::BoneTransform( float TimeInSeconds,
 	std::map<std::string, sAnimationInfo>::iterator it;
 	it = this->mapAnimationFriendlyNameTo_pScene.find(animationName);
 	sAnimationInfo animation_info = it->second;
-	/*if(animationName == "walk")
+	if(animationName == "idle")
 	{
 		
-	TicksPerSecond = static_cast<float>( this->pScene->mAnimations[1]->mTicksPerSecond != 0 ?
-	                                           this->pScene->mAnimations[1]->mTicksPerSecond : 25.0 );
-	TimeInTicks = TimeInSeconds * TicksPerSecond;
-	currentAnimationDuration = this->pScene->mAnimations[1]->mDuration;
+		TicksPerSecond = static_cast<float>(animation_info.pAIScene->mAnimations[0]->mTicksPerSecond != 0 ?
+							animation_info.pAIScene->mAnimations[0]->mTicksPerSecond : 25.0 );
+		TimeInTicks = TimeInSeconds * TicksPerSecond;
+		currentAnimationDuration = animation_info.pAIScene->mAnimations[0]->mDuration;
 	}
-	else*/
-	
-
+	else
 	{
 		
 	//TicksPerSecond = static_cast<float>( this->pScene->mAnimations[0]->mTicksPerSecond != 0 ?
 	//                                     this->pScene->mAnimations[0]->mTicksPerSecond : 25.0 );
 	//TimeInTicks = TimeInSeconds * TicksPerSecond;
 	//currentAnimationDuration = this->pScene->mAnimations[0]->mDuration;
-		TicksPerSecond = static_cast<float>(animation_info.pAIScene->mAnimations[0]->mTicksPerSecond != 0 ?
-			animation_info.pAIScene->mAnimations[0]->mTicksPerSecond : 25.0 );
-	TimeInTicks = TimeInSeconds * TicksPerSecond;
-	currentAnimationDuration = animation_info.pAIScene->mAnimations[0]->mTicksPerSecond;
+		TicksPerSecond = static_cast<float>(animation_info.pAIScene->mAnimations[1]->mTicksPerSecond != 0 ?
+											animation_info.pAIScene->mAnimations[1]->mTicksPerSecond : 25.0);
+		TimeInTicks = TimeInSeconds * TicksPerSecond;
+		currentAnimationDuration = animation_info.pAIScene->mAnimations[1]->mDuration;
 	}
 	float AnimationTime = fmod(TimeInTicks, currentAnimationDuration/*(float)this->pScene->mAnimations[0]->mDuration*/);
 	//float AnimationTime = TimeInTicks;
@@ -381,7 +390,11 @@ void cSimpleAssimpSkinnedMesh::ReadNodeHeirarchy(float AnimationTime,
 	aiString NodeName(pNode->mName.data);
 
 // Original version picked the "main scene" animation...
-	const aiAnimation* pAnimation = this->pScene->mAnimations[0];
+	const aiAnimation* pAnimation;
+
+	
+
+	pAnimation = this->pScene->mAnimations[0];
 
 	// Search for the animation we want... 
 	std::map< std::string /*animation FRIENDLY name*/,
@@ -392,7 +405,16 @@ void cSimpleAssimpSkinnedMesh::ReadNodeHeirarchy(float AnimationTime,
 	{	
 		// Yes, there is an animation called that...
 		// ...replace the animation with the one we found
+		if (animationName == "idle")
+		{
 		pAnimation = reinterpret_cast<const aiAnimation*>( itAnimation->second.pAIScene->mAnimations[0] );
+
+		}
+		else
+		{
+		pAnimation = reinterpret_cast<const aiAnimation*>( itAnimation->second.pAIScene->mAnimations[1] );
+			
+		}
 	}
 
 

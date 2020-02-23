@@ -221,7 +221,8 @@ int main()
 			gameobject->pAniState = new cAnimationState();
 			//Animation details
 			gameobject->pAniState->defaultAnimation.name = gameobject->p_skinned_mesh->defaultAnimation.friendlyName;
-			gameobject->pAniState->defaultAnimation.totalTime = gameobject->p_skinned_mesh->FindAnimationTotalTime(gameobject->pAniState->defaultAnimation.name);
+			gameobject->pAniState->defaultAnimation.totalTime = gameobject->p_skinned_mesh->FindAnimationTotalTime(
+																			gameobject->pAniState->defaultAnimation.name);
 			//gameobject->pAniState->defaultAnimation.frameStepTime = gameobject->p_skinned_mesh->FindAnimationFramesPerSecond(gameobject->pAniState->defaultAnimation.name) / 100;
 		}
 		g_vec_pGameObjects.push_back(gameobject);

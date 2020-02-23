@@ -7,6 +7,7 @@
 bool g_MouseIsInsideWindow = false;
 bool g_MouseLeftButtonIsDown = false;
 int currentSphere = 6;
+int changePlayer = 0;
 extern cFlyCamera* g_pFlyCamera;
 extern nPhysics::iPhysicsWorld* physics_world;
 extern bool changePhys;
@@ -59,8 +60,16 @@ GLFWwindow* creatOpenGL(GLFWwindow* win)
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	cGameObject* player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar1");
-	cGameObject* bullet = findGameObjectByFriendlyName(g_vec_pGameObjects, "bullet1");
+	cGameObject* player;
+	if(changePlayer == 0)
+	{
+		player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar1");
+	}
+	else
+	{
+		player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar2"); 
+	}
+
 	cGameObject* current_sphere_in_control = g_vec_pGameObjects[currentSphere];
 	if(isOnlyCtrlKeyDown(mods))
 	{
@@ -68,7 +77,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		{
 			cAnimationState::sStateDetails state;
 			state.name = "walk";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name);
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name)/
+							player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
 			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
 			player->pAniState->vecAnimationQueue.push_back(state);
 		}
@@ -80,41 +90,55 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 		if (glfwGetKey(window, GLFW_KEY_D))
 		{
-			g_HACK_currentAnimationName = "straferight";
-			HACK_FrameTime = 0.f;
+			cAnimationState::sStateDetails state;
+			state.name = "straferight";
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			player->pAniState->vecAnimationQueue.push_back(state);
 		}
 			
 		if (glfwGetKey(window, GLFW_KEY_A))
 		{
-			g_HACK_currentAnimationName = "strafeleft";
-			HACK_FrameTime = 0.f;
+			cAnimationState::sStateDetails state;
+			state.name = "strafeleft";
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			player->pAniState->vecAnimationQueue.push_back(state);
 		}
 		if (glfwGetKey(window, GLFW_KEY_E) && action == GLFW_PRESS)		// walk forward
 		{
 			cAnimationState::sStateDetails state;
 			state.name = "punchright";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name);
-			state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
 			player->pAniState->vecAnimationQueue.push_back(state);
 		}
 		if (glfwGetKey(window, GLFW_KEY_Q) && action == GLFW_PRESS)		// walk forward
 		{
 			cAnimationState::sStateDetails state;
 			state.name = "punchleft";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name);
-			state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
 			player->pAniState->vecAnimationQueue.push_back(state);
 		}
 
 		if(glfwGetKey(window,GLFW_KEY_SPACE) && action == GLFW_PRESS)
 		{
-			g_HACK_currentAnimationName = "jump";
-			HACK_FrameTime = 0.f;
+			cAnimationState::sStateDetails state;
+			state.name = "jump";
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) / 
+							player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			player->pAniState->vecAnimationQueue.push_back(state);
 		}
 		if(glfwGetKey(window,GLFW_KEY_N) && action == GLFW_PRESS)
 		{
-			
-			
+
+			changePlayer = changePlayer==1?0:1;
 			
 			
 		}
