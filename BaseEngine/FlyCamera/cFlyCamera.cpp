@@ -12,7 +12,7 @@ cFlyCamera::cFlyCamera()
 	this->eye = glm::vec3(0.0f);
 
 	// This will be constant
-	this->m_frontOfCamera = glm::vec3(0.0f, 0.0f, 1.0f);
+	this->m_frontOfCamera = glm::vec3(0.0f, 0.0f, -1.0f);
 
 	this->m_upIsYVector = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -109,7 +109,7 @@ void cFlyCamera::MoveLeftRight_X(float amount)
 void cFlyCamera::Pitch_UpDown(float angleDegrees)	// around X
 {
 	// Adjust the orientation of the camera by the number of degrees
-	this->adjMeshOrientationEulerAngles(glm::vec3(angleDegrees, 0.0f, 0.0f), true);
+	this->adjMeshOrientationEulerAngles(glm::vec3(-angleDegrees, 0.0f, 0.0f), true);
 
 	this->m_UpdateAtFromOrientation();
 	this->m_UpdateUpFromOrientation();

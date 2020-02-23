@@ -73,41 +73,86 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	cGameObject* current_sphere_in_control = g_vec_pGameObjects[currentSphere];
 	if(isOnlyCtrlKeyDown(mods))
 	{
-		if(glfwGetKey(window, GLFW_KEY_W) && action == GLFW_PRESS)		// walk forward
+		if(glfwGetKey(window, GLFW_KEY_W))		// walk forward
 		{
+			//player->m_physics_component->ApplyForce(glm::vec3(0, 0, -50));
 			cAnimationState::sStateDetails state;
 			state.name = "walk";
 			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name)/
 							player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
 			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			if(player->pAniState->vecAnimationQueue.empty())
 			player->pAniState->vecAnimationQueue.push_back(state);
+
+			player->updateAtFromOrientation();
+			player->MoveForward_Z(+5.f);
 		}
 		if(glfwGetKey(window, GLFW_KEY_S))		// walk backward
 		{
-			g_HACK_currentAnimationName = "strafeback";
-			HACK_FrameTime = 0.f;
+			cAnimationState::sStateDetails state;
+			state.name = "walkback";
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			if (player->pAniState->vecAnimationQueue.empty())
+				player->pAniState->vecAnimationQueue.push_back(state);
+
+			player->updateAtFromOrientation();
+			player->MoveForward_Z(-5.f);
 			
 		}
 		if (glfwGetKey(window, GLFW_KEY_D))
 		{
 			cAnimationState::sStateDetails state;
-			state.name = "straferight";
+			state.name = "turnleft";
 			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
 				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
 			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			if (player->pAniState->vecAnimationQueue.empty())
 			player->pAniState->vecAnimationQueue.push_back(state);
+			player->updateOrientation(glm::vec3(0, -1, 0));
+			player->updateAtFromOrientation();
 		}
 			
 		if (glfwGetKey(window, GLFW_KEY_A))
+		{
+			cAnimationState::sStateDetails state;
+			state.name = "turnright";
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			if (player->pAniState->vecAnimationQueue.empty())
+			player->pAniState->vecAnimationQueue.push_back(state);
+			player->updateOrientation(glm::vec3(0, 1, 0));
+			player->updateAtFromOrientation();
+		}
+		if (glfwGetKey(window, GLFW_KEY_Q))
 		{
 			cAnimationState::sStateDetails state;
 			state.name = "strafeleft";
 			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
 				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
 			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			player->pAniState->vecAnimationQueue.push_back(state);
+			if (player->pAniState->vecAnimationQueue.empty())
+				player->pAniState->vecAnimationQueue.push_back(state);
+
+			player->updateAtFromOrientation();
+			player->MoveLeftRight_X(-5.f);
 		}
-		if (glfwGetKey(window, GLFW_KEY_E) && action == GLFW_PRESS)		// walk forward
+		if (glfwGetKey(window, GLFW_KEY_E))
+		{
+			cAnimationState::sStateDetails state;
+			state.name = "straferight";
+			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			if (player->pAniState->vecAnimationQueue.empty())
+				player->pAniState->vecAnimationQueue.push_back(state);
+
+			player->updateAtFromOrientation();
+			player->MoveLeftRight_X(5.f);
+		}
+		if (glfwGetKey(window, GLFW_KEY_O) && action == GLFW_PRESS)		// walk forward
 		{
 			cAnimationState::sStateDetails state;
 			state.name = "punchright";
@@ -116,7 +161,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
 			player->pAniState->vecAnimationQueue.push_back(state);
 		}
-		if (glfwGetKey(window, GLFW_KEY_Q) && action == GLFW_PRESS)		// walk forward
+		if (glfwGetKey(window, GLFW_KEY_P) && action == GLFW_PRESS)		// walk forward
 		{
 			cAnimationState::sStateDetails state;
 			state.name = "punchleft";

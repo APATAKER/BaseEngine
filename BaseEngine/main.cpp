@@ -242,7 +242,7 @@ int main()
 
 	// Camera Created here
 	::g_pFlyCamera = new cFlyCamera();
-	::g_pFlyCamera->eye = glm::vec3(0.0f, 65.0, 340.0);
+	::g_pFlyCamera->eye = glm::vec3(-3.0f, 372.0, 670.0);
 	::g_pFlyCamera->movementSpeed = 0.25f;
 	::g_pFlyCamera->movementSpeed = 2.5f;
 	// Camera Created here
@@ -542,13 +542,13 @@ int main()
 		}//for (int index...
 
 		{
-			//cGameObject* debug_sphere = findGameObjectByFriendlyName(g_vec_pGameObjects, "debugsphere");
-			debug_sphere->isVisible = true;
-			debug_sphere->m_position = g_HACK_vec3_BoneLocationFK;
-			glm::mat4 identmat = glm::mat4(1.0f);
-			DrawObject(identmat, debug_sphere, shader_program_ID, p_vao_manager);
-			debug_sphere->isVisible = false;
-			//debug_sphere->m_position = debug_sphere_old;	
+			////cGameObject* debug_sphere = findGameObjectByFriendlyName(g_vec_pGameObjects, "debugsphere");
+			//debug_sphere->isVisible = true;
+			//debug_sphere->m_position = g_HACK_vec3_BoneLocationFK;
+			//glm::mat4 identmat = glm::mat4(1.0f);
+			//DrawObject(identmat, debug_sphere, shader_program_ID, p_vao_manager);
+			//debug_sphere->isVisible = false;
+			////debug_sphere->m_position = debug_sphere_old;	
 		}
 		
 		//GLint passNumber_UniLoc = glGetUniformLocation(shader_program_ID, "passNumber");

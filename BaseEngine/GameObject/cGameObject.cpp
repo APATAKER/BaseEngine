@@ -128,35 +128,43 @@ glm::vec3 cGameObject::getCurrentDirection(void)
 
 glm::vec3 cGameObject::getAtInWorldSpace(void)
 {
+	return this->m_position + this->m_at;
 	//return this->m_physics_component->getPosition() + this->m_at;
 
-	return glm::vec3(0); // bad return TODO
+	//return glm::vec3(0); // bad return TODO
 }
 
 void cGameObject::MoveForward_Z(float amount)
 {
-	//glm::vec3 direction = this->getAtInWorldSpace() - this->m_physics_component->getPosition();
+	glm::vec3 direction = this->getAtInWorldSpace() - this->m_position;
+	//glm::vec3 direction = this->getAtInWorldSpace() - this->m_physics_component->getposition();
 
-	//// Make direction a "unit length"
-	//direction = glm::normalize(direction);
+	// make direction a "unit length"
+	direction = glm::normalize(direction);
 
-	//// Generate a "forward" adjustment value 
-	//glm::vec3 amountToMove = direction * amount;
+	// generate a "forward" adjustment value 
+	glm::vec3 amounttomove = direction * amount;
 
-	//// Add this to the eye
-	//this->m_physics_component->setPosition(this->m_physics_component->getPosition()+(amountToMove));
+	// add this to the eye
+	this->m_position += amounttomove;
+	//this->m_physics_component->setposition(this->m_physics_component->getposition()+(amounttomove));
 
 	return;
 }
 
 void cGameObject::MoveLeftRight_X(float amount)
 {
+	glm::vec3 direction = this->getAtInWorldSpace() - this->m_position;
+	//glm::vec3 direction = this->getAtInWorldSpace() - this->m_physics_component->getposition();
 
-	/*glm::vec3 vecLeft = glm::cross(this->getCurrentDirection(), this->m_up);
+	// make direction a "unit length"
+	direction = glm::normalize(direction);
+	glm::vec3 vecLeft = glm::cross(direction, this->m_up);
 
 	glm::vec3 vecAmountToMove = glm::normalize(vecLeft) * amount;
 
-	this->m_physics_component->setPosition(this->m_physics_component->getPosition()+(vecAmountToMove));*/
+	this->m_position += vecAmountToMove;
+	//this->m_physics_component->setPosition(this->m_physics_component->getPosition()+(vecAmountToMove));
 }
 
 //glm::quat m_qRotation;		// Orientation as a quaternion

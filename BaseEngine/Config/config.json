@@ -1353,9 +1353,9 @@
         "constant": 0
       },
       "sphere": {
-        "radius": 0
+        "radius": 10
       },
-      "mass": 1,
+      "mass": 0,
       "isVisible": 1,
       "isSkinnedMesh": 1,
       "meshfile": "assets/models/RPG-Character(FBX2013).FBX",
@@ -1368,7 +1368,10 @@
         "assets/models/RPG-Character_Unarmed-Attack-R3(FBX2013).FBX",
         "assets/models/RPG-Character_Unarmed-Strafe-Left(FBX2013).FBX",
         "assets/models/RPG-Character_Unarmed-Strafe-Right(FBX2013).FBX",
-        "assets/models/RPG-Character_Unarmed-Strafe-Backward(FBX2013).FBX"
+        "assets/models/RPG-Character_Unarmed-Strafe-Backward(FBX2013).FBX",
+        "assets/models/RPGTurnLeft.fbx",
+        "assets/models/RPGTurnRight.fbx",
+        "assets/models/RPGWalkBack.fbx"
       ],
       "animationName": [
         "jump",
@@ -1379,7 +1382,10 @@
         "punchright",
         "strafeleft",
         "straferight",
-        "strafeback"
+        "strafeback",
+        "turnleft",
+        "turnright",
+        "walkback"
       ],
       "defaultAnimation": "idle"
     },
