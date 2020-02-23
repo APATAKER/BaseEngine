@@ -41,6 +41,7 @@ rapidjson::Document document;
 std::string g_HACK_currentAnimationName = "idle";
 float HACK_FrameTime = 0.0f;
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
+extern int punchcounter;
 
 
 
@@ -844,6 +845,10 @@ void DrawObject(glm::mat4 matModel,
 				// The animation reset to zero on increment...
 				// ...meaning that the 1st animation is done
 				// (WHAT!? Should you use a vector for this???)
+				if(pAniState->vecAnimationQueue.begin()->name == "punchright" || pAniState->vecAnimationQueue.begin()->name == "punchleft")
+				{
+					punchcounter = 0;
+				}
 				pAniState->vecAnimationQueue.erase(pAniState->vecAnimationQueue.begin());
 
 			}//vecAnimationQueue[0].IncrementTime()

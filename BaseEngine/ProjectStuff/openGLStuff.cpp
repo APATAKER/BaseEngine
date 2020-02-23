@@ -8,6 +8,7 @@ bool g_MouseIsInsideWindow = false;
 bool g_MouseLeftButtonIsDown = false;
 int currentSphere = 6;
 int changePlayer = 0;
+int punchcounter = 0;
 extern cFlyCamera* g_pFlyCamera;
 extern nPhysics::iPhysicsWorld* physics_world;
 extern bool changePhys;
@@ -69,23 +70,66 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar2"); 
 	}
-
 	cGameObject* current_sphere_in_control = g_vec_pGameObjects[currentSphere];
-	if(isOnlyCtrlKeyDown(mods))
+	//if(isOnlyCtrlKeyDown(mods))
+	//if (areAllModifiersUp(window))
+	if(!isAltDown(window) && !isCtrlDown(window))
 	{
 		if(glfwGetKey(window, GLFW_KEY_W))		// walk forward
 		{
+			bool isRunning;
 			//player->m_physics_component->ApplyForce(glm::vec3(0, 0, -50));
-			cAnimationState::sStateDetails state;
-			state.name = "walk";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name)/
-							player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			if(player->pAniState->vecAnimationQueue.empty())
-			player->pAniState->vecAnimationQueue.push_back(state);
-
+			if(!isShiftDown(window))
+			{
+				cAnimationState::sStateDetails state;
+				state.name = "walk";
+				state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name)/
+								player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+				//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+				if(player->pAniState->vecAnimationQueue.empty())
+				player->pAniState->vecAnimationQueue.push_back(state);
+				isRunning = false;
+			}
+			else
+			{
+				cAnimationState::sStateDetails state;
+				state.name = "run";
+				state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+					player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+				//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+				if (player->pAniState->vecAnimationQueue.empty())
+					player->pAniState->vecAnimationQueue.push_back(state);
+				isRunning = true;
+			}
+			
+			bool isJumping = false;
+			
 			player->updateAtFromOrientation();
-			player->MoveForward_Z(+5.f);
+
+			for(int i=0;i< player->pAniState->vecAnimationQueue.size();i++)
+			{
+				if(player->pAniState->vecAnimationQueue[i].name == "jump")
+				{
+					isJumping = true;
+				}
+			}
+			if (isRunning == true && isJumping == true)
+			{
+				player->MoveForward_Z(+10.f);
+			}
+			else
+			if( isRunning == true)
+			{
+				player->MoveForward_Z(+10.f);
+			}
+			else if(isJumping == true)
+			{
+				player->MoveForward_Z(+3.f);
+			}
+			else
+			{
+				player->MoveForward_Z(+5.f);
+			}
 		}
 		if(glfwGetKey(window, GLFW_KEY_S))		// walk backward
 		{
@@ -159,7 +203,19 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
 				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
 			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			player->pAniState->vecAnimationQueue.push_back(state);
+
+			for (int i = 0; i < player->pAniState->vecAnimationQueue.size(); i++)
+			{
+				if (player->pAniState->vecAnimationQueue[i].name == "punchright" 
+					|| player->pAniState->vecAnimationQueue[i].name == "punchleft")
+				{
+					punchcounter++;
+				}
+			}
+			if (punchcounter < 3)
+			{
+				player->pAniState->vecAnimationQueue.push_back(state);
+			}
 		}
 		if (glfwGetKey(window, GLFW_KEY_P) && action == GLFW_PRESS)		// walk forward
 		{
@@ -168,7 +224,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
 				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
 			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			player->pAniState->vecAnimationQueue.push_back(state);
+			for (int i = 0; i < player->pAniState->vecAnimationQueue.size(); i++)
+			{
+				if (player->pAniState->vecAnimationQueue[i].name == "punchright"
+					|| player->pAniState->vecAnimationQueue[i].name == "punchleft")
+				{
+					punchcounter++;
+				}
+			}
+			if (punchcounter < 3)
+			{
+				player->pAniState->vecAnimationQueue.push_back(state);
+			}
 		}
 
 		if(glfwGetKey(window,GLFW_KEY_SPACE) && action == GLFW_PRESS)
@@ -178,6 +245,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) / 
 							player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
 			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+			if (player->pAniState->vecAnimationQueue.empty())
 			player->pAniState->vecAnimationQueue.push_back(state);
 		}
 		if(glfwGetKey(window,GLFW_KEY_N) && action == GLFW_PRESS)
@@ -187,12 +255,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			
 			
 		}
-		if (glfwGetKey(window, GLFW_KEY_1) && action == GLFW_PRESS)
+		/*if (glfwGetKey(window, GLFW_KEY_1) && action == GLFW_PRESS)
 		{
 			PhysicsEnd();
 			changePhys = !changePhys;
 			dataLoaded = 0;
-		}
+		}*/
 	}
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -296,7 +364,8 @@ void ProcessAsyncKeys(GLFWwindow* window)
 
 
 	// If no keys are down, move the camera
-	if (areAllModifiersUp(window))
+	//if (areAllModifiersUp(window))
+	if(isCtrlDown(window))
 	{
 		// Note: The "== GLFW_PRESS" isn't really needed as it's actually "1" 
 		// (so the if() treats the "1" as true...)
