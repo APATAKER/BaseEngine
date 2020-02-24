@@ -730,7 +730,7 @@ sModelDrawInfo* cSimpleAssimpSkinnedMesh::CreateModelDrawInfoObjectFromCurrentMo
 	// Triangles
 	pTheMDI->numberOfTriangles = pAIMesh->mNumFaces;
 
-	pTheMDI->numberOfIndices = pTheMDI->numberOfVertices * 3;
+	pTheMDI->numberOfIndices = pTheMDI->numberOfTriangles * 3;
 
 	pTheMDI->pIndices = new unsigned int[pTheMDI->numberOfIndices];
 
