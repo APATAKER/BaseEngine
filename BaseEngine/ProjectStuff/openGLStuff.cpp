@@ -77,176 +77,34 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		if(glfwGetKey(window, GLFW_KEY_W))		// walk forward
 		{
-			bool isRunning;
-			//player->m_physics_component->ApplyForce(glm::vec3(0, 0, -50));
-			if(!isShiftDown(window))
-			{
-				cAnimationState::sStateDetails state;
-				state.name = "walk";
-				state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name)/
-								player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-				//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-				if(player->pAniState->vecAnimationQueue.empty())
-				player->pAniState->vecAnimationQueue.push_back(state);
-				isRunning = false;
-			}
-			else
-			{
-				cAnimationState::sStateDetails state;
-				state.name = "run";
-				state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-					player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-				//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-				if (player->pAniState->vecAnimationQueue.empty())
-					player->pAniState->vecAnimationQueue.push_back(state);
-				isRunning = true;
-			}
 			
-			bool isJumping = false;
-			
-			player->updateAtFromOrientation();
-
-			for(int i=0;i< player->pAniState->vecAnimationQueue.size();i++)
-			{
-				if(player->pAniState->vecAnimationQueue[i].name == "jump")
-				{
-					isJumping = true;
-				}
-			}
-			if (isRunning == true && isJumping == true)
-			{
-				player->MoveForward_Z(+10.f);
-			}
-			else
-			if( isRunning == true)
-			{
-				player->MoveForward_Z(+10.f);
-			}
-			else if(isJumping == true)
-			{
-				player->MoveForward_Z(+3.f);
-			}
-			else
-			{
-				player->MoveForward_Z(+5.f);
-			}
 		}
 		if(glfwGetKey(window, GLFW_KEY_S))		// walk backward
 		{
-			cAnimationState::sStateDetails state;
-			state.name = "walkback";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			if (player->pAniState->vecAnimationQueue.empty())
-				player->pAniState->vecAnimationQueue.push_back(state);
-
-			player->updateAtFromOrientation();
-			player->MoveForward_Z(-5.f);
-			
+				
 		}
 		if (glfwGetKey(window, GLFW_KEY_D))
 		{
-			cAnimationState::sStateDetails state;
-			state.name = "turnleft";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			if (player->pAniState->vecAnimationQueue.empty())
-			player->pAniState->vecAnimationQueue.push_back(state);
-			player->updateOrientation(glm::vec3(0, -1, 0));
-			player->updateAtFromOrientation();
+			
 		}
 			
 		if (glfwGetKey(window, GLFW_KEY_A))
 		{
-			cAnimationState::sStateDetails state;
-			state.name = "turnright";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			if (player->pAniState->vecAnimationQueue.empty())
-			player->pAniState->vecAnimationQueue.push_back(state);
-			player->updateOrientation(glm::vec3(0, 1, 0));
-			player->updateAtFromOrientation();
+			
 		}
 		if (glfwGetKey(window, GLFW_KEY_Q))
 		{
-			cAnimationState::sStateDetails state;
-			state.name = "strafeleft";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			if (player->pAniState->vecAnimationQueue.empty())
-				player->pAniState->vecAnimationQueue.push_back(state);
-
-			player->updateAtFromOrientation();
-			player->MoveLeftRight_X(-5.f);
+			
 		}
 		if (glfwGetKey(window, GLFW_KEY_E))
 		{
-			cAnimationState::sStateDetails state;
-			state.name = "straferight";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			if (player->pAniState->vecAnimationQueue.empty())
-				player->pAniState->vecAnimationQueue.push_back(state);
-
-			player->updateAtFromOrientation();
-			player->MoveLeftRight_X(5.f);
+			
 		}
-		if (glfwGetKey(window, GLFW_KEY_O) && action == GLFW_PRESS)		// walk forward
-		{
-			cAnimationState::sStateDetails state;
-			state.name = "punchright";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-
-			for (int i = 0; i < player->pAniState->vecAnimationQueue.size(); i++)
-			{
-				if (player->pAniState->vecAnimationQueue[i].name == "punchright" 
-					|| player->pAniState->vecAnimationQueue[i].name == "punchleft")
-				{
-					punchcounter++;
-				}
-			}
-			if (punchcounter < 3)
-			{
-				player->pAniState->vecAnimationQueue.push_back(state);
-			}
-		}
-		if (glfwGetKey(window, GLFW_KEY_P) && action == GLFW_PRESS)		// walk forward
-		{
-			cAnimationState::sStateDetails state;
-			state.name = "punchleft";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			for (int i = 0; i < player->pAniState->vecAnimationQueue.size(); i++)
-			{
-				if (player->pAniState->vecAnimationQueue[i].name == "punchright"
-					|| player->pAniState->vecAnimationQueue[i].name == "punchleft")
-				{
-					punchcounter++;
-				}
-			}
-			if (punchcounter < 3)
-			{
-				player->pAniState->vecAnimationQueue.push_back(state);
-			}
-		}
+		
 
 		if(glfwGetKey(window,GLFW_KEY_SPACE) && action == GLFW_PRESS)
 		{
-			cAnimationState::sStateDetails state;
-			state.name = "jump";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) / 
-							player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			if (player->pAniState->vecAnimationQueue.empty())
-			player->pAniState->vecAnimationQueue.push_back(state);
+		
 		}
 		if(glfwGetKey(window,GLFW_KEY_N) && action == GLFW_PRESS)
 		{

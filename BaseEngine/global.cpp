@@ -14,7 +14,7 @@ typedef nPhysics::iPhysicsFactory* (*func_createFactory)();
 HMODULE hModule = 0;
 func_createFactory create_factory = 0;
 extern std::vector<cGameObject*> g_vec_pGameObjects;
-bool changePhys(true);
+bool changePhys(false);
 extern rapidjson::Document document;
 int dataLoaded;
 

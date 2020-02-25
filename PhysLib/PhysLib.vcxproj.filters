@@ -27,6 +27,9 @@
     <ClCompile Include="nCollide.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cAI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cIntegrator.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="glm_headers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

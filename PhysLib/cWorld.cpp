@@ -8,7 +8,7 @@ namespace physLib
 	cWorld::cWorld()
 	{
 		this->mDt = 0.f;
-		this->mGravity = glm::vec3(0.f, -9.8f, 0.f);
+		this->mGravity = glm::vec3(0.f, -1.f, 0.f);
 	}
 
 	cWorld::~cWorld()
@@ -45,6 +45,12 @@ namespace physLib
 		{
 			mBodies[idx]->mAcceleration += (mGravity);
 			IntegrateRigidBody(mBodies[idx], mDt);
+		}
+
+		for(size_t index = 0;index<numBodies;index++)
+		{
+			ai.seek(mBodies[6], mBodies[7], dt);
+			
 		}
 		
 		for (size_t outerloopindex = 0; outerloopindex < numBodies-1; outerloopindex++) //3)
@@ -227,7 +233,7 @@ namespace physLib
 		// collision detected   Case C
 		sphereBody->mVelocity = glm::reflect(sphereBody->mVelocity, planeShape->GetNormal());
 
-		sphereBody->mVelocity *= .5f; // dampening effect
+		sphereBody->mVelocity *= .1f; // dampening effect
 		glm::vec3 nComponent = (c+v*t);
 		IntegrateRigidBody(sphereBody, mDt * (1.f - t));
 		

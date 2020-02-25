@@ -45,6 +45,7 @@ namespace physLib
 		// cWorld will be operating on cRigidBody values quite a bit
 		// We will trust it to do everything correctly.
 		friend class cWorld;
+		friend class cAI;
 	public:
 		// Constructor
 		// All internal values are initialized according to the sRigidBodyDef

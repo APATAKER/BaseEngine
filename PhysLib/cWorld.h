@@ -3,6 +3,7 @@
 #include <vector>         // std::vector to contain cRigidBody pointers
 #include "shapes.h"       // all specific shape classes
 #include "cIntegrator.h"  // cIntegrator class for timesteps
+#include "cAI.h"
 
 
 #define DLL_EXPORT __declspec(dllexport)
@@ -111,6 +112,8 @@ namespace physLib
 		// All the rigid bodies currently in the world.
 		// Not owned by cWorld, will not be deleted in the destructor.
 		std::vector<cRigidBody*> mBodies;
+
+		cAI ai;
 
 		// Constructors not to be used.
 		cWorld(const cWorld& other) = delete;

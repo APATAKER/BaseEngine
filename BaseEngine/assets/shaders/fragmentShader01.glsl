@@ -346,7 +346,7 @@ void colorOutput()
 	vec3 refractVector = refract(eyeVector, fNormal.xyz, 1.4f);
 	vec3 reflectColour = texture(skyBox, reflectVector.xyz).rgb;
 	vec3 refractColour = texture(skyBox, refractVector.xyz).rgb;
-	vec3 finalColour = 0.0f * reflectColour + 1.0f * refractColour;
+	vec3 finalColour = 0.5f * reflectColour + 0.5f * refractColour;
 
 	vec3 surfaceColour = (texRGB * 0.5) + (finalColour * 0.5);				// Cube map refelection and refraction
 	

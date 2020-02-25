@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cAI.cpp" />
     <ClCompile Include="cIntegrator.cpp" />
     <ClCompile Include="cRigidBody.cpp" />
     <ClCompile Include="cWorld.cpp" />
     <ClCompile Include="nCollide.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cAI.h" />
     <ClInclude Include="cIntegrator.h" />
     <ClInclude Include="cRigidBody.h" />
     <ClInclude Include="cWorld.h" />
