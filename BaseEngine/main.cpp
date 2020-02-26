@@ -342,15 +342,15 @@ int main()
 		glUseProgram(shader_program_ID);		// using current shader
 
 		// Window title Printing
-		/*ssTitle
+		ssTitle
 			<< g_pFlyCamera->eye.x << ", "
 			<< g_pFlyCamera->eye.y << ", "
-			<< g_pFlyCamera->eye.z
-			<< "object postion: "
+			<< g_pFlyCamera->eye.z;
+			/*<< "object postion: "
 			<< g_vec_pGameObjects[4]->friendlyName << " "
 			<< "at vector player: " << g_vec_pGameObjects[4]->m_at.x << " " << g_vec_pGameObjects[4]->m_at.y << " " << g_vec_pGameObjects[4]->m_at.z << ",ai: "
-			<< g_vec_pGameObjects[5]->m_at.x << " " << g_vec_pGameObjects[5]->m_at.y << " " << g_vec_pGameObjects[5]->m_at.z;
-		glfwSetWindowTitle(window, ssTitle.str().c_str());*/
+			<< g_vec_pGameObjects[5]->m_at.x << " " << g_vec_pGameObjects[5]->m_at.y << " " << g_vec_pGameObjects[5]->m_at.z;*/
+		glfwSetWindowTitle(window, ssTitle.str().c_str());
 
 		////lights into shader
 		p_light_stuff->loadLightIntoShader(shader_program_ID, vec_lightObjects.size());

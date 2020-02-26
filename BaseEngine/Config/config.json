@@ -10,8 +10,19 @@
     "assets/models/Sphere_Radius_3_XYZ_n_uv.ply",
     "assets/models/Sphere_Radius_5_XYZ_n_uv.ply",
     "assets/models/Sphere_Radius_0.5_XYZ_n_uv.ply",
-    "assets/models/kunai_n_uv.ply",
-    "assets/models/cube_flat_shaded_xyz_n_uv.ply"
+    "assets/models/cube_flat_shaded_xyz_n_uv.ply",
+    "assets/models/SM_Env_Consoles_01_xyz_n_rgba_uv.ply",
+    "assets/models/SM_Env_Consoles_Corner_01_xyz_n_rgba_uv.ply",
+    "assets/models/SM_Env_Consoles_Corner_01_xyz_n_rgba_uv_fliped.ply",
+    "assets/models/SM_Env_Beam_01_xyz_n_rgba_uv.ply",
+    "assets/models/SM_Env_CableRack_02_xyz_n_rgba_uv.ply",
+    "assets/models/SM_Env_Ceiling_02_xyz_n_rgba_uv.ply",
+    "assets/models/SM_Env_Ceiling_Light_05_xyz_n_rgba_uv.ply",
+    "assets/models/SM_Env_Construction_Floor_02_xyz_n_rgba_uv.ply",
+    "assets/models/SM_Env_ControlRoom_Door_01_xyz_n_rgba_uv.ply",
+    "assets/models/SM_Env_ControlRoom_Doorway_01_xyz_n_rgba_uv.ply",
+    "assets/models/SM_Env_ControlRoom_Wall_01_xyz_n_rgba_uv.ply"
+
   ],
   "MeshName": [
     "ground2",
@@ -20,8 +31,18 @@
     "sphere3",
     "sphere5",
     "bullet",
-    "kunai",
-    "mazecube"
+    "mazecube",
+    "console",
+    "consolecorner",
+    "consolecornerflip",
+    "beam",
+    "cablerack",
+    "ceiling",
+    "ceilinglight",
+    "floor",
+    "door",
+    "doorway",
+    "wall"
   ],
   "Textures": [
     "defaultTex.bmp",
@@ -32,15 +53,18 @@
     "cyantex.bmp",
     "greentex.bmp",
     "yellowtex.bmp",
-    "violettex.bmp"
+    "violettex.bmp",
+    "SpaceInteriors_Texture.bmp",
+    "SpaceInteriors_Emmision.bmp",
+    "WorldMap.bmp"
   ],
   "Lights": [
     {
       "lightID": 1,
       "lightPosition": {
-        "x": -25.0,
-        "y": 300.0,
-        "z": -150.0
+        "x": -19.0,
+        "y": 37.0,
+        "z": 1175.8
       },
       "lightConstAtten": 0.0000001,
       "lightLinearAtten": 0.00119,
@@ -56,9 +80,45 @@
     {
       "lightID": 2,
       "lightPosition": {
-        "x": 25.0,
-        "y": 500.0,
-        "z": 150.0
+        "x": -302.0,
+        "y": 322.0,
+        "z": -307.0
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 3,
+      "lightPosition": {
+        "x": -191.0,
+        "y": -200.0,
+        "z": -283.0
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 4,
+      "lightPosition": {
+        "x": 564.5,
+        "y": 433.0,
+        "z": -266.0
       },
       "lightConstAtten": 0.0000001,
       "lightLinearAtten": 0.00119,
@@ -101,6 +161,937 @@
         "a": 1.0
       },
       "tex": [ "defaultTex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "console",
+      "friendlyname": "console",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "consolecorner",
+      "friendlyname": "consoleCorner",
+      "position": {
+        "x": -50.0,
+        "y": 0.0,
+        "z": 25.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "consolecornerflip",
+      "friendlyname": "consoleCornerflip",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 25.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "beam",
+      "friendlyname": "beam",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "cablerack",
+      "friendlyname": "cablerack",
+      "position": {
+        "x": 0.0,
+        "y": 25.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "ceiling",
+      "friendlyname": "ceiling",
+      "position": {
+        "x": 0.0,
+        "y": 25.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "ceilinglight",
+      "friendlyname": "ceilinglight",
+      "position": {
+        "x": 0.0,
+        "y": 25.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "floor1",
+      "position": {
+        "x": -25.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 90.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "floor2",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 90.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "floor3",
+      "position": {
+        "x": 25.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 90.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "floor4",
+      "position": {
+        "x": -25.0,
+        "y": 0.0,
+        "z": 25.0
+      },
+      "rotation": {
+        "x": 90.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "floor5",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 25.0
+      },
+      "rotation": {
+        "x": 90.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "floor6",
+      "position": {
+        "x": 25.0,
+        "y": 0.0,
+        "z": 25.0
+      },
+      "rotation": {
+        "x": 90.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "doorway",
+      "friendlyname": "doorway",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 50.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "door",
+      "friendlyname": "door",
+      "position": {
+        "x": -18.0,
+        "y": 0.0,
+        "z": 50.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "wall1",
+      "position": {
+        "x": -50.0,
+        "y": 0.0,
+        "z": 25.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "wall2",
+      "position": {
+        "x": 25.0,
+        "y": 0.0,
+        "z": 50.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 270.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "wall3",
+      "position": {
+        "x": -50.0,
+        "y": 0.0,
+        "z": 50.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 1,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "wall",
+      "friendlyname": "wall4",
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 50.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 180.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "SpaceInteriors_Texture.bmp", "", "", "" ],
       "texratio": [ 1, 0, 0, 0 ],
       "isStatic": 1,
       "physicsshapetype": 1,

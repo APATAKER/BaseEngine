@@ -84,7 +84,7 @@ const int SPOT_LIGHT_TYPE = 1;
 const int DIRECTIONAL_LIGHT_TYPE = 2;
 
 //const int NUMBEROFLIGHTS = 10;
-const int NUMBEROFLIGHTS = 2;
+const int NUMBEROFLIGHTS = 10;
 uniform sLight theLights[NUMBEROFLIGHTS];  	// 80 uniforms
 
 // Really appears as:
@@ -348,7 +348,7 @@ void colorOutput()
 	vec3 refractColour = texture(skyBox, refractVector.xyz).rgb;
 	vec3 finalColour = 0.5f * reflectColour + 0.5f * refractColour;
 
-	vec3 surfaceColour = (texRGB * 0.5) + (finalColour * 0.5);				// Cube map refelection and refraction
+	vec3 surfaceColour = (texRGB * 1.0) + (finalColour * 0.0);				// Cube map refelection and refraction
 	
 	vec4 outColour = calcualteLightContrib(surfaceColour.rgb, fNormal.xyz,
 		fVertWorldLocation.xyz, specularColour);
