@@ -48,19 +48,19 @@ namespace physLib
 		}
 
 		// Animation Behaviour
-		for(size_t index = 0;index<numBodies;index++)
-		{
-			//ai.seek(mBodies[6], mBodies[7], dt);
-			//ai.pursue(mBodies[6], mBodies[8],dt);
-			ai.flee(mBodies[6], mBodies[9],dt);
-			ai.flee(mBodies[6], mBodies[10],dt);
-			ai.flee(mBodies[6], mBodies[11],dt);
-			ai.flee(mBodies[6], mBodies[12],dt);
-			ai.flee(mBodies[6], mBodies[13],dt);
-			ai.flee(mBodies[6], mBodies[14],dt);
-			ai.flee(mBodies[6], mBodies[15],dt);
-			
-		}
+		//for(size_t index = 0;index<numBodies;index++)
+		//{
+		//	//ai.seek(mBodies[6], mBodies[7], dt);
+		//	//ai.pursue(mBodies[6], mBodies[8],dt);
+		//	ai.flee(mBodies[6], mBodies[9],dt);
+		//	ai.flee(mBodies[6], mBodies[10],dt);
+		//	ai.flee(mBodies[6], mBodies[11],dt);
+		//	ai.flee(mBodies[6], mBodies[12],dt);
+		//	ai.flee(mBodies[6], mBodies[13],dt);
+		//	ai.flee(mBodies[6], mBodies[14],dt);
+		//	ai.flee(mBodies[6], mBodies[15],dt);
+		//	
+		//}
 		
 		for (size_t outerloopindex = 0; outerloopindex < numBodies-1; outerloopindex++) //3)
 		{
@@ -73,6 +73,7 @@ namespace physLib
 		for (size_t idx = 0; idx < numBodies; idx++) //4)
 		{
 			mBodies[idx]->mAcceleration = glm::vec3(0.f, 0.f, 0.f);
+			mBodies[idx]->mVelocity *= 0.9;
 		}
 	}
 

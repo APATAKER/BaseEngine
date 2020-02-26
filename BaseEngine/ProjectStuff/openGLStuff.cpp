@@ -28,7 +28,7 @@ extern std::vector<cGameObject*> g_vec_pGameObjects;
 
 extern cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
 
-const float MOVESPEED = 10.0f;
+const float MOVESPEED = 150.0f;
 
 
 // openGLfunc
@@ -77,29 +77,29 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		if(glfwGetKey(window, GLFW_KEY_W))		// walk forward
 		{
-			player->updateAtFromOrientation();
+			//player->updateAtFromOrientation();
 			//player->velocity.z += MOVESPEED;
-			player->m_physics_component->ApplyForce(glm::vec3(MOVESPEED));
+			player->m_physics_component->ApplyForce(glm::vec3(0,0,MOVESPEED));
 			
 		}
 		if(glfwGetKey(window, GLFW_KEY_S))		// walk backward
 		{
-			player->updateAtFromOrientation();
-			player->m_physics_component->ApplyForce(glm::vec3(-MOVESPEED));
+			//player->updateAtFromOrientation();
+			player->m_physics_component->ApplyForce(glm::vec3(0,0,-MOVESPEED));
 			//player->MoveForward_Z(-MOVESPEED);
 		}
 		if (glfwGetKey(window, GLFW_KEY_D))
 		{
 			//player->updateOrientation(glm::vec3(0, -1, 0));
 			player->m_physics_component->ApplyRotation(glm::vec3(0, -1, 0));
-			player->updateAtFromOrientation();
+			//player->updateAtFromOrientation();
 		}
 			
 		if (glfwGetKey(window, GLFW_KEY_A))
 		{
 			player->m_physics_component->ApplyRotation(glm::vec3(0, 1, 0));
 			//player->updateOrientation(glm::vec3(0, 1, 0));
-			player->updateAtFromOrientation();
+		//	player->updateAtFromOrientation();
 		}
 		if (glfwGetKey(window, GLFW_KEY_Q))
 		{

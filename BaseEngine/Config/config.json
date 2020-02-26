@@ -376,7 +376,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere3",
+      "meshname": "kunai",
       "friendlyname": "player",
       "position": {
         "x": 0.0,
@@ -425,7 +425,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere5",
+      "meshname": "kunai",
       "friendlyname": "enemy1",
       "position": {
         "x": 0.0,
@@ -474,7 +474,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy2",
       "position": {
         "x": 100.0,
@@ -523,7 +523,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy3",
       "position": {
         "x": 10.0,
@@ -572,7 +572,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy4",
       "position": {
         "x": 15.0,
@@ -621,7 +621,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy5",
       "position": {
         "x": 15.0,
@@ -670,7 +670,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy6",
       "position": {
         "x": -10.0,
@@ -719,7 +719,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy7",
       "position": {
         "x": -10.0,
@@ -768,7 +768,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy8",
       "position": {
         "x": -10.0,
@@ -817,7 +817,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy9",
       "position": {
         "x": 10.0,
@@ -866,7 +866,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy10",
       "position": {
         "x": 150.0,
@@ -915,7 +915,7 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy11",
       "position": {
         "x": 10.0,

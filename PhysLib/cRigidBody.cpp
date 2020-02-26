@@ -35,7 +35,7 @@ namespace physLib
 	void cRigidBody::ApplyForce(const glm::vec3& force)
 	{
 		this->updateAtFromOrientation();
-		float mag_force = length(force);
+		float mag_force = force.z;
 		glm::vec3 direction = this->getAtInWorldSpace() - this->mPosition;
 		direction = normalize(direction);
 		glm::vec3 forceToBeApplied = mag_force * direction;
