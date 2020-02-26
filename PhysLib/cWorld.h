@@ -103,15 +103,15 @@ namespace physLib
 	private:
 
 		// The delta time input cached during each Update(dt) call.
-		float mDt;
+		float m_dt_;
 		// Our handy dandy integrator.
-		cIntegrator mIntegrator;
+		cIntegrator m_integrator_;
 		// Acceleration due to gravity applied to each rigid body
 		// during each timestep.
-		glm::vec3 mGravity;
+		glm::vec3 m_gravity_;
 		// All the rigid bodies currently in the world.
 		// Not owned by cWorld, will not be deleted in the destructor.
-		std::vector<cRigidBody*> mBodies;
+		std::vector<cRigidBody*> m_bodies_;
 
 		cAI ai;
 

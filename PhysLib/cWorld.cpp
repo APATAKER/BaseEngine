@@ -7,8 +7,8 @@ namespace physLib
 {
 	cWorld::cWorld()
 	{
-		this->mDt = 0.f;
-		this->mGravity = glm::vec3(0.f, 0.f, 0.f);
+		this->m_dt_ = 0.f;
+		this->m_gravity_ = glm::vec3(0.f, 0.f, 0.f);
 	}
 
 	cWorld::~cWorld()
@@ -17,12 +17,12 @@ namespace physLib
 	
 	void cWorld::GetGravity(glm::vec3& gravityOut)
 	{
-		gravityOut = this->mGravity;
+		gravityOut = this->m_gravity_;
 	}
 
 	void cWorld::SetGravity(const glm::vec3& gravityIn)
 	{
-		this->mGravity = gravityIn;
+		this->m_gravity_ = gravityIn;
 		
 	}
 
@@ -34,8 +34,8 @@ namespace physLib
 		// 3) Perform collision handling on each unique pair of bodies.
 		// 4) Clear the acceleration of each rigid body.
 
-		mDt = dt;
-		auto numBodies = mBodies.size();
+		m_dt_ = dt;
+		auto numBodies = m_bodies_.size();
 		
 		if(numBodies == 0) //1)
 		{
@@ -43,37 +43,37 @@ namespace physLib
 		}
 		for(size_t idx = 0;idx <numBodies;idx++) //2)
 		{
-			mBodies[idx]->mAcceleration += (mGravity);
-			IntegrateRigidBody(mBodies[idx], mDt);
+			m_bodies_[idx]->mAcceleration += (m_gravity_);
+			IntegrateRigidBody(m_bodies_[idx], m_dt_);
 		}
 
 		// Animation Behaviour
-		//for(size_t index = 0;index<numBodies;index++)
-		//{
-		//	//ai.seek(mBodies[6], mBodies[7], dt);
-		//	//ai.pursue(mBodies[6], mBodies[8],dt);
-		//	ai.flee(mBodies[6], mBodies[9],dt);
-		//	ai.flee(mBodies[6], mBodies[10],dt);
-		//	ai.flee(mBodies[6], mBodies[11],dt);
-		//	ai.flee(mBodies[6], mBodies[12],dt);
-		//	ai.flee(mBodies[6], mBodies[13],dt);
-		//	ai.flee(mBodies[6], mBodies[14],dt);
-		//	ai.flee(mBodies[6], mBodies[15],dt);
-		//	
-		//}
+		for(size_t index = 0;index<numBodies;index++)
+		{
+			//ai.seek(mBodies[6], mBodies[7], dt);
+			//ai.pursue(mBodies[6], mBodies[8],dt);
+			ai.flee(m_bodies_[6], m_bodies_[9],dt);
+			ai.flee(m_bodies_[6], m_bodies_[10],dt);
+			ai.flee(m_bodies_[6], m_bodies_[11],dt);
+			ai.flee(m_bodies_[6], m_bodies_[12],dt);
+			ai.flee(m_bodies_[6], m_bodies_[13],dt);
+			ai.flee(m_bodies_[6], m_bodies_[14],dt);
+			ai.flee(m_bodies_[6], m_bodies_[15],dt);
+			
+		}
 		
 		for (size_t outerloopindex = 0; outerloopindex < numBodies-1; outerloopindex++) //3)
 		{
 			for (size_t innerloopindex = outerloopindex + 1; innerloopindex < numBodies; innerloopindex++)
 			{
-				Collide(mBodies[outerloopindex], mBodies[innerloopindex]);
+				Collide(m_bodies_[outerloopindex], m_bodies_[innerloopindex]);
 			}
 		}
 
 		for (size_t idx = 0; idx < numBodies; idx++) //4)
 		{
-			mBodies[idx]->mAcceleration = glm::vec3(0.f, 0.f, 0.f);
-			mBodies[idx]->mVelocity *= 0.9;
+			m_bodies_[idx]->mAcceleration = glm::vec3(0.f, 0.f, 0.f);
+			m_bodies_[idx]->mVelocity *= 0.9;
 		}
 	}
 
@@ -88,12 +88,12 @@ namespace physLib
 		{
 			return false;
 		}
-		for (int i = 0; i < mBodies.size(); i++)//2)
+		for (int i = 0; i < m_bodies_.size(); i++)//2)
 		{
-			if (mBodies[i] == rigidBody)
+			if (m_bodies_[i] == rigidBody)
 				return false;
 		}
-		mBodies.push_back(rigidBody);
+		m_bodies_.push_back(rigidBody);
 		
 		return true; // rigidbody was added in vector mBodies
 	}
@@ -109,11 +109,11 @@ namespace physLib
 		{
 			return false;
 		}
-		for (int i = 0; i < mBodies.size(); i++) //2)
+		for (int i = 0; i < m_bodies_.size(); i++) //2)
 		{
-			if (mBodies[i] == rigidBody)
+			if (m_bodies_[i] == rigidBody)
 			{
-				mBodies.erase(mBodies.begin() + (i - 1));
+				m_bodies_.erase(m_bodies_.begin() + (i - 1));
 				return true;
 			}
 		}
@@ -135,7 +135,7 @@ namespace physLib
 		if(!body->mMass == 0) //1)
 		{
 			body->mPreviousPosition = body->mPosition;  //2)
-			mIntegrator.RK4(body->mPosition, body->mVelocity, body->mAcceleration, dt); //3)
+			m_integrator_.RK4(body->mPosition, body->mVelocity, body->mAcceleration, dt); //3)
 		}
 		
 	}
@@ -229,7 +229,7 @@ namespace physLib
 			glm::vec3 pointOnPlane = nCollide::closest_point_on_plane(sphereBody->mPreviousPosition, planeShape->GetNormal(), planeShape->GetConstant());
 			float distance = glm::distance(sphereBody->mPreviousPosition, pointOnPlane);
 			float targetDistance = r;
-			glm::vec3 impluse = n * (targetDistance - distance) / mDt;
+			glm::vec3 impluse = n * (targetDistance - distance) / m_dt_;
 			sphereBody->mPosition = sphereBody->mPreviousPosition;
 			sphereBody->mVelocity += impluse;
 			float checkVelocity = glm::length(sphereBody->mVelocity);
@@ -237,7 +237,7 @@ namespace physLib
 			{
 				sphereBody->mVelocity = glm::vec3(0);
 			}
-			IntegrateRigidBody(sphereBody, mDt);
+			IntegrateRigidBody(sphereBody, m_dt_);
 			return true;
 		}
 		// collision detected   Case C
@@ -245,7 +245,7 @@ namespace physLib
 
 		sphereBody->mVelocity *= .1f; // dampening effect
 		glm::vec3 nComponent = (c+v*t);
-		IntegrateRigidBody(sphereBody, mDt * (1.f - t));
+		IntegrateRigidBody(sphereBody, m_dt_ * (1.f - t));
 		
 		
 		return true; 
@@ -324,8 +324,8 @@ namespace physLib
 			bodyA->mVelocity += impluseToA * (mb / mt);
 			bodyB->mVelocity -= impluseToA * (ma / mt);
 
-			IntegrateRigidBody(bodyA, mDt);
-			IntegrateRigidBody(bodyB, mDt);
+			IntegrateRigidBody(bodyA, m_dt_);
+			IntegrateRigidBody(bodyB, m_dt_);
 			
 			return true;
 		}
@@ -341,8 +341,8 @@ namespace physLib
 		bodyA->mVelocity = (c * mb * (vB - vA) + ma * vA + mb * vB) / mt;
 		bodyB->mVelocity = (c * mb * (vA - vB) + ma * vA + mb * vB) / mt;
 
-		IntegrateRigidBody(bodyA, mDt * (1.f - t));
-		IntegrateRigidBody(bodyB, mDt * (1.f - t));
+		IntegrateRigidBody(bodyA, m_dt_ * (1.f - t));
+		IntegrateRigidBody(bodyB, m_dt_ * (1.f - t));
 		
 		return true; 
 	}

@@ -48,6 +48,7 @@ namespace physLib
 		// We will trust it to do everything correctly.
 		friend class cWorld;
 		friend class cAI;
+		friend class cCoordinator;
 	public:
 		// Constructor
 		// All internal values are initialized according to the sRigidBodyDef

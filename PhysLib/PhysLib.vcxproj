@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cAI.cpp" />
+    <ClCompile Include="cCoordinator.cpp" />
     <ClCompile Include="cIntegrator.cpp" />
     <ClCompile Include="cRigidBody.cpp" />
     <ClCompile Include="cWorld.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="cWorld.h" />
     <ClInclude Include="eShapeType.h" />
     <ClInclude Include="glm_headers.h" />
+    <ClInclude Include="cCoordinator.h" />
     <ClInclude Include="iShape.h" />
     <ClInclude Include="nCollide.h" />
     <ClInclude Include="phys.h" />
