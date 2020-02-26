@@ -8,7 +8,7 @@ namespace physLib
 	// 
 	// Contains all non-shape related information
 	// necessary to create a cRigidBody instance.
-	struct sRigidBodyDef
+	struct sRigidBodyDef  
 	{
 
 		//friend class cWorld;
@@ -31,6 +31,8 @@ namespace physLib
 		// Velocity
 		// The initial linear velocity of the rigid body.
 		glm::vec3 Velocity;
+		// The initaial AT vector(facing direction)
+		glm::vec3 At;
 	};
 
 	// cRigidBody
@@ -67,6 +69,8 @@ namespace physLib
 		// The force is applied center-mass, affecting the acceleration.
 		void ApplyForce(const glm::vec3& force);
 
+		void ApplyRotation(const glm::vec3& rotation);
+
 		// TODO:
 		// ApplyImpulse
 		// Apply an impulse to the center-mass of this rigid body.
@@ -100,6 +104,18 @@ namespace physLib
 		glm::vec3 mVelocity;
 		// Current linear acceleration.
 		glm::vec3 mAcceleration;
+		// Looking direction
+		glm::vec3 mAT;
+		// Up Vector
+		glm::vec3 mUp;
+		// Orientation
+		glm::quat mOrientation;
+		// Orientation Functions
+		void updateAtFromOrientation(void);
+		glm::vec3 getAtInWorldSpace(void);
+		void updateOrientation(glm::vec3 EulerAngleDegreesXYZ);
+		glm::quat getQOrientation(void);
+		
 		// Mass
 		// Expected to be non-negative.
 		// A value of 0 infers a static rigid body.
@@ -108,6 +124,7 @@ namespace physLib
 		// Stored for convenience.
 		// If mMass is 0, mInvMass will also be 0.
 		float mInvMass;
+
 
 		// Constructors not to be used.
 		cRigidBody() = delete;

@@ -8,7 +8,7 @@ namespace physLib
 	cWorld::cWorld()
 	{
 		this->mDt = 0.f;
-		this->mGravity = glm::vec3(0.f, -1.f, 0.f);
+		this->mGravity = glm::vec3(0.f, 0.f, 0.f);
 	}
 
 	cWorld::~cWorld()
@@ -47,9 +47,18 @@ namespace physLib
 			IntegrateRigidBody(mBodies[idx], mDt);
 		}
 
+		// Animation Behaviour
 		for(size_t index = 0;index<numBodies;index++)
 		{
-			ai.seek(mBodies[6], mBodies[7], dt);
+			//ai.seek(mBodies[6], mBodies[7], dt);
+			//ai.pursue(mBodies[6], mBodies[8],dt);
+			ai.flee(mBodies[6], mBodies[9],dt);
+			ai.flee(mBodies[6], mBodies[10],dt);
+			ai.flee(mBodies[6], mBodies[11],dt);
+			ai.flee(mBodies[6], mBodies[12],dt);
+			ai.flee(mBodies[6], mBodies[13],dt);
+			ai.flee(mBodies[6], mBodies[14],dt);
+			ai.flee(mBodies[6], mBodies[15],dt);
 			
 		}
 		

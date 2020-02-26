@@ -1,5 +1,5 @@
 #include "cBallComponent.h"
-#include <glm/ext/matrix_transform.inl>
+//#include <glm/ext/matrix_transform.inl>
 
 cBallComponent::~cBallComponent()
 {
@@ -20,6 +20,10 @@ void cBallComponent::ApplyForce(const glm::vec3& force)
 {
 	m_body_->activate(true);
 	m_body_->applyCentralForce(nConvert::ToBullet(force));
+}
+
+void cBallComponent::ApplyRotation(const glm::vec3& rotation)
+{
 }
 
 

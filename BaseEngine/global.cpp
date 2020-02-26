@@ -64,7 +64,9 @@ void PhysicsInit()
 						jgameobj["position"]["z"].GetFloat());
 					ball_def.Mass = jgameobj["mass"].GetFloat();
 					ball_def.Radius = jgameobj["sphere"]["radius"].GetFloat();
+					ball_def.orientation = g_vec_pGameObjects[i]->getQOrientation();
 					g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateBall(ball_def);
+					
 				}
 				break;
 			case eShapeTypes::PLANE:

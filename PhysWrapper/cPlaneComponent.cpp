@@ -1,5 +1,5 @@
 #include "cPlaneComponent.h"
-#include <glm/ext/matrix_transform.inl>
+//#include <glm/ext/matrix_transform.inl>
 #include "shapes.h"
 
 cPlaneComponent::~cPlaneComponent()
@@ -16,6 +16,9 @@ void cPlaneComponent::GetTransform(glm::mat4& transformOut)
 void cPlaneComponent::ApplyForce(const glm::vec3& force)
 {
 	rigid_body->ApplyForce(force);
+}
+void cPlaneComponent::ApplyRotation(const glm::vec3& rotation)
+{
 }
 
 

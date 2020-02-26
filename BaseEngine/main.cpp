@@ -38,8 +38,8 @@ std::vector<cGameObject*> vec_bullets;
 
 rapidjson::Document document;
 
-std::string g_HACK_currentAnimationName = "idle";
-float HACK_FrameTime = 0.0f;
+//std::string g_HACK_currentAnimationName = "idle";
+//float HACK_FrameTime = 0.0f;
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int punchcounter;
 
@@ -541,7 +541,19 @@ int main()
 				shader_program_ID, p_vao_manager);
 
 		}//for (int index...
-
+		//// Maze Draw
+		//for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 1)
+		//	for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 1)
+		//	{
+		//		if (p_maze_maker->maze[a][b][0] == true)
+		//		{
+		//			cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			wall->m_position = glm::vec3(a + draw1, 50, b + draw2);
+		//			DrawObject(matModel, wall, shader_program_ID, p_vao_manager);
+		//		}
+		//	}
+		//// Maze Draw
 		{
 			////cGameObject* debug_sphere = findGameObjectByFriendlyName(g_vec_pGameObjects, "debugsphere");
 			//debug_sphere->isVisible = true;
@@ -1013,11 +1025,12 @@ glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld)
 	{	
 		glm::mat4 matTrans = glm::translate(glm::mat4(1.f), pCurrentObject->m_position);
 		matWorld = matWorld * matTrans;
+		
+	glm::mat4 matRotation = glm::mat4(pCurrentObject->getQOrientation());
+	matWorld = matWorld * matRotation;
 	}
 	
 
-	glm::mat4 matRotation = glm::mat4(pCurrentObject->getQOrientation());
-	matWorld = matWorld * matRotation;
 	//}
 	// ******* ROTATION TRANSFORM *********
 

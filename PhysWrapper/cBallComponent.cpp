@@ -1,5 +1,5 @@
 #include "cBallComponent.h"
-#include <glm/ext/matrix_transform.inl>
+//#include <glm/ext/matrix_transform.inl>
 #include "shapes.h"
 
 cBallComponent::~cBallComponent()
@@ -17,6 +17,11 @@ void cBallComponent::ApplyForce(const glm::vec3& force)
 {
 	rigid_body->ApplyForce(force);
 }
+void cBallComponent::ApplyRotation(const glm::vec3& rotation)
+{
+	rigid_body->ApplyRotation(rotation);
+}
+
 
 
 cBallComponent::cBallComponent(const nPhysics::sBallDef& ball_def)

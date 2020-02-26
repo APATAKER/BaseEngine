@@ -12,6 +12,7 @@ public:
 
 	void GetTransform(glm::mat4& transformOut) override;
 	void ApplyForce(const glm::vec3& force) override;
+	void ApplyRotation(const glm::vec3& rotation) override;
 	
 
 	// constructor  (creates rigidbodies)

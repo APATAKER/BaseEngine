@@ -380,7 +380,7 @@
       "friendlyname": "player",
       "position": {
         "x": 0.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": 0.0
       },
       "rotation": {
@@ -429,7 +429,7 @@
       "friendlyname": "enemy1",
       "position": {
         "x": 0.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": 100.0
       },
       "rotation": {
@@ -478,7 +478,7 @@
       "friendlyname": "enemy2",
       "position": {
         "x": 100.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": 0.0
       },
       "rotation": {
@@ -527,7 +527,7 @@
       "friendlyname": "enemy3",
       "position": {
         "x": 10.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": 100.0
       },
       "rotation": {
@@ -576,7 +576,7 @@
       "friendlyname": "enemy4",
       "position": {
         "x": 15.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": 0.0
       },
       "rotation": {
@@ -625,7 +625,7 @@
       "friendlyname": "enemy5",
       "position": {
         "x": 15.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": 15.0
       },
       "rotation": {
@@ -674,7 +674,7 @@
       "friendlyname": "enemy6",
       "position": {
         "x": -10.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": 0.0
       },
       "rotation": {
@@ -723,7 +723,7 @@
       "friendlyname": "enemy7",
       "position": {
         "x": -10.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": 10.0
       },
       "rotation": {
@@ -772,7 +772,7 @@
       "friendlyname": "enemy8",
       "position": {
         "x": -10.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": -10.0
       },
       "rotation": {
@@ -821,7 +821,7 @@
       "friendlyname": "enemy9",
       "position": {
         "x": 10.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": -10.0
       },
       "rotation": {
@@ -870,7 +870,7 @@
       "friendlyname": "enemy10",
       "position": {
         "x": 150.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": -10.0
       },
       "rotation": {
@@ -919,7 +919,7 @@
       "friendlyname": "enemy11",
       "position": {
         "x": 10.0,
-        "y": 50.0,
+        "y": 10.0,
         "z": -150.0
       },
       "rotation": {
