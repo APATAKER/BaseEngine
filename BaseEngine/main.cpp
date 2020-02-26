@@ -342,7 +342,7 @@ int main()
 		glUseProgram(shader_program_ID);		// using current shader
 
 		// Window title Printing
-		ssTitle
+		/*ssTitle
 			<< g_pFlyCamera->eye.x << ", "
 			<< g_pFlyCamera->eye.y << ", "
 			<< g_pFlyCamera->eye.z
@@ -350,7 +350,7 @@ int main()
 			<< g_vec_pGameObjects[4]->friendlyName << " "
 			<< "at vector player: " << g_vec_pGameObjects[4]->m_at.x << " " << g_vec_pGameObjects[4]->m_at.y << " " << g_vec_pGameObjects[4]->m_at.z << ",ai: "
 			<< g_vec_pGameObjects[5]->m_at.x << " " << g_vec_pGameObjects[5]->m_at.y << " " << g_vec_pGameObjects[5]->m_at.z;
-		glfwSetWindowTitle(window, ssTitle.str().c_str());
+		glfwSetWindowTitle(window, ssTitle.str().c_str());*/
 
 		////lights into shader
 		p_light_stuff->loadLightIntoShader(shader_program_ID, vec_lightObjects.size());
@@ -402,19 +402,19 @@ int main()
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
 		}//for (int index...
-		// Maze Draw
-		for(int a =0,draw1=0;a<maze_width-1;a++,draw1+=1)
-			for(int b=0,draw2=0;b<maze_height-1;b++,draw2+=1)
-			{
-				if(p_maze_maker->maze[a][b][0] == true)
-				{
-					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					wall->m_position = glm::vec3(a+draw1, 50,b+draw2);
-					DrawObject(matModel, wall,shader_program_ID, p_vao_manager);
-				}
-			}
-		// Maze Draw
+		//// Maze Draw
+		//for(int a =0,draw1=0;a<maze_width-1;a++,draw1+=1)
+		//	for(int b=0,draw2=0;b<maze_height-1;b++,draw2+=1)
+		//	{
+		//		if(p_maze_maker->maze[a][b][0] == true)
+		//		{
+		//			cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			wall->m_position = glm::vec3(a+draw1, 50,b+draw2);
+		//			DrawObject(matModel, wall,shader_program_ID, p_vao_manager);
+		//		}
+		//	}
+		//// Maze Draw
 		//PASS 1 *********************************************************
 
 
@@ -565,7 +565,7 @@ int main()
 		}
 		
 		//GLint passNumber_UniLoc = glGetUniformLocation(shader_program_ID, "passNumber");
-		glUniform1i(passNumber_UniLoc, 2);
+		/*glUniform1i(passNumber_UniLoc, 2);
 		cGameObject* p_TV_screen1 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen1");
 		glm::mat4 mat4_TV_screen1 = glm::mat4(1.f);
 		DrawObject(mat4_TV_screen1, p_TV_screen1, shader_program_ID, p_vao_manager);
@@ -585,64 +585,13 @@ int main()
 		glUniform1i(passNumber_UniLoc, 5);
 		cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
 		glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen4, p_TV_screen4, shader_program_ID, p_vao_manager);
+		DrawObject(mat4_TV_screen4, p_TV_screen4, shader_program_ID, p_vao_manager);*/
 
 
 		
 		glUniform1i(passNumber_UniLoc, 0);
 		
-		// Clear the stencil  (and everything else)
-		glClearStencil(10);			// Buffer will be cleared to 47 (because it's a strange number)
-
-		// Clear stencil (to the number 47)
-		glClear(GL_STENCIL_BUFFER_BIT);
-
-		glEnable(GL_STENCIL_TEST);
-
-		glStencilOp(GL_KEEP,		// Stencil fails KEEP the original value (47)
-			GL_KEEP,		// Depth fails KEEP the original value
-			GL_REPLACE);	// Stencil AND depth PASSES, REPLACE with 133
-
-		glStencilFunc(GL_ALWAYS,	// If is succeed, ALWAYS do this
-			100,			// Replace with this
-			0xFF);		// Mask of 1111,1111 (no mask)
-		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-
-		// Depth TEST is still active, 
-		// but I don't write to the buffer; 
-		glDepthMask(GL_FALSE);
-
-		p_TV_screen3->isVisible = true;
-		p_TV_screen3->disableDepthBufferWrite = true;
-		DrawObject(mat4_TV_screen3, p_TV_screen3, shader_program_ID, p_vao_manager);
-		p_TV_screen3->isVisible = false;
-
-		glDepthMask(GL_TRUE);
-
-
-		// Clear the depth buffer
-		glClear(GL_DEPTH_BUFFER_BIT);
-		// Change the stencil test
-		glStencilOp(GL_KEEP,		// Stencil fails KEEP the original value (47)
-			GL_KEEP,		// (stencil passes) Depth fails KEEP the original value
-			GL_KEEP);		// Stencil AND depth PASSES, Keep 133
-		glStencilFunc(GL_EQUAL,		// Test if equal
-			100,			//
-			0xFF);
-		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
-		for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 1)
-			for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 1)
-			{
-				if (p_maze_maker->maze[a][b][0] == true)
-				{
-					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					wall->m_position = glm::vec3(a + draw1 - 170, 220, b + draw2 - 220);
-					DrawObject(matModel, wall, shader_program_ID, p_vao_manager);
-				}
-			}
-		glDisable(GL_STENCIL_TEST);
+		
 
 		
 		
