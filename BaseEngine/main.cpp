@@ -252,7 +252,7 @@ int main()
 	cGameObject* planet = new cGameObject();
 	planet->meshName = "zcube";
 	planet->friendlyName = "planet";
-	planet->m_position = glm::vec3(0, 0, 0);
+	planet->m_position = glm::vec3(0, 0, -500);
 	planet->scale = 1.f;
 	planet->textures[0] = "earth_planet.bmp";
 	planet->textureRatio[0] = 1;
