@@ -319,7 +319,10 @@ void main()
 	{
 		DepthOutput();
 	}
-
+	if (pixelColour.r < 0.1)
+	{
+		discard;
+	}
 	//effects 
 	//pixelColour.rgb += fNormal.xyz;
 	//pixelColour.rgb += fVertWorldLocation.xyz;
@@ -349,12 +352,16 @@ void colorOutput()
 	vec3 finalColour = 0.5f * reflectColour + 0.5f * refractColour;
 
 	vec3 surfaceColour = (texRGB * 1.0) + (finalColour * 0.0);				// Cube map refelection and refraction
+
+	
 	
 	vec4 outColour = calcualteLightContrib(surfaceColour.rgb, fNormal.xyz,
 		fVertWorldLocation.xyz, specularColour);
 
 
 	pixelColour.rgb = outColour.rgb;
+
+	
 	pixelColour.a = diffuseColour.a;	// Alpha 
 }
 

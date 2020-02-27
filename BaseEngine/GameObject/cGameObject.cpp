@@ -167,6 +167,30 @@ void cGameObject::MoveLeftRight_X(float amount)
 	//this->m_physics_component->setPosition(this->m_physics_component->getPosition()+(vecAmountToMove));
 }
 
+void cGameObject::moveTOVec3(glm::vec3 endPosition)
+{
+	bool finished = false;
+	glm::vec3 start_position = this->m_position;
+	glm::vec3 diff = endPosition - start_position;
+	float distance = sqrtf(glm::dot(diff, diff));
+	glm::vec3 direction = normalize(diff);
+
+
+	if(distance>2)
+	{
+		this->m_position += direction;
+	}
+	else
+	{
+		finished = true;
+	}
+	
+	if(finished)
+	{
+		this->m_position = glm::vec3(0, 0, 0);
+	}
+}
+
 //glm::quat m_qRotation;		// Orientation as a quaternion
 glm::quat cGameObject::getQOrientation(void)
 {

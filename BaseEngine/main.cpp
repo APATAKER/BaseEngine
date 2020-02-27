@@ -5,7 +5,7 @@
 #include "ModelLoadingAndVAO/cSimpleAssimpSkinnedMeshLoader_OneMesh.h"	// FBX animation Loading
 #include "shader/cShaderManager.h"										// Shader stuff
 #include "Textures/cBasicTextureManager.h"								// Texture loading
-#include "DebugRenderer/cDebugRenderer.h"								// DebugRenderer
+//#include "DebugRenderer/cDebugRenderer.h"								// DebugRenderer
 #include "GameObject/cGameObject.h"										// GameObjects
 #include "FlyCamera/cFlyCamera.h"										// Camera
 #include "DeltaTime/cLowPassFilter.h"									// DeltaTime calcu
@@ -17,6 +17,7 @@
 #include "LightManager/cLightStuff.h"
 
 
+
 // Global Pointers and variables
 cBasicTextureManager* g_pTextureManager = nullptr;
 cMazeMaker* p_maze_maker = nullptr;
@@ -24,7 +25,7 @@ cFBO* p_fbo1 = nullptr;
 cFBO* p_fbo2 = nullptr;
 cFBO* p_fbo3 = nullptr;
 GLFWwindow* window = nullptr;
-cDebugRenderer* g_pDebugRenderer = nullptr;
+//cDebugRenderer* g_pDebugRenderer = nullptr;
 cFlyCamera* g_pFlyCamera = nullptr;
 cLowPassFilter* avgDeltaTimeThingy = nullptr;
 mLight::cLightStuff* p_light_stuff = nullptr;
@@ -34,6 +35,7 @@ extern nPhysics::iPhysicsWorld* physics_world;
 
 std::vector<cGameObject*> g_vec_pGameObjects;
 std::vector<mLight::cLightStuff*> vec_lightObjects;
+std::vector<cGameObject*> vec_p_stars;
 std::vector<cGameObject*> vec_bullets;
 
 rapidjson::Document document;
@@ -56,7 +58,7 @@ void SetUpTextureBindingsForObject(
 	GLint shaderProgID);
 cMesh findMeshByName(std::vector<cMesh> vMesh, std::string Meshname);
 cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
-
+glm::vec3 get_random_vec3();
 
 int main()
 {
@@ -66,12 +68,12 @@ int main()
 	// opengl call
 	window = creatOpenGL(window);
 
-	// Debug Renderer
-	cDebugRenderer* g_pDebugRenderer = new cDebugRenderer();
-	if (!g_pDebugRenderer->initialize())
-	{
-		std::cout << "Error init on DebugShader: " << g_pDebugRenderer->getLastError() << std::endl;
-	}
+	//// Debug Renderer
+	//cDebugRenderer* g_pDebugRenderer = new cDebugRenderer();
+	//if (!g_pDebugRenderer->initialize())
+	//{
+	//	std::cout << "Error init on DebugShader: " << g_pDebugRenderer->getLastError() << std::endl;
+	//}
 
 
 
@@ -234,6 +236,20 @@ int main()
 	debug_sphere->isWireframe = true;
 	debug_sphere->isVisible = false;
 	debug_sphere->physicsShapeType = eShapeTypes::STATIC;
+
+	cGameObject** p_stars = new cGameObject * [50];
+	for(int i=0;i<50;i++)
+	{
+		p_stars[i] = new cGameObject();
+		p_stars[i]->meshName = "sphere5";
+		p_stars[i]->m_position = glm::vec3(0, 0, 0);
+		p_stars[i]->scale = 1.f;
+		p_stars[i]->textures[0] = "single_star_texture.bmp";
+		p_stars[i]->textureRatio[0] = 1;
+		vec_p_stars.push_back(p_stars[i]);
+	}
+
+	
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################################################################
 
 	
@@ -243,7 +259,7 @@ int main()
 
 	// Camera Created here
 	::g_pFlyCamera = new cFlyCamera();
-	::g_pFlyCamera->eye = glm::vec3(-3.0f, 372.0, 670.0);
+	::g_pFlyCamera->eye = glm::vec3(0.0f, 10.0, 670.0);
 	::g_pFlyCamera->movementSpeed = 0.25f;
 	::g_pFlyCamera->movementSpeed = 2.5f;
 	// Camera Created here
@@ -305,6 +321,32 @@ int main()
 		GL_STENCIL,
 		GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE, &numberOfStencilBits);
 	std::cout << "Stencil buffer is " << numberOfStencilBits << " bits" << std::endl;
+	
+	
+		//glm::vec3 star_start_location = glm::vec3(0, 0, 0);
+		
+	glm::vec3 star_end_location;// = glm::vec3(randx, randy, randz);
+		
+
+		/*glm::vec3 diffrence = star_end_location - star_start_location;
+
+		float distance = sqrtf(glm::dot(diffrence, diffrence));
+
+		glm::vec3 direction = glm::normalize(diffrence);
+		*/
+
+	// Generate end position for stars
+	std::vector < glm::vec3 > vec_star_end_position;
+
+	for(int i=0;i<(vec_p_stars.size());i++)
+	{
+		glm::vec3 tempendPosition;
+		tempendPosition = get_random_vec3();
+
+		vec_star_end_position.push_back(tempendPosition);
+	}
+		
+	
 
 	//############################## Game Loop Starts Here ##################################################################
 	while (!glfwWindowShouldClose(window))
@@ -372,15 +414,15 @@ int main()
 			10000.0f);		// Far clipping plane
 		// View matrix
 		v = glm::mat4(1.0f);
-		v = glm::lookAt(::g_pFlyCamera->getEye(),
-			::g_pFlyCamera->getAtInWorldSpace(),
+		v = glm::lookAt(glm::vec3(0,10,670),
+			glm::vec3(0, 0, 0),
 			::g_pFlyCamera->getUpVector());
 		glViewport(0, 0, width, height);
 		// camera into shader
-		glUniform4f(eyeLocation_UL,
+		/*glUniform4f(eyeLocation_UL,
 			::g_pFlyCamera->getEye().x,
 			::g_pFlyCamera->getEye().y,
-			::g_pFlyCamera->getEye().z, 1.0f);
+			::g_pFlyCamera->getEye().z, 1.0f);*/
 		//view and projection into shader
 		glUniformMatrix4fv(matView_UL, 1, GL_FALSE, glm::value_ptr(v));
 		glUniformMatrix4fv(matProj_UL, 1, GL_FALSE, glm::value_ptr(p));
@@ -389,19 +431,41 @@ int main()
 		//	512, 512);	// Width and height of the region
 		//glEnable(GL_SCISSOR_TEST);
 		// GameObject Draw Call
-		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
+		//for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
+		//{
+		//	cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
+		//	glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
+		//	
+		//	if(pCurrentObject->m_physics_component)
+		//	{
+		//		pCurrentObject->m_physics_component->GetTransform(matModel);
+		//	}
+		//	else{}
+		//	DrawObject(matModel, pCurrentObject,
+		//		shader_program_ID, p_vao_manager);
+
+		//	
+		//}//for (int index...
+		for (int index = 0; index != ::vec_p_stars.size(); index++)
 		{
-			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
+			cGameObject* pCurrentObject = ::vec_p_stars[index];
 			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-			
-			if(pCurrentObject->m_physics_component)
+
+			if (pCurrentObject->m_physics_component)
 			{
 				pCurrentObject->m_physics_component->GetTransform(matModel);
 			}
-			else{}
+			else
+			{
+			}
+
+			pCurrentObject->moveTOVec3(vec_star_end_position[index]);
+
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
-		}//for (int index...
+
+		}
+
 		//// Maze Draw
 		//for(int a =0,draw1=0;a<maze_width-1;a++,draw1+=1)
 		//	for(int b=0,draw2=0;b<maze_height-1;b++,draw2+=1)
@@ -418,55 +482,11 @@ int main()
 		//PASS 1 *********************************************************
 
 
-		// PASS 2 - Normals color return *****************************
-		/*glDisable(GL_SCISSOR_TEST);*/
-		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo2->ID);
-		p_fbo2->clearBuffers(true, true);
-		glUniform1i(passNumber_UniLoc, 0);				// Normal Pass
-		glUniform1i(SelectEffect_UL, 1);				// Normals color
-		// GameObject Draw Call
-		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
-		{
-			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-
-			if (pCurrentObject->m_physics_component)
-			{
-				pCurrentObject->m_physics_component->GetTransform(matModel);
-			}
-			else {}
-			DrawObject(matModel, pCurrentObject,
-				shader_program_ID, p_vao_manager);
-		}//for (int index...
-		// PASS 2 *****************************************************
-
-
-		
-		// PASS 3 - Depth color return *****************************
-		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo3->ID);
-		p_fbo3->clearBuffers(true, true);
-		glUniform1i(passNumber_UniLoc, 0);				// Normal Pass
-		glUniform1i(SelectEffect_UL, 2);				// Depths color
-		// GameObject Draw Call
-		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
-		{
-			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-
-			if (pCurrentObject->m_physics_component)
-			{
-				pCurrentObject->m_physics_component->GetTransform(matModel);
-			}
-			else {}
-			DrawObject(matModel, pCurrentObject,
-				shader_program_ID, p_vao_manager);
-		}//for (int index...
-		// PASS 3 *****************************************************
 
 
 
 		
-		// PASS 4 // Draw image on screen
+		// PASS 2 // Draw image on screen
 		// 1. Set the framebuffer to the Actual screen
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		// 2. Clear the screen (glClear())
@@ -488,6 +508,24 @@ int main()
 		glUniform1f(screenWidth_UnitLoc, width);
 		glUniform1f(screenHeight_UnitLoc, height);
 		glViewport(0, 0, width, height);
+		p = glm::perspective(0.6f,		// FOV
+			ratio,			// Aspect ratio
+			1.0f,			// Near clipping plane
+			10000.0f);		// Far clipping plane
+		// View matrix
+		v = glm::mat4(1.0f);
+		v = glm::lookAt(::g_pFlyCamera->getEye(),
+			::g_pFlyCamera->getAtInWorldSpace(),
+			::g_pFlyCamera->getUpVector());
+		//glViewport(0, 0, width, height);
+		// camera into shader
+		glUniform4f(eyeLocation_UL,
+			::g_pFlyCamera->getEye().x,
+			::g_pFlyCamera->getEye().y,
+			::g_pFlyCamera->getEye().z, 1.0f);
+		//view and projection into shader
+		glUniformMatrix4fv(matView_UL, 1, GL_FALSE, glm::value_ptr(v));
+		glUniformMatrix4fv(matProj_UL, 1, GL_FALSE, glm::value_ptr(p));
 
 
 
@@ -499,23 +537,23 @@ int main()
 		GLint color_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassColourTexture");             
 		glUniform1i(color_pass_texture_UL, 40);	// Texture unit 40
 
+		////glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
+		////glBindTexture(GL_TEXTURE_2D, p_fbo1->normalTexture_ID);	// Texture now asbsoc with texture unit 41
+		//////glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
+		////GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			// Basically binding to
+		////glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												// out vec4 pixelNormal
+
 		//glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
-		//glBindTexture(GL_TEXTURE_2D, p_fbo1->normalTexture_ID);	// Texture now asbsoc with texture unit 41
+		//glBindTexture(GL_TEXTURE_2D, p_fbo2->colourTexture_0_ID);	// Texture now asbsoc with texture unit 41
 		////glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		//GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			// Basically binding to
-		//glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												// out vec4 pixelNormal
+		//GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			
+		//glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												
 
-		glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
-		glBindTexture(GL_TEXTURE_2D, p_fbo2->colourTexture_0_ID);	// Texture now asbsoc with texture unit 41
-		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			
-		glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												
-
-		glActiveTexture(GL_TEXTURE0 + 42);				// Texture Unit 42
-		glBindTexture(GL_TEXTURE_2D, p_fbo3->colourTexture_0_ID);	// Texture now asbsoc with texture unit 42
-		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		GLint depth_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassDepthTexture");			
-		glUniform1i(depth_pass_texture_UL, 42);	// Texture unit 42												
+		//glActiveTexture(GL_TEXTURE0 + 42);				// Texture Unit 42
+		//glBindTexture(GL_TEXTURE_2D, p_fbo3->colourTexture_0_ID);	// Texture now asbsoc with texture unit 42
+		////glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
+		//GLint depth_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassDepthTexture");			
+		//glUniform1i(depth_pass_texture_UL, 42);	// Texture unit 42												
 		
 		
 		// 4. Draw the TV and Screen
@@ -533,14 +571,19 @@ int main()
 			}
 			else
 			{}
-			if ((pCurrentObject->friendlyName) != "tvscreen1"
-				&& (pCurrentObject->friendlyName) != "tvscreen2"
-				&& (pCurrentObject->friendlyName) != "tvscreen3" 
-				&& (pCurrentObject->friendlyName) != "tvscreen4")
+
+			/*if(pCurrentObject->friendlyName != "skybox")
+			pCurrentObject->moveTOVec3(vec_star_end_position[index]);*/
+
+			//if (pCurrentObject->friendlyName == "starfield")
+
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
 
-		}//for (int index...
+		}
+		
+
+		//for (int index...
 		//// Maze Draw
 		//for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 1)
 		//	for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 1)
@@ -563,6 +606,12 @@ int main()
 			//debug_sphere->isVisible = false;
 			////debug_sphere->m_position = debug_sphere_old;	
 		}
+
+		glUniform1i(passNumber_UniLoc, 1);
+		cGameObject* p_starfield = findGameObjectByFriendlyName(g_vec_pGameObjects, "starfield");
+		glm::mat4 mat4_starfield = glm::mat4(1.f);
+		//p_starfield->m_position = glm::vec3()
+		DrawObject(mat4_starfield, p_starfield, shader_program_ID, p_vao_manager);
 		
 		//GLint passNumber_UniLoc = glGetUniformLocation(shader_program_ID, "passNumber");
 		/*glUniform1i(passNumber_UniLoc, 2);
@@ -619,7 +668,7 @@ int main()
 	delete p_shader_manager;
 	delete p_vao_manager;
 	delete g_pFlyCamera;
-	delete g_pDebugRenderer;
+	//delete g_pDebugRenderer;
 	delete g_pTextureManager;
 	delete p_maze_maker;
 	/*delete pPhysics;*/
@@ -1036,4 +1085,20 @@ cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects
 		if (vGameObjects[i]->friendlyName == friendlyname)
 			return vGameObjects[i];
 	}
+}
+
+void update_position(glm::vec3 end_position)
+{
+
+}
+
+glm::vec3 get_random_vec3()
+{
+	float randx = randInRange<float>(-200, 200);
+	float randy = randInRange<float>(-200, 200);
+	float randz = randInRange<float>(0, 10000);
+
+	glm::vec3 star_end_location = glm::vec3(randx, randy, randz);
+
+	return star_end_location;
 }

@@ -1,136 +1,4 @@
-{
-  "shaders": {
-    "vert": "assets/shaders/vertexShader01.glsl",
-    "frag": "assets/shaders/fragmentShader01.glsl"
-  },
-  "models": [
-    "assets/models/AIGroundTerrain_Scalex2.ply",
-    "assets/models/Sphere_Radius_1_XYZ_n_uv.ply",
-    "assets/models/Sphere_Radius_2_XYZ_n_uv.ply",
-    "assets/models/Sphere_Radius_3_XYZ_n_uv.ply",
-    "assets/models/Sphere_Radius_5_XYZ_n_uv.ply",
-    "assets/models/Sphere_Radius_0.5_XYZ_n_uv.ply",
-    "assets/models/cube_flat_shaded_xyz_n_uv.ply",
-    "assets/models/cube_flat_shaded_xyz_n_uv_flat_z.ply",
-    "assets/models/cube_flat_shaded_xyz_n_uv_quad.ply",
-    "assets/models/SM_Env_Consoles_01_xyz_n_rgba_uv.ply",
-    "assets/models/SM_Env_Consoles_Corner_01_xyz_n_rgba_uv.ply",
-    "assets/models/SM_Env_Consoles_Corner_01_xyz_n_rgba_uv_fliped.ply",
-    "assets/models/SM_Env_ControlRoom_Door_01_xyz_n_rgba_uv.ply",
-    "assets/models/SM_Env_ControlRoom_Doorway_01_xyz_n_rgba_uv.ply",
-    "assets/models/SM_Env_ControlRoom_Wall_01_xyz_n_rgba_uv.ply"
-
-  ],
-  "MeshName": [
-    "ground2",
-    "sphere1",
-    "sphere2",
-    "sphere3",
-    "sphere5",
-    "bullet",
-    "mazecube",
-    "zcube",
-    "quadcube",
-    "console",
-    "consolecorner",
-    "consolecornerflip",
-    "door",
-    "doorway",
-    "wall"
-  ],
-  "Textures": [
-    "defaultTex.bmp",
-    "PlasmaRing.bmp",
-    "blacktex.bmp",
-    "redtex.bmp",
-    "bluetex.bmp",
-    "cyantex.bmp",
-    "greentex.bmp",
-    "yellowtex.bmp",
-    "violettex.bmp",
-    "SpaceInteriors_Texture.bmp",
-    "SpaceInteriors_Emmision.bmp",
-    "WorldMap.bmp",
-    "starTexture.bmp",
-    "white_Tex.bmp",
-    "single_star_texture.bmp"
-  ],
-  "Lights": [
-    {
-      "lightID": 1,
-      "lightPosition": {
-        "x": -19.0,
-        "y": 37.0,
-        "z": 1175.8
-      },
-      "lightConstAtten": 0.0000001,
-      "lightLinearAtten": 0.00119,
-      "lightQuadAtten": 9.21e-7,
-      "lightInnerAngle": 5.0,
-      "lightOuterAngle": 7.5,
-      "lightDirection": {
-        "x": 0.0,
-        "y": -1.0,
-        "z": 0.0
-      }
-    },
-    {
-      "lightID": 2,
-      "lightPosition": {
-        "x": -302.0,
-        "y": 322.0,
-        "z": -307.0
-      },
-      "lightConstAtten": 0.0000001,
-      "lightLinearAtten": 0.00119,
-      "lightQuadAtten": 9.21e-7,
-      "lightInnerAngle": 5.0,
-      "lightOuterAngle": 7.5,
-      "lightDirection": {
-        "x": 0.0,
-        "y": -1.0,
-        "z": 0.0
-      }
-    },
-    {
-      "lightID": 3,
-      "lightPosition": {
-        "x": -191.0,
-        "y": -200.0,
-        "z": -283.0
-      },
-      "lightConstAtten": 0.0000001,
-      "lightLinearAtten": 0.00119,
-      "lightQuadAtten": 9.21e-7,
-      "lightInnerAngle": 5.0,
-      "lightOuterAngle": 7.5,
-      "lightDirection": {
-        "x": 0.0,
-        "y": -1.0,
-        "z": 0.0
-      }
-    },
-    {
-      "lightID": 4,
-      "lightPosition": {
-        "x": 564.5,
-        "y": 433.0,
-        "z": -266.0
-      },
-      "lightConstAtten": 0.0000001,
-      "lightLinearAtten": 0.00119,
-      "lightQuadAtten": 9.21e-7,
-      "lightInnerAngle": 5.0,
-      "lightOuterAngle": 7.5,
-      "lightDirection": {
-        "x": 0.0,
-        "y": -1.0,
-        "z": 0.0
-      }
-    }
-  ],
-  "GameObjects": [
-
+,
     {
       "meshname": "console",
       "friendlyname": "console",
@@ -870,9 +738,9 @@
       "meshname": "quadcube",
       "friendlyname": "starfield",
       "position": {
-        "x": 0.0,
+        "x": 20.0,
         "y": 0.0,
-        "z": -500.0
+        "z": -50.0
       },
       "rotation": {
         "x": 0.0,
@@ -915,7 +783,3 @@
       "isVisible": 1,
       "isSkinnedMesh": 0
     }
-
-  ]
-  
-}
