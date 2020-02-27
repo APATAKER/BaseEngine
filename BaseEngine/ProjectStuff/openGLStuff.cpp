@@ -6,6 +6,7 @@
 
 bool g_MouseIsInsideWindow = false;
 bool g_MouseLeftButtonIsDown = false;
+bool spwan_planet = false;
 int currentSphere = 6;
 int changePlayer = 0;
 int punchcounter = 0;
@@ -101,9 +102,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			//player->updateOrientation(glm::vec3(0, 1, 0));
 		//	player->updateAtFromOrientation();
 		}
-		if (glfwGetKey(window, GLFW_KEY_Q))
+		if (glfwGetKey(window, GLFW_KEY_P))
 		{
-			
+			spwan_planet = true;
 		}
 		if (glfwGetKey(window, GLFW_KEY_E))
 		{

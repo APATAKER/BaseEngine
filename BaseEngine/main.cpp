@@ -44,6 +44,7 @@ rapidjson::Document document;
 //float HACK_FrameTime = 0.0f;
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int punchcounter;
+extern bool spwan_planet;
 
 
 
@@ -237,18 +238,25 @@ int main()
 	debug_sphere->isVisible = false;
 	debug_sphere->physicsShapeType = eShapeTypes::STATIC;
 
-	cGameObject** p_stars = new cGameObject * [50];
-	for(int i=0;i<50;i++)
+	cGameObject** p_stars = new cGameObject * [1000];
+	for(int i=0;i<1000;i++)
 	{
 		p_stars[i] = new cGameObject();
-		p_stars[i]->meshName = "sphere5";
+		p_stars[i]->meshName = "sphere2";
 		p_stars[i]->m_position = glm::vec3(0, 0, 0);
 		p_stars[i]->scale = 1.f;
 		p_stars[i]->textures[0] = "single_star_texture.bmp";
 		p_stars[i]->textureRatio[0] = 1;
 		vec_p_stars.push_back(p_stars[i]);
 	}
-
+	cGameObject* planet = new cGameObject();
+	planet->meshName = "zcube";
+	planet->friendlyName = "planet";
+	planet->m_position = glm::vec3(0, 0, 0);
+	planet->scale = 1.f;
+	planet->textures[0] = "earth_planet.bmp";
+	planet->textureRatio[0] = 1;
+	vec_p_stars.push_back(planet);
 	
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################################################################
 
@@ -259,7 +267,7 @@ int main()
 
 	// Camera Created here
 	::g_pFlyCamera = new cFlyCamera();
-	::g_pFlyCamera->eye = glm::vec3(0.0f, 10.0, 670.0);
+	::g_pFlyCamera->eye = glm::vec3(-28.1f, 22.4f, 78.5f);
 	::g_pFlyCamera->movementSpeed = 0.25f;
 	::g_pFlyCamera->movementSpeed = 2.5f;
 	// Camera Created here
@@ -322,30 +330,18 @@ int main()
 		GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE, &numberOfStencilBits);
 	std::cout << "Stencil buffer is " << numberOfStencilBits << " bits" << std::endl;
 	
-	
-		//glm::vec3 star_start_location = glm::vec3(0, 0, 0);
-		
-	glm::vec3 star_end_location;// = glm::vec3(randx, randy, randz);
-		
-
-		/*glm::vec3 diffrence = star_end_location - star_start_location;
-
-		float distance = sqrtf(glm::dot(diffrence, diffrence));
-
-		glm::vec3 direction = glm::normalize(diffrence);
-		*/
 
 	// Generate end position for stars
 	std::vector < glm::vec3 > vec_star_end_position;
 
-	for(int i=0;i<(vec_p_stars.size());i++)
+	for(int i=0;i<(vec_p_stars.size()-1);i++)
 	{
 		glm::vec3 tempendPosition;
 		tempendPosition = get_random_vec3();
 
 		vec_star_end_position.push_back(tempendPosition);
 	}
-		
+	bool planet_reached = false;
 	
 
 	//############################## Game Loop Starts Here ##################################################################
@@ -388,10 +384,6 @@ int main()
 			<< g_pFlyCamera->eye.x << ", "
 			<< g_pFlyCamera->eye.y << ", "
 			<< g_pFlyCamera->eye.z;
-			/*<< "object postion: "
-			<< g_vec_pGameObjects[4]->friendlyName << " "
-			<< "at vector player: " << g_vec_pGameObjects[4]->m_at.x << " " << g_vec_pGameObjects[4]->m_at.y << " " << g_vec_pGameObjects[4]->m_at.z << ",ai: "
-			<< g_vec_pGameObjects[5]->m_at.x << " " << g_vec_pGameObjects[5]->m_at.y << " " << g_vec_pGameObjects[5]->m_at.z;*/
 		glfwSetWindowTitle(window, ssTitle.str().c_str());
 
 		////lights into shader
@@ -418,34 +410,10 @@ int main()
 			glm::vec3(0, 0, 0),
 			::g_pFlyCamera->getUpVector());
 		glViewport(0, 0, width, height);
-		// camera into shader
-		/*glUniform4f(eyeLocation_UL,
-			::g_pFlyCamera->getEye().x,
-			::g_pFlyCamera->getEye().y,
-			::g_pFlyCamera->getEye().z, 1.0f);*/
-		//view and projection into shader
+
 		glUniformMatrix4fv(matView_UL, 1, GL_FALSE, glm::value_ptr(v));
 		glUniformMatrix4fv(matProj_UL, 1, GL_FALSE, glm::value_ptr(p));
 
-		//glScissor(100, 100,	// Lower left hand corner
-		//	512, 512);	// Width and height of the region
-		//glEnable(GL_SCISSOR_TEST);
-		// GameObject Draw Call
-		//for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
-		//{
-		//	cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-		//	glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-		//	
-		//	if(pCurrentObject->m_physics_component)
-		//	{
-		//		pCurrentObject->m_physics_component->GetTransform(matModel);
-		//	}
-		//	else{}
-		//	DrawObject(matModel, pCurrentObject,
-		//		shader_program_ID, p_vao_manager);
-
-		//	
-		//}//for (int index...
 		for (int index = 0; index != ::vec_p_stars.size(); index++)
 		{
 			cGameObject* pCurrentObject = ::vec_p_stars[index];
@@ -458,28 +426,27 @@ int main()
 			else
 			{
 			}
+			if(spwan_planet)
+			{
+				if(pCurrentObject->friendlyName == "planet")
+				{
+					pCurrentObject->moveTOVec3AndStop(glm::vec3(0, 10, 630));
+					if (pCurrentObject->m_position.z > 500)
+						planet_reached = true;
+				}
+			}
 
-			pCurrentObject->moveTOVec3(vec_star_end_position[index]);
+			if(!planet_reached)
+			{
+				if((vec_p_stars.size()-1) != index)
+				pCurrentObject->moveTOVec3(vec_star_end_position[index]);
+			}
 
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
 
 		}
 
-		//// Maze Draw
-		//for(int a =0,draw1=0;a<maze_width-1;a++,draw1+=1)
-		//	for(int b=0,draw2=0;b<maze_height-1;b++,draw2+=1)
-		//	{
-		//		if(p_maze_maker->maze[a][b][0] == true)
-		//		{
-		//			cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
-		//			glm::mat4 matModel = glm::mat4(1.0f);
-		//			wall->m_position = glm::vec3(a+draw1, 50,b+draw2);
-		//			DrawObject(matModel, wall,shader_program_ID, p_vao_manager);
-		//		}
-		//	}
-		//// Maze Draw
-		//PASS 1 *********************************************************
 
 
 
@@ -536,24 +503,7 @@ int main()
 		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);													// out vec4 pixelColor
 		GLint color_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassColourTexture");             
 		glUniform1i(color_pass_texture_UL, 40);	// Texture unit 40
-
-		////glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
-		////glBindTexture(GL_TEXTURE_2D, p_fbo1->normalTexture_ID);	// Texture now asbsoc with texture unit 41
-		//////glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		////GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			// Basically binding to
-		////glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												// out vec4 pixelNormal
-
-		//glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
-		//glBindTexture(GL_TEXTURE_2D, p_fbo2->colourTexture_0_ID);	// Texture now asbsoc with texture unit 41
-		////glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		//GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			
-		//glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												
-
-		//glActiveTexture(GL_TEXTURE0 + 42);				// Texture Unit 42
-		//glBindTexture(GL_TEXTURE_2D, p_fbo3->colourTexture_0_ID);	// Texture now asbsoc with texture unit 42
-		////glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		//GLint depth_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassDepthTexture");			
-		//glUniform1i(depth_pass_texture_UL, 42);	// Texture unit 42												
+	
 		
 		
 		// 4. Draw the TV and Screen
@@ -572,69 +522,18 @@ int main()
 			else
 			{}
 
-			/*if(pCurrentObject->friendlyName != "skybox")
-			pCurrentObject->moveTOVec3(vec_star_end_position[index]);*/
-
-			//if (pCurrentObject->friendlyName == "starfield")
-
+			if(pCurrentObject->friendlyName != "starfield")
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
 
 		}
 		
-
-		//for (int index...
-		//// Maze Draw
-		//for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 1)
-		//	for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 1)
-		//	{
-		//		if (p_maze_maker->maze[a][b][0] == true)
-		//		{
-		//			cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
-		//			glm::mat4 matModel = glm::mat4(1.0f);
-		//			wall->m_position = glm::vec3(a + draw1, 50, b + draw2);
-		//			DrawObject(matModel, wall, shader_program_ID, p_vao_manager);
-		//		}
-		//	}
-		//// Maze Draw
-		{
-			////cGameObject* debug_sphere = findGameObjectByFriendlyName(g_vec_pGameObjects, "debugsphere");
-			//debug_sphere->isVisible = true;
-			//debug_sphere->m_position = g_HACK_vec3_BoneLocationFK;
-			//glm::mat4 identmat = glm::mat4(1.0f);
-			//DrawObject(identmat, debug_sphere, shader_program_ID, p_vao_manager);
-			//debug_sphere->isVisible = false;
-			////debug_sphere->m_position = debug_sphere_old;	
-		}
-
 		glUniform1i(passNumber_UniLoc, 1);
 		cGameObject* p_starfield = findGameObjectByFriendlyName(g_vec_pGameObjects, "starfield");
 		glm::mat4 mat4_starfield = glm::mat4(1.f);
 		//p_starfield->m_position = glm::vec3()
 		DrawObject(mat4_starfield, p_starfield, shader_program_ID, p_vao_manager);
 		
-		//GLint passNumber_UniLoc = glGetUniformLocation(shader_program_ID, "passNumber");
-		/*glUniform1i(passNumber_UniLoc, 2);
-		cGameObject* p_TV_screen1 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen1");
-		glm::mat4 mat4_TV_screen1 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen1, p_TV_screen1, shader_program_ID, p_vao_manager);
-
-
-		
-		glUniform1i(passNumber_UniLoc, 3);
-		cGameObject* p_TV_screen2 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen2");
-		glm::mat4 mat4_TV_screen2 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen2, p_TV_screen2, shader_program_ID, p_vao_manager);
-
-		glUniform1i(passNumber_UniLoc, 4);
-		cGameObject* p_TV_screen3 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen3");
-		glm::mat4 mat4_TV_screen3 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen3, p_TV_screen3, shader_program_ID, p_vao_manager);
-
-		glUniform1i(passNumber_UniLoc, 5);
-		cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
-		glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen4, p_TV_screen4, shader_program_ID, p_vao_manager);*/
 
 
 		
@@ -1094,9 +993,9 @@ void update_position(glm::vec3 end_position)
 
 glm::vec3 get_random_vec3()
 {
-	float randx = randInRange<float>(-200, 200);
+	float randx = randInRange<float>(-3000, 3000);
 	float randy = randInRange<float>(-200, 200);
-	float randz = randInRange<float>(0, 10000);
+	float randz = randInRange<float>(0, 1500);
 
 	glm::vec3 star_end_location = glm::vec3(randx, randy, randz);
 

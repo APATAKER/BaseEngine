@@ -319,10 +319,7 @@ void main()
 	{
 		DepthOutput();
 	}
-	if (pixelColour.r < 0.1)
-	{
-		discard;
-	}
+	
 	//effects 
 	//pixelColour.rgb += fNormal.xyz;
 	//pixelColour.rgb += fVertWorldLocation.xyz;
@@ -342,6 +339,11 @@ void colorOutput()
 		+ (tex_0_3_ratio.y * tex1_RGB)
 		+ (tex_0_3_ratio.z * tex2_RGB)
 		+ (tex_0_3_ratio.w * tex3_RGB);
+
+	if (texRGB.r < 0.1 && texRGB.g < 0.1 && texRGB.b < 0.1)
+	{
+		discard;
+	}
 
 	vec3 eyeVector = eyeLocation.xyz - fVertWorldLocation.xyz;
 	eyeVector = normalize(eyeVector);
