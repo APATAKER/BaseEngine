@@ -84,7 +84,7 @@ const int SPOT_LIGHT_TYPE = 1;
 const int DIRECTIONAL_LIGHT_TYPE = 2;
 
 //const int NUMBEROFLIGHTS = 10;
-const int NUMBEROFLIGHTS = 2;
+const int NUMBEROFLIGHTS = 4;
 uniform sLight theLights[NUMBEROFLIGHTS];  	// 80 uniforms
 
 // Really appears as:
@@ -176,90 +176,7 @@ void main()
 		return;
 	}
 
-//	// Shader Type #1  	
-//	if ( bDoNotLight )
-//	{
-//		pixelColour.rgb = debugColour.rgb;
-//		pixelColour.a = 1.0f;				// NOT transparent
-//		return;
-//	}
-//	if ( useHeightMap )
-//	{
-//		pixelColour.rgb = vec3(1.0f, 0.0f, 0.0f);
-//		pixelColour.a = 1.0f;
-//		return;
-//	}
-//	if ( bIsImposter )
-//	{
-//		// If true, then:
-//		// - don't light
-//		// - texture map
-//		// - Use colour to compare to black and change alpha 
-//		// - Use colour to compare the black for discard
-//		vec3 texRGB = texture( textSamp00, fUVx2.st ).rgb;
-//		pixelColour.rgb = texRGB.rgb;
-//		// Note that your eye doesn't see this, 
-//		// Use this equation instead: 0.21 R + 0.72 G + 0.07 B
-//		float grey = (texRGB.r + texRGB.g + texRGB.b)/3.0f;
-//		// If it's REALLY black, then discard
-//		if ( grey < 0.05 ) 	{	discard; }
-//		// Otherwise control alpha with "black and white" amount
-//		pixelColour.a = grey;
-//		if ( pixelColour.a < diffuseColour.a )
-//		{
-//			pixelColour.a = diffuseColour.a;
-//		}
-////		pixelColour.a = diffuseColour.a;
-//		return;
-//	}
-//	if ( bIsSkyBox )
-//	{
-//		// I sample the skybox using the normal from the surface
-//		vec3 skyColour = texture( skyBox, fNormal.xyz ).rgb;
-//		pixelColour.rgb = skyColour.rgb;
-//		pixelColour.a = 1.0f;				// NOT transparent
-//		return;
-//	}
-//	vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
-//		
-//	
-//	// Shader Type #2
-//	vec4 materialColour = diffuseColour;
-//	vec3 tex0_RGB = texture( textSamp00, fUVx2.st ).rgb;
-//	vec3 tex1_RGB = texture( textSamp01, fUVx2.st ).rgb;
-//	vec3 tex2_RGB = texture( textSamp02, fUVx2.st ).rgb;
-//	vec3 tex3_RGB = texture( textSamp03, fUVx2.st ).rgb;
-//	vec3 texRGB =   ( tex_0_3_ratio.x * tex0_RGB ) 
-//				  + ( tex_0_3_ratio.y * tex1_RGB )
-//				  + ( tex_0_3_ratio.z * tex2_RGB )
-//				  + ( tex_0_3_ratio.w * tex3_RGB );
-//	//vec4 outColour = calcualteLightContrib( texRGB.rgb, skyColour.xyz,
-//	//                                        fVertWorldLocation.xyz, specularColour );
-//	vec4 outColour = calcualteLightContrib( texRGB.rgb, fNormal.xyz, 
-//	                                        fVertWorldLocation.xyz, specularColour );
-//											
-//	// for cube map refection and refraction			  	  
-//	// Bunny is chome (reflective)
-//	//
-////	vec3 eyeVector = eyeLocation.xyz - fVertWorldLocation.xyz;
-////	eyeVector = normalize(eyeVector);
-////	
-////	vec3 reflectVector = reflect( eyeVector, fNormal.xyz );
-////	vec3 refractVector = refract( eyeVector, fNormal.xyz, 1.4f );
-////	
-////	vec3 reflectColour = texture( skyBox, reflectVector.xyz ).rgb;
-////	vec3 refractColour = texture( skyBox, refractVector.xyz ).rgb;
-////	
-////	vec3 finalColour = 0.0f * reflectColour + 1.0f * refractColour;
-////
-////	outColour = calcualteLightContrib( surfaceColour.rgb, fNormal.xyz, 
-////	                                        fVertWorldLocation.xyz, specularColour );
-//						
-//	pixelColour.rgb = outColour.rgb;
-//	pixelColour.a = diffuseColour.a;	// Alpha 
-//  pixelNormal.rgb = outColour.rgb;
-//	pixelNormal.a = diffuseColour.a;
-//	pixelNormal.rgb += fNormal.xyz;
+
 
 // Shader Type #1  	
 

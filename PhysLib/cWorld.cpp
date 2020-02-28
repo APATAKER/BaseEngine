@@ -52,13 +52,13 @@ namespace physLib
 		{
 			//ai.seek(mBodies[6], mBodies[7], dt);
 			//ai.pursue(mBodies[6], mBodies[8],dt);
-			ai.flee(m_bodies_[6], m_bodies_[9],dt);
+			/*ai.flee(m_bodies_[6], m_bodies_[9],dt);
 			ai.flee(m_bodies_[6], m_bodies_[10],dt);
 			ai.flee(m_bodies_[6], m_bodies_[11],dt);
 			ai.flee(m_bodies_[6], m_bodies_[12],dt);
 			ai.flee(m_bodies_[6], m_bodies_[13],dt);
 			ai.flee(m_bodies_[6], m_bodies_[14],dt);
-			ai.flee(m_bodies_[6], m_bodies_[15],dt);
+			ai.flee(m_bodies_[6], m_bodies_[15],dt);*/
 			
 		}
 		

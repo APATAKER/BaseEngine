@@ -6,7 +6,7 @@
 
 bool g_MouseIsInsideWindow = false;
 bool g_MouseLeftButtonIsDown = false;
-int currentSphere = 6;
+//int currentSphere = 6;
 int changePlayer = 0;
 int punchcounter = 0;
 extern cFlyCamera* g_pFlyCamera;
@@ -61,7 +61,7 @@ GLFWwindow* creatOpenGL(GLFWwindow* win)
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	cGameObject* player;
+	/*cGameObject* player;
 	if(changePlayer == 0)
 	{
 		player = findGameObjectByFriendlyName(g_vec_pGameObjects, "player");
@@ -69,8 +69,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	else
 	{
 		player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar2"); 
-	}
-	cGameObject* current_sphere_in_control = g_vec_pGameObjects[currentSphere];
+	}*/
+	//cGameObject* current_sphere_in_control = g_vec_pGameObjects[currentSphere];
 	//if(isOnlyCtrlKeyDown(mods))
 	//if (areAllModifiersUp(window))
 	if(!isAltDown(window) && !isCtrlDown(window))
@@ -79,25 +79,25 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		{
 			//player->updateAtFromOrientation();
 			//player->velocity.z += MOVESPEED;
-			player->m_physics_component->ApplyForce(glm::vec3(0,0,MOVESPEED));
+			//player->m_physics_component->ApplyForce(glm::vec3(0,0,MOVESPEED));
 			
 		}
 		if(glfwGetKey(window, GLFW_KEY_S))		// walk backward
 		{
 			//player->updateAtFromOrientation();
-			player->m_physics_component->ApplyForce(glm::vec3(0,0,-MOVESPEED));
+			//player->m_physics_component->ApplyForce(glm::vec3(0,0,-MOVESPEED));
 			//player->MoveForward_Z(-MOVESPEED);
 		}
 		if (glfwGetKey(window, GLFW_KEY_D))
 		{
 			//player->updateOrientation(glm::vec3(0, -1, 0));
-			player->m_physics_component->ApplyRotation(glm::vec3(0, -1, 0));
+			//player->m_physics_component->ApplyRotation(glm::vec3(0, -1, 0));
 			//player->updateAtFromOrientation();
 		}
 			
 		if (glfwGetKey(window, GLFW_KEY_A))
 		{
-			player->m_physics_component->ApplyRotation(glm::vec3(0, 1, 0));
+			//player->m_physics_component->ApplyRotation(glm::vec3(0, 1, 0));
 			//player->updateOrientation(glm::vec3(0, 1, 0));
 		//	player->updateAtFromOrientation();
 		}
