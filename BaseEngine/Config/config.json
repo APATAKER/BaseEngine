@@ -11,7 +11,8 @@
     "assets/models/Sphere_Radius_5_XYZ_n_uv.ply",
     "assets/models/Sphere_Radius_0.5_XYZ_n_uv.ply",
     "assets/models/kunai_n_uv.ply",
-    "assets/models/cube_flat_shaded_xyz_n_uv.ply"
+    "assets/models/cube_flat_shaded_xyz_n_uv.ply",
+    "assets/models/dalek2005_xyz_uv_res_3_up.ply"
   ],
   "MeshName": [
     "ground2",
@@ -21,7 +22,8 @@
     "sphere5",
     "bullet",
     "kunai",
-    "mazecube"
+    "mazecube",
+    "dalek"
   ],
   "Textures": [
     "defaultTex.bmp",
@@ -159,11 +161,60 @@
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "ground2",
-      "friendlyname": "ground",
+      "meshname": "mazecube",
+      "friendlyname": "staticObject",
       "position": {
         "x": 0.0,
         "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 5.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "yellowtex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "dalek",
+      "friendlyname": "dalek1",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
         "z": 0.0
       },
       "rotation": {
@@ -185,42 +236,42 @@
         "b": 1.0,
         "a": 1.0
       },
-      "tex": [ "blacktex.bmp", "", "", "" ],
+      "tex": [ "cyantex.bmp", "", "", "" ],
       "texratio": [ 1, 0, 0, 0 ],
       "isStatic": 1,
-      "physicsshapetype": 1,
-      "objectype": 2,
-      "sphereRadius": 0.0,
-      "bulletCollisionRadius": 0.0,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
       "plane": {
         "normal": {
           "x": 0.0,
-          "y": 1.0,
+          "y": -1.0,
           "z": 0.0
         },
-        "constant": 1
+        "constant": 0
       },
       "sphere": {
         "radius": 0
       },
-      "mass": 0,
+      "mass": 1,
       "isVisible": 1,
       "isSkinnedMesh": 0
     },
     {
-      "meshname": "mazecube",
-      "friendlyname": "staticObject",
+      "meshname": "dalek",
+      "friendlyname": "dalek2",
       "position": {
-        "x": 10.0,
-        "y": 100.0,
-        "z": -10.0
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
       },
       "rotation": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
       },
-      "scale": 5.0,
+      "scale": 1.0,
       "objectcolor": {
         "r": 1.0,
         "g": 1.0,
@@ -234,7 +285,399 @@
         "b": 1.0,
         "a": 1.0
       },
-      "tex": [ "violettex.bmp", "", "", "" ],
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "dalek",
+      "friendlyname": "dalek3",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "dalek",
+      "friendlyname": "dalek4",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "dalek",
+      "friendlyname": "dalek5",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "dalek",
+      "friendlyname": "dalek6",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "dalek",
+      "friendlyname": "dalek7",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "dalek",
+      "friendlyname": "dalek8",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "dalek",
+      "friendlyname": "dalek9",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    },
+    {
+      "meshname": "dalek",
+      "friendlyname": "dalek10",
+      "position": {
+        "x": 0.0,
+        "y": 50.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "cyantex.bmp", "", "", "" ],
       "texratio": [ 1, 0, 0, 0 ],
       "isStatic": 1,
       "physicsshapetype": 3,

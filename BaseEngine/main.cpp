@@ -16,6 +16,15 @@
 #include "MazeGen/cMazeMaker.h"
 #include "LightManager/cLightStuff.h"
 
+template <class T>
+T randInRange(T min, T max)
+{
+	double value =
+		min + static_cast <double> (rand())
+		/ (static_cast <double> (RAND_MAX / (static_cast<double>(max - min))));
+	return static_cast<T>(value);
+};
+
 
 // Global Pointers and variables
 cBasicTextureManager* g_pTextureManager = nullptr;
@@ -35,6 +44,11 @@ extern nPhysics::iPhysicsWorld* physics_world;
 std::vector<cGameObject*> g_vec_pGameObjects;
 std::vector<mLight::cLightStuff*> vec_lightObjects;
 std::vector<cGameObject*> vec_bullets;
+std::vector<cGameObject*> vec_dalek;
+std::vector<glm::vec3> vec_free_space_in_maze;
+
+int maze_width;
+int maze_height;
 
 rapidjson::Document document;
 
@@ -56,6 +70,7 @@ void SetUpTextureBindingsForObject(
 	GLint shaderProgID);
 cMesh findMeshByName(std::vector<cMesh> vMesh, std::string Meshname);
 cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
+glm::vec3 get_random_postion_from_maze();
 
 
 int main()
@@ -290,21 +305,38 @@ int main()
 	}
 
 	p_maze_maker = new cMazeMaker();
-	int maze_width =  50;
-	int maze_height = 50;
+	maze_width =  50;
+	maze_height = 50;
 	p_maze_maker->GenerateMaze(maze_width, maze_height);
+	
+	for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 9)
+		for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 9)
+		{
+			if (p_maze_maker->maze[a][b][0] == false)
+			{
+				vec_free_space_in_maze.push_back(glm::vec3(a + draw1, 0, b + draw2));
+			}
+		}
 
 	g_pFlyCamera->setAt(-g_pFlyCamera->getAt());
 
 	p_light_stuff = new mLight::cLightStuff();
 	mLight::LoadLightFromJson();
 
-	int numberOfStencilBits = 0;
-	glGetFramebufferAttachmentParameteriv(
-		GL_FRAMEBUFFER,
-		GL_STENCIL,
-		GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE, &numberOfStencilBits);
-	std::cout << "Stencil buffer is " << numberOfStencilBits << " bits" << std::endl;
+	
+	for(int i=0;i<g_vec_pGameObjects.size();i++)
+		if(g_vec_pGameObjects[i]->meshName == "dalek")
+			vec_dalek.push_back(g_vec_pGameObjects[i]);
+		
+	for(int i =0;i<vec_dalek.size();i++)
+	{
+		vec_dalek[i]->m_position = get_random_postion_from_maze();
+	}
+
+	
+	
+
+	
 
 	//############################## Game Loop Starts Here ##################################################################
 	while (!glfwWindowShouldClose(window))
@@ -385,141 +417,14 @@ int main()
 		glUniformMatrix4fv(matView_UL, 1, GL_FALSE, glm::value_ptr(v));
 		glUniformMatrix4fv(matProj_UL, 1, GL_FALSE, glm::value_ptr(p));
 
-		//glScissor(100, 100,	// Lower left hand corner
-		//	512, 512);	// Width and height of the region
-		//glEnable(GL_SCISSOR_TEST);
-		// GameObject Draw Call
-		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
-		{
-			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-			
-			if(pCurrentObject->m_physics_component)
-			{
-				pCurrentObject->m_physics_component->GetTransform(matModel);
-			}
-			else{}
-			DrawObject(matModel, pCurrentObject,
-				shader_program_ID, p_vao_manager);
-		}//for (int index...
-		// Maze Draw
-		for(int a =0,draw1=0;a<maze_width-1;a++,draw1+=1)
-			for(int b=0,draw2=0;b<maze_height-1;b++,draw2+=1)
-			{
-				if(p_maze_maker->maze[a][b][0] == true)
-				{
-					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					wall->m_position = glm::vec3(a+draw1, 50,b+draw2);
-					DrawObject(matModel, wall,shader_program_ID, p_vao_manager);
-				}
-			}
-		// Maze Draw
 		//PASS 1 *********************************************************
 
-
-		// PASS 2 - Normals color return *****************************
-		/*glDisable(GL_SCISSOR_TEST);*/
-		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo2->ID);
-		p_fbo2->clearBuffers(true, true);
-		glUniform1i(passNumber_UniLoc, 0);				// Normal Pass
-		glUniform1i(SelectEffect_UL, 1);				// Normals color
-		// GameObject Draw Call
-		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
-		{
-			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-
-			if (pCurrentObject->m_physics_component)
-			{
-				pCurrentObject->m_physics_component->GetTransform(matModel);
-			}
-			else {}
-			DrawObject(matModel, pCurrentObject,
-				shader_program_ID, p_vao_manager);
-		}//for (int index...
-		// PASS 2 *****************************************************
-
-
-		
-		// PASS 3 - Depth color return *****************************
-		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo3->ID);
-		p_fbo3->clearBuffers(true, true);
-		glUniform1i(passNumber_UniLoc, 0);				// Normal Pass
-		glUniform1i(SelectEffect_UL, 2);				// Depths color
-		// GameObject Draw Call
-		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
-		{
-			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-
-			if (pCurrentObject->m_physics_component)
-			{
-				pCurrentObject->m_physics_component->GetTransform(matModel);
-			}
-			else {}
-			DrawObject(matModel, pCurrentObject,
-				shader_program_ID, p_vao_manager);
-		}//for (int index...
-		// PASS 3 *****************************************************
-
-
-
-		
-		// PASS 4 // Draw image on screen
+		// PASS 1 // Draw image on screen
 		// 1. Set the framebuffer to the Actual screen
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		// 2. Clear the screen (glClear())
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);	// Enable writing to the colour buffer
-		glDepthMask(GL_TRUE);								// Enable writing to the depth buffer
-		glEnable(GL_DEPTH_TEST);							// Enable depth testing
-		glDisable(GL_STENCIL_TEST);							// Disable stencil test
-
-
-		
-
-		
-		GLint screenWidth_UnitLoc = glGetUniformLocation(shader_program_ID, "screenWidth");
-		GLint screenHeight_UnitLoc = glGetUniformLocation(shader_program_ID, "screenHeight");
-		glfwGetFramebufferSize(window, &width, &height);
-		glUniform1f(screenWidth_UnitLoc, width);
-		glUniform1f(screenHeight_UnitLoc, height);
-		glViewport(0, 0, width, height);
-
-
-
-		
-		// 3. Set up the textures for the TV screen (From the FBO)
-		glActiveTexture(GL_TEXTURE0 + 40);				// Texture Unit 40
-		glBindTexture(GL_TEXTURE_2D, p_fbo1->colourTexture_0_ID);	// Texture now asbsoc with texture unit 40      // Basically binding to
-		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);													// out vec4 pixelColor
-		GLint color_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassColourTexture");             
-		glUniform1i(color_pass_texture_UL, 40);	// Texture unit 40
-
-		//glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
-		//glBindTexture(GL_TEXTURE_2D, p_fbo1->normalTexture_ID);	// Texture now asbsoc with texture unit 41
-		////glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		//GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			// Basically binding to
-		//glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												// out vec4 pixelNormal
-
-		glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
-		glBindTexture(GL_TEXTURE_2D, p_fbo2->colourTexture_0_ID);	// Texture now asbsoc with texture unit 41
-		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			
-		glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												
-
-		glActiveTexture(GL_TEXTURE0 + 42);				// Texture Unit 42
-		glBindTexture(GL_TEXTURE_2D, p_fbo3->colourTexture_0_ID);	// Texture now asbsoc with texture unit 42
-		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
-		GLint depth_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassDepthTexture");			
-		glUniform1i(depth_pass_texture_UL, 42);	// Texture unit 42												
-		
-		
-		// 4. Draw the TV and Screen
-		glUniform1i(passNumber_UniLoc, 0);
 		glUniform1i(SelectEffect_UL, 0);
 		//// GameObject Draw Call
 		//for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
@@ -534,11 +439,35 @@ int main()
 		//	else
 		//	{}
 
-		//	
+		//	if(pCurrentObject->friendlyName != "staticObject")
 		//	DrawObject(matModel, pCurrentObject,
 		//		shader_program_ID, p_vao_manager);
 
 		//}//for (int index...
+		
+		// DRAW DALEK
+
+		for (int index = 0; index != ::vec_dalek.size(); index++)
+		{
+			cGameObject* pCurrentObject = ::vec_dalek[index];
+			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
+
+			if (pCurrentObject->m_physics_component)
+			{
+				pCurrentObject->m_physics_component->GetTransform(matModel);
+			}
+			else
+			{
+			}
+			
+				DrawObject(matModel, pCurrentObject,
+					shader_program_ID, p_vao_manager);
+
+		}//for (int index...
+		
+		// DRAW DALEK
+		
+	
 		// Maze Draw
 		for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 9)
 			for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 9)
@@ -547,24 +476,12 @@ int main()
 				{
 					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
 					glm::mat4 matModel = glm::mat4(1.0f);
-					wall->m_position = glm::vec3(a + draw1, 50, b + draw2);
+					wall->m_position = glm::vec3(a + draw1, 0, b + draw2);
 					DrawObject(matModel, wall, shader_program_ID, p_vao_manager);
 				}
 			}
 		// Maze Draw
-		{
-			////cGameObject* debug_sphere = findGameObjectByFriendlyName(g_vec_pGameObjects, "debugsphere");
-			//debug_sphere->isVisible = true;
-			//debug_sphere->m_position = g_HACK_vec3_BoneLocationFK;
-			//glm::mat4 identmat = glm::mat4(1.0f);
-			//DrawObject(identmat, debug_sphere, shader_program_ID, p_vao_manager);
-			//debug_sphere->isVisible = false;
-			////debug_sphere->m_position = debug_sphere_old;	
-		}
 		
-		//GLint passNumber_UniLoc = glGetUniformLocation(shader_program_ID, "passNumber");
-		
-
 
 		
 		glUniform1i(passNumber_UniLoc, 0);
@@ -1014,4 +931,12 @@ cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects
 		if (vGameObjects[i]->friendlyName == friendlyname)
 			return vGameObjects[i];
 	}
+}
+
+glm::vec3 get_random_postion_from_maze()
+{
+	int index = randInRange<int>(0, vec_free_space_in_maze.size());
+	
+	
+	return vec_free_space_in_maze[index];
 }
