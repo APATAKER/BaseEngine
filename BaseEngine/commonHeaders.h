@@ -21,5 +21,6 @@
 
 #define NOMINMAX
 #include <Windows.h>
+#include <thread>
 
 #endif // !_commonHeader_HG_

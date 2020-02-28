@@ -73,10 +73,33 @@ cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects
 glm::vec3 get_random_postion_from_maze();
 
 
+struct data
+{
+	cGameObject* p_gameobject;
+	cMazeMaker* p_maze;
+};
+
+void thread_funtion(data data)
+{
+	for (;;)
+	{
+		for (int a = 0; a < data.p_maze->maze.size(); a++)
+			for (int b = 0; b < data.p_maze->maze.size(); b++)
+			{
+				
+			}
+
+		data.p_gameobject.
+
+		
+	}
+}
+
 int main()
 {
-	
-	
+	data d1;
+	std::thread thread(thread_funtion,d1);
+	thread.detach();
 	
 	// opengl call
 	window = creatOpenGL(window);
