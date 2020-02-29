@@ -57,6 +57,7 @@ public:
 	glm::quat getQOrientation(void);
 	// updates rotation 
 	void Update(double deltaTime);
+	glm::quat safeQuatLookAt(glm::vec3 const& lookFrom, glm::vec3 const& lookTo, glm::vec3 const& up);
 	void updateAtFromOrientation(void);
 	glm::vec3 getCurrentDirection(void);
 	glm::vec3 getAtInWorldSpace(void);
