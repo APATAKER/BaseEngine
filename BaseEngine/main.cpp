@@ -57,6 +57,25 @@ rapidjson::Document document;
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int punchcounter;
 
+struct data
+{
+	data():is_right_free(false),is_left_free(false),is_down_free(false),is_up_free(false)
+	{
+		
+	}
+	cGameObject* p_gameobject;
+	cMazeMaker* p_maze;
+	bool movement_finished;
+	glm::vec3 next_position_in_maze;
+	int indexAofDalekInmaze;
+	int indexBofDalekInmaze;
+	bool is_up_free;
+	bool is_left_free;
+	bool is_right_free;
+	bool is_down_free;
+	bool target_reached;
+	std::vector<glm::vec3> possible_location_to_move;
+};
 
 
 // Global Functions
@@ -71,25 +90,74 @@ void SetUpTextureBindingsForObject(
 cMesh findMeshByName(std::vector<cMesh> vMesh, std::string Meshname);
 cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
 glm::vec3 get_random_postion_from_maze();
+void gem(data &data,bool &first_time);
 
 
-struct data
-{
-	cGameObject* p_gameobject;
-	cMazeMaker* p_maze;
-};
 
 void thread_funtion(data data)
 {
+	data.movement_finished = false;
 	for (;;)
 	{
-		for (int a = 0; a < data.p_maze->maze.size(); a++)
-			for (int b = 0; b < data.p_maze->maze.size(); b++)
+		int indexAofDalekInmaze;
+		int indexBofDalekInmaze;
+		bool is_up_free = false;
+		bool is_left_free = false;
+		bool is_right_free = false;
+		bool is_down_free = false;
+		
+		for (int a = 0, draw1 = 0; a < data.p_maze->maze.size(); a++, draw1 += 1)
+		{
+			for (int b = 0, draw2 = 0; b < data.p_maze->maze.size(); b++, draw2 += 1)
 			{
-				
-			}
+				if (data.p_gameobject->m_position == glm::vec3(a + draw1, 0, b + draw2))
+				{
+					indexAofDalekInmaze = a;
+					indexBofDalekInmaze = b;
+					break;
+				}
 
-		data.p_gameobject.
+
+			}
+		}
+		if(!data.p_maze->maze[indexAofDalekInmaze][indexBofDalekInmaze-1][0])
+		{
+			is_up_free = true;
+		}
+		if(!data.p_maze->maze[indexAofDalekInmaze+1][indexBofDalekInmaze][0])
+		{
+			is_right_free = true;
+		}
+		if(!data.p_maze->maze[indexAofDalekInmaze][indexBofDalekInmaze+1][0])
+		{
+			is_down_free = true;
+		}
+		if(!data.p_maze->maze[indexAofDalekInmaze-1][indexBofDalekInmaze][0])
+		{
+			is_left_free = true;
+		}
+		glm::vec3 next_position_in_maze;
+
+		if(is_left_free)
+		{
+			next_position_in_maze = glm::vec3(indexAofDalekInmaze - 1, 0, indexBofDalekInmaze);
+		}
+		else if(is_down_free)
+		{
+			next_position_in_maze = glm::vec3(indexAofDalekInmaze, 0, indexBofDalekInmaze + 1);
+		}
+		else if(is_right_free)
+		{
+			next_position_in_maze = glm::vec3(indexAofDalekInmaze + 1, 0, indexBofDalekInmaze);
+		}
+		else if(is_up_free)
+		{
+			next_position_in_maze = glm::vec3(indexAofDalekInmaze, 0, indexBofDalekInmaze - 1);
+		}
+
+		
+		if (!data.movement_finished)
+			data.p_gameobject->moveTOVec3AndStop(next_position_in_maze,data.movement_finished);
 
 		
 	}
@@ -97,9 +165,6 @@ void thread_funtion(data data)
 
 int main()
 {
-	data d1;
-	std::thread thread(thread_funtion,d1);
-	thread.detach();
 	
 	// opengl call
 	window = creatOpenGL(window);
@@ -281,7 +346,7 @@ int main()
 
 	// Camera Created here
 	::g_pFlyCamera = new cFlyCamera();
-	::g_pFlyCamera->eye = glm::vec3(-3.0f, 372.0, 670.0);
+	::g_pFlyCamera->eye = glm::vec3(38.6f, 91.2, 174.8);
 	::g_pFlyCamera->movementSpeed = 0.25f;
 	::g_pFlyCamera->movementSpeed = 2.5f;
 	// Camera Created here
@@ -332,8 +397,8 @@ int main()
 	maze_height = 50;
 	p_maze_maker->GenerateMaze(maze_width, maze_height);
 	
-	for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 9)
-		for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 9)
+	for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 1)
+		for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 1)
 		{
 			if (p_maze_maker->maze[a][b][0] == false)
 			{
@@ -356,8 +421,16 @@ int main()
 		vec_dalek[i]->m_position = get_random_postion_from_maze();
 	}
 
+	data d1;
+
+	d1.p_gameobject = vec_dalek[0];
+	d1.p_maze = p_maze_maker;
+	d1.movement_finished = true;
+
+	//std::thread thread(thread_funtion,d1);
+	//thread.detach();
 	
-	
+	bool first = true;
 
 	
 
@@ -469,7 +542,7 @@ int main()
 		//}//for (int index...
 		
 		// DRAW DALEK
-
+		gem(d1,first);
 		for (int index = 0; index != ::vec_dalek.size(); index++)
 		{
 			cGameObject* pCurrentObject = ::vec_dalek[index];
@@ -492,8 +565,8 @@ int main()
 		
 	
 		// Maze Draw
-		for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 9)
-			for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 9)
+		for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 1)
+			for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 1)
 			{
 				if (p_maze_maker->maze[a][b][0] == true)
 				{
@@ -962,4 +1035,87 @@ glm::vec3 get_random_postion_from_maze()
 	
 	
 	return vec_free_space_in_maze[index];
+}
+
+void gem(data &data, bool& first_time)
+{
+	int x, z;
+
+	bool iffound = false;
+
+
+	for (int a = 0, draw1 = 0; a < data.p_maze->maze.size(); a++, draw1 += 1)
+	{
+		for (int b = 0, draw2 = 0; b < data.p_maze->maze.size(); b++, draw2 += 1)
+		{
+			if (data.p_gameobject->m_position == glm::vec3(a + draw1, 0, b + draw2))
+			{
+				data.indexAofDalekInmaze = a;
+				data.indexBofDalekInmaze = b;
+				iffound = true;
+				break;
+			}
+
+
+		}
+		if (iffound)
+			break;
+	}
+	
+
+
+
+	if (data.movement_finished && first_time)
+	{
+		data.possible_location_to_move.clear();
+
+		if (!data.p_maze->maze[data.indexAofDalekInmaze][data.indexBofDalekInmaze - 1][0])
+		{
+			data.is_up_free = true;
+			data.possible_location_to_move.push_back(glm::vec3((data.indexAofDalekInmaze * 2), 0, (data.indexBofDalekInmaze - 1) * 2));
+		}
+		if (!data.p_maze->maze[data.indexAofDalekInmaze + 1][data.indexBofDalekInmaze][0])
+		{
+			data.is_right_free = true;
+			data.possible_location_to_move.push_back(glm::vec3(((data.indexAofDalekInmaze + 1) * 2), 0, (data.indexBofDalekInmaze) * 2));
+		}
+		if (!data.p_maze->maze[data.indexAofDalekInmaze][data.indexBofDalekInmaze + 1][0])
+		{
+			data.is_down_free = true;
+			data.possible_location_to_move.push_back(glm::vec3((data.indexAofDalekInmaze * 2), 0, (data.indexBofDalekInmaze + 1) * 2));
+		}
+		if (!data.p_maze->maze[data.indexAofDalekInmaze - 1][data.indexBofDalekInmaze][0])
+		{
+			data.is_left_free = true;
+			data.possible_location_to_move.push_back(glm::vec3(((data.indexAofDalekInmaze - 1) * 2), 0, (data.indexBofDalekInmaze) * 2));
+		}
+
+		first_time = false;
+
+	}
+
+	int avaliable_pos_to_move = data.possible_location_to_move.size();
+
+	if(avaliable_pos_to_move>=1 && data.movement_finished)
+	{
+		glm::vec3 rpos = data.possible_location_to_move[rand() % avaliable_pos_to_move];
+		glm::vec3 targetDir = glm::normalize(rpos - data.p_gameobject->m_position);
+		data.next_position_in_maze = rpos;
+		targetDir *= 0.025f;
+		data.movement_finished = false;
+		data.p_gameobject->m_position += targetDir;
+	}
+	else if (abs(data.p_gameobject->m_position.x - data.next_position_in_maze.x) <= 0.05f && abs(data.p_gameobject->m_position.z - data.next_position_in_maze.z) <= 0.05f)
+	{
+		data.movement_finished = true;
+		first_time = true;
+		data.p_gameobject->m_position = data.next_position_in_maze;
+	}
+	else
+	{
+		glm::vec3 targetDir = glm::normalize(data.next_position_in_maze - data.p_gameobject->m_position);
+		targetDir *= 0.1f;
+		data.p_gameobject->m_position += targetDir;
+	}
+	
 }

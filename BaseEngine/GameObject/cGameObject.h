@@ -64,6 +64,10 @@ public:
 	void MoveLeftRight_X(float amount);
 	void MoveUpDown_Y(float amount);
 
+	void moveTOVec3(glm::vec3 endPosition);
+	void moveTOVec3AndStop(glm::vec3 endPosition,bool &finished);
+	void movebypoint(glm::vec3 endPosition, bool& finished);
+
 	// Overwrite the orientation
 	void setOrientation(glm::vec3 EulerAngleDegreesXYZ);
 	void setOrientation(glm::quat qAngle);
