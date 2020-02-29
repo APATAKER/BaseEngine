@@ -424,7 +424,6 @@ int main()
 		vec_dalek[i]->m_position = get_random_postion_from_maze();
 	}
 
-	bool first = true;
 
 	data temp_data[10];
 	for (int i = 0; i < vec_dalek.size(); i++)
@@ -438,13 +437,14 @@ int main()
 		std::thread thread(thread_funtion, temp_data[i]);
 		thread.detach();
 	}
-	data d[10];
+	// used to single threaded
+	/*data d[10];
 	for(int i=0;i<vec_dalek.size();i++)
 	{
 		d[i].p_gameobject = vec_dalek[i];
 		d[i].p_maze = p_maze_maker;
 		d[i].movement_finished = true;
-	}
+	}*/
 
 	
 
@@ -536,31 +536,14 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUniform1i(SelectEffect_UL, 0);
-		//// GameObject Draw Call
-		//for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
-		//{
-		//	cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-		//	glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-
-		//	if (pCurrentObject->m_physics_component)
-		//	{
-		//		pCurrentObject->m_physics_component->GetTransform(matModel);
-		//	}
-		//	else
-		//	{}
-
-		//	if(pCurrentObject->friendlyName != "staticObject")
-		//	DrawObject(matModel, pCurrentObject,
-		//		shader_program_ID, p_vao_manager);
-
-		//}//for (int index...
-		
-		// DRAW DALEK
+	
+		// used for single thread
 		/*for(int i=0;i<vec_dalek.size();i++)
 		{
 			gem(d[i]);
 			
 		}*/
+		// DRAW DALEK
 		for (int index = 0; index != ::vec_dalek.size(); index++)
 		{
 			cGameObject* pCurrentObject = ::vec_dalek[index];
@@ -1055,6 +1038,7 @@ glm::vec3 get_random_postion_from_maze()
 	return vec_free_space_in_maze[index];
 }
 
+// single thread maze traversal
 void gem(data &data)
 {
 	bool iffound = false;
