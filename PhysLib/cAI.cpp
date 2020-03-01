@@ -5,16 +5,17 @@
 physLib::cAI::cAI()
 {
 	coordinator = new physLib::cCoordinator();
+	is_reached = false;
 }
 
-void physLib::cAI::formation(cCoordinator* coordinator, std::vector<cRigidBody*> boids, double deltatime)
+void physLib::cAI::formation(cCoordinator* coordinator, std::vector<cRigidBody*> boids)
 {
 	if (coordinator->formation_type_ == formation_type::square)
 	{
 		for (int i = 0; i < coordinator->position_offset_.size(); i++)
 		{
-
-			seek(coordinator->position_offset_[i], boids[i], deltatime);
+			boids[i]->mSteerForce = seekR(coordinator->position_offset_[i], boids[i]);
+			//seek(coordinator->position_offset_[i], boids[i], deltatime);
 		}
 	}
 	else
@@ -23,7 +24,8 @@ void physLib::cAI::formation(cCoordinator* coordinator, std::vector<cRigidBody*>
 		for (int i = 0; i < coordinator->position_offset_.size(); i++)
 		{
 
-			seek(coordinator->position_offset_[i], boids[i], deltatime);
+			//seek(coordinator->position_offset_[i], boids[i], deltatime);
+			boids[i]->mSteerForce = seekR(coordinator->position_offset_[i], boids[i]);
 		}
 		
 	}
@@ -33,7 +35,8 @@ void physLib::cAI::formation(cCoordinator* coordinator, std::vector<cRigidBody*>
 		for (int i = 0; i < coordinator->position_offset_.size(); i++)
 		{
 
-			seek(coordinator->position_offset_[i], boids[i], deltatime);
+			//seek(coordinator->position_offset_[i], boids[i], deltatime);
+			boids[i]->mSteerForce = seekR(coordinator->position_offset_[i], boids[i]);
 		}
 	}else
 	if (coordinator->formation_type_ == formation_type::circle)
@@ -41,7 +44,8 @@ void physLib::cAI::formation(cCoordinator* coordinator, std::vector<cRigidBody*>
 		for (int i = 0; i < coordinator->position_offset_.size(); i++)
 		{
 
-			seek(coordinator->position_offset_[i], boids[i], deltatime);
+			//seek(coordinator->position_offset_[i], boids[i], deltatime);
+			boids[i]->mSteerForce = seekR(coordinator->position_offset_[i], boids[i]);
 		}
 	}else
 	if (coordinator->formation_type_ == formation_type::rows)
@@ -49,9 +53,40 @@ void physLib::cAI::formation(cCoordinator* coordinator, std::vector<cRigidBody*>
 		for (int i = 0; i < coordinator->position_offset_.size(); i++)
 		{
 
-			seek(coordinator->position_offset_[i], boids[i], deltatime);
+			//seek(coordinator->position_offset_[i], boids[i], deltatime);
+			boids[i]->mSteerForce = seekR(coordinator->position_offset_[i], boids[i]);
 		}
 	}
+}
+
+void physLib::cAI::pathfollow(cCoordinator* coordinator, std::vector<cRigidBody*> boids)
+{
+	
+	float distance_between_checkpoint_coord = glm::distance(coordinator->path_[current_path],coordinator->coordinator->mPosition);
+	
+	
+	if (!is_reached)
+	{
+		coordinator->coordinator->mSteerForce = seekR(coordinator->path_[current_path], coordinator->coordinator);
+		if (distance_between_checkpoint_coord < 5)
+		{
+			is_reached = true;
+			if(current_path < coordinator->path_.size())
+			{
+				current_path++;
+			}
+			else
+			{
+				current_path = 0;
+			}
+		}
+	}
+	else
+	{
+		coordinator->coordinator->mSteerForce = glm::vec3(0);
+	}
+	
+	coordinator->update_position_offset();
 }
 
 void physLib::cAI::seek(cRigidBody* target, cRigidBody* aiObj, double deltatime)
@@ -64,11 +99,11 @@ void physLib::cAI::seek(cRigidBody* target, cRigidBody* aiObj, double deltatime)
 
 	if (dist < slowingRadius)
 	{
-		desieredVelocity = direction * maxVelocity * (dist / slowingRadius);
+		desieredVelocity = direction * maxVelocityBoid * (dist / slowingRadius);
 	}
 	else
 	{
-		desieredVelocity = direction * maxVelocity;
+		desieredVelocity = direction * maxVelocityBoid;
 	}
 
 	glm::vec3 steer = desieredVelocity - aiObj->mVelocity;
@@ -76,12 +111,48 @@ void physLib::cAI::seek(cRigidBody* target, cRigidBody* aiObj, double deltatime)
 	//aiObj->m_physics_component->setVelocity(aiObj->m_physics_component->getVelocity() + (steer * (float)deltatime));
 	aiObj->mVelocity += steer * (float)deltatime;
 
-	if (aiObj->mVelocity.length() > maxVelocity)
+	if (aiObj->mVelocity.length() > maxVelocityBoid)
 	{
 		//aiObj->m_physics_component->setVelocity(normalize(aiObj->m_physics_component->getVelocity()) * maxVelocity);
-		aiObj->mVelocity = glm::normalize(aiObj->mVelocity * maxVelocity);
+		aiObj->mVelocity = glm::normalize(aiObj->mVelocity * maxVelocityBoid);
 	}
 
+}
+glm::vec3 physLib::cAI::seekR(glm::vec3 targetPos, cRigidBody* aiObj)
+{
+	glm::vec3 desieredVelocity = targetPos - aiObj->mPosition;
+
+	float dist = desieredVelocity.length();
+
+	glm::vec3 direction = glm::normalize(desieredVelocity);
+
+	if (dist < slowingRadius)
+	{
+		if(aiObj->mAiType == "coordinator")
+		{
+		desieredVelocity = direction * maxVelocityCoord * (dist / slowingRadius);
+			
+		}
+		else
+		{
+		desieredVelocity = direction * maxVelocityBoid * (dist / slowingRadius);
+			
+		}
+	}
+	else
+	{
+		if (aiObj->mAiType == "coordinator")
+		{
+		desieredVelocity = direction * maxVelocityCoord;
+			
+		}
+		else
+		{
+			
+		desieredVelocity = direction * maxVelocityBoid;
+		}
+	}
+	return desieredVelocity - aiObj->mVelocity;
 }
 void physLib::cAI::seek(glm::vec3 targetPos, cRigidBody* aiObj, double deltatime)
 {
@@ -93,11 +164,11 @@ void physLib::cAI::seek(glm::vec3 targetPos, cRigidBody* aiObj, double deltatime
 
 	if (dist < slowingRadius)
 	{
-		desieredVelocity = direction * maxVelocity * (dist / slowingRadius);
+		desieredVelocity = direction * maxVelocityBoid * (dist / slowingRadius);
 	}
 	else
 	{
-		desieredVelocity = direction * maxVelocity;
+		desieredVelocity = direction * maxVelocityBoid;
 	}
 
 	glm::vec3 steer = desieredVelocity - aiObj->mVelocity;
@@ -105,17 +176,17 @@ void physLib::cAI::seek(glm::vec3 targetPos, cRigidBody* aiObj, double deltatime
 	//aiObj->m_physics_component->setVelocity(aiObj->m_physics_component->getVelocity() + (steer * (float)deltatime));
 	aiObj->mVelocity += steer * (float)deltatime;
 
-	if (aiObj->mVelocity.length() > maxVelocity)
+	if (aiObj->mVelocity.length() > maxVelocityBoid)
 	{
 		//aiObj->m_physics_component->setVelocity(normalize(aiObj->m_physics_component->getVelocity()) * maxVelocity);
-		aiObj->mVelocity = normalize(aiObj->mVelocity * maxVelocity);
+		aiObj->mVelocity = normalize(aiObj->mVelocity * maxVelocityBoid);
 	}
 }
 void physLib::cAI::pursue(cRigidBody* target, cRigidBody* aiObj, double deltatime)
 {
 	//calculate the number of frames we are looking ahead
 	glm::vec3 distance = target->mPosition - aiObj->mPosition;
-	int T = (int)glm::length(distance) / (int)maxVelocity;
+	int T = (int)glm::length(distance) / (int)maxVelocityBoid;
 
 	glm::vec3 frame = glm::vec3(T);
 	//the future target point the vehicle will pursue towards
@@ -132,11 +203,11 @@ void physLib::cAI::pursue(cRigidBody* target, cRigidBody* aiObj, double deltatim
 
 	if (dist < slowingRadius)
 	{
-		desiredVelocity = direction * maxVelocity * (dist / slowingRadius);
+		desiredVelocity = direction * maxVelocityBoid * (dist / slowingRadius);
 	}
 	else
 	{
-		desiredVelocity = direction * maxVelocity;
+		desiredVelocity = direction * maxVelocityBoid;
 	}
 
 	/*calculate the steering force */
@@ -146,18 +217,18 @@ void physLib::cAI::pursue(cRigidBody* target, cRigidBody* aiObj, double deltatim
 	//aiObj->m_physics_component->setVelocity(aiObj->m_physics_component->getVelocity() + (steer * (float)deltatime));
 	aiObj->mVelocity += steer * (float)deltatime;
 	
-	if (aiObj->mVelocity.length() > maxVelocity)
+	if (aiObj->mVelocity.length() > maxVelocityBoid)
 	{
 
 		//aiObj->m_physics_component->setVelocity(glm::normalize(aiObj->m_physics_component->getVelocity()) * maxVelocity);
-		aiObj->mVelocity = normalize(aiObj->mVelocity * maxVelocity);
+		aiObj->mVelocity = normalize(aiObj->mVelocity * maxVelocityBoid);
 	}
 }
 void physLib::cAI::evade(cRigidBody* target, cRigidBody* aiObj, double deltatime)
 {
 	//calculate the number of frames we are looking ahead
 	glm::vec3 distance = target->mPosition - aiObj->mPosition;
-	int T = (int)glm::length(distance) / (int)maxVelocity;
+	int T = (int)glm::length(distance) / (int)maxVelocityBoid;
 
 	glm::vec3 frame = glm::vec3(T);
 	//the future target point the vehicle will pursue towards
@@ -172,7 +243,7 @@ void physLib::cAI::evade(cRigidBody* target, cRigidBody* aiObj, double deltatime
 	//desiredVelocity.Normalize();
 	glm::vec3 direction = glm::normalize(desiredVelocity);
 
-	desiredVelocity = direction * maxVelocity;
+	desiredVelocity = direction * maxVelocityBoid;
 
 
 	/*calculate the steering force */
@@ -182,11 +253,11 @@ void physLib::cAI::evade(cRigidBody* target, cRigidBody* aiObj, double deltatime
 	//aiObj->m_physics_component->setVelocity(aiObj->m_physics_component->getVelocity() + (steer * (float)deltatime));
 	aiObj->mVelocity += steer * (float)deltatime;
 	
-	if (aiObj->mVelocity.length() > maxVelocity)
+	if (aiObj->mVelocity.length() > maxVelocityBoid)
 	{
 
 		//aiObj->m_physics_component->setVelocity(glm::normalize(aiObj->m_physics_component->getVelocity()) * maxVelocity);
-		aiObj->mVelocity = normalize(aiObj->mVelocity * maxVelocity);
+		aiObj->mVelocity = normalize(aiObj->mVelocity * maxVelocityBoid);
 	}
 }
 void physLib::cAI::wander(int& flag, std::vector<wanderDetails> wanderPts, cRigidBody* aiObj, double deltatime)
@@ -221,11 +292,11 @@ void physLib::cAI::flee(cRigidBody* target, cRigidBody* aiObj, double deltatime)
 
 	if (dist < slowingRadius)
 	{
-		desieredVelocity = direction * maxVelocity * (dist / slowingRadius);
+		desieredVelocity = direction * maxVelocityBoid * (dist / slowingRadius);
 	}
 	else
 	{
-		desieredVelocity = direction * maxVelocity;
+		desieredVelocity = direction * maxVelocityBoid;
 	}
 
 	glm::vec3 steer = desieredVelocity - aiObj->mVelocity;
@@ -233,11 +304,35 @@ void physLib::cAI::flee(cRigidBody* target, cRigidBody* aiObj, double deltatime)
 	//aiObj->m_physics_component->setVelocity(aiObj->m_physics_component->getVelocity() + (steer * (float)deltatime));
 	aiObj->mVelocity += steer * (float)deltatime;
 	
-	if (aiObj->mVelocity.length() > maxVelocity)
+	if (aiObj->mVelocity.length() > maxVelocityBoid)
 	{
 		//aiObj->m_physics_component->setVelocity(normalize(aiObj->m_physics_component->getVelocity()) * maxVelocity);
-		aiObj->mVelocity = normalize(aiObj->mVelocity * maxVelocity);
+		aiObj->mVelocity = normalize(aiObj->mVelocity * maxVelocityBoid);
 	}
 
+}
+
+void physLib::cAI::aiupdate(std::vector<cRigidBody*> boids, double deltatime,const float maxVelocity)
+{
+	for (int i = 0; i < boids.size(); i++)
+	{
+		boids[i]->mVelocity += boids[i]->mSteerForce * (float)deltatime;
+		//boids[i]->mVelocity *= 2;
+		if (boids[i]->mVelocity.length() > maxVelocity)
+		{
+			//aiObj->m_physics_component->setVelocity(normalize(aiObj->m_physics_component->getVelocity()) * maxVelocity);
+			boids[i]->mVelocity = normalize(boids[i]->mVelocity * maxVelocity);
+		}
+	}
+}
+
+void physLib::cAI::aiupdate(cRigidBody* boid, double deltatime, const float maxVelocity)
+{
+	boid->mVelocity += boid->mSteerForce * (float)deltatime;
+	if (boid->mVelocity.length() > maxVelocity)
+	{
+		//aiObj->m_physics_component->setVelocity(normalize(aiObj->m_physics_component->getVelocity()) * maxVelocity);
+		boid->mVelocity = normalize(boid->mVelocity * maxVelocity);
+	}
 }
 

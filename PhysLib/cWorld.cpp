@@ -61,7 +61,12 @@ namespace physLib
 			//ai->flee(m_bodies_[5], m_bodies_[12],dt);
 			//ai->flee(m_bodies_[5], m_bodies_[13],dt);
 			//ai->flee(m_bodies_[5], m_bodies_[14],dt);
-			ai->formation(ai->coordinator, ai->coordinator->vehicles_, dt);
+			ai->formation(ai->coordinator, ai->coordinator->vehicles_);
+			ai->pathfollow(ai->coordinator, ai->coordinator->vehicles_);
+			
+			
+			ai->aiupdate(ai->coordinator->vehicles_, dt, ai->maxVelocityBoid);
+			ai->aiupdate(ai->coordinator->coordinator, dt, ai->maxVelocityCoord);
 			
 		}
 		
@@ -126,6 +131,7 @@ namespace physLib
 	void cWorld::AiSetup()
 	{
 		AddBoids();
+		SetCoordinator();
 	}
 
 	
@@ -366,6 +372,16 @@ namespace physLib
 			}
 		}
 		
+	}
+	void physLib::cWorld::SetCoordinator()
+	{
+		for (int i = 0; i < m_bodies_.size(); i++)
+		{
+			if (m_bodies_[i]->mAiType == "coordinator")
+			{
+				ai->coordinator->coordinator = m_bodies_[i];
+			}
+		}
 	}
 	void cWorld::GetAiFormationType(int type)
 	{

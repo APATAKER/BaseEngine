@@ -117,6 +117,8 @@ namespace physLib
 		glm::quat mOrientation;
 		// Ai type
 		std::string mAiType;
+		// Steering Force
+		glm::vec3 mSteerForce;
 		// Orientation Functions
 		void updateAtFromOrientation(void);
 		glm::vec3 getAtInWorldSpace(void);

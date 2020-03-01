@@ -76,6 +76,8 @@ namespace physLib
 
 		void GetAiFormationType(int type);
 
+		void SetCoordinator();
+
 		//void SetCollisionListener(nPhysics::iCollisionListener* collision_listener);
 
 	protected:

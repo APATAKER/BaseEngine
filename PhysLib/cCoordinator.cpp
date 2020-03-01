@@ -1,25 +1,31 @@
 #include "cCoordinator.h"
 
 physLib::cCoordinator::cCoordinator():
-coord_position(glm::vec3(0,0,0))
+coordinator_position(glm::vec3(0,0,0))
 {
 	formation_type_ = physLib::formation_type::square;
 	if(formation_type_ == physLib::formation_type::square)
 	{
-		position_offset_.push_back(glm::vec3(0, 0, 0));	// 1
-		position_offset_.push_back(glm::vec3(10, 0, 0));		// 2
-		position_offset_.push_back(glm::vec3(10, 0, 10));		// 3
-		position_offset_.push_back(glm::vec3(0, 0, 10));		// 4
-		position_offset_.push_back(glm::vec3(-10, 0, 10));	// 5
-		position_offset_.push_back(glm::vec3(-10, 0, 0));	// 6
-		position_offset_.push_back(glm::vec3(-10, 0, -10));		// 7
-		position_offset_.push_back(glm::vec3(0, 0, -10));		// 8
-		position_offset_.push_back(glm::vec3(10, 0, -10));		// 9
-		position_offset_.push_back(glm::vec3(20, 0, -10));		// 10
-		position_offset_.push_back(glm::vec3(20, 0, 0));		// 11
-		position_offset_.push_back(glm::vec3(20, 0, 10));	// 12
+		position_offset_.push_back(glm::vec3(-5, 0, 0));		// 1
+		position_offset_.push_back(glm::vec3(5, 0, 0));		// 2
+		position_offset_.push_back(glm::vec3(-15, 0, 0));		// 3
+		position_offset_.push_back(glm::vec3(15, 0, 0));		// 4
+		position_offset_.push_back(glm::vec3(-5, 0, -10));		// 5
+		position_offset_.push_back(glm::vec3(-5, 0, 10));		// 6
+		position_offset_.push_back(glm::vec3(5, 0, -10));		// 7
+		position_offset_.push_back(glm::vec3(5, 0, 10));		// 8
+		position_offset_.push_back(glm::vec3(-15, 0, -10));		// 9
+		position_offset_.push_back(glm::vec3(-15, 0, 10));		// 10
+		position_offset_.push_back(glm::vec3(15, 0, -10));		// 11
+		position_offset_.push_back(glm::vec3(15, 0, 10));		// 12
 		
 	}
+	path_.push_back(glm::vec3(0, 0, 0));
+	path_.push_back(glm::vec3(-170, 0, -170));
+	path_.push_back(glm::vec3(-170, 0, 170));
+	path_.push_back(glm::vec3(170, 0, 170));
+	path_.push_back(glm::vec3(170, 0, -170));
+	
 }
 void physLib::cCoordinator::ai_update()
 {
@@ -34,22 +40,24 @@ void physLib::cCoordinator::set_formation_type(const formation_type f_type)
 	this->formation_type_ = f_type;
 }
 
+
+
 void physLib::cCoordinator::update_position_offset()
 {
 	if (formation_type_ == physLib::formation_type::square)
 	{
-		position_offset_[0] = (glm::vec3(0, 0, 0));						// 1
-		position_offset_[1] = (glm::vec3(10, 0, 0));					// 2
-		position_offset_[2] = (glm::vec3(10, 0, 10));					// 3
-		position_offset_[3] = (glm::vec3(0, 0, 10));					// 4
-		position_offset_[4] = (glm::vec3(-10, 0, 10));					// 5
-		position_offset_[5] = (glm::vec3(-10, 0, 0));					// 6
-		position_offset_[6] = (glm::vec3(-10, 0, -10));					// 7
-		position_offset_[7] = (glm::vec3(0, 0, -10));					// 8
-		position_offset_[8] = (glm::vec3(10, 0, -10));					// 9
-		position_offset_[9] = (glm::vec3(20, 0, -10));					// 10
-		position_offset_[10] = (glm::vec3(20, 0, 0));					// 11
-		position_offset_[11] = (glm::vec3(20, 0, 10));					// 12
+		position_offset_[0] = (glm::vec3(-5, 0, 0));					// 1
+		position_offset_[1] = (glm::vec3(5, 0, 0));						// 2
+		position_offset_[2] = (glm::vec3(-15, 0, 0));					// 3
+		position_offset_[3] = (glm::vec3(15, 0, 0));					// 4
+		position_offset_[4] = (glm::vec3(-5, 0, -10));					// 5
+		position_offset_[5] = (glm::vec3(-5, 0, 10));					// 6
+		position_offset_[6] = (glm::vec3(5, 0, -10));					// 7
+		position_offset_[7] = (glm::vec3(5, 0, 10));					// 8
+		position_offset_[8] = (glm::vec3(-15, 0, -10));					// 9
+		position_offset_[9] = (glm::vec3(-15, 0, 10));					// 10
+		position_offset_[10] = (glm::vec3(15, 0, -10));					// 11
+		position_offset_[11] = (glm::vec3(15, 0, 10));					// 12
 		// 12
 
 	}
@@ -117,6 +125,11 @@ void physLib::cCoordinator::update_position_offset()
 		position_offset_[10] = (glm::vec3(-60, 0, 60));					// 11
 		position_offset_[11] = (glm::vec3(60, 0, 60));					// 12
 
+	}
+
+	for(int i=0;i<position_offset_.size();i++)
+	{
+		position_offset_[i] += coordinator->mPosition;
 	}
 }
 

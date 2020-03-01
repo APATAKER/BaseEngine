@@ -158,7 +158,7 @@
         "b": 1.0,
         "a": 1.0
       },
-      "tex": [ "blacktex.bmp", "", "", "" ],
+      "tex": [ "defaultTex.bmp", "", "", "" ],
       "texratio": [ 1, 0, 0, 0 ],
       "isStatic": 1,
       "physicsshapetype": 1,
@@ -381,9 +381,58 @@
       "isSkinnedMesh": 0,
       "aiType": "none"
     },
-
     {
-      "meshname": "sphere2",
+      "meshname": "sphere1",
+      "friendlyname": "coordinator",
+      "position": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "redtex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 0,
+      "objectype": 0,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 0.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0.5
+      },
+      "mass": 3,
+      "isVisible": 1,
+      "isSkinnedMesh": 0,
+      "aiType": "coordinator"
+    },
+    {
+      "meshname": "kunai",
       "friendlyname": "player",
       "position": {
         "x": -10.0,
@@ -433,7 +482,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy1",
       "position": {
         "x": 10.0,
@@ -483,7 +532,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy2",
       "position": {
         "x": -10.0,
@@ -533,7 +582,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy3",
       "position": {
         "x": 10.0,
@@ -583,7 +632,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy4",
       "position": {
         "x": -20.0,
@@ -633,7 +682,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy5",
       "position": {
         "x": -10.0,
@@ -683,7 +732,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy6",
       "position": {
         "x": 10.0,
@@ -733,7 +782,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy7",
       "position": {
         "x": 20.0,
@@ -783,7 +832,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy8",
       "position": {
         "x": 20.0,
@@ -833,7 +882,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy9",
       "position": {
         "x": 20.0,
@@ -883,7 +932,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy10",
       "position": {
         "x": -20.0,
@@ -933,7 +982,7 @@
       "aiType": "boid"
     },
     {
-      "meshname": "sphere2",
+      "meshname": "kunai",
       "friendlyname": "enemy11",
       "position": {
         "x": -20.0,
@@ -981,6 +1030,256 @@
       "isVisible": 1,
       "isSkinnedMesh": 0,
       "aiType": "boid"
+    },
+    {
+      "meshname": "mazecube",
+      "friendlyname": "checkpoint1",
+      "position": {
+        "x": 0.0,
+        "y": 20.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 2.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "greentex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0,
+      "aiType": "none"
+    },
+    {
+      "meshname": "mazecube",
+      "friendlyname": "checkpoint2",
+      "position": {
+        "x": -170.0,
+        "y": 20.0,
+        "z": -170.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 2.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "redtex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0,
+      "aiType": "none"
+    },
+    {
+      "meshname": "mazecube",
+      "friendlyname": "checkpoint3",
+      "position": {
+        "x": -170.0,
+        "y": 20.0,
+        "z": 170.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 2.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "redtex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0,
+      "aiType": "none"
+    },
+    {
+      "meshname": "mazecube",
+      "friendlyname": "checkpoint4",
+      "position": {
+        "x": 170.0,
+        "y": 20.0,
+        "z": 170.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 2.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "redtex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0,
+      "aiType": "none"
+    },
+    {
+      "meshname": "mazecube",
+      "friendlyname": "checkpoint5",
+      "position": {
+        "x": 170.0,
+        "y": 20.0,
+        "z": -170.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 2.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "redtex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0,
+      "aiType": "none"
     },
     {
       "meshname": "tvbody",

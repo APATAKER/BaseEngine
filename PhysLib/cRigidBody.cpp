@@ -10,6 +10,7 @@ namespace physLib
 		mPosition = def.Position;
 		mMass = def.Mass;
 		mVelocity = def.Velocity;
+		mSteerForce = glm::vec3(0,0,0);
 		mAcceleration = glm::vec3(0, 0, 0);
 		mInvMass = (def.Mass == 0) ? 0 : (1 / def.Mass);
 		mShape = shape;
