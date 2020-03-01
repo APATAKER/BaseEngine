@@ -23,6 +23,12 @@ public:
 	// remove duplicate stuff
 	bool RemoveComponent(nPhysics::iPhysicsComponent* component) override;
 
+	// Setting up AI
+	void SetUpAi() override;
+
+	// Getting Formation Type
+	void GetFormationType(int type) override;
+
 	// not used
 	void SetCollisionListener(nPhysics::iCollisionListener* collision_listener);
 

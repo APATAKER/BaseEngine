@@ -243,7 +243,7 @@ int main()
 
 	// Camera Created here
 	::g_pFlyCamera = new cFlyCamera();
-	::g_pFlyCamera->eye = glm::vec3(-3.0f, 372.0, 670.0);
+	::g_pFlyCamera->eye = glm::vec3(-2.5,175,323.9);
 	::g_pFlyCamera->movementSpeed = 0.25f;
 	::g_pFlyCamera->movementSpeed = 2.5f;
 	// Camera Created here
@@ -402,19 +402,19 @@ int main()
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
 		}//for (int index...
-		// Maze Draw
-		for(int a =0,draw1=0;a<maze_width-1;a++,draw1+=1)
-			for(int b=0,draw2=0;b<maze_height-1;b++,draw2+=1)
-			{
-				if(p_maze_maker->maze[a][b][0] == true)
-				{
-					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					wall->m_position = glm::vec3(a+draw1, 50,b+draw2);
-					DrawObject(matModel, wall,shader_program_ID, p_vao_manager);
-				}
-			}
-		// Maze Draw
+		//// Maze Draw
+		//for(int a =0,draw1=0;a<maze_width-1;a++,draw1+=1)
+		//	for(int b=0,draw2=0;b<maze_height-1;b++,draw2+=1)
+		//	{
+		//		if(p_maze_maker->maze[a][b][0] == true)
+		//		{
+		//			cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			wall->m_position = glm::vec3(a+draw1, 50,b+draw2);
+		//			DrawObject(matModel, wall,shader_program_ID, p_vao_manager);
+		//		}
+		//	}
+		//// Maze Draw
 		//PASS 1 *********************************************************
 
 
@@ -631,17 +631,17 @@ int main()
 			0xFF);
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
-		for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 1)
-			for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 1)
-			{
-				if (p_maze_maker->maze[a][b][0] == true)
-				{
-					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					wall->m_position = glm::vec3(a + draw1 - 170, 220, b + draw2 - 220);
-					DrawObject(matModel, wall, shader_program_ID, p_vao_manager);
-				}
-			}
+		//for (int a = 0, draw1 = 0; a < maze_width - 1; a++, draw1 += 1)
+		//	for (int b = 0, draw2 = 0; b < maze_height - 1; b++, draw2 += 1)
+		//	{
+		//		if (p_maze_maker->maze[a][b][0] == true)
+		//		{
+		//			cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			wall->m_position = glm::vec3(a + draw1 - 170, 220, b + draw2 - 220);
+		//			DrawObject(matModel, wall, shader_program_ID, p_vao_manager);
+		//		}
+		//	}
 		glDisable(GL_STENCIL_TEST);
 
 		

@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 #include "glm_headers.h"
 #include "iShape.h"     // iShape base class for all shapes
 
@@ -33,6 +35,8 @@ namespace physLib
 		glm::vec3 Velocity;
 		// The initaial AT vector(facing direction)
 		glm::vec3 At;
+		// The Ai type
+		std::string AiType;
 	};
 
 	// cRigidBody
@@ -111,6 +115,8 @@ namespace physLib
 		glm::vec3 mUp;
 		// Orientation
 		glm::quat mOrientation;
+		// Ai type
+		std::string mAiType;
 		// Orientation Functions
 		void updateAtFromOrientation(void);
 		glm::vec3 getAtInWorldSpace(void);

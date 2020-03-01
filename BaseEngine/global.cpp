@@ -65,6 +65,7 @@ void PhysicsInit()
 					ball_def.Mass = jgameobj["mass"].GetFloat();
 					ball_def.Radius = jgameobj["sphere"]["radius"].GetFloat();
 					ball_def.orientation = g_vec_pGameObjects[i]->getQOrientation();
+					ball_def.AiType = jgameobj["aiType"].GetString();
 					g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateBall(ball_def);
 					
 				}
@@ -79,6 +80,7 @@ void PhysicsInit()
 						jgameobj["plane"]["normal"]["y"].GetFloat(),
 						jgameobj["plane"]["normal"]["z"].GetFloat());
 					plane_def.Constant = jgameobj["plane"]["constant"].GetFloat();
+					plane_def.AiType = jgameobj["aiType"].GetString();
 					g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreatePlane(plane_def);
 				}
 				break;
@@ -86,6 +88,7 @@ void PhysicsInit()
 			physics_world->AddComponent(g_vec_pGameObjects[i]->m_physics_component);
 			}
 		}
+		physics_world->SetUpAi();
 		dataLoaded = 1;
 	}
 	

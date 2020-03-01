@@ -9,6 +9,7 @@ namespace physLib
 	{
 		this->m_dt_ = 0.f;
 		this->m_gravity_ = glm::vec3(0.f, 0.f, 0.f);
+		this->ai = new physLib::cAI();
 	}
 
 	cWorld::~cWorld()
@@ -48,17 +49,19 @@ namespace physLib
 		}
 
 		// Animation Behaviour
+		//GetAiFormationType();
 		for(size_t index = 0;index<numBodies;index++)
 		{
 			//ai.seek(mBodies[6], mBodies[7], dt);
 			//ai.pursue(mBodies[6], mBodies[8],dt);
-			ai.flee(m_bodies_[6], m_bodies_[9],dt);
-			ai.flee(m_bodies_[6], m_bodies_[10],dt);
-			ai.flee(m_bodies_[6], m_bodies_[11],dt);
-			ai.flee(m_bodies_[6], m_bodies_[12],dt);
-			ai.flee(m_bodies_[6], m_bodies_[13],dt);
-			ai.flee(m_bodies_[6], m_bodies_[14],dt);
-			ai.flee(m_bodies_[6], m_bodies_[15],dt);
+			//ai->flee(m_bodies_[5], m_bodies_[8],dt);
+			//ai->flee(m_bodies_[5], m_bodies_[9],dt);
+			//ai->flee(m_bodies_[5], m_bodies_[10],dt);
+			//ai->flee(m_bodies_[5], m_bodies_[11],dt);
+			//ai->flee(m_bodies_[5], m_bodies_[12],dt);
+			//ai->flee(m_bodies_[5], m_bodies_[13],dt);
+			//ai->flee(m_bodies_[5], m_bodies_[14],dt);
+			ai->formation(ai->coordinator, ai->coordinator->vehicles_, dt);
 			
 		}
 		
@@ -119,6 +122,13 @@ namespace physLib
 		}
 		return false; // Nothing was removed
 	}
+
+	void cWorld::AiSetup()
+	{
+		AddBoids();
+	}
+
+	
 
 	/*void cWorld::SetCollisionListener(nPhysics::iCollisionListener* collision_listener)
 	{
@@ -334,7 +344,7 @@ namespace physLib
 		bodyA->mPosition = bodyA->mPreviousPosition + vA * t;
 		bodyB->mPosition = bodyB->mPreviousPosition + vB * t;
 
-		vA = bodyA->mVelocity;
+		vA = bodyA->mVelocity * glm::vec3(2);			// change after makeing formation moving
 		vB = bodyB->mVelocity;
 		
 		float c = 0.2f;
@@ -345,5 +355,21 @@ namespace physLib
 		IntegrateRigidBody(bodyB, m_dt_ * (1.f - t));
 		
 		return true; 
+	}
+	void cWorld::AddBoids()
+	{
+		for(int i=0;i<m_bodies_.size();i++)
+		{
+			if(m_bodies_[i]->mAiType=="boid")
+			{
+				ai->coordinator->vehicles_.push_back(m_bodies_[i]);
+			}
+		}
+		
+	}
+	void cWorld::GetAiFormationType(int type)
+	{
+		ai->coordinator->set_formation_type(static_cast < formation_type>(type));
+		ai->coordinator->update_position_offset();
 	}
 }

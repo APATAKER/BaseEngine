@@ -71,6 +71,11 @@ namespace physLib
 		//    This particular rigid body was not in the world, hense not removed.
 		bool RemoveRigidBody(cRigidBody* rigidBody);
 
+		void AiSetup();
+
+
+		void GetAiFormationType(int type);
+
 		//void SetCollisionListener(nPhysics::iCollisionListener* collision_listener);
 
 	protected:
@@ -100,6 +105,9 @@ namespace physLib
 		bool CollideSphereSphere(cRigidBody* bodyA, cSphere* shapeA,
 			cRigidBody* bodyB, cSphere* shapeB);
 
+		void AddBoids();
+
+
 	private:
 
 		// The delta time input cached during each Update(dt) call.
@@ -113,7 +121,7 @@ namespace physLib
 		// Not owned by cWorld, will not be deleted in the destructor.
 		std::vector<cRigidBody*> m_bodies_;
 
-		cAI ai;
+		cAI* ai;
 
 		// Constructors not to be used.
 		cWorld(const cWorld& other) = delete;

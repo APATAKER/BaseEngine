@@ -75,6 +75,30 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	//if (areAllModifiersUp(window))
 	if(!isAltDown(window) && !isCtrlDown(window))
 	{
+		if (glfwGetKey(window, GLFW_KEY_1))		// Formation 1 Circle
+		{
+			physics_world->GetFormationType(0);
+		}
+		if (glfwGetKey(window, GLFW_KEY_2))		// Formation 2 V
+		{
+			physics_world->GetFormationType(1);
+			
+		}
+		if (glfwGetKey(window, GLFW_KEY_3))		// Formation 1 Square
+		{
+			physics_world->GetFormationType(2);
+			
+		}
+		if (glfwGetKey(window, GLFW_KEY_4))		// Formation 1 Line
+		{
+			
+			physics_world->GetFormationType(3);
+		}
+		if (glfwGetKey(window, GLFW_KEY_5))		// Formation 1 Rows
+		{
+			physics_world->GetFormationType(4);
+			
+		}
 		if(glfwGetKey(window, GLFW_KEY_W))		// walk forward
 		{
 			//player->updateAtFromOrientation();

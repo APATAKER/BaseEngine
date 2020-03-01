@@ -2,6 +2,58 @@
 #include <glm/vec3.hpp>
 
 
+physLib::cAI::cAI()
+{
+	coordinator = new physLib::cCoordinator();
+}
+
+void physLib::cAI::formation(cCoordinator* coordinator, std::vector<cRigidBody*> boids, double deltatime)
+{
+	if (coordinator->formation_type_ == formation_type::square)
+	{
+		for (int i = 0; i < coordinator->position_offset_.size(); i++)
+		{
+
+			seek(coordinator->position_offset_[i], boids[i], deltatime);
+		}
+	}
+	else
+	if (coordinator->formation_type_ == formation_type::line)
+	{
+		for (int i = 0; i < coordinator->position_offset_.size(); i++)
+		{
+
+			seek(coordinator->position_offset_[i], boids[i], deltatime);
+		}
+		
+	}
+	else
+	if (coordinator->formation_type_ == formation_type::v)
+	{
+		for (int i = 0; i < coordinator->position_offset_.size(); i++)
+		{
+
+			seek(coordinator->position_offset_[i], boids[i], deltatime);
+		}
+	}else
+	if (coordinator->formation_type_ == formation_type::circle)
+	{
+		for (int i = 0; i < coordinator->position_offset_.size(); i++)
+		{
+
+			seek(coordinator->position_offset_[i], boids[i], deltatime);
+		}
+	}else
+	if (coordinator->formation_type_ == formation_type::rows)
+	{
+		for (int i = 0; i < coordinator->position_offset_.size(); i++)
+		{
+
+			seek(coordinator->position_offset_[i], boids[i], deltatime);
+		}
+	}
+}
+
 void physLib::cAI::seek(cRigidBody* target, cRigidBody* aiObj, double deltatime)
 {
 	glm::vec3 desieredVelocity = target->mPosition - aiObj->mPosition;

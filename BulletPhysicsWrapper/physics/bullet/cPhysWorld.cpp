@@ -54,6 +54,14 @@ bool cPhysWorld::RemoveComponent(nPhysics::iPhysicsComponent* component)
 	return true;
 }
 
+void cPhysWorld::SetUpAi()
+{
+	
+}
+
+void cPhysWorld::GetFormationType(int type)
+{
+}
 void cPhysWorld::SetCollisionListener(nPhysics::iCollisionListener* collision_listener)
 {
 }

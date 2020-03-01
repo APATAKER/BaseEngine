@@ -51,6 +51,16 @@ bool cPhysWorld::RemoveComponent(nPhysics::iPhysicsComponent* component)
 	return true;
 }
 
+void cPhysWorld::SetUpAi()
+{
+	world_->AiSetup();
+}
+
+void cPhysWorld::GetFormationType(int type)
+{
+	world_->GetAiFormationType(type);
+}
+
 //void cPhysWorld::SetCollisionListener(nPhysics::iCollisionListener* collision_listener)
 //{
 //	if(m_collision_listener_)

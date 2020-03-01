@@ -31,6 +31,7 @@ cBallComponent::cBallComponent(const nPhysics::sBallDef& ball_def)
 	rigid_body_def.Position = ball_def.Position;
 	rigid_body_def.Mass = ball_def.Mass;
 	rigid_body_def.Velocity = glm::vec3(0, 0, 0);
+	rigid_body_def.AiType = ball_def.AiType;
 	rigid_body = new physLib::cRigidBody(rigid_body_def,shape);
 }
 

@@ -16,6 +16,7 @@ namespace physLib
 		mAT = glm::vec3(0, 0, 1);
 		mUp = glm::vec3(0, 1, 0);
 		mOrientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
+		mAiType = def.AiType;
 		
 	}
 

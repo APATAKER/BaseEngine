@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glm/ext/quaternion_float.hpp>
-
+#include <string>
 #include "iPhysicsComponent.h"
 #include <glm/vec3.hpp>
 
@@ -13,6 +13,7 @@ namespace nPhysics
 		float Radius;
 		glm::vec3 Position;
 		glm::quat orientation;
+		std::string AiType;
 	};
 
 	class iBallComponent : public iPhysicsComponent
