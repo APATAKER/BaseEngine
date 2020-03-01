@@ -20,10 +20,12 @@ class cAI
 		float radius;
 	};
 	float slowingRadius = 10.0f;
-	float maxVelocityCoord = 25.0f;
+	float maxVelocityCoord = 50.0f;
 	float maxVelocityBoid = 100.0f;
 	bool is_reached;
-	int current_path = 1;
+	bool on_path;
+	bool is_reverse;
+	int current_path = 0;
 	cCoordinator* coordinator;
 
 	

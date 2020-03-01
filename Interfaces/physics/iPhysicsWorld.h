@@ -12,6 +12,8 @@ namespace nPhysics
 		
 		virtual void Update(float dt) = 0;
 		virtual void SetUpAi() = 0;
+		virtual void GetIsReverse(bool isReserve) = 0;
+		virtual void GetOnPath(bool onPath) = 0;
 		virtual void GetFormationType(int type) = 0;
 		virtual bool AddComponent(iPhysicsComponent* component) = 0;
 		virtual bool RemoveComponent(iPhysicsComponent* component) = 0;

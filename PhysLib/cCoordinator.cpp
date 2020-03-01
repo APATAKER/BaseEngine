@@ -25,6 +25,12 @@ coordinator_position(glm::vec3(0,0,0))
 	path_.push_back(glm::vec3(-170, 0, 170));
 	path_.push_back(glm::vec3(170, 0, 170));
 	path_.push_back(glm::vec3(170, 0, -170));
+
+	rev_path_.push_back(glm::vec3(0, 0, 0));
+	rev_path_.push_back(glm::vec3(170, 0, -170));
+	rev_path_.push_back(glm::vec3(170, 0, 170));
+	rev_path_.push_back(glm::vec3(-170, 0, 170));
+	rev_path_.push_back(glm::vec3(-170, 0, -170));
 	
 }
 void physLib::cCoordinator::ai_update()

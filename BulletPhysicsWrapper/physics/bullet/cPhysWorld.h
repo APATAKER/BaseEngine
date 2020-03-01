@@ -23,6 +23,9 @@ public:
 	bool RemoveComponent(nPhysics::iPhysicsComponent* component) override;
 
 	void SetUpAi() override;
+	void GetOnPath(bool onPath) override;
+	// Getting is_Reverse or not
+	void GetIsReverse(bool isReserve) override;
 	void GetFormationType(int type) override;
 
 	// not used

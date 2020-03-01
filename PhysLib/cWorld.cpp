@@ -62,7 +62,13 @@ namespace physLib
 			//ai->flee(m_bodies_[5], m_bodies_[13],dt);
 			//ai->flee(m_bodies_[5], m_bodies_[14],dt);
 			ai->formation(ai->coordinator, ai->coordinator->vehicles_);
-			ai->pathfollow(ai->coordinator, ai->coordinator->vehicles_);
+
+			if(ai->on_path)
+				ai->pathfollow(ai->coordinator, ai->coordinator->vehicles_);
+			else
+			{
+				ai->coordinator->coordinator->mSteerForce = glm::vec3(0, 0, 0);
+			}
 			
 			
 			ai->aiupdate(ai->coordinator->vehicles_, dt, ai->maxVelocityBoid);
@@ -387,5 +393,23 @@ namespace physLib
 	{
 		ai->coordinator->set_formation_type(static_cast < formation_type>(type));
 		ai->coordinator->update_position_offset();
+	}
+	void cWorld::GetOnPath(bool OnPath)
+	{
+		ai->on_path = OnPath;
+	}
+	void cWorld::GetIsReverse(bool isRevesre)
+	{
+		ai->is_reverse = isRevesre;
+		if(isRevesre)
+		{
+			ai->current_path--;
+		}
+		else
+		{
+			ai->current_path++;
+		}
+		
+		
 	}
 }

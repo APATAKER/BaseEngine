@@ -29,6 +29,12 @@ public:
 	// Getting Formation Type
 	void GetFormationType(int type) override;
 
+	// Getting on_path or not
+	void GetOnPath(bool onPath) override;
+
+	// Getting is_Reverse or not
+	void GetIsReverse(bool isReserve) override;
+
 	// not used
 	void SetCollisionListener(nPhysics::iCollisionListener* collision_listener);
 

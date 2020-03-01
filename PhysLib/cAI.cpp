@@ -61,30 +61,65 @@ void physLib::cAI::formation(cCoordinator* coordinator, std::vector<cRigidBody*>
 
 void physLib::cAI::pathfollow(cCoordinator* coordinator, std::vector<cRigidBody*> boids)
 {
+	if(current_path<0)
+	{
+		current_path = 4;
+	}
+	if(current_path > 4)
+	{
+		current_path = 0;
+	}
 	
-	float distance_between_checkpoint_coord = glm::distance(coordinator->path_[current_path],coordinator->coordinator->mPosition);
+	float distance_between_checkpoint_coord_path = glm::distance(coordinator->path_[current_path],coordinator->coordinator->mPosition);
+	//float distance_between_checkpoint_coord_revpath = glm::distance(coordinator->rev_path_[current_path],coordinator->coordinator->mPosition);
 	
 	
 	if (!is_reached)
 	{
-		coordinator->coordinator->mSteerForce = seekR(coordinator->path_[current_path], coordinator->coordinator);
-		if (distance_between_checkpoint_coord < 5)
+		if (!is_reverse)
 		{
-			is_reached = true;
-			if(current_path < coordinator->path_.size())
+			
+			coordinator->coordinator->mSteerForce = seekR(coordinator->path_[current_path], coordinator->coordinator);
+			if (distance_between_checkpoint_coord_path < 5)
 			{
+				is_reached = true;
 				current_path++;
+				if (current_path < coordinator->path_.size())
+				{
+					is_reached = false;
+				}
+				else
+				{
+					current_path = 0;
+					is_reached = false;
+				}
 			}
-			else
+		}
+		else
+		{
+			
+			if(current_path<0)
 			{
-				current_path = 0;
+				current_path = 4;
+			}
+			coordinator->coordinator->mSteerForce = seekR(coordinator->path_[current_path], coordinator->coordinator);
+			if (distance_between_checkpoint_coord_path < 5)
+			{
+				is_reached = true;
+				current_path--;
+				if (current_path < coordinator->path_.size())
+				{
+					is_reached = false;
+				}
+				else
+				{
+					current_path = 4;
+					is_reached = false;
+				}
 			}
 		}
 	}
-	else
-	{
-		coordinator->coordinator->mSteerForce = glm::vec3(0);
-	}
+	
 	
 	coordinator->update_position_offset();
 }

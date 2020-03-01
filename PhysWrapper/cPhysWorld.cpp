@@ -56,9 +56,17 @@ void cPhysWorld::SetUpAi()
 	world_->AiSetup();
 }
 
+void cPhysWorld::GetIsReverse(bool isReserve)
+{
+	world_->GetIsReverse(isReserve);
+}
 void cPhysWorld::GetFormationType(int type)
 {
 	world_->GetAiFormationType(type);
+}
+void cPhysWorld::GetOnPath(bool onPath)
+{
+	world_->GetOnPath(onPath);
 }
 
 //void cPhysWorld::SetCollisionListener(nPhysics::iCollisionListener* collision_listener)

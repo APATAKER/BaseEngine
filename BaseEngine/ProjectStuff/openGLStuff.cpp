@@ -6,6 +6,8 @@
 
 bool g_MouseIsInsideWindow = false;
 bool g_MouseLeftButtonIsDown = false;
+bool on_path = false;
+bool revesre = false;
 int currentSphere = 6;
 int changePlayer = 0;
 int punchcounter = 0;
@@ -75,6 +77,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	//if (areAllModifiersUp(window))
 	if(!isAltDown(window) && !isCtrlDown(window))
 	{
+		if (glfwGetKey(window, GLFW_KEY_0))		// Turn on/off path following
+		{
+			on_path = !on_path;
+			physics_world->GetOnPath(on_path);
+			
+		}
+		if (glfwGetKey(window, GLFW_KEY_9))		// Reverse the path
+		{
+			revesre = !revesre;
+			physics_world->GetIsReverse(revesre);
+
+		}
 		if (glfwGetKey(window, GLFW_KEY_1))		// Formation 1 Circle
 		{
 			physics_world->GetFormationType(0);

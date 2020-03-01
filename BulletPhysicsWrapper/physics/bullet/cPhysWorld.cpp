@@ -59,6 +59,14 @@ void cPhysWorld::SetUpAi()
 	
 }
 
+void cPhysWorld::GetOnPath(bool onPath)
+{
+}
+
+void cPhysWorld::GetIsReverse(bool isReserve)
+{
+}
+
 void cPhysWorld::GetFormationType(int type)
 {
 }
