@@ -11,6 +11,7 @@ namespace physLib
 class cAI
 {
 	friend class cWorld;
+	friend class cCoordinator;
 	cAI();
 	
 	struct wanderDetails
@@ -26,7 +27,7 @@ class cAI
 	bool on_path;
 	bool is_reverse;
 	bool is_flock;
-	int current_path = 0;
+	//int current_path = 0;
 	int neighbourCount = 0;
 	glm::vec3 totalFlee = glm::vec3(0, 0, 0);
 	float separationRadius = 10.0f;
@@ -34,6 +35,8 @@ class cAI
 	float alignmentRadius = 15.0f;
 	glm::vec3 totalPosition = glm::vec3(0, 0, 0);
 	float cohesionRadius = 15.0f;
+
+	glm::vec3 direction_coord_to_path_destination;
 	
 	cCoordinator* coordinator;
 
@@ -48,6 +51,10 @@ public:
 	void flock(std::vector<cRigidBody*> boids);
 	glm::vec3 seekR(glm::vec3 targetPos, cRigidBody* aiObj);
 	glm::vec3 fleeR(glm::vec3 targetPos, cRigidBody* aiObj);
+
+	void rotateSlerp(double deltatime);
+
+	
 
 	void aiupdate(std::vector<cRigidBody*> boids,double deltatime,const float maxVelocity);
 	void aiupdate(cRigidBody* boid, double deltatime, const float maxVelocity);

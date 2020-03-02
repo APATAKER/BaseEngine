@@ -126,33 +126,33 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			physics_world->GetFormationType(4);
 			
 		}
-		if(glfwGetKey(window, GLFW_KEY_W))		// walk forward
-		{
-			//player->updateAtFromOrientation();
-			//player->velocity.z += MOVESPEED;
-			player->m_physics_component->ApplyForce(glm::vec3(0,0,MOVESPEED));
-			
-		}
-		if(glfwGetKey(window, GLFW_KEY_S))		// walk backward
-		{
-			//player->updateAtFromOrientation();
-			player->m_physics_component->ApplyForce(glm::vec3(0,0,-MOVESPEED));
-			//player->MoveForward_Z(-MOVESPEED);
-		}
-		if (glfwGetKey(window, GLFW_KEY_D))
-		{
-			//player->updateOrientation(glm::vec3(0, -1, 0));
-			player->m_physics_component->ApplyRotation(glm::vec3(0, -1, 0));
-			//player->updateAtFromOrientation();
-		}
-			
-		if (glfwGetKey(window, GLFW_KEY_A))
-		{
-			player->m_physics_component->ApplyRotation(glm::vec3(0, 1, 0));
-			//player->updateOrientation(glm::vec3(0, 1, 0));
-		//	player->updateAtFromOrientation();
-		}
-		if (glfwGetKey(window, GLFW_KEY_Q))
+		//if(glfwGetKey(window, GLFW_KEY_W))		// walk forward
+		//{
+		//	//player->updateAtFromOrientation();
+		//	//player->velocity.z += MOVESPEED;
+		//	player->m_physics_component->ApplyForce(glm::vec3(0,0,MOVESPEED));
+		//	
+		//}
+		//if(glfwGetKey(window, GLFW_KEY_S))		// walk backward
+		//{
+		//	//player->updateAtFromOrientation();
+		//	player->m_physics_component->ApplyForce(glm::vec3(0,0,-MOVESPEED));
+		//	//player->MoveForward_Z(-MOVESPEED);
+		//}
+		//if (glfwGetKey(window, GLFW_KEY_D))
+		//{
+		//	//player->updateOrientation(glm::vec3(0, -1, 0));
+		//	player->m_physics_component->ApplyRotation(glm::vec3(0, -1, 0));
+		//	//player->updateAtFromOrientation();
+		//}
+		//	
+		//if (glfwGetKey(window, GLFW_KEY_A))
+		//{
+		//	player->m_physics_component->ApplyRotation(glm::vec3(0, 1, 0));
+		//	//player->updateOrientation(glm::vec3(0, 1, 0));
+		////	player->updateAtFromOrientation();
+		//}
+		/*if (glfwGetKey(window, GLFW_KEY_Q))
 		{
 			
 		}
@@ -165,14 +165,14 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if(glfwGetKey(window,GLFW_KEY_SPACE) && action == GLFW_PRESS)
 		{
 		
-		}
-		if(glfwGetKey(window,GLFW_KEY_N) && action == GLFW_PRESS)
+		}*/
+		/*if(glfwGetKey(window,GLFW_KEY_N) && action == GLFW_PRESS)
 		{
 
 			changePlayer = changePlayer==1?0:1;
 			
 			
-		}
+		}*/
 		/*if (glfwGetKey(window, GLFW_KEY_1) && action == GLFW_PRESS)
 		{
 			PhysicsEnd();

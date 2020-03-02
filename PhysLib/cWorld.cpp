@@ -65,7 +65,11 @@ namespace physLib
 			}
 
 			if(ai->on_path)
+			{
 				ai->pathfollow(ai->coordinator, ai->coordinator->vehicles_);
+				ai->rotateSlerp(dt);
+				
+			}
 			else
 			{
 				ai->coordinator->coordinator->mSteerForce = glm::vec3(0, 0, 0);
@@ -404,11 +408,11 @@ namespace physLib
 		ai->is_reverse = isRevesre;
 		if(isRevesre)
 		{
-			ai->current_path--;
+			ai->coordinator->current_path--;
 		}
 		else
 		{
-			ai->current_path++;
+			ai->coordinator->current_path++;
 		}
 		
 		

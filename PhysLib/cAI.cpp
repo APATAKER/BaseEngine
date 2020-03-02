@@ -1,5 +1,6 @@
 #include "cAI.h"
 #include <glm/vec3.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 
 physLib::cAI::cAI()
@@ -61,41 +62,46 @@ void physLib::cAI::formation(cCoordinator* coordinator, std::vector<cRigidBody*>
 
 void physLib::cAI::pathfollow(cCoordinator* coordinator, std::vector<cRigidBody*> boids)
 {
-	if(current_path<0)
+	if(coordinator->current_path<0)
 	{
-		current_path = 4;
+		coordinator->current_path = 4;
+		//coordinator->coordinator->mOrientation = coordinator->coordinator->safeQuatLookAt(coordinator->path_[current_path], coordinator->coordinator->mPosition, glm::vec3(0, 1, 0));
 	}
-	if(current_path > 4)
+	if(coordinator->current_path > 4)
 	{
-		current_path = 0;
+		coordinator->current_path = 0;
+		//coordinator->coordinator->mOrientation = coordinator->coordinator->safeQuatLookAt(coordinator->path_[current_path], coordinator->coordinator->mPosition, glm::vec3(0, 1, 0));
 	}
 	
-	float distance_between_checkpoint_coord_path = glm::distance(coordinator->path_[current_path],coordinator->coordinator->mPosition);
+	float distance_between_checkpoint_coord_path = glm::distance(coordinator->path_[coordinator->current_path],coordinator->coordinator->mPosition);
 	//float distance_between_checkpoint_coord_revpath = glm::distance(coordinator->rev_path_[current_path],coordinator->coordinator->mPosition);
 
 	//coordinator->get_coordinator_at();
 	
-	
+	/*glm::quat rotationadjust = coordinator->coordinator->safeQuatLookAt(coordinator->path_[coordinator->current_path], coordinator->coordinator->mPosition, glm::vec3(0, 1, 0));
+	coordinator->coordinator->mOrientation = rotationadjust;*/
 	
 	if (!is_reached)
 	{
 		if (!is_reverse)
 		{
 			
-			coordinator->coordinator->mSteerForce = seekR(coordinator->path_[current_path], coordinator->coordinator);
-			/*glm::vec3 direction_coord_to_path_destination = glm::normalize(coordinator->path_[current_path]-coordinator->coordinator->mPosition);*/
-			coordinator->coordinator->mOrientation = coordinator->coordinator->safeQuatLookAt(coordinator->path_[current_path],coordinator->coordinator->mPosition, glm::vec3(0, 1, 0));
+			//coordinator->coordinator->mOrientation = coordinator->coordinator->safeQuatLookAt(coordinator->path_[current_path],coordinator->coordinator->mPosition, glm::vec3(0, 1, 0));
+			coordinator->coordinator->mSteerForce = seekR(coordinator->path_[coordinator->current_path], coordinator->coordinator);
+			
+			
+			
 			if (distance_between_checkpoint_coord_path < 5)
 			{
 				is_reached = true;
-				current_path++;
-				if (current_path < coordinator->path_.size())
+				coordinator->current_path++;
+				if (coordinator->current_path < coordinator->path_.size())
 				{
 					is_reached = false;
 				}
 				else
 				{
-					current_path = 0;
+					coordinator->current_path = 0;
 					is_reached = false;
 				}
 			}
@@ -103,22 +109,22 @@ void physLib::cAI::pathfollow(cCoordinator* coordinator, std::vector<cRigidBody*
 		else
 		{
 			
-			if(current_path<0)
+			if(coordinator->current_path<0)
 			{
-				current_path = 4;
+				coordinator->current_path = 4;
 			}
-			coordinator->coordinator->mSteerForce = seekR(coordinator->path_[current_path], coordinator->coordinator);
+			coordinator->coordinator->mSteerForce = seekR(coordinator->path_[coordinator->current_path], coordinator->coordinator);
 			if (distance_between_checkpoint_coord_path < 5)
 			{
 				is_reached = true;
-				current_path--;
-				if (current_path < coordinator->path_.size())
+				coordinator->current_path--;
+				if (coordinator->current_path < coordinator->path_.size())
 				{
 					is_reached = false;
 				}
 				else
 				{
-					current_path = 4;
+					coordinator->current_path = 4;
 					is_reached = false;
 				}
 			}
@@ -300,6 +306,21 @@ glm::vec3 physLib::cAI::fleeR(glm::vec3 targetPos, cRigidBody* aiObj)
 	
 	return steer;
 }
+
+void physLib::cAI::rotateSlerp(double deltatime)
+{
+	glm::quat rotationadjust = coordinator->coordinator->safeQuatLookAt(coordinator->path_[coordinator->current_path], coordinator->coordinator->mPosition, glm::vec3(0, 1, 0));
+	glm::quat sample = glm::quat(glm::vec3(90.0f, 0.0f, 90.0f));
+	glm::quat rotateThisFrame = glm::slerp(rotationadjust, sample,(float)deltatime);
+	coordinator->coordinator->mOrientation = rotateThisFrame;
+
+	for (int i = 0; i < coordinator->vehicles_.size(); i++)
+	{
+		
+		coordinator->vehicles_[i]->mOrientation = coordinator->coordinator->mOrientation;
+	}
+}
+
 void physLib::cAI::seek(glm::vec3 targetPos, cRigidBody* aiObj, double deltatime)
 {
 	glm::vec3 desieredVelocity = targetPos - aiObj->mPosition;
@@ -469,6 +490,16 @@ void physLib::cAI::aiupdate(std::vector<cRigidBody*> boids, double deltatime,con
 			//aiObj->m_physics_component->setVelocity(normalize(aiObj->m_physics_component->getVelocity()) * maxVelocity);
 			boids[i]->mVelocity = normalize(boids[i]->mVelocity * maxVelocity);
 		}
+
+
+		/*if(on_path)
+		for (int in = 0; in < coordinator->position_offset_.size(); in++)
+		{
+
+			coordinator->position_offset_[in] += coordinator->coordinator->mPosition;
+			coordinator->vehicles_[in]->mOrientation = coordinator->coordinator->mOrientation;
+		}*/
+		
 	}
 }
 
@@ -480,5 +511,13 @@ void physLib::cAI::aiupdate(cRigidBody* boid, double deltatime, const float maxV
 		//aiObj->m_physics_component->setVelocity(normalize(aiObj->m_physics_component->getVelocity()) * maxVelocity);
 		boid->mVelocity = normalize(boid->mVelocity * maxVelocity);
 	}
+
+	//if (on_path)
+	//{
+
+	//	glm::quat rotationadjust = coordinator->coordinator->safeQuatLookAt(coordinator->path_[coordinator->current_path], coordinator->coordinator->mPosition, glm::vec3(0, 1, 0));
+	//	//glm::quat rotateThisFrame = glm::slerp(rotationadjust, dt);
+	//	coordinator->coordinator->mOrientation = rotationadjust;
+	//}
 }
 
