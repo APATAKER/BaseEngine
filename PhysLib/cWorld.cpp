@@ -50,36 +50,36 @@ namespace physLib
 
 		// Animation Behaviour
 		//GetAiFormationType();
-		for(size_t index = 0;index<numBodies;index++)
-		{
-			
-			ai->formation(ai->coordinator, ai->coordinator->vehicles_);
+		//for(size_t index = 0;index<numBodies;index++)
+		//{
+		//	
+		//	ai->formation(ai->coordinator, ai->coordinator->vehicles_);
 
-			if(ai->is_flock)
-			{
-				for (int i = 0; i < ai->coordinator->vehicles_.size(); i++)
-				{
-					ai->flock(ai->coordinator->vehicles_);
-				
-				}
-			}
+		//	if(ai->is_flock)
+		//	{
+		//		for (int i = 0; i < ai->coordinator->vehicles_.size(); i++)
+		//		{
+		//			ai->flock(ai->coordinator->vehicles_);
+		//		
+		//		}
+		//	}
 
-			if(ai->on_path)
-			{
-				ai->pathfollow(ai->coordinator, ai->coordinator->vehicles_);
-				ai->rotateSlerp(dt);
-				
-			}
-			else
-			{
-				ai->coordinator->coordinator->mSteerForce = glm::vec3(0, 0, 0);
-			}
-			
-			
-			ai->aiupdate(ai->coordinator->vehicles_, dt, ai->maxVelocityBoid);
-			ai->aiupdate(ai->coordinator->coordinator, dt, ai->maxVelocityCoord);
-			
-		}
+		//	if(ai->on_path)
+		//	{
+		//		ai->pathfollow(ai->coordinator, ai->coordinator->vehicles_);
+		//		ai->rotateSlerp(dt);
+		//		
+		//	}
+		//	else
+		//	{
+		//		ai->coordinator->coordinator->mSteerForce = glm::vec3(0, 0, 0);
+		//	}
+		//	
+		//	
+		//	ai->aiupdate(ai->coordinator->vehicles_, dt, ai->maxVelocityBoid);
+		//	ai->aiupdate(ai->coordinator->coordinator, dt, ai->maxVelocityCoord);
+		//	
+		//}
 		
 		for (size_t outerloopindex = 0; outerloopindex < numBodies-1; outerloopindex++) //3)
 		{
