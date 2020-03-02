@@ -31,6 +31,11 @@ extern nPhysics::iPhysicsWorld* physics_world;
 
 
 std::vector<cGameObject*> g_vec_pGameObjects;
+std::vector<cGameObject*> vec_cubesRow0;
+std::vector<cGameObject*> vec_cubesRow1;
+std::vector<cGameObject*> vec_cubesRow2;
+std::vector<cGameObject*> vec_cubeswall1;
+std::vector<cGameObject*> vec_cubeswall2;
 std::vector<mLight::cLightStuff*> vec_lightObjects;
 std::vector<cGameObject*> vec_bullets;
 
@@ -39,6 +44,8 @@ rapidjson::Document document;
 //std::string g_HACK_currentAnimationName = "idle";
 //float HACK_FrameTime = 0.0f;
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
+bool is_on_platform = false;
+
 extern int punchcounter;
 
 
@@ -54,6 +61,8 @@ void SetUpTextureBindingsForObject(
 	GLint shaderProgID);
 cMesh findMeshByName(std::vector<cMesh> vMesh, std::string Meshname);
 cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
+void checkCollisionsAnimation();
+bool isOnPlatform(cGameObject* player);
 
 
 int main()
@@ -227,6 +236,96 @@ int main()
 		}
 		g_vec_pGameObjects.push_back(gameobject);
 	}
+	cGameObject** p_cubes0 = new cGameObject * [20];
+	for(int i=0;i<20;i++)
+	{
+		p_cubes0[i] = new cGameObject();
+		p_cubes0[i]->meshName = "cube";
+		p_cubes0[i]->m_position = glm::vec3(0, 0, 0);
+		p_cubes0[i]->scale = 1.f;
+		p_cubes0[i]->textures[0] = "bluetex.bmp";
+		p_cubes0[i]->textureRatio[0] = 1;
+		vec_cubesRow0.push_back(p_cubes0[i]);
+	}
+	for(int i=0,draw1=(-200*(vec_cubesRow0.size()/2));i< vec_cubesRow0.size();i++,draw1+=200)
+	{
+		int r = rand() % 1;
+		if(r == 0)
+			vec_cubesRow0[i]->m_position = glm::vec3( draw1, 0, 0);
+		else
+			vec_cubesRow0[i]->m_position = glm::vec3( draw1, 999999, 0);
+
+	}
+	cGameObject** p_cubes1 = new cGameObject * [20];
+	for(int i=0;i<20;i++)
+	{
+		p_cubes1[i] = new cGameObject();
+		p_cubes1[i]->meshName = "cube";
+		p_cubes1[i]->m_position = glm::vec3(0, 0, 0);
+		p_cubes1[i]->scale = 1.f;
+		p_cubes1[i]->textures[0] = "bluetex.bmp";
+		p_cubes1[i]->textureRatio[0] = 1;
+		vec_cubesRow1.push_back(p_cubes1[i]);
+	}
+	for(int i=0,draw1=(-200*(vec_cubesRow1.size()/2));i< vec_cubesRow1.size();i++,draw1+=200)
+	{
+		int r = rand() % 2;
+		if (r == 0)
+		vec_cubesRow1[i]->m_position = glm::vec3( draw1, 400, 0);
+		else
+		vec_cubesRow1[i]->m_position = glm::vec3( draw1, 999999, 0);
+	}
+	cGameObject** p_cubes2 = new cGameObject * [20];
+	for(int i=0;i<20;i++)
+	{
+		p_cubes2[i] = new cGameObject();
+		p_cubes2[i]->meshName = "cube";
+		p_cubes2[i]->m_position = glm::vec3(0, 0, 0);
+		p_cubes2[i]->scale = 1.f;
+		p_cubes2[i]->textures[0] = "bluetex.bmp";
+		p_cubes2[i]->textureRatio[0] = 1;
+		vec_cubesRow2.push_back(p_cubes2[i]);
+	}
+	for(int i=0,draw1=(-200*(vec_cubesRow2.size()/2));i< vec_cubesRow2.size();i++,draw1+=200)
+	{
+		int r = rand() % 2;
+		if (r == 0)
+		vec_cubesRow2[i]->m_position = glm::vec3( draw1, 800, 0);
+		else
+		vec_cubesRow2[i]->m_position = glm::vec3( draw1, 999999, 0);
+	}
+
+	cGameObject** p_cubeswall1 = new cGameObject * [20];
+	for(int i=0;i<20;i++)
+	{
+		p_cubeswall1[i] = new cGameObject();
+		p_cubeswall1[i]->meshName = "cube";
+		p_cubeswall1[i]->m_position = glm::vec3(0, 0, 0);
+		p_cubeswall1[i]->scale = 1.f;
+		p_cubeswall1[i]->textures[0] = "bluetex.bmp";
+		p_cubeswall1[i]->textureRatio[0] = 1;
+		vec_cubeswall1.push_back(p_cubeswall1[i]);
+	}
+	for(int i=0,draw1=(100);i<vec_cubeswall1.size();i++,draw1+=100)
+	{
+		vec_cubeswall1[i]->m_position = glm::vec3(-2000, draw1, 0);
+	}
+	cGameObject** p_cubeswall2 = new cGameObject * [20];
+	for(int i=0;i<20;i++)
+	{
+		p_cubeswall2[i] = new cGameObject();
+		p_cubeswall2[i]->meshName = "cube";
+		p_cubeswall2[i]->m_position = glm::vec3(0, 0, 0);
+		p_cubeswall2[i]->scale = 1.f;
+		p_cubeswall2[i]->textures[0] = "bluetex.bmp";
+		p_cubeswall2[i]->textureRatio[0] = 1;
+		vec_cubeswall2.push_back(p_cubeswall2[i]);
+	}
+	for(int i=0,draw1=(100);i<vec_cubeswall2.size();i++,draw1+=100)
+	{
+		vec_cubeswall2[i]->m_position = glm::vec3(2000, draw1, 0);
+	}
+	
 	cGameObject* debug_sphere = new cGameObject();
 	debug_sphere->meshName = "sphere5";
 	debug_sphere->scale = 5.f;
@@ -242,7 +341,7 @@ int main()
 
 	// Camera Created here
 	::g_pFlyCamera = new cFlyCamera();
-	::g_pFlyCamera->eye = glm::vec3(-2.5,175,323.9);
+	::g_pFlyCamera->eye = glm::vec3(-5,500,2000);
 	::g_pFlyCamera->movementSpeed = 0.25f;
 	::g_pFlyCamera->movementSpeed = 2.5f;
 	// Camera Created here
@@ -397,8 +496,96 @@ int main()
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
 		}
+		// cube row 0
+		for (int index = 0; index != ::vec_cubesRow0.size(); index++)
+		{
+			cGameObject* pCurrentObject = ::vec_cubesRow0[index];
+			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
+
+			if (pCurrentObject->m_physics_component)
+			{
+				pCurrentObject->m_physics_component->GetTransform(matModel);
+			}
+			else
+			{
+			}
+
+			DrawObject(matModel, pCurrentObject,
+				shader_program_ID, p_vao_manager);
+		}
+		// cube row 1
+		for (int index = 0; index != ::vec_cubesRow1.size(); index++)
+		{
+			cGameObject* pCurrentObject = ::vec_cubesRow1[index];
+			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
+
+			if (pCurrentObject->m_physics_component)
+			{
+				pCurrentObject->m_physics_component->GetTransform(matModel);
+			}
+			else
+			{
+			}
+
+			DrawObject(matModel, pCurrentObject,
+				shader_program_ID, p_vao_manager);
+		}
+		// cube row 2
+		for (int index = 0; index != ::vec_cubesRow2.size(); index++)
+		{
+			cGameObject* pCurrentObject = ::vec_cubesRow2[index];
+			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
+
+			if (pCurrentObject->m_physics_component)
+			{
+				pCurrentObject->m_physics_component->GetTransform(matModel);
+			}
+			else
+			{
+			}
+
+			DrawObject(matModel, pCurrentObject,
+				shader_program_ID, p_vao_manager);
+		}
+		// cube wall 1
+		for (int index = 0; index != ::vec_cubeswall1.size(); index++)
+		{
+			cGameObject* pCurrentObject = ::vec_cubeswall1[index];
+			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
+
+			if (pCurrentObject->m_physics_component)
+			{
+				pCurrentObject->m_physics_component->GetTransform(matModel);
+			}
+			else
+			{
+			}
+
+			DrawObject(matModel, pCurrentObject,
+				shader_program_ID, p_vao_manager);
+		}
+		// cube wall 2
+		for (int index = 0; index != ::vec_cubeswall2.size(); index++)
+		{
+			cGameObject* pCurrentObject = ::vec_cubeswall2[index];
+			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
+
+			if (pCurrentObject->m_physics_component)
+			{
+				pCurrentObject->m_physics_component->GetTransform(matModel);
+			}
+			else
+			{
+			}
+
+			DrawObject(matModel, pCurrentObject,
+				shader_program_ID, p_vao_manager);
+		}
 		//Physics implementation
-		
+
+		/*cGameObject* player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar1");
+		is_on_platform = isOnPlatform(player);*/
+		checkCollisionsAnimation();
 		PhysicsInit();
 		PhysicsUpdate(deltaTime);
 
@@ -838,4 +1025,45 @@ cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects
 		if (vGameObjects[i]->friendlyName == friendlyname)
 			return vGameObjects[i];
 	}
+}
+
+void checkCollisionsAnimation()
+{
+	cGameObject* player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar1");
+	glm::vec3 player_position = player->m_position;
+	float dist_from_nearest_wall = 999999999;
+
+	for (int i = 0; i < vec_cubeswall1.size(); i++)
+	{
+		const float dist = glm::distance(vec_cubeswall1[i]->m_position, player_position);
+		if(dist < dist_from_nearest_wall)
+			dist_from_nearest_wall = dist;
+	}
+	for (auto& i : vec_cubeswall2)
+	{
+		const float dist = glm::distance(i->m_position, player_position);
+		if (dist < dist_from_nearest_wall)
+			dist_from_nearest_wall = dist;
+	}
+
+	if(dist_from_nearest_wall < 150)
+	{
+		if(glfwGetKey(window,GLFW_KEY_D))
+		{
+			player->m_position -= glm::vec3(10, 0, 0);
+			
+		}
+		else if(glfwGetKey(window,GLFW_KEY_A))
+		{
+			player->m_position -= glm::vec3(-10, 0, 0);
+			
+		}
+	}
+	
+}
+
+bool isOnPlatform(cGameObject* player)
+{
+	
+	return false;
 }

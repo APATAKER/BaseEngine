@@ -54,6 +54,7 @@ cGameObject::cGameObject()
 	this->is_static = true;
 
 	this->p_skinned_mesh = nullptr;
+	this->physicsShapeType = eShapeTypes::STATIC;
 
 	return;
 }

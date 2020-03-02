@@ -50,13 +50,13 @@ void PhysicsInit()
 			
 		for(int i=0;i< g_vec_pGameObjects.size();i++)
 		{
-			if(!g_vec_pGameObjects[i]->isWireframe)
+			if (!g_vec_pGameObjects[i]->isWireframe)
 			{
-				
-			rapidjson::Value& jgameobj = document["GameObjects"][i];
-			switch (g_vec_pGameObjects[i]->physicsShapeType)
-			{
-			case eShapeTypes::SPHERE:
+
+				rapidjson::Value& jgameobj = document["GameObjects"][i];
+				switch (g_vec_pGameObjects[i]->physicsShapeType)
+				{
+				case eShapeTypes::SPHERE:
 				{
 					nPhysics::sBallDef ball_def;
 					ball_def.Position = glm::vec3(jgameobj["position"]["x"].GetFloat(),
@@ -67,10 +67,10 @@ void PhysicsInit()
 					ball_def.orientation = g_vec_pGameObjects[i]->getQOrientation();
 					ball_def.AiType = jgameobj["aiType"].GetString();
 					g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateBall(ball_def);
-					
+
 				}
 				break;
-			case eShapeTypes::PLANE:
+				case eShapeTypes::PLANE:
 				{
 					nPhysics::sPlaneDef plane_def;
 					plane_def.position = glm::vec3(jgameobj["position"]["x"].GetFloat(),
@@ -84,8 +84,8 @@ void PhysicsInit()
 					g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreatePlane(plane_def);
 				}
 				break;
-			}
-			physics_world->AddComponent(g_vec_pGameObjects[i]->m_physics_component);
+				}
+				physics_world->AddComponent(g_vec_pGameObjects[i]->m_physics_component);
 			}
 		}
 		physics_world->SetUpAi();

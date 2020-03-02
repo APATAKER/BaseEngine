@@ -4,22 +4,24 @@
     "frag": "assets/shaders/fragmentShader01.glsl"
   },
   "models": [
-    "assets/models/AIGroundTerrain_Scalex2.ply",
+    "assets/models/AIGroundTerrain_Scalex100.ply",
     "assets/models/Sphere_Radius_1_XYZ_n_uv.ply",
     "assets/models/Sphere_Radius_2_XYZ_n_uv.ply",
     "assets/models/Sphere_Radius_3_XYZ_n_uv.ply",
     "assets/models/Sphere_Radius_5_XYZ_n_uv.ply",
     "assets/models/Sphere_Radius_0.5_XYZ_n_uv.ply",
-    "assets/models/cube_flat_shaded_xyz_n_uv.ply"
+    "assets/models/platform_xyz_uv.ply",
+    "assets/models/Android_Robot_All_xyz_n_uv_scaled.ply"
   ],
   "MeshName": [
-    "ground2",
+    "ground",
     "sphere1",
     "sphere2",
     "sphere3",
     "sphere5",
     "bullet",
-    "mazecube"
+    "cube",
+    "android"
   ],
   "Textures": [
     "defaultTex.bmp",
@@ -30,14 +32,15 @@
     "cyantex.bmp",
     "greentex.bmp",
     "yellowtex.bmp",
-    "violettex.bmp"
+    "violettex.bmp",
+    "browntex.bmp"
   ],
   "Lights": [
     {
       "lightID": 1,
       "lightPosition": {
         "x": -25.0,
-        "y": 300.0,
+        "y": 500.0,
         "z": -150.0
       },
       "lightConstAtten": 0.0000001,
@@ -57,6 +60,132 @@
         "x": 25.0,
         "y": 500.0,
         "z": 150.0
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 3,
+      "lightPosition": {
+        "x": 5.40,
+        "y": 500.0,
+        "z": -2100.0
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 4,
+      "lightPosition": {
+        "x":-2059,
+        "y": 500.0,
+        "z": 158.9
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 5,
+      "lightPosition": {
+        "x":  2059,
+        "y": 500.0,
+        "z": -158.9
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 6,
+      "lightPosition": {
+        "x":-2059,
+        "y": 500.0,
+        "z": 158.9
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 7,
+      "lightPosition": {
+        "x": -5.40,
+        "y": 500.0,
+        "z": 2100.0
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 8,
+      "lightPosition": {
+        "x": 50,
+        "y": 500,
+        "z": -1100
+      },
+      "lightConstAtten": 0.0000001,
+      "lightLinearAtten": 0.00119,
+      "lightQuadAtten": 9.21e-7,
+      "lightInnerAngle": 5.0,
+      "lightOuterAngle": 7.5,
+      "lightDirection": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      }
+    },
+    {
+      "lightID": 9,
+      "lightPosition": {
+        "x": -50,
+        "y": 500,
+        "z": 1100
       },
       "lightConstAtten": 0.0000001,
       "lightLinearAtten": 0.00119,
@@ -122,7 +251,7 @@
       "aiType": "none"
     },
     {
-      "meshname": "ground2",
+      "meshname": "ground",
       "friendlyname": "ground",
       "position": {
         "x": 0.0,
@@ -148,7 +277,7 @@
         "b": 1.0,
         "a": 1.0
       },
-      "tex": [ "defaultTex.bmp", "", "", "" ],
+      "tex": [ "blacktex.bmp", "", "", "" ],
       "texratio": [ 1, 0, 0, 0 ],
       "isStatic": 1,
       "physicsshapetype": 1,
@@ -172,11 +301,11 @@
       "aiType": "none"
     },
     {
-      "meshname": "mazecube",
-      "friendlyname": "checkpoint1",
+      "meshname": "rpgcharbindpose",
+      "friendlyname": "rpgchar1",
       "position": {
         "x": 0.0,
-        "y": 20.0,
+        "y": 100.0,
         "z": 0.0
       },
       "rotation": {
@@ -184,7 +313,86 @@
         "y": 0.0,
         "z": 0.0
       },
-      "scale": 2.0,
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "yellowtex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 1,
+      "physicsshapetype": 3,
+      "objectype": 1,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 10
+      },
+      "mass": 0,
+      "isVisible": 1,
+      "isSkinnedMesh": 1,
+      "meshfile": "assets/models/RPG-Character(FBX2013).FBX",
+      "animations": [
+        "assets/models/RPG-Character_Unarmed-Jump(FBX2013).FBX",
+        "assets/models/RPG-Character_Unarmed-Idle(FBX2013).FBX",
+        "assets/models/RPG-Character_Unarmed-Walk(FBX2013).fbx",
+        "assets/models/RPG-Character_Unarmed-Run(FBX2013).FBX",
+        "assets/models/RPG-Character_Unarmed-Attack-L3(FBX2013).FBX",
+        "assets/models/RPG-Character_Unarmed-Attack-R3(FBX2013).FBX",
+        "assets/models/RPG-Character_Unarmed-Strafe-Left(FBX2013).FBX",
+        "assets/models/RPG-Character_Unarmed-Strafe-Right(FBX2013).FBX",
+        "assets/models/RPG-Character_Unarmed-Strafe-Backward(FBX2013).FBX",
+        "assets/models/RPGTurnLeft.fbx",
+        "assets/models/RPGTurnRight.fbx",
+        "assets/models/RPGWalkBack.fbx"
+      ],
+      "animationName": [
+        "jump",
+        "idle",
+        "walk",
+        "run",
+        "punchleft",
+        "punchright",
+        "strafeleft",
+        "straferight",
+        "strafeback",
+        "turnleft",
+        "turnright",
+        "walkback"
+      ],
+      "defaultAnimation": "idle"
+    },
+    {
+      "meshname": "android",
+      "friendlyname": "enemy1",
+      "position": {
+        "x": 0.0,
+        "y": 100.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
       "objectcolor": {
         "r": 1.0,
         "g": 1.0,
@@ -202,225 +410,26 @@
       "texratio": [ 1, 0, 0, 0 ],
       "isStatic": 1,
       "physicsshapetype": 3,
-      "objectype": 1,
-      "sphereRadius": 2.0,
-      "bulletCollisionRadius": 10.0,
+      "objectype": 2,
+      "sphereRadius": 0.0,
+      "bulletCollisionRadius": 0.0,
       "plane": {
         "normal": {
           "x": 0.0,
-          "y": -1.0,
+          "y": 1.0,
           "z": 0.0
         },
-        "constant": 0
+        "constant": 1
       },
       "sphere": {
         "radius": 0
       },
-      "mass": 1,
-      "isVisible": 1,
-      "isSkinnedMesh": 0,
-      "aiType": "none"
-    },
-    {
-      "meshname": "mazecube",
-      "friendlyname": "checkpoint2",
-      "position": {
-        "x": -170.0,
-        "y": 20.0,
-        "z": -170.0
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "scale": 2.0,
-      "objectcolor": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0,
-        "a": 1.0
-      },
-      "isWireframe": 0,
-      "debugcolor": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0,
-        "a": 1.0
-      },
-      "tex": [ "redtex.bmp", "", "", "" ],
-      "texratio": [ 1, 0, 0, 0 ],
-      "isStatic": 1,
-      "physicsshapetype": 3,
-      "objectype": 1,
-      "sphereRadius": 2.0,
-      "bulletCollisionRadius": 10.0,
-      "plane": {
-        "normal": {
-          "x": 0.0,
-          "y": -1.0,
-          "z": 0.0
-        },
-        "constant": 0
-      },
-      "sphere": {
-        "radius": 0
-      },
-      "mass": 1,
-      "isVisible": 1,
-      "isSkinnedMesh": 0,
-      "aiType": "none"
-    },
-    {
-      "meshname": "mazecube",
-      "friendlyname": "checkpoint3",
-      "position": {
-        "x": -170.0,
-        "y": 20.0,
-        "z": 170.0
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "scale": 2.0,
-      "objectcolor": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0,
-        "a": 1.0
-      },
-      "isWireframe": 0,
-      "debugcolor": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0,
-        "a": 1.0
-      },
-      "tex": [ "redtex.bmp", "", "", "" ],
-      "texratio": [ 1, 0, 0, 0 ],
-      "isStatic": 1,
-      "physicsshapetype": 3,
-      "objectype": 1,
-      "sphereRadius": 2.0,
-      "bulletCollisionRadius": 10.0,
-      "plane": {
-        "normal": {
-          "x": 0.0,
-          "y": -1.0,
-          "z": 0.0
-        },
-        "constant": 0
-      },
-      "sphere": {
-        "radius": 0
-      },
-      "mass": 1,
-      "isVisible": 1,
-      "isSkinnedMesh": 0,
-      "aiType": "none"
-    },
-    {
-      "meshname": "mazecube",
-      "friendlyname": "checkpoint4",
-      "position": {
-        "x": 170.0,
-        "y": 20.0,
-        "z": 170.0
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "scale": 2.0,
-      "objectcolor": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0,
-        "a": 1.0
-      },
-      "isWireframe": 0,
-      "debugcolor": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0,
-        "a": 1.0
-      },
-      "tex": [ "redtex.bmp", "", "", "" ],
-      "texratio": [ 1, 0, 0, 0 ],
-      "isStatic": 1,
-      "physicsshapetype": 3,
-      "objectype": 1,
-      "sphereRadius": 2.0,
-      "bulletCollisionRadius": 10.0,
-      "plane": {
-        "normal": {
-          "x": 0.0,
-          "y": -1.0,
-          "z": 0.0
-        },
-        "constant": 0
-      },
-      "sphere": {
-        "radius": 0
-      },
-      "mass": 1,
-      "isVisible": 1,
-      "isSkinnedMesh": 0,
-      "aiType": "none"
-    },
-    {
-      "meshname": "mazecube",
-      "friendlyname": "checkpoint5",
-      "position": {
-        "x": 170.0,
-        "y": 20.0,
-        "z": -170.0
-      },
-      "rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "scale": 2.0,
-      "objectcolor": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0,
-        "a": 1.0
-      },
-      "isWireframe": 0,
-      "debugcolor": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0,
-        "a": 1.0
-      },
-      "tex": [ "redtex.bmp", "", "", "" ],
-      "texratio": [ 1, 0, 0, 0 ],
-      "isStatic": 1,
-      "physicsshapetype": 3,
-      "objectype": 1,
-      "sphereRadius": 2.0,
-      "bulletCollisionRadius": 10.0,
-      "plane": {
-        "normal": {
-          "x": 0.0,
-          "y": -1.0,
-          "z": 0.0
-        },
-        "constant": 0
-      },
-      "sphere": {
-        "radius": 0
-      },
-      "mass": 1,
+      "mass": 0,
       "isVisible": 1,
       "isSkinnedMesh": 0,
       "aiType": "none"
     }
+
   ]
   
 }
