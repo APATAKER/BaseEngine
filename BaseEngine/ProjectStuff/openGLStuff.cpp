@@ -340,7 +340,14 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
 			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
 			if (player->pAniState->vecAnimationQueue.empty())
+			{
 				player->pAniState->vecAnimationQueue.push_back(state);
+				//player->m_position += glm::vec3(0, 400, 0);
+				for(int i = 0 ; i < 20 ; i++)
+				{
+					player->m_position += glm::vec3(0, 20, 0);
+				}
+			}
 		}
 	}
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)

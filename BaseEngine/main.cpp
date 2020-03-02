@@ -583,8 +583,8 @@ int main()
 		}
 		//Physics implementation
 
-		/*cGameObject* player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar1");
-		is_on_platform = isOnPlatform(player);*/
+		cGameObject* player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar1");
+		is_on_platform = isOnPlatform(player);
 		checkCollisionsAnimation();
 		PhysicsInit();
 		PhysicsUpdate(deltaTime);
@@ -1033,9 +1033,9 @@ void checkCollisionsAnimation()
 	glm::vec3 player_position = player->m_position;
 	float dist_from_nearest_wall = 999999999;
 
-	for (int i = 0; i < vec_cubeswall1.size(); i++)
+	for (auto& i : vec_cubeswall1)
 	{
-		const float dist = glm::distance(vec_cubeswall1[i]->m_position, player_position);
+		const float dist = glm::distance(i->m_position, player_position);
 		if(dist < dist_from_nearest_wall)
 			dist_from_nearest_wall = dist;
 	}
@@ -1064,6 +1064,12 @@ void checkCollisionsAnimation()
 
 bool isOnPlatform(cGameObject* player)
 {
-	
+	float dist_between_nearest_platform_standing_in=9999999999;
+	for(int i=0;i<vec_cubesRow0.size();i++)
+	{
+		const float dist = glm::distance(player->m_position, vec_cubesRow0[i]->m_position);
+		if (dist < dist_between_nearest_platform_standing_in)
+			dist_between_nearest_platform_standing_in = dist;
+	}
 	return false;
 }
