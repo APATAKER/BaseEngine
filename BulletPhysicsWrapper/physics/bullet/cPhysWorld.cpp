@@ -63,6 +63,10 @@ void cPhysWorld::GetOnPath(bool onPath)
 {
 }
 
+void cPhysWorld::GetIsFlock(bool is_flock)
+{
+}
+
 void cPhysWorld::GetIsReverse(bool isReserve)
 {
 }

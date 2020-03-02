@@ -102,7 +102,7 @@ void physLib::cCoordinator::update_position_offset()
 	}
 	else if (formation_type_ == physLib::formation_type::rows)
 	{
-		position_offset_[0] = (glm::vec3(0, 0, 0));						// 1
+		position_offset_[0] = (glm::vec3(0, 0, 0)) ;						// 1
 		position_offset_[1] = (glm::vec3(-10, 0, 0));					// 2
 		position_offset_[2] = (glm::vec3(10, 0, 0));					// 3
 		position_offset_[3] = (glm::vec3(-20, 0, 0));					// 4
@@ -136,6 +136,14 @@ void physLib::cCoordinator::update_position_offset()
 	for(int i=0;i<position_offset_.size();i++)
 	{
 		position_offset_[i] += coordinator->mPosition;
+		vehicles_[i]->mOrientation = coordinator->mOrientation;
 	}
+	
+}
+
+void physLib::cCoordinator::get_coordinator_at()
+{
+	coordinator->updateAtFromOrientation();
+	coordinator->mOrientation = glm::quat(coordinator->getAtInWorldSpace());
 }
 

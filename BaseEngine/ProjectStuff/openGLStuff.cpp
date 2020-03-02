@@ -8,6 +8,7 @@ bool g_MouseIsInsideWindow = false;
 bool g_MouseLeftButtonIsDown = false;
 bool on_path = false;
 bool revesre = false;
+bool is_flock = false;
 int currentSphere = 6;
 int changePlayer = 0;
 int punchcounter = 0;
@@ -82,6 +83,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			on_path = !on_path;
 			physics_world->GetOnPath(on_path);
 			
+		}
+		if (glfwGetKey(window, GLFW_KEY_6))		// Turn on Flock
+		{
+			is_flock = true;
+			physics_world->GetIsFlock(is_flock);
+
+		}
+		if (glfwGetKey(window, GLFW_KEY_7))		// Turn off Flock
+		{
+			is_flock = false;
+			physics_world->GetIsFlock(is_flock);
+
 		}
 		if (glfwGetKey(window, GLFW_KEY_9))		// Reverse the path
 		{

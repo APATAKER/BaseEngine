@@ -77,6 +77,7 @@ namespace physLib
 		void GetAiFormationType(int type);
 		void GetOnPath(bool OnPath);
 		void GetIsReverse(bool isRevesre);
+		void GetIsFlock(bool isFlock);
 
 		void SetCoordinator();
 

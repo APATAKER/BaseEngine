@@ -124,6 +124,9 @@ namespace physLib
 		glm::vec3 getAtInWorldSpace(void);
 		void updateOrientation(glm::vec3 EulerAngleDegreesXYZ);
 		glm::quat getQOrientation(void);
+
+		glm::quat safeQuatLookAt(glm::vec3 const& lookFrom, glm::vec3 const& lookTo, glm::vec3 const& up);
+		
 		
 		// Mass
 		// Expected to be non-negative.

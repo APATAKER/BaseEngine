@@ -32,8 +32,8 @@ namespace physLib
 	public:
 		void ai_update();
 		void set_formation_type(formation_type f_type);
-		void set_coordinator();
 		void update_position_offset();
+		void get_coordinator_at();
 		
 		
 	};

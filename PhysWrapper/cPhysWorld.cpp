@@ -55,6 +55,10 @@ void cPhysWorld::SetUpAi()
 {
 	world_->AiSetup();
 }
+void cPhysWorld::GetIsFlock(bool is_flock)
+{
+	world_->GetIsFlock(is_flock);
+}
 
 void cPhysWorld::GetIsReverse(bool isReserve)
 {

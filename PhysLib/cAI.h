@@ -25,7 +25,16 @@ class cAI
 	bool is_reached;
 	bool on_path;
 	bool is_reverse;
+	bool is_flock;
 	int current_path = 0;
+	int neighbourCount = 0;
+	glm::vec3 totalFlee = glm::vec3(0, 0, 0);
+	float separationRadius = 10.0f;
+	glm::vec3 totalVelocity = glm::vec3(0, 0, 0);
+	float alignmentRadius = 15.0f;
+	glm::vec3 totalPosition = glm::vec3(0, 0, 0);
+	float cohesionRadius = 15.0f;
+	
 	cCoordinator* coordinator;
 
 	
@@ -33,7 +42,12 @@ public:
 
 	void formation(cCoordinator* coordinator, std::vector<cRigidBody*> boids);
 	void pathfollow(cCoordinator* coordinator, std::vector<cRigidBody*> boids);
+	glm::vec3 separation(cRigidBody* currentBoid, std::vector<cRigidBody*> boids);
+	glm::vec3 alignment(cRigidBody* currentBoid, std::vector<cRigidBody*> boids);
+	glm::vec3 cohesion(cRigidBody* currentBoid, std::vector<cRigidBody*> boids);
+	void flock(std::vector<cRigidBody*> boids);
 	glm::vec3 seekR(glm::vec3 targetPos, cRigidBody* aiObj);
+	glm::vec3 fleeR(glm::vec3 targetPos, cRigidBody* aiObj);
 
 	void aiupdate(std::vector<cRigidBody*> boids,double deltatime,const float maxVelocity);
 	void aiupdate(cRigidBody* boid, double deltatime, const float maxVelocity);

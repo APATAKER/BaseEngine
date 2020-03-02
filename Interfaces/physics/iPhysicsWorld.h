@@ -12,6 +12,7 @@ namespace nPhysics
 		
 		virtual void Update(float dt) = 0;
 		virtual void SetUpAi() = 0;
+		virtual void GetIsFlock(bool is_flock) = 0;
 		virtual void GetIsReverse(bool isReserve) = 0;
 		virtual void GetOnPath(bool onPath) = 0;
 		virtual void GetFormationType(int type) = 0;

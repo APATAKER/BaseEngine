@@ -72,6 +72,9 @@ void physLib::cAI::pathfollow(cCoordinator* coordinator, std::vector<cRigidBody*
 	
 	float distance_between_checkpoint_coord_path = glm::distance(coordinator->path_[current_path],coordinator->coordinator->mPosition);
 	//float distance_between_checkpoint_coord_revpath = glm::distance(coordinator->rev_path_[current_path],coordinator->coordinator->mPosition);
+
+	//coordinator->get_coordinator_at();
+	
 	
 	
 	if (!is_reached)
@@ -80,6 +83,8 @@ void physLib::cAI::pathfollow(cCoordinator* coordinator, std::vector<cRigidBody*
 		{
 			
 			coordinator->coordinator->mSteerForce = seekR(coordinator->path_[current_path], coordinator->coordinator);
+			/*glm::vec3 direction_coord_to_path_destination = glm::normalize(coordinator->path_[current_path]-coordinator->coordinator->mPosition);*/
+			coordinator->coordinator->mOrientation = coordinator->coordinator->safeQuatLookAt(coordinator->path_[current_path],coordinator->coordinator->mPosition, glm::vec3(0, 1, 0));
 			if (distance_between_checkpoint_coord_path < 5)
 			{
 				is_reached = true;
@@ -124,6 +129,91 @@ void physLib::cAI::pathfollow(cCoordinator* coordinator, std::vector<cRigidBody*
 	coordinator->update_position_offset();
 }
 
+glm::vec3 physLib::cAI::separation(cRigidBody* currentBoid, std::vector<cRigidBody*> boids)
+{
+
+	for (int i = 0; i < boids.size(); i++)
+	{
+		//float dist = Distance(currentPosition, boids[i].position);
+		float dist = glm::distance(currentBoid->mPosition, boids[i]->mPosition);
+		if ((dist > 0) && (dist < separationRadius))
+		{
+			glm::vec3 fleeVector = currentBoid->mPosition - boids[i]->mPosition;
+			fleeVector = normalize(fleeVector);
+			fleeVector /= dist;
+			totalFlee += fleeVector;
+			neighbourCount++;
+		}
+	}
+	glm::vec3 steer = glm::vec3(0, 0, 0);
+	if (neighbourCount > 0)
+	{
+		glm::vec3 desired_velocity = totalFlee / (float)neighbourCount;
+		desired_velocity = normalize(desired_velocity);
+		desired_velocity *= maxVelocityBoid;
+		steer = desired_velocity - currentBoid->mVelocity;
+	}
+	return  steer;
+	
+}
+glm::vec3 physLib::cAI::alignment(cRigidBody* currentBoid, std::vector<cRigidBody*> boids)
+{
+	
+	for (int i = 0; i < boids.size(); i++)
+	{
+		float dist = glm::distance(currentBoid->mPosition, boids[i]->mPosition);
+		if ((dist > 0) && (dist < alignmentRadius)) 
+		{
+			totalVelocity += boids[i]->mVelocity;
+			neighbourCount++;
+		}
+	}
+	glm::vec3 steerForce = glm::vec3(0, 0, 0);
+	if (neighbourCount > 0) 
+	{
+		glm::vec3 desiredVelocity = totalVelocity / (float)neighbourCount;
+		desiredVelocity = normalize(desiredVelocity);
+		desiredVelocity *= maxVelocityBoid;
+		steerForce = desiredVelocity - currentBoid->mVelocity;
+		//steerForce *= maxForce;
+	}
+	return steerForce;
+}
+glm::vec3 physLib::cAI::cohesion(cRigidBody* currentBoid, std::vector<cRigidBody*> boids)
+{
+
+	for (int i = 0; i < boids.size(); i++) {
+		float dist = glm::distance(currentBoid->mPosition, boids[i]->mPosition);
+		if ((dist > 0) && (dist < cohesionRadius)) {
+			totalPosition += boids[i]->mPosition;
+			neighbourCount++;
+		}
+
+	}
+	glm::vec3 steerForce = glm::vec3(0, 0, 0);
+
+	if (neighbourCount > 0) {
+		glm::vec3 target = totalPosition / (float)neighbourCount;
+		steerForce = seekR(target,currentBoid);
+	}
+	return steerForce;
+
+}
+void physLib::cAI::flock(std::vector<cRigidBody*> boids)
+{
+	for(int i=0;i<boids.size();i++)
+	{
+		glm::vec3 sep = separation(boids[i], boids);
+		glm::vec3 align = alignment(boids[i], boids);
+		glm::vec3 coh = cohesion(boids[i], boids);
+
+		sep *= 0.25f;
+		align *= 0.25;
+		coh *= 0.5;
+		
+		boids[i]->mSteerForce = sep + align + coh;
+	}
+}
 void physLib::cAI::seek(cRigidBody* target, cRigidBody* aiObj, double deltatime)
 {
 	glm::vec3 desieredVelocity = target->mPosition - aiObj->mPosition;
@@ -188,6 +278,27 @@ glm::vec3 physLib::cAI::seekR(glm::vec3 targetPos, cRigidBody* aiObj)
 		}
 	}
 	return desieredVelocity - aiObj->mVelocity;
+}
+glm::vec3 physLib::cAI::fleeR(glm::vec3 targetPos, cRigidBody* aiObj)
+{
+	glm::vec3 desieredVelocity = aiObj->mPosition - targetPos;
+
+	float dist = desieredVelocity.length();
+
+	glm::vec3 direction = glm::normalize(desieredVelocity);
+
+	if (dist < slowingRadius)
+	{
+		desieredVelocity = direction * maxVelocityBoid * (dist / slowingRadius);
+	}
+	else
+	{
+		desieredVelocity = direction * maxVelocityBoid;
+	}
+
+	glm::vec3 steer = desieredVelocity - aiObj->mVelocity;
+	
+	return steer;
 }
 void physLib::cAI::seek(glm::vec3 targetPos, cRigidBody* aiObj, double deltatime)
 {

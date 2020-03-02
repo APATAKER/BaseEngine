@@ -52,16 +52,17 @@ namespace physLib
 		//GetAiFormationType();
 		for(size_t index = 0;index<numBodies;index++)
 		{
-			//ai.seek(mBodies[6], mBodies[7], dt);
-			//ai.pursue(mBodies[6], mBodies[8],dt);
-			//ai->flee(m_bodies_[5], m_bodies_[8],dt);
-			//ai->flee(m_bodies_[5], m_bodies_[9],dt);
-			//ai->flee(m_bodies_[5], m_bodies_[10],dt);
-			//ai->flee(m_bodies_[5], m_bodies_[11],dt);
-			//ai->flee(m_bodies_[5], m_bodies_[12],dt);
-			//ai->flee(m_bodies_[5], m_bodies_[13],dt);
-			//ai->flee(m_bodies_[5], m_bodies_[14],dt);
+			
 			ai->formation(ai->coordinator, ai->coordinator->vehicles_);
+
+			if(ai->is_flock)
+			{
+				for (int i = 0; i < ai->coordinator->vehicles_.size(); i++)
+				{
+					ai->flock(ai->coordinator->vehicles_);
+				
+				}
+			}
 
 			if(ai->on_path)
 				ai->pathfollow(ai->coordinator, ai->coordinator->vehicles_);
@@ -411,5 +412,9 @@ namespace physLib
 		}
 		
 		
+	}
+	void cWorld::GetIsFlock(bool isFlock)
+	{
+		ai->is_flock = isFlock;
 	}
 }

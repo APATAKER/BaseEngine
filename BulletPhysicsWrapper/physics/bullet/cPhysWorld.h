@@ -24,6 +24,7 @@ public:
 
 	void SetUpAi() override;
 	void GetOnPath(bool onPath) override;
+	void GetIsFlock(bool is_flock) override;
 	// Getting is_Reverse or not
 	void GetIsReverse(bool isReserve) override;
 	void GetFormationType(int type) override;

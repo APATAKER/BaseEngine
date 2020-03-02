@@ -35,6 +35,9 @@ public:
 	// Getting is_Reverse or not
 	void GetIsReverse(bool isReserve) override;
 
+	// Getting is flock
+	void GetIsFlock(bool is_flock) override;
+
 	// not used
 	void SetCollisionListener(nPhysics::iCollisionListener* collision_listener);
 
