@@ -18,6 +18,7 @@ extern bool changePhys;
 extern int dataLoaded;
 extern std::string g_HACK_currentAnimationName;
 extern float HACK_FrameTime;
+extern float check;
 
 bool isOnlyShiftKeyDown(int mods);
 bool isOnlyCtrlKeyDown(int mods);
@@ -331,7 +332,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				player->pAniState->vecAnimationQueue.push_back(state);
 			}
 		}
-
+		
+		if (glfwGetKey(window, GLFW_KEY_M) && action == GLFW_PRESS)
+		{
+			std::cout << check << std::endl;
+		}
 		if (glfwGetKey(window, GLFW_KEY_SPACE) && action == GLFW_PRESS)
 		{
 			cAnimationState::sStateDetails state;

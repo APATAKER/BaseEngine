@@ -44,6 +44,7 @@ rapidjson::Document document;
 //std::string g_HACK_currentAnimationName = "idle";
 //float HACK_FrameTime = 0.0f;
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
+float check;
 bool is_on_platform = false;
 
 extern int punchcounter;
@@ -1064,12 +1065,26 @@ void checkCollisionsAnimation()
 
 bool isOnPlatform(cGameObject* player)
 {
-	float dist_between_nearest_platform_standing_in=9999999999;
+	float dist_between_nearest_platform_standing_in = 9999999999;
 	for(int i=0;i<vec_cubesRow0.size();i++)
 	{
 		const float dist = glm::distance(player->m_position, vec_cubesRow0[i]->m_position);
 		if (dist < dist_between_nearest_platform_standing_in)
 			dist_between_nearest_platform_standing_in = dist;
 	}
+	for(int i=0;i<vec_cubesRow1.size();i++)
+	{
+		const float dist = glm::distance(player->m_position, vec_cubesRow1[i]->m_position);
+		if (dist < dist_between_nearest_platform_standing_in)
+			dist_between_nearest_platform_standing_in = dist;
+	}
+	for(int i=0;i<vec_cubesRow2.size();i++)
+	{
+		const float dist = glm::distance(player->m_position, vec_cubesRow2[i]->m_position);
+		if (dist < dist_between_nearest_platform_standing_in)
+			dist_between_nearest_platform_standing_in = dist;
+	}
+	
+	check = dist_between_nearest_platform_standing_in;
 	return false;
 }
