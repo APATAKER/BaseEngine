@@ -50,8 +50,11 @@ rapidjson::Document document;
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 float check;
 bool is_on_platform = true;
+extern bool isJumping;
 
 extern int punchcounter;
+
+
 
 
 
@@ -70,6 +73,7 @@ void checkCollisionsAnimation();
 bool isOnPlatform(cGameObject* player);
 void moveAndroidByThread(cGameObject* android);
 void idleAnimationChange();
+
 
 
 int main()
@@ -607,6 +611,7 @@ int main()
 		is_on_platform = isOnPlatform(player);
 		idleAnimationChange();
 		std::cout << is_on_platform << std::endl;
+		//checkisonPlatform();
 		checkCollisionsAnimation();
 		PhysicsInit();
 		PhysicsUpdate(deltaTime);
@@ -1149,9 +1154,15 @@ void idleAnimationChange()
 	}
 	else
 	{
-		
+		if(!isJumping)
+		{
 		g_vec_pGameObjects[2]->pAniState->vecAnimationQueue.clear();
+			
+		}
 		g_vec_pGameObjects[2]->pAniState->defaultAnimation.name = "fall";
 		g_vec_pGameObjects[2]->pAniState->defaultAnimation.totalTime = g_vec_pGameObjects[2]->p_skinned_mesh->FindAnimationTotalTime("fall");
 	}
 }
+
+
+

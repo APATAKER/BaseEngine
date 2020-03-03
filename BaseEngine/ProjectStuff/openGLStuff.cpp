@@ -17,6 +17,7 @@ int currentSphere = 6;
 int changePlayer = 0;
 int punchcounter = 0;
 bool fell = false;
+bool isJumping = false;
 extern cFlyCamera* g_pFlyCamera;
 extern nPhysics::iPhysicsWorld* physics_world;
 extern bool changePhys;
@@ -116,7 +117,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			
 			player->setOrientation(glm::vec3(0, 90, 0));
-			bool isJumping = false;
+			isJumping = false;
 			player->updateAtFromOrientation();
 			for (int i = 0; i < player->pAniState->vecAnimationQueue.size(); i++)
 			{
@@ -201,7 +202,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			
 			player->setOrientation(glm::vec3(0, -90, 0));
-			bool isJumping = false;
+			isJumping = false;
 			player->updateAtFromOrientation();
 			for (int i = 0; i < player->pAniState->vecAnimationQueue.size(); i++)
 			{
@@ -241,7 +242,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				if(!isJumping)
 				if (!fell)
 				{
-					//player->pAniState->vecAnimationQueue.clear();
+					
 					std::thread fallthread(threadFunctionFall, player);
 					fallthread.detach();
 				}
