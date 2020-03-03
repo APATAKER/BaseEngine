@@ -361,7 +361,8 @@
         "assets/models/RPG-Character_Unarmed-Strafe-Backward(FBX2013).FBX",
         "assets/models/RPGTurnLeft.fbx",
         "assets/models/RPGTurnRight.fbx",
-        "assets/models/RPGWalkBack.fbx"
+        "assets/models/RPGWalkBack.fbx",
+        "assets/models/RPGFall.fbx"
       ],
       "animationName": [
         "jump",
@@ -375,7 +376,8 @@
         "strafeback",
         "turnleft",
         "turnright",
-        "walkback"
+        "walkback",
+        "fall"
       ],
       "defaultAnimation": "idle"
     },

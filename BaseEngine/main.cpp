@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include "commonHeaders.h"												// common headers
 #include "ProjectStuff/openGLStuff.h"									// userInput and create OpenGL window
 #include "ModelLoadingAndVAO/cModelLoader.h"							// PLY model loader and ASSIMP model Loader
@@ -11,6 +13,8 @@
 #include "DeltaTime/cLowPassFilter.h"									// DeltaTime calcu
 #include "JsonLoader/cLoad.h"											// Json Loader
 #include <physics/iPhysInterfaces.h>									// Physics
+#include <thread>
+
 #include "global.h"														// Global Loading AND func in future
 #include "FBO/cFBO.h"
 #include "MazeGen/cMazeMaker.h"
@@ -45,7 +49,7 @@ rapidjson::Document document;
 //float HACK_FrameTime = 0.0f;
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 float check;
-bool is_on_platform = false;
+bool is_on_platform = true;
 
 extern int punchcounter;
 
@@ -64,6 +68,8 @@ cMesh findMeshByName(std::vector<cMesh> vMesh, std::string Meshname);
 cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
 void checkCollisionsAnimation();
 bool isOnPlatform(cGameObject* player);
+void moveAndroidByThread(cGameObject* android);
+void idleAnimationChange();
 
 
 int main()
@@ -381,6 +387,9 @@ int main()
 	p_light_stuff = new mLight::cLightStuff();
 	mLight::LoadLightFromJson();
 
+	std::thread enemythred(moveAndroidByThread, g_vec_pGameObjects[3]);
+	enemythred.detach();
+
 	
 
 	//############################## Game Loop Starts Here ##################################################################
@@ -582,10 +591,22 @@ int main()
 			DrawObject(matModel, pCurrentObject,
 				shader_program_ID, p_vao_manager);
 		}
+
+		{
+			//cGameObject* debug_sphere = findGameObjectByFriendlyName(g_vec_pGameObjects, "debugsphere");
+			debug_sphere->isVisible = true;
+			debug_sphere->m_position = g_HACK_vec3_BoneLocationFK + g_vec_pGameObjects[2]->m_position;
+			glm::mat4 identmat = glm::mat4(1.0f);
+			DrawObject(identmat, debug_sphere, shader_program_ID, p_vao_manager);
+			debug_sphere->isVisible = false;
+			//debug_sphere->m_position = debug_sphere_old;	
+		}
 		//Physics implementation
 
 		cGameObject* player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar1");
 		is_on_platform = isOnPlatform(player);
+		idleAnimationChange();
+		std::cout << is_on_platform << std::endl;
 		checkCollisionsAnimation();
 		PhysicsInit();
 		PhysicsUpdate(deltaTime);
@@ -831,7 +852,7 @@ void DrawObject(glm::mat4 matModel,
 			//glm::vec3 debug_sphere_old = debug_sphere->m_position;
 			// "Bone" location is at the origin
 			glm::vec4 boneLocation = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-			glm::mat4 matSpecificBone = vecObjectBoneTransformation[22];
+			glm::mat4 matSpecificBone = vecObjectBoneTransformation[11];
 			//boneLocation = matSpecificBone * boneLocation;
 			// bone #22 is "B_R_Hand" in this model
 			// Transformed into "model" space where that bone is.
@@ -1084,7 +1105,53 @@ bool isOnPlatform(cGameObject* player)
 		if (dist < dist_between_nearest_platform_standing_in)
 			dist_between_nearest_platform_standing_in = dist;
 	}
-	
 	check = dist_between_nearest_platform_standing_in;
-	return false;
+
+	if(dist_between_nearest_platform_standing_in < 100 || dist_between_nearest_platform_standing_in > 150)
+	{
+		return false;
+	}
+	return true;
+}
+
+void moveAndroidByThread(cGameObject* android)
+{
+	int flag = 1;
+	int maxValue = android->m_position.x + 1800;
+	int minValue = android->m_position.x - 1800;
+	for (;;)
+	{
+		if(flag>0)
+		{
+			android->setOrientation(glm::vec3(0, 90, 0));
+		}
+		else
+		{
+			android->setOrientation(glm::vec3(0, -90, 0));
+			
+		}
+		if ((android->m_position.x > maxValue) || (android->m_position.x < minValue))
+		{
+			flag *= -1;
+		}
+		android->m_position += glm::vec3(flag, 0.0f, 0.0f);
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	}
+}
+
+void idleAnimationChange()
+{
+	if(is_on_platform)
+	{
+		g_vec_pGameObjects[2]->pAniState->defaultAnimation.name = "idle";
+		g_vec_pGameObjects[2]->pAniState->defaultAnimation.totalTime = g_vec_pGameObjects[2]->p_skinned_mesh->FindAnimationTotalTime("idle");
+		
+	}
+	else
+	{
+		
+		g_vec_pGameObjects[2]->pAniState->vecAnimationQueue.clear();
+		g_vec_pGameObjects[2]->pAniState->defaultAnimation.name = "fall";
+		g_vec_pGameObjects[2]->pAniState->defaultAnimation.totalTime = g_vec_pGameObjects[2]->p_skinned_mesh->FindAnimationTotalTime("fall");
+	}
 }

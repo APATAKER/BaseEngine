@@ -1,4 +1,8 @@
 #include"openGLStuff.h"
+
+#include <chrono>
+#include <thread>
+
 #include"../FlyCamera/cFlyCamera.h"
 #include "../GameObject/cGameObject.h"
 #include "../global.h"
@@ -12,6 +16,7 @@ bool is_flock = false;
 int currentSphere = 6;
 int changePlayer = 0;
 int punchcounter = 0;
+bool fell = false;
 extern cFlyCamera* g_pFlyCamera;
 extern nPhysics::iPhysicsWorld* physics_world;
 extern bool changePhys;
@@ -19,6 +24,7 @@ extern int dataLoaded;
 extern std::string g_HACK_currentAnimationName;
 extern float HACK_FrameTime;
 extern float check;
+extern bool is_on_platform;
 
 bool isOnlyShiftKeyDown(int mods);
 bool isOnlyCtrlKeyDown(int mods);
@@ -27,6 +33,9 @@ bool isShiftDown(GLFWwindow* window);
 bool isCtrlDown(GLFWwindow* window);
 bool isAltDown(GLFWwindow* window);
 bool areAllModifiersUp(GLFWwindow* window);
+
+void threadFunctionJump(cGameObject* player);
+void threadFunctionFall(cGameObject* player);
 
 extern std::vector<cGameObject*> g_vec_pGameObjects;
 
@@ -79,76 +88,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	//if (areAllModifiersUp(window))
 	if(!isAltDown(window) && !isCtrlDown(window))
 	{
-		//if (glfwGetKey(window, GLFW_KEY_W))		// walk forward
-		//{
-		//	bool isRunning;
-		//	//player->m_physics_component->ApplyForce(glm::vec3(0, 0, -50));
-		//	if (!isShiftDown(window))
-		//	{
-		//		cAnimationState::sStateDetails state;
-		//		state.name = "walk";
-		//		state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-		//			player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-		//		//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-		//		if (player->pAniState->vecAnimationQueue.empty())
-		//			player->pAniState->vecAnimationQueue.push_back(state);
-		//		isRunning = false;
-		//	}
-		//	else
-		//	{
-		//		cAnimationState::sStateDetails state;
-		//		state.name = "run";
-		//		state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-		//			player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-		//		//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-		//		if (player->pAniState->vecAnimationQueue.empty())
-		//			player->pAniState->vecAnimationQueue.push_back(state);
-		//		isRunning = true;
-		//	}
-
-		//	bool isJumping = false;
-
-		//	player->updateAtFromOrientation();
-
-		//	for (int i = 0; i < player->pAniState->vecAnimationQueue.size(); i++)
-		//	{
-		//		if (player->pAniState->vecAnimationQueue[i].name == "jump")
-		//		{
-		//			isJumping = true;
-		//		}
-		//	}
-		//	if (isRunning == true && isJumping == true)
-		//	{
-		//		player->MoveForward_Z(+10.f);
-		//	}
-		//	else
-		//		if (isRunning == true)
-		//		{
-		//			player->MoveForward_Z(+10.f);
-		//		}
-		//		else if (isJumping == true)
-		//		{
-		//			player->MoveForward_Z(+3.f);
-		//		}
-		//		else
-		//		{
-		//			player->MoveForward_Z(+5.f);
-		//		}
-		//}
-		//if (glfwGetKey(window, GLFW_KEY_S))		// walk backward
-		//{
-		//	cAnimationState::sStateDetails state;
-		//	state.name = "walkback";
-		//	state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-		//		player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-		//	//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-		//	if (player->pAniState->vecAnimationQueue.empty())
-		//		player->pAniState->vecAnimationQueue.push_back(state);
-
-		//	player->updateAtFromOrientation();
-		//	player->MoveForward_Z(-5.f);
-
-		//}
+		
 		if (glfwGetKey(window, GLFW_KEY_D))
 		{
 			bool isRunning;
@@ -174,6 +114,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 					player->pAniState->vecAnimationQueue.push_back(state);
 				isRunning = true;
 			}
+			
 			player->setOrientation(glm::vec3(0, 90, 0));
 			bool isJumping = false;
 			player->updateAtFromOrientation();
@@ -201,6 +142,36 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				{
 					player->MoveForward_Z(+5.f);
 				}
+			if (!is_on_platform)
+			{
+				//cAnimationState::sStateDetails state;
+				//state.name = "fall";
+				//state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+				//	player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+				////state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+				////if (player->pAniState->vecAnimationQueue.empty())
+				//player->pAniState->vecAnimationQueue.clear();
+				//player->pAniState->defaultAnimation.name = "fall";
+				//player->pAniState->vecAnimationQueue.push_back(state);
+				if(!isJumping)
+				if (!fell)
+				{
+					//player->pAniState->vecAnimationQueue.clear();
+					std::thread fallthread(threadFunctionFall, player);
+					fallthread.detach();
+				}
+				if (!is_on_platform)
+				{
+					fell = true;
+					//player->pAniState->vecAnimationQueue.clear();
+				}
+				
+
+			}
+			if (is_on_platform)
+			{
+				fell = false;
+			}
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_A))
@@ -228,6 +199,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 					player->pAniState->vecAnimationQueue.push_back(state);
 				isRunning = true;
 			}
+			
 			player->setOrientation(glm::vec3(0, -90, 0));
 			bool isJumping = false;
 			player->updateAtFromOrientation();
@@ -255,42 +227,38 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				{
 					player->MoveForward_Z(+5.f);
 				}
-			//cAnimationState::sStateDetails state;
-			//state.name = "walk";
-			//state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-			//	player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			////state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			//if (player->pAniState->vecAnimationQueue.empty())
-			//	player->pAniState->vecAnimationQueue.push_back(state);
-			//player->setOrientation(glm::vec3(0, -90, 0));
-			//player->updateAtFromOrientation();
+			if (!is_on_platform)
+			{
+				//cAnimationState::sStateDetails state;
+				//state.name = "fall";
+				//state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+				//	player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+				////state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+				////if (player->pAniState->vecAnimationQueue.empty())
+				////player->pAniState->vecAnimationQueue.clear();
+				////player->pAniState->defaultAnimation.name = "fall";
+				//player->pAniState->vecAnimationQueue.push_back(state);
+				if(!isJumping)
+				if (!fell)
+				{
+					//player->pAniState->vecAnimationQueue.clear();
+					std::thread fallthread(threadFunctionFall, player);
+					fallthread.detach();
+				}
+				if (!is_on_platform)
+				{
+					fell = true;
+					//player->pAniState->vecAnimationQueue.clear();
+				}
+			}
+			if (is_on_platform)
+			{
+				fell = false;
+			}
+
 		}
-		//if (glfwGetKey(window, GLFW_KEY_Q))
-		//{
-		//	cAnimationState::sStateDetails state;
-		//	state.name = "strafeleft";
-		//	state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-		//		player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-		//	//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-		//	if (player->pAniState->vecAnimationQueue.empty())
-		//		player->pAniState->vecAnimationQueue.push_back(state);
 
-		//	player->updateAtFromOrientation();
-		//	player->MoveLeftRight_X(-5.f);
-		//}
-		//if (glfwGetKey(window, GLFW_KEY_E))
-		//{
-		//	cAnimationState::sStateDetails state;
-		//	state.name = "straferight";
-		//	state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-		//		player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-		//	//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-		//	if (player->pAniState->vecAnimationQueue.empty())
-		//		player->pAniState->vecAnimationQueue.push_back(state);
-
-		//	player->updateAtFromOrientation();
-		//	player->MoveLeftRight_X(5.f);
-		//}
+	
 		if (glfwGetKey(window, GLFW_KEY_O) && action == GLFW_PRESS)		// walk forward
 		{
 			cAnimationState::sStateDetails state;
@@ -339,25 +307,57 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 		if (glfwGetKey(window, GLFW_KEY_SPACE) && action == GLFW_PRESS)
 		{
-			cAnimationState::sStateDetails state;
-			state.name = "jump";
-			state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
-				player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
-			//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
-			if (player->pAniState->vecAnimationQueue.empty())
+			if (player->m_position.y < 800)
 			{
-				player->pAniState->vecAnimationQueue.push_back(state);
-				//player->m_position += glm::vec3(0, 400, 0);
-				for(int i = 0 ; i < 20 ; i++)
-				{
-					player->m_position += glm::vec3(0, 20, 0);
-				}
+				std::thread jumpthread(threadFunctionJump, player);
+				jumpthread.detach();
+
 			}
 		}
 	}
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
+
+void threadFunctionJump(cGameObject* player)
+{
+	cAnimationState::sStateDetails state;
+	state.name = "jump";
+	state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+		player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+	//state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+	if (player->pAniState->vecAnimationQueue.empty())
+	{
+		player->pAniState->vecAnimationQueue.push_back(state);
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		//player->m_position += glm::vec3(0, 400, 0);
+		for (int i = 0; i < 200; i++)
+		{
+			player->m_position += glm::vec3(0, 2, 0);
+			std::this_thread::sleep_for(std::chrono::milliseconds(3));
+		}
+	}
+}
+
+void threadFunctionFall(cGameObject* player)
+{
+	//cAnimationState::sStateDetails state;
+	//state.name = "fall";
+	//state.totalTime = player->p_skinned_mesh->FindAnimationTotalTime(state.name) /
+	//	player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name);
+	////state.frameStepTime = player->p_skinned_mesh->FindAnimationFramesPerSecond(state.name) / 100;
+	//player->pAniState->vecAnimationQueue.push_back(state);
+
+	//std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+	//player->m_position += glm::vec3(0, 400, 0);
+	for (int i = 0; i < 200; i++)
+	{
+		player->m_position -= glm::vec3(0, 2, 0);
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	}
+
+}
+
 void error_callback(int error, const char* description)
 {
 	fprintf(stderr, "Error: %s\n", description);
