@@ -11,4 +11,5 @@ public:
 	// components
 	nPhysics::iBallComponent* CreateBall(const nPhysics::sBallDef& def) override;
 	nPhysics::iPlaneComponent* CreatePlane(const nPhysics::sPlaneDef& def) override;
+	nPhysics::iClothComponent* CreateCloth(const nPhysics::sClothDef& def) override;
 };

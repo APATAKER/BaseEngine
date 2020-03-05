@@ -23,6 +23,7 @@
     <ClCompile Include="cCoordinator.cpp" />
     <ClCompile Include="cIntegrator.cpp" />
     <ClCompile Include="cRigidBody.cpp" />
+    <ClCompile Include="cSoftBody.cpp" />
     <ClCompile Include="cWorld.cpp" />
     <ClCompile Include="nCollide.cpp" />
   </ItemGroup>
@@ -30,6 +31,7 @@
     <ClInclude Include="cAI.h" />
     <ClInclude Include="cIntegrator.h" />
     <ClInclude Include="cRigidBody.h" />
+    <ClInclude Include="cSoftBody.h" />
     <ClInclude Include="cWorld.h" />
     <ClInclude Include="eShapeType.h" />
     <ClInclude Include="glm_headers.h" />

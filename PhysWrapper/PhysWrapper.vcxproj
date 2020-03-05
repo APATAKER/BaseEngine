@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cBallComponent.cpp" />
+    <ClCompile Include="cClothComponent.cpp" />
     <ClCompile Include="cPhysCollisionListener.cpp" />
     <ClCompile Include="cPhysFactory.cpp" />
     <ClCompile Include="cPhysWorld.cpp" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cBallComponent.h" />
+    <ClInclude Include="cClothComponent.h" />
     <ClInclude Include="cPhysCollisionListener.h" />
     <ClInclude Include="cPhysFactory.h" />
     <ClInclude Include="cPhysWorld.h" />

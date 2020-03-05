@@ -3,6 +3,7 @@
 #include "cPhysWorld.h"
 #include "cBallComponent.h"
 #include "cPlaneComponent.h"
+#include "cClothComponent.h"
 
 
 
@@ -25,4 +26,9 @@ nPhysics::iBallComponent* cPhysFactory::CreateBall(const nPhysics::sBallDef& def
 nPhysics::iPlaneComponent* cPhysFactory::CreatePlane(const nPhysics::sPlaneDef& def)
 {
 	return new cPlaneComponent(def);
+}
+
+nPhysics::iClothComponent* cPhysFactory::CreateCloth(const nPhysics::sClothDef& def)
+{
+	return new cClothComponent(def);
 }

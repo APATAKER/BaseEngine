@@ -5,6 +5,7 @@ namespace nPhysics
 	enum class eComponentType
 	{
 		SPHERE,
-		PLANE
+		PLANE,
+		CLOTH
 	};
 }
