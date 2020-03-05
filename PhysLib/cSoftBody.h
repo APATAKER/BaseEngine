@@ -2,6 +2,7 @@
 
 #include "glm_headers.h"
 #include <vector>
+#include "cCollisionBody.h"
 
 namespace physLib
 {
@@ -18,7 +19,7 @@ namespace physLib
 		
 	};
 
-	class cSoftBody
+	class cSoftBody :public cCollisionBody
 	{
 	private:
 		class cSpring;
@@ -54,6 +55,7 @@ namespace physLib
 		cSoftBody(const sSoftBodyDef& def);
 		~cSoftBody();
 
+		void ClearAccelerations() override;
 		
 		size_t NumNodes();
 		bool GetNodeRadius(size_t index, float& radiusOut);

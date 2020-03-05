@@ -6,6 +6,7 @@
 namespace physLib
 {
 	cRigidBody::cRigidBody(const sRigidBodyDef& def, iShape* shape)
+		:cCollisionBody(eBodyType::rigid)
 	{
 		mPosition = def.Position;
 		mMass = def.Mass;
@@ -23,6 +24,13 @@ namespace physLib
 
 	cRigidBody::~cRigidBody()
 	{
+	}
+
+	void cRigidBody::ClearAccelerations()
+	{
+		mAcceleration.x = 0.f;
+		mAcceleration.y = 0.f;
+		mAcceleration.z = 0.f;
 	}
 
 	void cRigidBody::GetTransform(glm::mat4& transformOut)
@@ -104,6 +112,31 @@ namespace physLib
 				return glm::quat(1, 0, 0, 0);
 
 		
+	}
+
+	void cRigidBody::setAcceleration(glm::vec3 accl)
+	{
+		mAcceleration = accl;
+	}
+
+	void cRigidBody::setVelocity(glm::vec3 velocity)
+	{
+		mVelocity = velocity;
+	}
+
+	glm::vec3 cRigidBody::GetAccelerations()
+	{
+		return mAcceleration;
+	}
+
+	glm::vec3 cRigidBody::GetVelocity()
+	{
+		return mVelocity;
+	}
+
+	std::string cRigidBody::GetAiType()
+	{
+		return mAiType;
 	}
 
 	//constructor for RigidBodyDef

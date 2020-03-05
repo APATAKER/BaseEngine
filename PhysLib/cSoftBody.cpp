@@ -36,7 +36,7 @@ namespace physLib
 		// HOOKS LAW!!!!
 		glm::vec3 sep = NodeB->Position - NodeA->Position;
 		float dist = glm::length(sep);
-		float x = glm::abs(dist - RestingLength);
+		float x = dist - RestingLength;
 		SpringForceAtoB = glm::normalize(sep) * x * SpringConstant;
 		
 	}
@@ -62,6 +62,7 @@ namespace physLib
 	}
 	
 	cSoftBody::cSoftBody(const sSoftBodyDef& def)
+		:cCollisionBody(eBodyType::soft)
 	{
 		size_t numNodes = def.Nodes.size();
 		mNodes.resize(numNodes);
@@ -94,6 +95,10 @@ namespace physLib
 			delete mSprings[idx];
 		}
 		mSprings.clear();
+	}
+	void cSoftBody::ClearAccelerations()
+	{
+		
 	}
 	size_t cSoftBody::NumNodes()
 	{

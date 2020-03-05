@@ -27,12 +27,6 @@
     <ClCompile Include="nCollide.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cAI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cCoordinator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cSoftBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -65,13 +59,13 @@
     <ClInclude Include="glm_headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cAI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cCoordinator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cSoftBody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eBodyType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cCollisionBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

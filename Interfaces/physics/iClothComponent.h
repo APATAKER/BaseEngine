@@ -11,6 +11,7 @@ namespace nPhysics
 		size_t NumNodesAcross;
 		size_t NumNodesDown;
 		float NodeMass;
+		float SpringConstant;
 		
 	};
 	

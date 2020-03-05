@@ -99,7 +99,7 @@ bool cPhysWorld::AddRigidBodies(cBallComponent* component)
 	{
 		return false;
 	}
-	return world_->AddRigidBody(component->rigid_body);
+	return world_->AddBody(component->rigid_body);
 }
 
 bool cPhysWorld::AddRigidBodies(cPlaneComponent* component)
@@ -108,5 +108,5 @@ bool cPhysWorld::AddRigidBodies(cPlaneComponent* component)
 	{
 		return false;
 	}
-	return world_->AddRigidBody(component->rigid_body);
+	return world_->AddBody(component->rigid_body);
 }

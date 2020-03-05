@@ -1,4 +1,7 @@
 #include "cWorld.h"    // My header;
+
+#include <iostream>
+
 #include "nCollide.h"  // collision detection functions from
                        // REAL-TIME COLLISION DETECTION, ERICSON
 
@@ -9,7 +12,7 @@ namespace physLib
 	{
 		this->m_dt_ = 0.f;
 		this->m_gravity_ = glm::vec3(0.f, 0.f, 0.f);
-		this->ai = new physLib::cAI();
+		//this->ai = new physLib::cAI();
 	}
 
 	cWorld::~cWorld()
@@ -44,8 +47,8 @@ namespace physLib
 		}
 		for(size_t idx = 0;idx <numBodies;idx++) //2)
 		{
-			m_bodies_[idx]->mAcceleration += (m_gravity_);
-			IntegrateRigidBody(m_bodies_[idx], m_dt_);
+			m_bodies_[idx]->setAcceleration(m_bodies_[idx]->GetAccelerations() + m_gravity_); 
+			IntergrateBody(m_bodies_[idx], m_dt_);
 		}
 
 		// Animation Behaviour
@@ -54,7 +57,7 @@ namespace physLib
 		//{
 		//	
 		//	ai->formation(ai->coordinator, ai->coordinator->vehicles_);
-
+		//
 		//	if(ai->is_flock)
 		//	{
 		//		for (int i = 0; i < ai->coordinator->vehicles_.size(); i++)
@@ -63,7 +66,7 @@ namespace physLib
 		//		
 		//		}
 		//	}
-
+		//
 		//	if(ai->on_path)
 		//	{
 		//		ai->pathfollow(ai->coordinator, ai->coordinator->vehicles_);
@@ -91,46 +94,49 @@ namespace physLib
 
 		for (size_t idx = 0; idx < numBodies; idx++) //4)
 		{
-			m_bodies_[idx]->mAcceleration = glm::vec3(0.f, 0.f, 0.f);
-			m_bodies_[idx]->mVelocity *= 0.9;
+			m_bodies_[idx]->setAcceleration(m_bodies_[idx]->GetAccelerations() + glm::vec3(0.f, 0.f, 0.f));
+			//m_bodies_[idx]->mAcceleration = glm::vec3(0.f, 0.f, 0.f);
+			m_bodies_[idx]->setVelocity(m_bodies_[idx]->GetVelocity() * glm::vec3(0.9));
+
+			//m_bodies_[idx]->mVelocity *= 0.9;
 		}
 	}
 
-	bool cWorld::AddRigidBody(cRigidBody* rigidBody)
+	bool cWorld::AddBody(cCollisionBody* collision_body)
 	{
 	
 		// 1) Null check
 		// 2) Check if we currently have this rigid body.
 		//    If yes: Return false to indicate nothing was not added.
 		//    If no:  Add it, then return true to indicate it was added.
-		if(rigidBody == nullptr) //1)
+		if(collision_body == nullptr) //1)
 		{
 			return false;
 		}
 		for (int i = 0; i < m_bodies_.size(); i++)//2)
 		{
-			if (m_bodies_[i] == rigidBody)
+			if (m_bodies_[i] == collision_body)
 				return false;
 		}
-		m_bodies_.push_back(rigidBody);
+		m_bodies_.push_back(collision_body);
 		
 		return true; // rigidbody was added in vector mBodies
 	}
 
-	bool cWorld::RemoveRigidBody(cRigidBody* rigidBody)
+	bool cWorld::RemoveBody(cCollisionBody* collision_body)
 	{
 		
 		// 1) Null check
 		// 2) Check if we currently have this rigid body.
 		//    If yes: Remove it, then return true to indicate it was removed.
 		//    If no:  Return false to indicate nothing was removed.
-		if (rigidBody == nullptr)  //1)
+		if (collision_body == nullptr)  //1)
 		{
 			return false;
 		}
 		for (int i = 0; i < m_bodies_.size(); i++) //2)
 		{
-			if (m_bodies_[i] == rigidBody)
+			if (m_bodies_[i] == collision_body)
 			{
 				m_bodies_.erase(m_bodies_.begin() + (i - 1));
 				return true;
@@ -145,12 +151,46 @@ namespace physLib
 		SetCoordinator();
 	}
 
+	void cWorld::GetAiFormationType(int type)
+	{
+	}
+
+	void cWorld::GetOnPath(bool OnPath)
+	{
+	}
+
+	void cWorld::GetIsReverse(bool isRevesre)
+	{
+	}
+
+	void cWorld::GetIsFlock(bool isFlock)
+	{
+	}
+
+	void cWorld::SetCoordinator()
+	{
+	}
+
 	
 
 	/*void cWorld::SetCollisionListener(nPhysics::iCollisionListener* collision_listener)
 	{
 		
 	}*/
+
+	void cWorld::IntergrateBody(cCollisionBody* collision_body, float dt)
+	{
+		// 1) figure out what kind of body it is
+		// 2) Pass it on to the right specific integration method
+		if(collision_body->GetBodyType() == eBodyType::rigid)
+		{
+			IntegrateRigidBody(dynamic_cast<cRigidBody*>(collision_body), dt);
+		}
+		else if(collision_body->GetBodyType() == eBodyType::soft)
+		{
+			std::cout << "Why no in" << std::endl;
+		}
+	}
 
 	void cWorld::IntegrateRigidBody(cRigidBody* body, float dt)
 	{
@@ -192,6 +232,22 @@ namespace physLib
 		return false;
 		
 		
+	}
+
+	bool cWorld::Collide(cCollisionBody* bodyA, cCollisionBody* bodyB)
+	{
+		eBodyType typeA = bodyA->GetBodyType();
+		eBodyType typeB = bodyB->GetBodyType();
+		if (typeA == eBodyType::rigid && typeB == eBodyType::rigid)
+		{
+			return Collide(dynamic_cast<cRigidBody*>(bodyA), dynamic_cast<cRigidBody*>(bodyB));
+		
+		}
+		else if (typeA == eBodyType::soft && typeB == eBodyType::soft)
+		{
+			std::cout << "SoftBody" << std::endl;
+			return false;
+		}
 	}
 
 	bool cWorld::CollideSpherePlane(cRigidBody* sphereBody, cSphere* sphereShape,
@@ -375,9 +431,12 @@ namespace physLib
 	}
 	void cWorld::AddBoids()
 	{
+	}
+	/*void cWorld::AddBoids()
+	{
 		for(int i=0;i<m_bodies_.size();i++)
 		{
-			if(m_bodies_[i]->mAiType=="boid")
+			if(m_bodies_[i]->GetAiType()=="boid")
 			{
 				ai->coordinator->vehicles_.push_back(m_bodies_[i]);
 			}
@@ -388,7 +447,7 @@ namespace physLib
 	{
 		for (int i = 0; i < m_bodies_.size(); i++)
 		{
-			if (m_bodies_[i]->mAiType == "coordinator")
+			if (m_bodies_[i]->GetAiType() == "coordinator")
 			{
 				ai->coordinator->coordinator = m_bodies_[i];
 			}
@@ -420,5 +479,5 @@ namespace physLib
 	void cWorld::GetIsFlock(bool isFlock)
 	{
 		ai->is_flock = isFlock;
-	}
+	}*/
 }

@@ -27,8 +27,8 @@ namespace physLib
 		std::vector< glm::vec3> position_offset_;
 		std::vector<glm::vec3> path_;
 		std::vector<glm::vec3> rev_path_;
-		std::vector<cRigidBody*> vehicles_;
-		cRigidBody* coordinator;
+		std::vector<cCollisionBody*> vehicles_;
+		cCollisionBody* coordinator;
 		formation_type formation_type_;
 
 		glm::vec3 direction_coord_to_path_destination;

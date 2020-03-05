@@ -3,6 +3,7 @@
 
 #include "glm_headers.h"
 #include "iShape.h"     // iShape base class for all shapes
+#include "cCollisionBody.h"
 
 namespace physLib
 {
@@ -46,7 +47,7 @@ namespace physLib
 	// Shapes may be shared between rigid bodies.
 	// Does not own the iShape* used to create it.
 	// Will not delete the iShape* it contains when it is deleted.
-	class cRigidBody
+	class cRigidBody :public cCollisionBody
 	{
 		// cWorld will be operating on cRigidBody values quite a bit
 		// We will trust it to do everything correctly.
@@ -63,8 +64,10 @@ namespace physLib
 
 		// Destructor
 		// Will not delete the contained iShape.
-		~cRigidBody();
+		virtual ~cRigidBody();
 
+		void ClearAccelerations() override;
+		
 		// GetTransform
 		// Retrieve a rendering-friendly form of position + rotation
 		void GetTransform(glm::mat4& transformOut);
@@ -97,6 +100,8 @@ namespace physLib
 		inline eShapeType GetShapeType() { return mShape->GetShapeType(); }
 
 	private:
+
+		void* mUserPointer;
 		// My shape, expected to be valid.
 		// cRigidBody will not delete mShape in its destructor.
 		iShape* mShape;
@@ -126,7 +131,12 @@ namespace physLib
 		glm::quat getQOrientation(void);
 
 		glm::quat safeQuatLookAt(glm::vec3 const& lookFrom, glm::vec3 const& lookTo, glm::vec3 const& up);
-		
+
+		void setAcceleration(glm::vec3 accl) override;
+		void setVelocity(glm::vec3 velocity) override;
+		glm::vec3 GetAccelerations() override;
+		glm::vec3 GetVelocity() override;
+		std::string GetAiType() override;
 		
 		// Mass
 		// Expected to be non-negative.

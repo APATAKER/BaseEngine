@@ -19,8 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cAI.cpp" />
-    <ClCompile Include="cCoordinator.cpp" />
     <ClCompile Include="cIntegrator.cpp" />
     <ClCompile Include="cRigidBody.cpp" />
     <ClCompile Include="cSoftBody.cpp" />
@@ -28,14 +26,14 @@
     <ClCompile Include="nCollide.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cAI.h" />
     <ClInclude Include="cIntegrator.h" />
     <ClInclude Include="cRigidBody.h" />
     <ClInclude Include="cSoftBody.h" />
     <ClInclude Include="cWorld.h" />
+    <ClInclude Include="eBodyType.h" />
     <ClInclude Include="eShapeType.h" />
     <ClInclude Include="glm_headers.h" />
-    <ClInclude Include="cCoordinator.h" />
+    <ClInclude Include="cCollisionBody.h" />
     <ClInclude Include="iShape.h" />
     <ClInclude Include="nCollide.h" />
     <ClInclude Include="phys.h" />

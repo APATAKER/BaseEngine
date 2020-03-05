@@ -142,7 +142,7 @@ void physLib::cCoordinator::update_position_offset()
 	for(int i=0;i<position_offset_.size();i++)
 	{
 		position_offset_[i] += coordinator->mPosition;
-		//vehicles_[i]->mOrientation = coordinator->mOrientation;
+		//vehicles_[i]->mOrientation = coordinator->mOrientation; 
 	}
 	
 }

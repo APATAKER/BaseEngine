@@ -1,5 +1,6 @@
 #pragma once
 #include "cRigidBody.h"   // cRigidBody class
+#include "cSoftBody.h"
 #include <vector>         // std::vector to contain cRigidBody pointers
 #include "shapes.h"       // all specific shape classes
 #include "cIntegrator.h"  // cIntegrator class for timesteps
@@ -48,8 +49,8 @@ namespace physLib
 		// detection and reaction, and have their internal values updated.
 		void Update(float dt);
 
-		// AddRigidBody
-		// Add a rigid body to the world. 
+		// AddBody
+		// Add a body to the world. 
 		// Returns true if:
 		//    There was an addition to the world.
 		//    This particular rigid body was added to the world.
@@ -57,10 +58,10 @@ namespace physLib
 		// Returns false if:
 		//    There was no addition to the world.
 		//    A null pointer is passed in.
-		//    This particular rigid body is already in the world, hense not added again.
-		bool AddRigidBody(cRigidBody* rigidBody);
+		//    This particular body is already in the world, hense not added again.
+		bool AddBody(cCollisionBody* body);
 
-		// RemoveRigidBody
+		// RemoveBody
 		// Remove a rigid body from the world.
 		// Returns true if:
 		//    There was a removal from the world.
@@ -69,7 +70,7 @@ namespace physLib
 		//    There was no removal from the world.
 		//    A null pointer was passed in.
 		//    This particular rigid body was not in the world, hense not removed.
-		bool RemoveRigidBody(cRigidBody* rigidBody);
+		bool RemoveBody(cCollisionBody* body);
 
 		void AiSetup();
 
@@ -85,6 +86,9 @@ namespace physLib
 
 	protected:
 
+		// IntergrateBody
+		// Entry point for a single step of integration
+		void IntergrateBody(cCollisionBody* collision_body, float dt);
 		// IntegrateRigidBody
 		// Performs a single numerical integration step.
 		// Safe for null pointers.
@@ -95,6 +99,8 @@ namespace physLib
 		// Entry point for collision detection.
 		// Returns the result of specific Collide[shapeA][ShapeB] methods.
 		bool Collide(cRigidBody* bodyA, cRigidBody* bodyB);
+		
+		bool Collide(cCollisionBody* bodyA, cCollisionBody* bodyB);
 
 		// CollideSpherePlane
 		// Handles collision detection and reaction between a sphere and a plane.
@@ -124,7 +130,7 @@ namespace physLib
 		glm::vec3 m_gravity_;
 		// All the rigid bodies currently in the world.
 		// Not owned by cWorld, will not be deleted in the destructor.
-		std::vector<cRigidBody*> m_bodies_;
+		std::vector<cCollisionBody*> m_bodies_;
 
 		cAI* ai;
 

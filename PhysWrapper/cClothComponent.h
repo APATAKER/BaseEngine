@@ -1,7 +1,8 @@
 #pragma once
 #include <physics/iClothComponent.h>
 #include "iShape.h"
-#include "cRigidBody.h"
+#include "cSoftBody.h"
+#include "cCollisionBody.h"
 //#include "cSoftBody.h"
 
 class cClothComponent : public nPhysics::iClothComponent
@@ -25,9 +26,9 @@ public:
 	cClothComponent(const nPhysics::sClothDef& cloth_def);
 
 	//physLib::cSoftBody* soft_body;
-	physLib::sRigidBodyDef rigid_body_def;
-	physLib::cRigidBody* rigid_body;
-	physLib::iShape* shape;
+private:
+	physLib::cSoftBody* mBody;
+	
 
 
 
