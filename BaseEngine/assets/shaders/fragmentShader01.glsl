@@ -356,6 +356,10 @@ void colorOutput()
 
 	pixelColour.rgb = outColour.rgb;
 	pixelColour.a = diffuseColour.a;	// Alpha 
+
+	pixelNormal = pixelColour;
+	pixelNormal.rgb += fNormal.xyz;
+
 }
 
 void normalsOutput()

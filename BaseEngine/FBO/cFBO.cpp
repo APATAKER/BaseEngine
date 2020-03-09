@@ -91,7 +91,7 @@ bool cFBO::init( int width, int height, std::string &error )
 
 	glFramebufferTexture(GL_FRAMEBUFFER,
 						 GL_COLOR_ATTACHMENT1,			// normal goes to #1
-						 this->normalTexture_ID, 1);
+						 this->normalTexture_ID, 0);
 
 
 //	glFramebufferTexture(GL_FRAMEBUFFER,

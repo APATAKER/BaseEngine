@@ -1,5 +1,7 @@
 #include "cLoad.h"
 
+extern rapidjson::Document document;
+
 rapidjson::Document cJSONUtility::open_document(std::string& filename)
 {
 	std::ifstream input_file(filename);
@@ -14,4 +16,13 @@ rapidjson::Document cJSONUtility::open_document(std::string& filename)
 	doc.ParseStream(isw);
 
 	return doc;
+}
+
+void InitJson(std::string filename)
+{
+	rapidjson::StringBuffer buffer;
+	rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+
+	std::string jsonFilename = "Config/config.json";
+	document = cJSONUtility::open_document(filename);
 }

@@ -76,11 +76,7 @@ int main()
 
 
 	//########################################## Json is loader Here ###############################################
-	rapidjson::StringBuffer buffer;
-	rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
-
-	std::string jsonFilename = "Config/config.json";
-	document = cJSONUtility::open_document(jsonFilename);
+	InitJson("Config/config.json");
 	//########################################## Json is loader Here ###############################################
 
 
@@ -506,7 +502,7 @@ int main()
 		//glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												// out vec4 pixelNormal
 
 		glActiveTexture(GL_TEXTURE0 + 41);				// Texture Unit 41
-		glBindTexture(GL_TEXTURE_2D, p_fbo2->colourTexture_0_ID);	// Texture now asbsoc with texture unit 41
+		glBindTexture(GL_TEXTURE_2D, p_fbo1->normalTexture_ID);	// Texture now asbsoc with texture unit 41
 		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
 		GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			
 		glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												
