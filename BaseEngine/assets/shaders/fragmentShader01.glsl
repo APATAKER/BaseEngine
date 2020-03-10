@@ -170,8 +170,11 @@ void main()
 	// Depth
 	if (passNumber == 5)
 	{
+
+
 		vec3 depthRGB = texture(secondPassDepthTexture, fUVx2.st).rgb;
 		pixelColour.rgb = depthRGB;
+
 		pixelColour.a = 1.f;
 		return;
 	}
@@ -298,25 +301,30 @@ void main()
 		//		pixelColour.a = diffuseColour.a;
 		return;
 	}
-	if (bIsSkyBox)
-	{
-		// I sample the skybox using the normal from the surface
-		vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
-		pixelColour.rgb = skyColour.rgb;
-		pixelColour.a = 1.0f;				// NOT transparent
-		return;
-	}
+	
 
 	if (selectEffect == 0)
 	{
+		if (bIsSkyBox)
+		{
+			// I sample the skybox using the normal from the surface
+			vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
+			pixelColour.rgb = skyColour.rgb;
+			pixelColour.a = 1.0f;				// NOT transparent
+			return;
+		}
 		colorOutput();
 	}
 	else if (selectEffect == 1)
 	{
-		normalsOutput();
-	}
-	else if (selectEffect == 2)
-	{
+		//if (bIsSkyBox)
+		//{
+		//	// I sample the skybox using the normal from the surface
+		//	vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
+		//	pixelColour.rgb = skyColour.rgb;
+		//	pixelColour.a = 1.0f;				// NOT transparent
+		//	return;
+		//}
 		DepthOutput();
 	}
 
@@ -362,25 +370,6 @@ void colorOutput()
 
 }
 
-void normalsOutput()
-{
-	vec4 materialColour = diffuseColour;
-	vec3 tex0_RGB = texture(textSamp00, fUVx2.st).rgb;
-	vec3 tex1_RGB = texture(textSamp01, fUVx2.st).rgb;
-	vec3 tex2_RGB = texture(textSamp02, fUVx2.st).rgb;
-	vec3 tex3_RGB = texture(textSamp03, fUVx2.st).rgb;
-	vec3 texRGB = (tex_0_3_ratio.x * tex0_RGB)
-		+ (tex_0_3_ratio.y * tex1_RGB)
-		+ (tex_0_3_ratio.z * tex2_RGB)
-		+ (tex_0_3_ratio.w * tex3_RGB);
-	vec4 outColour = calcualteLightContrib(texRGB.rgb, fNormal.xyz,
-		fVertWorldLocation.xyz, specularColour);
-
-	pixelColour.rgb = outColour.rgb;
-	pixelColour.a = diffuseColour.a;	// Alpha 
-
-	pixelColour.rgb += fNormal.xyz;
-}
 
 void DepthOutput()
 {

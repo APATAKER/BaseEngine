@@ -28,18 +28,20 @@ cDebugRenderer* g_pDebugRenderer = nullptr;
 cFlyCamera* g_pFlyCamera = nullptr;
 cLowPassFilter* avgDeltaTimeThingy = nullptr;
 mLight::cLightStuff* p_light_stuff = nullptr;
-extern nPhysics::iPhysicsFactory* physics_factory;
-extern nPhysics::iPhysicsWorld* physics_world;
+cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
+
+GLuint shader_program_ID;
+
 
 
 std::vector<cGameObject*> g_vec_pGameObjects;
 std::vector<mLight::cLightStuff*> vec_lightObjects;
 std::vector<cGameObject*> vec_bullets;
+std::vector<cMesh> vec_model_mesh;
 
-rapidjson::Document document;
+extern rapidjson::Document document;
 
-//std::string g_HACK_currentAnimationName = "idle";
-//float HACK_FrameTime = 0.0f;
+
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int punchcounter;
 
@@ -60,9 +62,7 @@ cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects
 
 int main()
 {
-	
-	
-	
+
 	// opengl call
 	window = creatOpenGL(window);
 
@@ -73,90 +73,14 @@ int main()
 		std::cout << "Error init on DebugShader: " << g_pDebugRenderer->getLastError() << std::endl;
 	}
 
-
-
 	//########################################## Json is loader Here ###############################################
 	InitJson("Config/config.json");
+
+	// Loading mesh model, shaders, drawinfo for shader and textures
+	LoadStuff(vec_model_mesh, shader_program_ID, g_pTextureManager);
+	g_pTextureManager = cBasicTextureManager::getInstance();
+	
 	//########################################## Json is loader Here ###############################################
-
-
-	
-	
-	///######################## MODEL #### LOADING ##### STARTS ### HERE ##########################################
-	cModelLoader* p_model_loader = new cModelLoader();
-	
-	// Models Loaded here	
-	std::string error_string = "";
-	size_t num_of_models = document["models"].Size(); // getting number of models
-	std::vector<cMesh> vec_model_mesh;
-	for (size_t c = 0; c < num_of_models; c++)
-	{
-		cMesh Mesh;
-		if (p_model_loader->LoadModel_Assimp(document["models"][c].GetString(), Mesh, error_string))
-		{
-			std::cout << document["models"][c].GetString()<< " model loaded" << std::endl;
-			Mesh.meshname = document["MeshName"][c].GetString();
-			vec_model_mesh.push_back(Mesh);
-		}
-		else
-		{
-			std::cout << "\nerror:" << error_string << std::endl;
-		}
-	}
-	
-	///######################## MODEL #### LOADING ##### ENDS ### HERE ##########################################
-
-	
-	///######################## SHADER #### LOADING ## STARTS ### HERE #############################################
-	cShaderManager* p_shader_manager = new cShaderManager();
-	cShaderManager::cShader vertex_shader;
-	vertex_shader.fileName = document["shaders"]["vert"].GetString();
-	cShaderManager::cShader fragment_shader;
-	fragment_shader.fileName = document["shaders"]["frag"].GetString();
-	if (!p_shader_manager->createProgramFromFile("SimpleShader", vertex_shader, fragment_shader))
-	{
-		std::cout << "Error: didn't compile the shader" << std::endl;
-		std::cout << p_shader_manager->getLastError();
-		return -1;
-	}
-	GLuint shader_program_ID = p_shader_manager->getIDFromFriendlyName("SimpleShader");
-	///######################## SHADER #### LOADING ## ENDS ### HERE #############################################
-
-
-	//##### MODELS ### LOADING ### INTO ### VERTEX ### ARRAY ### OBJECT #### (DATA PUSHED INTO SHADER CODE PART)###########
-	
-	cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
-	for (size_t c = 0; c < num_of_models; c++)
-	{
-		sModelDrawInfo draw_info;
-		p_vao_manager->LoadModelIntoVAO(document["MeshName"][c].GetString(), vec_model_mesh[c], draw_info, shader_program_ID);
-	}
-	//##### MODELS ### LOADING ### INTO ### VERTEX ### ARRAY ### OBJECT #### (DATA PUSHED INTO SHADER CODE PART)###########
-
-	
-	//######################################### Loading Textures Here ################################################
-	::g_pTextureManager = new cBasicTextureManager();
-	::g_pTextureManager->SetBasePath("assets/textures");
-	// Normal Textures
-	size_t numTex = document["Textures"].Size();
-	for(size_t c=0;c<numTex;c++)
-	{
-		if (!::g_pTextureManager->Create2DTextureFromBMPFile(document["Textures"][c].GetString(), true))
-		{
-			std::cout << "\nDidn't load texture" << std::endl;
-		}
-	}
-	// CubeMap Texture
-	::g_pTextureManager->SetBasePath("assets/textures/cubemaps/");
-
-	if (::g_pTextureManager->CreateCubeTextureFromBMPFiles("space",
-		"SpaceBox_right1_posX.bmp", "SpaceBox_left2_negX.bmp",
-		"SpaceBox_top3_posY.bmp", "SpaceBox_bottom4_negY.bmp",
-		"SpaceBox_front5_posZ.bmp", "SpaceBox_back6_negZ.bmp", true, error_string))
-		std::cout << "\nSpace skybox loaded" << std::endl;
-	else
-		std::cout << "\nskybox error: " << error_string << std::endl;
-	//######################################### Loading Textures Here ################################################
 
 
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################################################################
@@ -419,7 +343,7 @@ int main()
 		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo2->ID);
 		p_fbo2->clearBuffers(true, true);
 		glUniform1i(passNumber_UniLoc, 0);				// Normal Pass
-		glUniform1i(SelectEffect_UL, 1);				// Normals color
+		glUniform1i(SelectEffect_UL, 0);				// Normals color
 		// GameObject Draw Call
 		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
 		{
@@ -442,7 +366,7 @@ int main()
 		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo3->ID);
 		p_fbo3->clearBuffers(true, true);
 		glUniform1i(passNumber_UniLoc, 0);				// Normal Pass
-		glUniform1i(SelectEffect_UL, 2);				// Depths color
+		glUniform1i(SelectEffect_UL, 1);				// Depths color
 		// GameObject Draw Call
 		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
 		{
@@ -509,6 +433,7 @@ int main()
 
 		glActiveTexture(GL_TEXTURE0 + 42);				// Texture Unit 42
 		glBindTexture(GL_TEXTURE_2D, p_fbo3->colourTexture_0_ID);	// Texture now asbsoc with texture unit 42
+		//glBindTexture(GL_TEXTURE_2D, p_fbo1->depthTexture_ID);	// Texture now asbsoc with texture unit 42
 		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
 		GLint depth_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassDepthTexture");			
 		glUniform1i(depth_pass_texture_UL, 42);	// Texture unit 42												
@@ -662,13 +587,14 @@ int main()
 	glfwDestroyWindow(window);
 	glfwTerminate();
 
-	delete p_model_loader;
-	delete p_shader_manager;
+	//delete p_model_loader;
+	//delete p_shader_manager;
 	delete p_vao_manager;
 	delete g_pFlyCamera;
 	delete g_pDebugRenderer;
 	delete g_pTextureManager;
 	delete p_maze_maker;
+	delete p_light_stuff;
 	/*delete pPhysics;*/
 	PhysicsEnd();
 	for (int i = 0; i < g_vec_pGameObjects.size(); i++)

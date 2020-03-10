@@ -2,12 +2,20 @@
 
 #include <sstream>
 
+static cBasicTextureManager* instance;
 void cBasicTextureManager::SetBasePath(std::string basepath)
 {
 	this->m_basePath = basepath;
 	return;
 }
 
+
+cBasicTextureManager* cBasicTextureManager::getInstance()
+{
+	if (!instance)
+		instance = new cBasicTextureManager();
+	return instance;
+}
 
 bool cBasicTextureManager::Create2DTextureFromBMPFile( std::string textureFileName, bool bGenerateMIPMap )
 {
