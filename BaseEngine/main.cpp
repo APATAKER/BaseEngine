@@ -75,79 +75,13 @@ int main()
 
 	//########################################## Json is loader Here ###############################################
 	InitJson("Config/config.json");
-
 	// Loading mesh model, shaders, drawinfo for shader and textures
-	LoadStuff(vec_model_mesh, shader_program_ID, g_pTextureManager);
+	LoadStuff(vec_model_mesh, shader_program_ID, g_pTextureManager,g_vec_pGameObjects);
 	g_pTextureManager = cBasicTextureManager::getInstance();
-	
 	//########################################## Json is loader Here ###############################################
 
 
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################################################################
-	size_t num_gameobjects = document["GameObjects"].Size();
-	for (size_t c = 0; c < num_gameobjects; c++)
-	{
-		cGameObject* gameobject = new cGameObject();
-		rapidjson::Value& jgameobj = document["GameObjects"][c];
-		gameobject->physicsShapeType = (eShapeTypes)jgameobj["physicsshapetype"].GetInt();
-		
-		gameobject->meshName = jgameobj["meshname"].GetString();
-		gameobject->friendlyName = jgameobj["friendlyname"].GetString();
-		gameobject->m_position = glm::vec3(jgameobj["position"]["x"].GetFloat(),
-			jgameobj["position"]["y"].GetFloat(),
-			jgameobj["position"]["z"].GetFloat());
-		gameobject->setOrientation(glm::vec3(
-											jgameobj["rotation"]["x"].GetFloat(),
-											jgameobj["rotation"]["y"].GetFloat(),
-											jgameobj["rotation"]["z"].GetFloat()));
-		gameobject->scale = jgameobj["scale"].GetFloat();
-		gameobject->objectColourRGBA = glm::vec4(jgameobj["objectcolor"]["r"].GetFloat(),
-												jgameobj["objectcolor"]["g"].GetFloat(),
-												jgameobj["objectcolor"]["b"].GetFloat(),
-												jgameobj["objectcolor"]["a"].GetFloat());
-		gameobject->isWireframe = jgameobj["isWireframe"].GetInt();
-		gameobject->debugColour = glm::vec4(jgameobj["debugcolor"]["r"].GetFloat(),
-											jgameobj["debugcolor"]["g"].GetFloat(),
-											jgameobj["debugcolor"]["b"].GetFloat(),
-											jgameobj["debugcolor"]["a"].GetFloat());
-		for(int i=0;i<jgameobj["tex"].Size();i++)
-		{
-			gameobject->textures[i] = jgameobj["tex"][i].GetString();
-			gameobject->textureRatio[i] = jgameobj["texratio"][i].GetFloat();
-		}
-		gameobject->objectType = (cGameObject::eObjectType)jgameobj["objectype"].GetInt();
-		//gameobject->GameObjectMesh = findMeshByName(vec_model_mesh, gameobject->meshName);
-		gameobject->SPHERE_radius = jgameobj["sphereRadius"].GetFloat();
-		gameobject->collision_radius = jgameobj["bulletCollisionRadius"].GetFloat();
-		gameobject->isVisible = jgameobj["isVisible"].GetInt();
-		gameobject->is_static = jgameobj["isStatic"].GetInt();
-			
-		if(jgameobj["isSkinnedMesh"].GetInt() == 1)
-		{
-			gameobject->p_skinned_mesh = new cSimpleAssimpSkinnedMesh();
-			gameobject->p_skinned_mesh->LoadMeshFromFile(jgameobj["meshname"].GetString(), jgameobj["meshfile"].GetString());
-			sModelDrawInfo* pDI = gameobject->p_skinned_mesh->CreateModelDrawInfoObjectFromCurrentModel();
-			if(pDI)
-			{
-				p_vao_manager->LoadModelDrawInfoIntoVAO(*pDI, shader_program_ID);
-			}
-			size_t num_of_animations = jgameobj["animations"].Size();
-			for(size_t c=0;c<num_of_animations;c++)
-			{
-				gameobject->p_skinned_mesh->LoadMeshAnimation(jgameobj["animationName"][c].GetString(),
-																 jgameobj["animations"][c].GetString());
-			}
-			gameobject->p_skinned_mesh->defaultAnimation = gameobject->p_skinned_mesh->FindAnimationByFriendlyName(
-															jgameobj["defaultAnimation"].GetString());
-			gameobject->pAniState = new cAnimationState();
-			//Animation details
-			gameobject->pAniState->defaultAnimation.name = gameobject->p_skinned_mesh->defaultAnimation.friendlyName;
-			gameobject->pAniState->defaultAnimation.totalTime = gameobject->p_skinned_mesh->FindAnimationTotalTime(
-																			gameobject->pAniState->defaultAnimation.name);
-			//gameobject->pAniState->defaultAnimation.frameStepTime = gameobject->p_skinned_mesh->FindAnimationFramesPerSecond(gameobject->pAniState->defaultAnimation.name) / 100;
-		}
-		g_vec_pGameObjects.push_back(gameobject);
-	}
 	cGameObject* debug_sphere = new cGameObject();
 	debug_sphere->meshName = "sphere5";
 	debug_sphere->scale = 5.f;
@@ -155,11 +89,6 @@ int main()
 	debug_sphere->isVisible = false;
 	debug_sphere->physicsShapeType = eShapeTypes::STATIC;
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################################################################
-
-	
-	
-
-	
 
 	// Camera Created here
 	::g_pFlyCamera = new cFlyCamera();
