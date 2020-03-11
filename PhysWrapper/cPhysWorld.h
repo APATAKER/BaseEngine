@@ -4,6 +4,7 @@
 #include <phys.h>
 #include "cBallComponent.h">
 #include "cPlaneComponent.h">
+#include "cClothComponent.h"
 #include "cPhysCollisionListener.h"
 
 
@@ -48,6 +49,7 @@ public:
 private:
 	bool AddRigidBodies(cBallComponent* component);
 	bool AddRigidBodies(cPlaneComponent* component);
+	bool AddSoftBodies(cClothComponent* component);
 	physLib::cWorld* world_;
 	cPhysCollisionListener* m_collision_listener_;
 	

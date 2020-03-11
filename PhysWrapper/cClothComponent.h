@@ -26,7 +26,7 @@ public:
 	cClothComponent(const nPhysics::sClothDef& cloth_def);
 
 	//physLib::cSoftBody* soft_body;
-private:
+public:
 	physLib::cSoftBody* mBody;
 	
 

@@ -61,6 +61,7 @@ cClothComponent::cClothComponent(const nPhysics::sClothDef& cloth_def)
 
 	glm::vec3 sepDown(glm::normalize(cloth_def.DownDirection));
 	sepDown *= glm::length(sepAcross);
+	// Set the node infomation
 	
 	for (size_t idxAcross = 0; idxAcross < cloth_def.NumNodesAcross; idxAcross++)
 	{
@@ -71,25 +72,46 @@ cClothComponent::cClothComponent(const nPhysics::sClothDef& cloth_def)
 			soft_body_def.Nodes[idxNodes].Mass = cloth_def.NodeMass;
 		}
 	}
-
+	// SET the top row node massed to 0
+	for (size_t idxAcross = 0; idxAcross < cloth_def.NumNodesDown - 1; idxAcross)
+	{
+		soft_body_def.Nodes[idxAcross].Mass = 0.f;
+	}
+	
 	// Set the spring infomation
 	for (size_t idxAcross = 0; idxAcross < cloth_def.NumNodesAcross-1; idxAcross++)
 	{
 		for (size_t idxDown = 0; idxDown < cloth_def.NumNodesDown-1; idxDown++)
 		{
+			idxNodes = (idxDown * cloth_def.NumNodesAcross) + idxAcross;
 			// set the across spring, going right
+			soft_body_def.Springs.push_back(std::make_pair(idxNodes, idxNodes + 1));
+			
 			// set the down spring, going down
+			soft_body_def.Springs.push_back(std::make_pair(idxNodes, idxNodes + cloth_def.NumNodesAcross));
 		}
 	}
 	// set the bottom row springs
+	size_t idxBottomRowStart = cloth_def.NumNodesAcross * (cloth_def.NumNodesDown - 1);
 	for (size_t idxAcross = 0; idxAcross < cloth_def.NumNodesAcross-1; idxAcross++)
 	{
 		// set the bottom row spring going right
+		soft_body_def.Springs.push_back(std::make_pair(idxBottomRowStart + idxAcross, idxBottomRowStart + idxAcross + 1));
+		
 	}
 	// set the rightmost column
 	for (size_t idxDown = 0; idxDown < cloth_def.NumNodesDown-1; idxDown++)
 	{
+		idxNodes = cloth_def.NumNodesAcross * (idxDown + 1) - 1;
 		// set the right most column spring going down
+		soft_body_def.Springs.push_back(std::make_pair(idxNodes , idxNodes + cloth_def.NumNodesAcross));
+		
 	}
+	//for(size_t idx = 0;idx<soft_body_def.Springs.size();idx++)
+	//{
+	//	
+	//}
+	
+	mBody = new physLib::cSoftBody(soft_body_def);
 	
 }

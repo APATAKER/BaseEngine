@@ -31,6 +31,8 @@ bool cPhysWorld::AddComponent(nPhysics::iPhysicsComponent* component)
 		return AddRigidBodies(dynamic_cast<cBallComponent*>(component));
 	case nPhysics::eComponentType::PLANE:
 		return AddRigidBodies(dynamic_cast<cPlaneComponent*>(component));
+	case nPhysics::eComponentType::CLOTH:
+		return AddSoftBodies(dynamic_cast<cClothComponent*>(component));
 	default:
 		break;
 	}
@@ -109,4 +111,13 @@ bool cPhysWorld::AddRigidBodies(cPlaneComponent* component)
 		return false;
 	}
 	return world_->AddBody(component->rigid_body);
+}
+
+bool cPhysWorld::AddSoftBodies(cClothComponent* component)
+{
+	if (!component)
+	{
+		return false;
+	}
+	return world_->AddBody(component->mBody);
 }
