@@ -26,8 +26,10 @@ cFBO* p_fbo3 = nullptr;
 GLFWwindow* window = nullptr;
 cDebugRenderer* g_pDebugRenderer = nullptr;
 cFlyCamera* g_pFlyCamera = nullptr;
-cLowPassFilter* avgDeltaTimeThingy = nullptr;
+//cLowPassFilter* avgDeltaTimeThingy = nullptr;
 mLight::cLightStuff* p_light_stuff = nullptr;
+cLowPassFilter* p_low_pass_filter = nullptr;
+double deltaTime = 0;
 cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
 
 GLuint shader_program_ID;
@@ -75,13 +77,13 @@ int main()
 
 	//########################################## Json is loader Here ###############################################
 	InitJson("Config/config.json");
-	// Loading mesh model, shaders, drawinfo for shader and textures
+	// Loading mesh model, shaders, drawinfo for shader and textures and gameobjects
 	LoadStuff(vec_model_mesh, shader_program_ID, g_pTextureManager,g_vec_pGameObjects);
 	g_pTextureManager = cBasicTextureManager::getInstance();
 	//########################################## Json is loader Here ###############################################
 
 
-	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################################################################
+	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################(ONLY FOR DEBUG AND MULTIPLE)################################################
 	cGameObject* debug_sphere = new cGameObject();
 	debug_sphere->meshName = "sphere5";
 	debug_sphere->scale = 5.f;
@@ -103,7 +105,8 @@ int main()
 
 	
 	//############################### Calculating DeltaTime #################################
-	double last_time = glfwGetTime();   // Get the initial time
+	p_low_pass_filter = new cLowPassFilter();
+	p_low_pass_filter->startTime();
 	//############################### Calculating DeltaTime #################################
 
 	
@@ -172,16 +175,7 @@ int main()
 		
 		
 		// Updating DeltaTime *********************************************
-			// Get the initial time
-		double current_time = glfwGetTime();
-		// Frame time... (how many seconds since last frame)
-		double deltaTime = current_time - last_time;
-		last_time = current_time;
-		const double SOME_HUGE_TIME = 0.1;	// 100 ms;
-		if (deltaTime > SOME_HUGE_TIME)
-		{
-			deltaTime = SOME_HUGE_TIME;
-		}
+		p_low_pass_filter->updateTime(deltaTime);
 		// Updating DeltaTime *********************************************
 
 
@@ -516,14 +510,14 @@ int main()
 	glfwDestroyWindow(window);
 	glfwTerminate();
 
-	//delete p_model_loader;
-	//delete p_shader_manager;
+	
 	delete p_vao_manager;
 	delete g_pFlyCamera;
 	delete g_pDebugRenderer;
 	delete g_pTextureManager;
 	delete p_maze_maker;
 	delete p_light_stuff;
+	delete p_low_pass_filter;
 	/*delete pPhysics;*/
 	PhysicsEnd();
 	for (int i = 0; i < g_vec_pGameObjects.size(); i++)

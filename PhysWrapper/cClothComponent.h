@@ -19,7 +19,8 @@ public:
 	size_t NumNodes()override;
 	bool GetNodeRadius(size_t index, float& radiusout) override;
 	bool GetNodePosition(size_t index, glm::vec3& positionOut) override;
-
+	int GetNumberOfPhysicalObject() override;
+	bool GetTransform(int index, glm::mat4& transformOut) override;
 
 
 	// constructor  (creates rigidbodies)

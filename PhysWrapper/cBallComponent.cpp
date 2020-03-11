@@ -22,6 +22,16 @@ void cBallComponent::ApplyRotation(const glm::vec3& rotation)
 	rigid_body->ApplyRotation(rotation);
 }
 
+int cBallComponent::GetNumberOfPhysicalObject()
+{
+	return 0;
+}
+
+bool cBallComponent::GetTransform(int index, glm::mat4& transformOut)
+{
+	return false;
+}
+
 
 
 cBallComponent::cBallComponent(const nPhysics::sBallDef& ball_def)

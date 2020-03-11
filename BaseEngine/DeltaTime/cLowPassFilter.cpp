@@ -1,5 +1,7 @@
 #include "cLowPassFilter.h"
 
+#include <GLFW/glfw3.h>
+
 cLowPassFilter::cLowPassFilter()
 {
 	// Init the vector
@@ -33,5 +35,23 @@ double cLowPassFilter::getAverage(void)
 	}
 	total = total / (double)this->DEFAULTVECTORSIZE;
 	return total;
+}
+
+void cLowPassFilter::startTime()
+{
+	last_time = glfwGetTime();
+}
+
+void cLowPassFilter::updateTime(double &deltaTime)
+{
+	double current_time = glfwGetTime();
+	// Frame time... (how many seconds since last frame)
+	deltaTime = current_time - last_time;
+	last_time = current_time;
+	const double SOME_HUGE_TIME = 0.1;	// 100 ms;
+	if (deltaTime > SOME_HUGE_TIME)
+	{
+		deltaTime = SOME_HUGE_TIME;
+	}
 }
 

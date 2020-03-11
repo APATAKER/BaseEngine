@@ -9,7 +9,11 @@ public:
 	void addValue(double newValue);
 	double getAverage(void);
 
+	void startTime();
+	void updateTime(double& deltaTime);
+
 private:
+	double last_time;
 	std::vector<double> vecTimes;
 	std::vector<double>::size_type m_NextLocation;
 

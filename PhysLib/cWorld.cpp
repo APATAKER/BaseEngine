@@ -11,7 +11,7 @@ namespace physLib
 	cWorld::cWorld()
 	{
 		this->m_dt_ = 0.f;
-		this->m_gravity_ = glm::vec3(0.f, 0.f, 0.f);
+		this->m_gravity_ = glm::vec3(0.f, 1.f, 0.f);
 		//this->ai = new physLib::cAI();
 	}
 

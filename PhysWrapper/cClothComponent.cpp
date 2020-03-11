@@ -39,6 +39,16 @@ bool cClothComponent::GetNodePosition(size_t index, glm::vec3& positionOut)
 	return mBody->GetNodePosition(index, positionOut);
 }
 
+int cClothComponent::GetNumberOfPhysicalObject()
+{
+	return 0;
+}
+
+bool cClothComponent::GetTransform(int index, glm::mat4& transformOut)
+{
+	return false;
+}
+
 cClothComponent::cClothComponent(const nPhysics::sClothDef& cloth_def)
 	:mBody(0)
 {
