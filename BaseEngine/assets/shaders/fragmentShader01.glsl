@@ -32,6 +32,8 @@ uniform sampler2D textSamp03;
 
 uniform sampler2D secondPassColourTexture;
 uniform sampler2D secondPassNormalTexture;
+uniform sampler2D secondPassVertWorldPositionTexture;
+uniform sampler2D secondPassSpecularTexture;
 uniform sampler2D secondPassDepthTexture;
 //uniform sampler2D textSamp04;
 //uniform sampler2D textSamp05;
@@ -61,8 +63,10 @@ uniform vec4 tex_0_3_ratio;		// x = 0, y = 1, z = 2, w = 3
 // uniform sampler2D textures[10]; 	// for instance
 
 
-out vec4 pixelColour;			// GL_COLOR_ATTACHMENT0
-out vec4 pixelNormal;			// GL_COLOR_ATTACHMENT1
+out vec4 pixelColour;						// GL_COLOR_ATTACHMENT0
+out vec4 pixelNormal;						// GL_COLOR_ATTACHMENT1
+out vec4 pixelVertWorldPosition;			// GL_COLOR_ATTACHMENT2
+out vec4 pixelSpecular;						// GL_COLOR_ATTACHMENT3
 
 // Fragment shader
 struct sLight
@@ -103,6 +107,8 @@ vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal,
 void colorOutput();
 void normalsOutput();
 void DepthOutput();
+
+void DeferredOutput();
 	 
 void main()  
 {
@@ -178,6 +184,24 @@ void main()
 		pixelColour.a = 1.f;
 		return;
 	}
+	// Deferred rendering
+	if (passNumber == 6)
+	{
+		vec3 colourRGB = texture(secondPassColourTexture, fUVx2.st).rgb;
+		vec3 normalRGB = texture(secondPassNormalTexture, fUVx2.st).rgb;
+		vec3 vertWorldPosRGB = texture(secondPassVertWorldPositionTexture, fUVx2.st).rgb;
+		vec4 specular;
+		specular.rgb = texture(secondPassSpecularTexture, fUVx2.st).rgb;
+		specular.a = 1.f;
+
+		vec4 Deferred = calcualteLightContrib(colourRGB.rgb, normalRGB.xyz, vertWorldPosRGB.xyz, specular);
+
+		pixelColour.rgb = Deferred.rgb;
+		pixelColour.a = 1.0f;
+		return;
+
+	}
+	
 
 //	// Shader Type #1  	
 //	if ( bDoNotLight )
@@ -327,6 +351,18 @@ void main()
 		//}
 		DepthOutput();
 	}
+	else if (selectEffect == 2)
+	{
+		if (bIsSkyBox)
+		{
+			// I sample the skybox using the normal from the surface
+			vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
+			pixelColour.rgb = skyColour.rgb;
+			pixelColour.a = 1.0f;				// NOT transparent
+			return;
+		}
+		DeferredOutput();
+	}
 
 	//effects 
 	//pixelColour.rgb += fNormal.xyz;
@@ -334,6 +370,41 @@ void main()
 	pixelColour.rgb *= 1.8f;
 
 }	
+
+void DeferredOutput()
+{
+	vec4 materialColour = diffuseColour;
+	vec3 tex0_RGB = texture(textSamp00, fUVx2.st).rgb;
+	vec3 tex1_RGB = texture(textSamp01, fUVx2.st).rgb;
+	vec3 tex2_RGB = texture(textSamp02, fUVx2.st).rgb;
+	vec3 tex3_RGB = texture(textSamp03, fUVx2.st).rgb;
+	vec3 texRGB = (tex_0_3_ratio.x * tex0_RGB)
+		+ (tex_0_3_ratio.y * tex1_RGB)
+		+ (tex_0_3_ratio.z * tex2_RGB)
+		+ (tex_0_3_ratio.w * tex3_RGB);
+
+	vec3 eyeVector = eyeLocation.xyz - fVertWorldLocation.xyz;
+	eyeVector = normalize(eyeVector);
+	vec3 reflectVector = reflect(eyeVector, fNormal.xyz);
+	vec3 refractVector = refract(eyeVector, fNormal.xyz, 1.4f);
+	vec3 reflectColour = texture(skyBox, reflectVector.xyz).rgb;
+	vec3 refractColour = texture(skyBox, refractVector.xyz).rgb;
+	vec3 finalColour = 0.5f * reflectColour + 0.5f * refractColour;
+
+	vec3 surfaceColour = (texRGB * 1.0) + (finalColour * 0.0);				// Cube map refelection and refraction
+
+
+	//pixelColour.rgb = outColour.rgb;
+	pixelColour.rgb = surfaceColour.rgb;
+	pixelColour.a = diffuseColour.a;	// Alpha 
+
+	pixelNormal = pixelColour;
+	pixelNormal.rgb = fNormal.xyz;
+
+	pixelVertWorldPosition = fVertWorldLocation;
+
+	pixelSpecular = specularColour;
+}
 
 void colorOutput()
 {
@@ -356,17 +427,17 @@ void colorOutput()
 	vec3 refractColour = texture(skyBox, refractVector.xyz).rgb;
 	vec3 finalColour = 0.5f * reflectColour + 0.5f * refractColour;
 
-	vec3 surfaceColour = (texRGB * 0.5) + (finalColour * 0.5);				// Cube map refelection and refraction
+	vec3 surfaceColour = (texRGB * 1.0) + (finalColour * 0.0);				// Cube map refelection and refraction
 	
 	vec4 outColour = calcualteLightContrib(surfaceColour.rgb, fNormal.xyz,
 		fVertWorldLocation.xyz, specularColour);
 
 
 	pixelColour.rgb = outColour.rgb;
+	//pixelColour.rgb = surfaceColour.rgb;
 	pixelColour.a = diffuseColour.a;	// Alpha 
 
-	pixelNormal = pixelColour;
-	pixelNormal.rgb += fNormal.xyz;
+
 
 }
 

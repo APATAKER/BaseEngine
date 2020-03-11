@@ -17,6 +17,8 @@ bool cFBO::shutdown(void)
 {
 	glDeleteTextures( 1, &(this->colourTexture_0_ID) );
 	glDeleteTextures( 1, &(this->normalTexture_ID) );
+	glDeleteTextures( 1, &(this->vertWorldPositionTexture_ID) );
+	glDeleteTextures( 1, &(this->SpecularTexture_ID) );
 	glDeleteTextures( 1, &(this->depthTexture_ID) );
 
 	glDeleteFramebuffers( 1, &(this->ID) );
@@ -62,6 +64,34 @@ bool cFBO::init( int width, int height, std::string &error )
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 //***************************************************************
 
+	//************************************************************
+	// Create the colour buffer (texture)
+	glGenTextures(1, &(this->vertWorldPositionTexture_ID));		//g_FBO_vertWorldPositionTexture
+	glBindTexture(GL_TEXTURE_2D, this->vertWorldPositionTexture_ID);
+
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8,		// 8 bits per colour
+//	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA32F,		// 8 bits per colour
+this->width,				// g_FBO_SizeInPixes
+this->height);			// g_FBO_SizeInPixes
+
+/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+//***************************************************************
+	//************************************************************
+	// Create the colour buffer (texture)
+	glGenTextures(1, &(this->SpecularTexture_ID));		//g_FBO_SpecularTexture
+	glBindTexture(GL_TEXTURE_2D, this->SpecularTexture_ID);
+
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8,		// 8 bits per colour
+//	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA32F,		// 8 bits per colour
+this->width,				// g_FBO_SizeInPixes
+this->height);			// g_FBO_SizeInPixes
+
+/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+//***************************************************************
+
+
 	// Create the depth buffer (texture)
 	glGenTextures(1, &( this->depthTexture_ID ));			//g_FBO_depthTexture
 	glBindTexture(GL_TEXTURE_2D, this->depthTexture_ID);
@@ -86,13 +116,20 @@ bool cFBO::init( int width, int height, std::string &error )
 // ***************************************************************
 
 	glFramebufferTexture(GL_FRAMEBUFFER,
-						 GL_COLOR_ATTACHMENT0,			// Colour goes to #0
+						 GL_COLOR_ATTACHMENT0,					// Colour goes to #0
 						 this->colourTexture_0_ID, 0);
 
 	glFramebufferTexture(GL_FRAMEBUFFER,
-						 GL_COLOR_ATTACHMENT1,			// normal goes to #1
+						 GL_COLOR_ATTACHMENT1,					// normal goes to #1
 						 this->normalTexture_ID, 0);
+	
+	glFramebufferTexture(GL_FRAMEBUFFER,
+						GL_COLOR_ATTACHMENT2,					// vertWorldPosition goes to #2
+						this->vertWorldPositionTexture_ID, 0);
 
+	glFramebufferTexture(GL_FRAMEBUFFER,
+						GL_COLOR_ATTACHMENT3,					// Specular goes to #0
+						this->SpecularTexture_ID, 0);
 
 //	glFramebufferTexture(GL_FRAMEBUFFER,
 //						 GL_DEPTH_ATTACHMENT,
@@ -104,9 +141,12 @@ bool cFBO::init( int width, int height, std::string &error )
 	static const GLenum draw_bufers[] = 
 	{ 
 		GL_COLOR_ATTACHMENT0,
-		GL_COLOR_ATTACHMENT1
+		GL_COLOR_ATTACHMENT1,
+		GL_COLOR_ATTACHMENT2,
+		GL_COLOR_ATTACHMENT3
+		
 	};
-	glDrawBuffers(2, draw_bufers);		// There are 4 outputs now
+	glDrawBuffers(4, draw_bufers);		// There are 4 outputs now
 
 	// ***************************************************************
 
@@ -158,7 +198,9 @@ void cFBO::clearBuffers(bool bClearColour, bool bClearDepth)
 	if ( bClearColour )
 	{
 		glClearBufferfv(GL_COLOR, 0, &zero);		// Colour
-		glClearBufferfv(GL_COLOR, 1, &zero);
+		glClearBufferfv(GL_COLOR, 1, &zero);		// Normal
+		glClearBufferfv(GL_COLOR, 2, &zero);		// VertWorldPos
+		glClearBufferfv(GL_COLOR, 3, &zero);		// Specular
 	}
 	if ( bClearDepth )
 	{

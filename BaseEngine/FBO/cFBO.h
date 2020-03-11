@@ -12,14 +12,16 @@ public:
 		ID(0), 
 		colourTexture_0_ID(0),
 		normalTexture_ID(0),
+		vertWorldPositionTexture_ID(0),
+		SpecularTexture_ID(0),
 		depthTexture_ID(0),
-		ExtraTexture_ID(0),
 		width(-1), height(-1) {};
 
 	GLuint ID;						// = 0;
 	GLuint colourTexture_0_ID;		// = 0;
 	GLuint normalTexture_ID;
-	GLuint ExtraTexture_ID;
+	GLuint vertWorldPositionTexture_ID;
+	GLuint SpecularTexture_ID;
 
 
 	GLuint depthTexture_ID;		// = 0;

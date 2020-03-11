@@ -204,7 +204,7 @@ int main()
 		glBindFramebuffer(GL_FRAMEBUFFER, p_fbo1->ID);
 		p_fbo1->clearBuffers(true, true);
 		glUniform1i(passNumber_UniLoc, 0);		//Normal Pass
-		glUniform1i(SelectEffect_UL, 0);		//Original Color
+		glUniform1i(SelectEffect_UL, 2);		//Original Color
 		// Creating the GL_ViewPort   This is Pass 1 
 		glfwGetFramebufferSize(window, &width, &height);
 		ratio = width / (float)height;
@@ -352,14 +352,26 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, p_fbo1->normalTexture_ID);	// Texture now asbsoc with texture unit 41
 		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
 		GLint normal_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassNormalTexture");			
-		glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41												
+		glUniform1i(normal_pass_texture_UL, 41);	// Texture unit 41
 
 		glActiveTexture(GL_TEXTURE0 + 42);				// Texture Unit 42
-		glBindTexture(GL_TEXTURE_2D, p_fbo3->colourTexture_0_ID);	// Texture now asbsoc with texture unit 42
-		//glBindTexture(GL_TEXTURE_2D, p_fbo1->depthTexture_ID);	// Texture now asbsoc with texture unit 42
+		glBindTexture(GL_TEXTURE_2D, p_fbo1->vertWorldPositionTexture_ID);	// Texture now asbsoc with texture unit 42
+		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
+		GLint vertWorldPos_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassVertWorldPositionTexture");
+		glUniform1i(vertWorldPos_pass_texture_UL, 42);	// Texture unit 42
+
+		glActiveTexture(GL_TEXTURE0 + 43);				// Texture Unit 43
+		glBindTexture(GL_TEXTURE_2D, p_fbo1->SpecularTexture_ID);	// Texture now asbsoc with texture unit 43
+		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
+		GLint specular_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassSpecularTexture");
+		glUniform1i(specular_pass_texture_UL, 43);	// Texture unit 43
+
+		glActiveTexture(GL_TEXTURE0 + 44);				// Texture Unit 44
+		glBindTexture(GL_TEXTURE_2D, p_fbo3->colourTexture_0_ID);	// Texture now asbsoc with texture unit 44
+		//glBindTexture(GL_TEXTURE_2D, p_fbo1->depthTexture_ID);	// Texture now asbsoc with texture unit 44
 		//glBindTexture(GL_TEXTURE_2D, pTheFBO->depthTexture_ID);
 		GLint depth_pass_texture_UL = glGetUniformLocation(shader_program_ID, "secondPassDepthTexture");			
-		glUniform1i(depth_pass_texture_UL, 42);	// Texture unit 42												
+		glUniform1i(depth_pass_texture_UL, 44);	// Texture unit 44												
 		
 		
 		// 4. Draw the TV and Screen
@@ -426,7 +438,7 @@ int main()
 		glm::mat4 mat4_TV_screen3 = glm::mat4(1.f);
 		DrawObject(mat4_TV_screen3, p_TV_screen3, shader_program_ID, p_vao_manager);
 
-		glUniform1i(passNumber_UniLoc, 5);
+		glUniform1i(passNumber_UniLoc, 6);
 		cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
 		glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
 		DrawObject(mat4_TV_screen4, p_TV_screen4, shader_program_ID, p_vao_manager);
@@ -535,38 +547,37 @@ void DrawObject(glm::mat4 matModel,
 	GLint shaderProgID,
 	cVAOManager* pVAOManager)
 {
-
+	// Uniforms in shaders
+	GLint bIsSkyBox_UL = glGetUniformLocation(shaderProgID, "bIsSkyBox");
+	GLint matModel_UL = glGetUniformLocation(shaderProgID, "matModel");
+	GLint matModelIT_UL = glGetUniformLocation(shaderProgID, "matModelInverseTranspose");
+	GLint diffuseColour_UL = glGetUniformLocation(shaderProgID, "diffuseColour");
+	GLint specularColour_UL = glGetUniformLocation(shaderProgID, "specularColour");
+	GLint debugColour_UL = glGetUniformLocation(shaderProgID, "debugColour");
+	GLint bDoNotLight_UL = glGetUniformLocation(shaderProgID, "bDoNotLight");
+	GLint isSkinnedMesh_UniLoc = glad_glGetUniformLocation(shaderProgID, "isSkinnedMesh");
+	GLint matBonesArray_UniLoc = glGetUniformLocation(shaderProgID, "matBonesArray");
+	
+	// TO Draw Or Not
 	if (pCurrentObject->isVisible == false)
 	{
 		return;
 	}
-
-
 	// Turns on "alpha transparency"
 	glEnable(GL_BLEND);
 
-	// Reads what's on the buffer already, and 
-	// blends it with the incoming colour based on the "alpha" 
-	// value, which is the 4th colour output
-	// RGB+A
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	// This block of code, where I generate the world matrix from the 
-	// position, scale, and rotation (orientation) of the object
-	// has been placed into calculateWorldMatrix()
-
 
 	// ************ 
 	// Set the texture bindings and samplers
 
 	// See if this is a skybox object? 
-	GLint bIsSkyBox_UL = glGetUniformLocation(shaderProgID, "bIsSkyBox");
+	
 	if (pCurrentObject->friendlyName != "skybox")
 	{
 		// Is a regular 2D textured object
-		SetUpTextureBindingsForObject(pCurrentObject, shaderProgID);
+		SetUpTextureBindingsForObject(pCurrentObject, shaderProgID);			// Binding textures for normal object (4 Textures[4])
 		glUniform1f(bIsSkyBox_UL, (float)GL_FALSE);
-
 		// Don't draw back facing triangles (default)
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);		// Don't draw "back facing" triangles
@@ -577,61 +588,35 @@ void DrawObject(glm::mat4 matModel,
 		// Because we are inside the object, so it will force a draw on the "back" of the sphere 
 		//glCullFace(GL_FRONT_AND_BACK);
 		glDisable(GL_CULL_FACE);	// Draw everything
-
 		glUniform1f(bIsSkyBox_UL, (float)GL_TRUE);
-
 		GLuint skyBoxTextureID = ::g_pTextureManager->getTextureIDFromName("space");
 		glActiveTexture(GL_TEXTURE26);				// Texture Unit 26
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skyBoxTextureID);	// Texture now assoc with texture unit 0
-
 		// Tie the texture units to the samplers in the shader
-		GLint skyBoxSampler_UL = glGetUniformLocation(shaderProgID, "skyBox");
+		GLint skyBoxSampler_UL = glGetUniformLocation(shaderProgID, "skyBox");		// Binding SKYBOX TEXTURES
 		glUniform1i(skyBoxSampler_UL, 26);	// Texture unit 26
 	}
-
-
 	// ************
 
+
+	// Calculating the Transforms (T/R/S)
 	glm::mat4 matWorldCurrentGO = calculateWorldMatrix(pCurrentObject, matModel);
-
-
-
-	//uniform mat4 matModel;		// Model or World 
-	//uniform mat4 matView; 		// View or camera
-	//uniform mat4 matProj;
-	GLint matModel_UL = glGetUniformLocation(shaderProgID, "matModel");
-
 	glUniformMatrix4fv(matModel_UL, 1, GL_FALSE, glm::value_ptr(matWorldCurrentGO));
-	//glUniformMatrix4fv(matView_UL, 1, GL_FALSE, glm::value_ptr(v));
-	//glUniformMatrix4fv(matProj_UL, 1, GL_FALSE, glm::value_ptr(p));
 
 	// Calcualte the inverse transpose of the model matrix and pass that...
 	// Stripping away scaling and translation, leaving only rotation
 	// Because the normal is only a direction, really
-	GLint matModelIT_UL = glGetUniformLocation(shaderProgID, "matModelInverseTranspose");
 	glm::mat4 matModelInverseTranspose = glm::inverse(glm::transpose(matWorldCurrentGO));
 	glUniformMatrix4fv(matModelIT_UL, 1, GL_FALSE, glm::value_ptr(matModelInverseTranspose));
 
-
-
-
-	// Find the location of the uniform variable newColour
-	GLint newColour_location = glGetUniformLocation(shaderProgID, "newColour");
-
-	glUniform3f(newColour_location,
-		pCurrentObject->objectColourRGBA.r,
-		pCurrentObject->objectColourRGBA.g,
-		pCurrentObject->objectColourRGBA.b);
-
-
-	GLint diffuseColour_UL = glGetUniformLocation(shaderProgID, "diffuseColour");
+	// Setting the Diffuse Color
 	glUniform4f(diffuseColour_UL,
 		pCurrentObject->objectColourRGBA.r,
 		pCurrentObject->objectColourRGBA.g,
 		pCurrentObject->objectColourRGBA.b,
-		pCurrentObject->alphaTransparency);	// *********
+		pCurrentObject->alphaTransparency);	
 
-	GLint specularColour_UL = glGetUniformLocation(shaderProgID, "specularColour");
+	// Setting the Specular Color
 	glUniform4f(specularColour_UL,
 		1.0f,	// R
 		1.0f,	// G
@@ -640,11 +625,7 @@ void DrawObject(glm::mat4 matModel,
 					// 1.0 to really big (10000.0f)
 
 
-//uniform vec4 debugColour;
-//uniform bool bDoNotLight;
-	GLint debugColour_UL = glGetUniformLocation(shaderProgID, "debugColour");
-	GLint bDoNotLight_UL = glGetUniformLocation(shaderProgID, "bDoNotLight");
-
+	// Is WireFrame or Not
 	if (pCurrentObject->isWireframe)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);		// LINES
@@ -660,7 +641,6 @@ void DrawObject(glm::mat4 matModel,
 		glUniform1f(bDoNotLight_UL, (float)GL_FALSE);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);		// SOLID
 	}
-	//glPointSize(15.0f);
 
 	if (pCurrentObject->disableDepthBufferTest)
 	{
@@ -681,7 +661,7 @@ void DrawObject(glm::mat4 matModel,
 	}
 
 	// Performing Animations
-	GLint isSkinnedMesh_UniLoc = glad_glGetUniformLocation(shaderProgID, "isSkinnedMesh");
+	
 	if (pCurrentObject->p_skinned_mesh != NULL)
 	{
 		glUniform1f(isSkinnedMesh_UniLoc, (float)GL_TRUE);
@@ -698,10 +678,7 @@ void DrawObject(glm::mat4 matModel,
 
 			// Increment the top animation in the queue
 			if (pAniState->vecAnimationQueue[0].IncrementTime())
-			{
-				// The animation reset to zero on increment...
-				// ...meaning that the 1st animation is done
-				// (WHAT!? Should you use a vector for this???)
+			{ 
 				if(pAniState->vecAnimationQueue.begin()->name == "punchright" || pAniState->vecAnimationQueue.begin()->name == "punchleft")
 				{
 					punchcounter = 0;
@@ -719,8 +696,7 @@ void DrawObject(glm::mat4 matModel,
 
 		}//if ( pAniState->vecAnimationQueue.empty()
 
-		
-		// Taken from "Skinned Mesh 2 - todo.docx"
+		// Taken from "Skinned Mesh 2
 		std::vector< glm::mat4x4 > vecFinalTransformation;
 		std::vector< glm::mat4x4 > vecOffsets;
 		std::vector< glm::mat4x4 > vecObjectBoneTransformation;
@@ -734,11 +710,9 @@ void DrawObject(glm::mat4 matModel,
 		
 		// Forward kinematic stuff
 		{	
-			//glm::vec3 debug_sphere_old = debug_sphere->m_position;
 			// "Bone" location is at the origin
 			glm::vec4 boneLocation = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 			glm::mat4 matSpecificBone = vecObjectBoneTransformation[22];
-			//boneLocation = matSpecificBone * boneLocation;
 			// bone #22 is "B_R_Hand" in this model
 			// Transformed into "model" space where that bone is.
 			::g_HACK_vec3_BoneLocationFK = matSpecificBone * boneLocation;	
@@ -746,10 +720,6 @@ void DrawObject(glm::mat4 matModel,
 			//			::g_HACK_vec3_BoneLocationFK = matModel * ::g_HACK_vec3_BoneLocationFK;
 		}
 		// Forward kinematic 
-		
-	
-		
-		GLint matBonesArray_UniLoc = glGetUniformLocation(shaderProgID, "matBonesArray");
 		GLint numBonesUsed = (GLint)vecFinalTransformation.size();
 		glUniformMatrix4fv(matBonesArray_UniLoc, numBonesUsed,
 			GL_FALSE,
@@ -775,15 +745,8 @@ void DrawObject(glm::mat4 matModel,
 			GL_UNSIGNED_INT,
 			0,
 			0);
-
 		glBindVertexArray(0);
 	}
-
-
-
-
-
-
 	return;
 } // DrawObject;
 
@@ -852,33 +815,14 @@ void SetUpTextureBindingsForObject(
 
 glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld)
 {
-
-	//glm::mat4 matWorld = glm::mat4(1.0f);
-
-
-	//// ******* TRANSLATION TRANSFORM *********
-	//glm::mat4 matTrans
-	//	= glm::translate(glm::mat4(1.0f),
-	//		glm::vec3(pCurrentObject->m_physics_component->getPosition().x,
-	//			pCurrentObject->m_physics_component->getPosition().y,
-	//			pCurrentObject->m_physics_component->getPosition().z));
-	//matWorld = matWorld * matTrans;
-
-	//matWorld =  pCurrentObject->DoRender();
-
-	if(pCurrentObject->is_static == 1)
-	{	
+	if (pCurrentObject->is_static == 1)
+	{
 		glm::mat4 matTrans = glm::translate(glm::mat4(1.f), pCurrentObject->m_position);
 		matWorld = matWorld * matTrans;
-		
-	glm::mat4 matRotation = glm::mat4(pCurrentObject->getQOrientation());
-	matWorld = matWorld * matRotation;
+
+		glm::mat4 matRotation = glm::mat4(pCurrentObject->getQOrientation());
+		matWorld = matWorld * matRotation;
 	}
-	
-
-	//}
-	// ******* ROTATION TRANSFORM *********
-
 	// ******* SCALE TRANSFORM *********
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f),
 		glm::vec3(pCurrentObject->scale,
@@ -887,32 +831,6 @@ glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld)
 	matWorld = matWorld * scale;
 	// ******* SCALE TRANSFORM *********
 
-// ******* TRANSLATION TRANSFORM *********
-
-	//// ******* ROTATION TRANSFORM *********
-	//if ( pCurrentObject->friendlyName != "StarDestroyer" )
-	//{ 
-	//	//mat4x4_rotate_Z(m, m, (float) glfwGetTime());
-	//	glm::mat4 rotateZ = glm::rotate(glm::mat4(1.0f),
-	//									pCurrentObject->rotationXYZ.z,					// Angle 
-	//									glm::vec3(0.0f, 0.0f, 1.0f));
-	//	matWorld = matWorld * rotateZ;
-//
-	//	glm::mat4 rotateY = glm::rotate(glm::mat4(1.0f),
-	//									pCurrentObject->rotationXYZ.y,	//(float)glfwGetTime(),					// Angle 
-	//									glm::vec3(0.0f, 1.0f, 0.0f));
-	//	matWorld = matWorld * rotateY;
-//
-	//	glm::mat4 rotateX = glm::rotate(glm::mat4(1.0f),
-	//									pCurrentObject->rotationXYZ.x,	// (float)glfwGetTime(),					// Angle 
-	//									glm::vec3(1.0f, 0.0f, 0.0f));
-	//	matWorld = matWorld * rotateX;
-	//}
-	//else
-	//{
-	//	// HACK: Adjust the rotation of the ship.
-	//	glm::quat qAdjust = glm::quat( glm::vec3(0.0f, glm::radians(0.1f), 0.0f )); 
-	//	pCurrentObject->qRotation = pCurrentObject->qRotation * qAdjust;
 	return matWorld;
 }
 
