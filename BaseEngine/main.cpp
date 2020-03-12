@@ -176,6 +176,7 @@ int main()
 		
 		// Updating DeltaTime *********************************************
 		p_low_pass_filter->updateTime(deltaTime);
+		PhysicsInit();
 		// Updating DeltaTime *********************************************
 
 
@@ -259,7 +260,7 @@ int main()
 
 
 		
-		// PASS 4 // Draw image on screen
+		// PASS 3 // Draw image on screen
 		// 1. Set the framebuffer to the Actual screen
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		// 2. Clear the screen (glClear())
@@ -433,7 +434,7 @@ int main()
 		
 		//Physics implementation
 		
-		PhysicsInit();
+		
 		PhysicsUpdate(deltaTime);
 
 		//Physics implementation
@@ -526,10 +527,18 @@ void DrawObject(glm::mat4 matModel,
 		glUniform1i(skyBoxSampler_UL, 26);	// Texture unit 26
 	}
 	// ************
+	glm::mat4 matModelDir = glm::mat4(1.0f);
+	if (pCurrentObject->m_physics_component)
+	{
+		pCurrentObject->m_physics_component->GetTransform(matModelDir);
+	}
+	else
+	{
+	}
 
 
 	// Calculating the Transforms (T/R/S)
-	glm::mat4 matWorldCurrentGO = calculateWorldMatrix(pCurrentObject, matModel);
+	glm::mat4 matWorldCurrentGO = calculateWorldMatrix(pCurrentObject, matModelDir);
 	glUniformMatrix4fv(matModel_UL, 1, GL_FALSE, glm::value_ptr(matWorldCurrentGO));
 
 	// Calcualte the inverse transpose of the model matrix and pass that...
@@ -744,7 +753,8 @@ void SetUpTextureBindingsForObject(
 
 glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld)
 {
-	if (pCurrentObject->is_static == 1)
+	//if (pCurrentObject->is_static == 1)
+	if (!pCurrentObject->m_physics_component)
 	{
 		glm::mat4 matTrans = glm::translate(glm::mat4(1.f), pCurrentObject->m_position);
 		matWorld = matWorld * matTrans;

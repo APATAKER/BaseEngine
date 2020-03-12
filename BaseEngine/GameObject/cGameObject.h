@@ -82,6 +82,7 @@ public:
 
 	// Physics things are in here
 	nPhysics::iPhysicsComponent* m_physics_component;
+	eShapeTypes physicsShapeType;
 	glm::mat4 DoRender(); 
 
 	//Ai physics stuff
@@ -94,7 +95,6 @@ public:
 
 	// We could contain another class or struct with the phsyics stuff
 	// or we could use this type to determine what we need to check.
-	eShapeTypes physicsShapeType;
 	glm::vec3 AABB_min, AABB_max;
 	float SPHERE_radius;
 

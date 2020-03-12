@@ -41,6 +41,7 @@ cPlaneComponent::cPlaneComponent(nPhysics::sPlaneDef plane_def)
 	rigid_body_def.Velocity = glm::vec3(0, 0, 0);
 	rigid_body_def.Mass = 0;
 	rigid_body_def.AiType = plane_def.AiType;
+	rigid_body_def.Orientation = plane_def.orientation;
 
 	rigid_body = new physLib::cRigidBody(rigid_body_def, shape);
 }

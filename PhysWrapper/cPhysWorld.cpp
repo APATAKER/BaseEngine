@@ -22,7 +22,7 @@ bool cPhysWorld::AddComponent(nPhysics::iPhysicsComponent* component)
 	}
 	
 	// populating this for checking purpose *not useful
-	this->vp_phy_components.push_back(component);
+	//this->vp_phy_components.push_back(component);
 
 
 	switch (component->GetComponentType())

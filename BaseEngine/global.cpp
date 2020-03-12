@@ -57,33 +57,55 @@ void PhysicsInit()
 			switch (g_vec_pGameObjects[i]->physicsShapeType)
 			{
 			case eShapeTypes::SPHERE:
-				{
-					nPhysics::sBallDef ball_def;
-					ball_def.Position = glm::vec3(jgameobj["position"]["x"].GetFloat(),
-						jgameobj["position"]["y"].GetFloat(),
-						jgameobj["position"]["z"].GetFloat());
-					ball_def.Mass = jgameobj["mass"].GetFloat();
-					ball_def.Radius = jgameobj["sphere"]["radius"].GetFloat();
-					ball_def.orientation = g_vec_pGameObjects[i]->getQOrientation();
-					ball_def.AiType = jgameobj["aiType"].GetString();
-					g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateBall(ball_def);
-					
-				}
-				break;
+			{
+				nPhysics::sBallDef ball_def;
+				ball_def.Position = glm::vec3(jgameobj["position"]["x"].GetFloat(),
+					jgameobj["position"]["y"].GetFloat(),
+					jgameobj["position"]["z"].GetFloat());
+				ball_def.Mass = jgameobj["mass"].GetFloat();
+				ball_def.Radius = jgameobj["sphere"]["radius"].GetFloat();
+				ball_def.orientation = g_vec_pGameObjects[i]->getQOrientation();
+				ball_def.AiType = jgameobj["aiType"].GetString();
+				g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateBall(ball_def);
+
+			}
+			break;
 			case eShapeTypes::PLANE:
-				{
-					nPhysics::sPlaneDef plane_def;
-					plane_def.position = glm::vec3(jgameobj["position"]["x"].GetFloat(),
-						jgameobj["position"]["y"].GetFloat(),
-						jgameobj["position"]["z"].GetFloat());
-					plane_def.Normal = glm::vec3(jgameobj["plane"]["normal"]["x"].GetFloat(),
-						jgameobj["plane"]["normal"]["y"].GetFloat(),
-						jgameobj["plane"]["normal"]["z"].GetFloat());
-					plane_def.Constant = jgameobj["plane"]["constant"].GetFloat();
-					plane_def.AiType = jgameobj["aiType"].GetString();
-					g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreatePlane(plane_def);
-				}
-				break;
+			{
+				nPhysics::sPlaneDef plane_def;
+				plane_def.position = glm::vec3(jgameobj["position"]["x"].GetFloat(),
+					jgameobj["position"]["y"].GetFloat(),
+					jgameobj["position"]["z"].GetFloat());
+				plane_def.Normal = glm::vec3(jgameobj["plane"]["normal"]["x"].GetFloat(),
+					jgameobj["plane"]["normal"]["y"].GetFloat(),
+					jgameobj["plane"]["normal"]["z"].GetFloat());
+				plane_def.Constant = jgameobj["plane"]["constant"].GetFloat();
+				plane_def.AiType = jgameobj["aiType"].GetString();
+				plane_def.orientation = g_vec_pGameObjects[i]->getQOrientation();
+				g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreatePlane(plane_def);
+			}
+			break;
+			case eShapeTypes::CLOTH:
+			{
+				nPhysics::sClothDef cloth_def;
+				cloth_def.CornerA = glm::vec3(jgameobj["cloth"]["CornerA"]["x"].GetFloat(),
+											  jgameobj["cloth"]["CornerA"]["y"].GetFloat(),
+											  jgameobj["cloth"]["CornerA"]["z"].GetFloat());
+				cloth_def.CornerB = glm::vec3(jgameobj["cloth"]["CornerB"]["x"].GetFloat(),
+											  jgameobj["cloth"]["CornerB"]["y"].GetFloat(),
+											  jgameobj["cloth"]["CornerB"]["z"].GetFloat());
+				cloth_def.DownDirection = glm::vec3(jgameobj["cloth"]["DownDirection"]["x"].GetFloat(),
+													jgameobj["cloth"]["DownDirection"]["y"].GetFloat(),
+													jgameobj["cloth"]["DownDirection"]["z"].GetFloat());
+				cloth_def.NumNodesAcross = jgameobj["cloth"]["NumNodesAcross"].GetInt();
+				cloth_def.NumNodesDown = jgameobj["cloth"]["NumNodesDown"].GetInt();
+				cloth_def.NodeMass = jgameobj["cloth"]["NodeMass"].GetFloat();
+				cloth_def.SpringConstant = jgameobj["cloth"]["SpringConstant"].GetFloat();
+				g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateCloth(cloth_def);
+
+
+			}
+			break;
 			}
 			physics_world->AddComponent(g_vec_pGameObjects[i]->m_physics_component);
 			}

@@ -11,7 +11,7 @@ namespace physLib
 	cWorld::cWorld()
 	{
 		this->m_dt_ = 0.f;
-		this->m_gravity_ = glm::vec3(0.f, 1.f, 0.f);
+		this->m_gravity_ = glm::vec3(0.f, -1.f, 0.f);
 		//this->ai = new physLib::cAI();
 	}
 
@@ -120,7 +120,7 @@ namespace physLib
 		}
 		m_bodies_.push_back(collision_body);
 		
-		return true; // rigidbody was added in vector mBodies
+		return true; // body was added in vector mBodies
 	}
 
 	bool cWorld::RemoveBody(cCollisionBody* collision_body)

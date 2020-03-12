@@ -17,7 +17,15 @@ namespace physLib
 		mShape = shape;
 		mAT = glm::vec3(0, 0, 1);
 		mUp = glm::vec3(0, 1, 0);
-		mOrientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
+		glm::quat baseglm = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
+		if (baseglm != def.Orientation)
+		{
+			mOrientation = def.Orientation;
+		}
+		else
+		{
+			mOrientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
+		}
 		mAiType = def.AiType;
 		
 	}

@@ -80,10 +80,12 @@ cClothComponent::cClothComponent(const nPhysics::sClothDef& cloth_def)
 			glm::vec3 position = cloth_def.CornerA + sepAcross * (float)idxAcross + sepDown * (float)idxDown;
 			soft_body_def.Nodes[idxNodes].Position = position;// CALCULATE POSITION 
 			soft_body_def.Nodes[idxNodes].Mass = cloth_def.NodeMass;
+
+			idxNodes++;
 		}
 	}
 	// SET the top row node massed to 0
-	for (size_t idxAcross = 0; idxAcross < cloth_def.NumNodesDown - 1; idxAcross)
+	for (size_t idxAcross = 0; idxAcross < numNodes; idxAcross += cloth_def.NumNodesAcross)
 	{
 		soft_body_def.Nodes[idxAcross].Mass = 0.f;
 	}

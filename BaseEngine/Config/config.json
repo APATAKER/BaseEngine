@@ -1673,6 +1673,77 @@
       "isVisible": 1,
       "isSkinnedMesh": 0
     }
+    ,
+    {
+      "meshname": "sphere2",
+      "friendlyname": "softbody",
+      "position": {
+        "x": 0.0,
+        "y": 100.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "scale": 1.0,
+      "objectcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "isWireframe": 0,
+      "debugcolor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "tex": [ "violettex.bmp", "", "", "" ],
+      "texratio": [ 1, 0, 0, 0 ],
+      "isStatic": 0,
+      "physicsshapetype": 2,
+      "objectype": 2,
+      "sphereRadius": 2.0,
+      "bulletCollisionRadius": 10.0,
+      "plane": {
+        "normal": {
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+        },
+        "constant": 0
+      },
+      "sphere": {
+        "radius": 0
+      },
+      "cloth":{
+        "CornerA":{
+          "x": 0.0,
+          "y": 100.0,
+          "z": 0.0
+        },
+        "CornerB":{
+          "x": 100.0,
+          "y": 100.0,
+          "z": 0.0
+	    },
+        "DownDirection":{
+          "x": 0.0,
+          "y": -1.0,
+          "z": 0.0
+		},
+        "NumNodesAcross": 4,
+        "NumNodesDown":4,
+        "NodeMass":1.0,
+        "SpringConstant":10.0
+      },
+      "mass": 1,
+      "isVisible": 1,
+      "isSkinnedMesh": 0
+    }
   ]
   
 }

@@ -38,6 +38,8 @@ namespace physLib
 		glm::vec3 At;
 		// The Ai type
 		std::string AiType;
+		// Orientation
+		glm::quat Orientation;
 	};
 
 	// cRigidBody
