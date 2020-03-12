@@ -1,9 +1,6 @@
 #include "cLoad.h"
 
-#include "../ModelLoadingAndVAO/cModelLoader.h"
-#include "../ModelLoadingAndVAO/cVAOManager.h"
-#include "../ModelLoadingAndVAO/sModelDrawInfo.h"
-#include "../shader/cShaderManager.h"
+
 
 rapidjson::Document document;
 

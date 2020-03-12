@@ -19,6 +19,10 @@
 #include <algorithm>
 #include <iterator>
 
+#include <rapidjson/document.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/istreamwrapper.h>
+
 #define NOMINMAX
 #include <Windows.h>
 

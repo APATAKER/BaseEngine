@@ -1,16 +1,15 @@
 #pragma once
-#include <rapidjson/document.h>
-#include <rapidjson/prettywriter.h>
-#include <rapidjson/istreamwrapper.h>
-#include <iostream>
-#include <fstream>
-#include <glad/glad.h>
+#include "../commonHeaders.h"
 
 
 
 #include "../GameObject/cGameObject.h"
 #include "../ModelLoadingAndVAO/cMesh.h"
 #include "../Textures/cBasicTextureManager.h"
+#include "../ModelLoadingAndVAO/cModelLoader.h"
+#include "../ModelLoadingAndVAO/cVAOManager.h"
+#include "../ModelLoadingAndVAO/sModelDrawInfo.h"
+#include "../shader/cShaderManager.h"
 
 
 void InitJson(std::string filename);
