@@ -1737,8 +1737,8 @@
 		},
 		"NumNodesAcross": 4,
 		"NumNodesDown":4,
-		"NodeMass":1.0,
-		"SpringConstant":10.0
+		"NodeMass":3.0,
+		"SpringConstant":100.0
 	  },
 	  "mass": 1,
 	  "isVisible": 1,

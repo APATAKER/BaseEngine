@@ -188,7 +188,8 @@ namespace physLib
 		}
 		else if(collision_body->GetBodyType() == eBodyType::soft)
 		{
-			std::cout << "Why no intergrate" << std::endl;
+			IntegrateSoftBody(dynamic_cast<cSoftBody*>(collision_body), dt);
+			//std::cout << "Why no intergrate" << std::endl;
 		}
 	}
 
@@ -204,6 +205,13 @@ namespace physLib
 			body->mPreviousPosition = body->mPosition;  //2)
 			m_integrator_.RK4(body->mPosition, body->mVelocity, body->mAcceleration, dt); //3)
 		}
+		
+	}
+
+	void cWorld::IntegrateSoftBody(cSoftBody* body,float dt)
+	{
+		
+		body->Intergrate(dt, glm::vec3(0, -10, 0));
 		
 	}
 	bool cWorld::Collide(cRigidBody* bodyA, cRigidBody* bodyB)
@@ -246,6 +254,7 @@ namespace physLib
 		else if (typeA == eBodyType::soft && typeB == eBodyType::soft)
 		{
 			std::cout << "SoftBody" << std::endl;
+			//return Collide(dynamic_cast<cSoftBody*>(bodyA), dynamic_cast<cSoftBody*>(bodyB));
 			return false;
 		}
 	}

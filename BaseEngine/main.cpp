@@ -9,7 +9,7 @@
 #include "FBO/cFBO.h"
 #include "MazeGen/cMazeMaker.h"
 #include "LightManager/cLightStuff.h"
-
+#include "Graph/Graph.h"
 
 // Global Pointers and variables
 GLFWwindow* window = nullptr;
@@ -50,7 +50,10 @@ cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects
 
 int main()
 {
+	Graph* graph = new Graph();
 
+	graph->CreateNode('a');
+	
 	// opengl call
 	window = creatOpenGL(window);
 

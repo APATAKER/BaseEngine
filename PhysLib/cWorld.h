@@ -95,6 +95,8 @@ namespace physLib
 		// Safe for static rigid bodies.
 		void IntegrateRigidBody(cRigidBody* body, float dt);
 
+		void IntegrateSoftBody(cSoftBody* body, float dt);
+
 		// Collide
 		// Entry point for collision detection.
 		// Returns the result of specific Collide[shapeA][ShapeB] methods.

@@ -172,7 +172,7 @@ namespace physLib
 		}
 		// STEP 2 : Accimulate spring forces based on current positions
 		size_t numSprings = mSprings.size();
-		for(size_t idx =0;numSprings;idx++)
+		for(size_t idx =0;idx<numSprings;idx++)
 		{
 			mSprings[idx]->UpdateSpringForce();
 			mSprings[idx]->ApplyForceToNodes();

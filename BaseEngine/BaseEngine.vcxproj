@@ -178,6 +178,8 @@
     <ClCompile Include="GameObject\cGameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="global.cpp" />
+    <ClCompile Include="Graph\Graph.cpp" />
+    <ClCompile Include="Graph\GraphNodeSearch.cpp" />
     <ClCompile Include="JsonLoader\cLoad.cpp" />
     <ClCompile Include="LightManager\cLightStuff.cpp" />
     <ClCompile Include="main.cpp" />
@@ -209,6 +211,7 @@
     <ClInclude Include="FlyCamera\iCamera.h" />
     <ClInclude Include="GameObject\cGameObject.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="Graph\Graph.h" />
     <ClInclude Include="JsonLoader\cLoad.h" />
     <ClInclude Include="LightManager\cLightStuff.h" />
     <ClInclude Include="MazeGen\cMazeMaker.h" />
