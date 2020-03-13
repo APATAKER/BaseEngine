@@ -5,11 +5,36 @@
 #include <map>
 #include "CTextureFromBMP.h"
 
+#include <Windows.h>
+#undef min
+
 class cBasicTextureManager
 {
 public:
+	struct sTextureThreadData
+	{
+		cBasicTextureManager* texture_manager;
+		CTextureFromBMP* texture;
+	};
+
+	static DWORD load_texture_threaded_function(void* paramas)
+	{
+		auto* data = reinterpret_cast<sTextureThreadData*>(paramas);
+		
+		
+		if (!data->texture->load_texture_file(data->texture->getTextureName(), data->texture->getFileNameFullPath(), true))
+		{
+			data->texture->status = CTextureFromBMP::eTextureStatus::error;
+		}
+
+		return 0;
+	}
+
 	static cBasicTextureManager* getInstance();
 	bool Create2DTextureFromBMPFile( std::string textureFileName, bool bGenerateMIPMap );
+	bool Create2DTextureFromBMPFile_Threaded( std::string textureFileName, bool bGenerateMIPMap );
+
+	int push_loaded_textures_to_gpu();
 
 	// Picks a random texture from the textures loaded
 	std::string PickRandomTexture(void);

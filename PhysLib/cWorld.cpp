@@ -188,7 +188,7 @@ namespace physLib
 		}
 		else if(collision_body->GetBodyType() == eBodyType::soft)
 		{
-			std::cout << "Why no in" << std::endl;
+			std::cout << "Why no intergrate" << std::endl;
 		}
 	}
 

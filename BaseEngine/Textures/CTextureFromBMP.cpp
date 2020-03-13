@@ -62,28 +62,53 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 {
 	bool bReturnVal = true;
 
+	if (!load_texture_file(textureName, fileNameFullPath, bGenerateMIPMap))
+	{
+		return false;
+	}
+	if (!push_texture_to_gpc())
+	{
+		return false;
+	}
+
+	return bReturnVal;
+}
+
+bool CTextureFromBMP::load_texture_file(std::string textureName, std::string fileNameFullPath, bool bGenerateMIPMap)
+{
+	this->m_fileNameFullPath = fileNameFullPath;
+	this->m_textureName = textureName;
+	
+	if (!this->LoadBMP2(fileNameFullPath))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool CTextureFromBMP::push_texture_to_gpc()
+{
 	// Clear any old openGL errors???
 	int IHateYou = glGetError();
 
 	// Pick a texture number...
 //	GLuint textureNum = 0;
 	this->m_textureNumber = 0;
-	glGenTextures( 1, &(this->m_textureNumber) );
+	glGenTextures(1, &(this->m_textureNumber));
 	// Worked?
-	if ( ( glGetError() & GL_INVALID_VALUE ) == GL_INVALID_VALUE )
-	{
-		bReturnVal = false;
-		return false;
-	}
-
-
-	if ( !this->LoadBMP2( fileNameFullPath ) )
+	if ((glGetError() & GL_INVALID_VALUE) == GL_INVALID_VALUE)
 	{
 		return false;
 	}
+	//if (!this->LoadBMP2(fileNameFullPath))
+	//{
+	//	return false;
+	//}
 
-	this->m_fileNameFullPath = fileNameFullPath;
-	this->m_textureName = textureName;
+
+
+	
 
 	// Good to go (valid texture ID and loaded bitmap...
 	// Now set the texture...
@@ -92,19 +117,19 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 
 	// In case texture is oddly aligned, set the client alignment to 1 byte (default is 4)
 	GLint GL_UNPACK_ALIGNMENT_old = 0;
-	glGetIntegerv( GL_UNPACK_ALIGNMENT, &GL_UNPACK_ALIGNMENT_old );
+	glGetIntegerv(GL_UNPACK_ALIGNMENT, &GL_UNPACK_ALIGNMENT_old);
 	// Set alignment to 1 byte
-	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	glTexImage2D( GL_TEXTURE_2D,		// target (2D, 3D, etc.)		// OpenGL 2.0 and up
-				 0,					// MIP map level 
-				 GL_RGBA,			// internal format
-				 this->m_numberOfColumns,	// width (pixels)	
-				 this->m_numberOfRows,		// height (pixels)	
-				 0,					// border (0 or 1)
-				 GL_RGB,			// format of pixel data
-				 GL_UNSIGNED_BYTE,	// type of pixel data
-				 this->m_p_theImages);	// pointer to data in memory
+	glTexImage2D(GL_TEXTURE_2D,		// target (2D, 3D, etc.)		// OpenGL 2.0 and up
+		0,					// MIP map level 
+		GL_RGBA,			// internal format
+		this->m_numberOfColumns,	// width (pixels)	
+		this->m_numberOfRows,		// height (pixels)	
+		0,					// border (0 or 1)
+		GL_RGB,			// format of pixel data
+		GL_UNSIGNED_BYTE,	// type of pixel data
+		this->m_p_theImages);	// pointer to data in memory
 
 //	glTexStorage2D( GL_TEXTURE_2D,								// OpenGL 4.2 and up
 //		            1, 
@@ -114,7 +139,7 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 //					//this->m_numberOfColumns, 
 //					//this->m_numberOfRows );
 
-	if ( this->bWasThereAnOpenGLError() )	{ return false;	}
+	if (this->bWasThereAnOpenGLError()) { return false; }
 
 	//for ( int index = 0; index != 400; index++ )
 	//{
@@ -135,43 +160,44 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 //					 GL_UNSIGNED_BYTE,	// Pixel data type  
 //					 this->m_p_theImages );
 
-	if ( this->bWasThereAnOpenGLError() )	{ return false;	}
+	if (this->bWasThereAnOpenGLError()) { return false; }
 
 	// Put the pixel store aligment back to what it was
-	glPixelStorei( GL_UNPACK_ALIGNMENT, GL_UNPACK_ALIGNMENT_old );
+	glPixelStorei(GL_UNPACK_ALIGNMENT, GL_UNPACK_ALIGNMENT_old);
 
 
 	this->ClearBMP();
 
 
-	if ( bGenerateMIPMap )
+	if (true)
 	{
-		glGenerateMipmap( GL_TEXTURE_2D );		// OpenGL 4.0
+		glGenerateMipmap(GL_TEXTURE_2D);		// OpenGL 4.0
 	}
 
 	//if ( this->bWasThereAnOpenGLError() )	{ return false;	}
 
 
 	//glBindTexture(GL_TEXTURE_2D, m_textureNumber);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, /*GL_CLAMP*/ GL_REPEAT );
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, /*GL_CLAMP*/ GL_REPEAT );
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, /*GL_CLAMP*/ GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, /*GL_CLAMP*/ GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST /*GL_LINEAR*/);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, /*GL_NEAREST*/ GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
-//	GLfloat largest_supported_anisotropy;
-//	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest_supported_anisotropy);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest_supported_anisotropy);
+	//	GLfloat largest_supported_anisotropy;
+	//	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest_supported_anisotropy);
+	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest_supported_anisotropy);
 
-	//if ( this->bWasThereAnOpenGLError() )	{ return false;	}
+		//if ( this->bWasThereAnOpenGLError() )	{ return false;	}
 
-	//this->m_textureUnit = textureUnit;
+		//this->m_textureUnit = textureUnit;
 
 	this->m_bIs2DTexture = true;
 
-	//glBindTexture(GL_TEXTURE_2D, 0);
+	
 
-	return bReturnVal;
+	//glBindTexture(GL_TEXTURE_2D, 0);
+	return true;
 }
 
 

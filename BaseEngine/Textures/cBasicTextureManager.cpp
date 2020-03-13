@@ -1,6 +1,7 @@
 #include "cBasicTextureManager.h"
 
 #include <sstream>
+#include <thread>
 
 static cBasicTextureManager* instance;
 void cBasicTextureManager::SetBasePath(std::string basepath)
@@ -33,10 +34,51 @@ bool cBasicTextureManager::Create2DTextureFromBMPFile( std::string textureFileNa
 
 	// Texture is loaded OK
 	//this->m_nextTextureUnitOffset++;
+	//
+
+	pTempTexture->status = CTextureFromBMP::eTextureStatus::on_gpu;
 	
 	this->m_map_TexNameToTexture[ textureFileName ] = pTempTexture;
 
 	return true;
+}
+
+bool cBasicTextureManager::Create2DTextureFromBMPFile_Threaded(std::string textureFileName, bool bGenerateMIPMap)
+{
+	auto data = new sTextureThreadData();
+
+	data->texture = new CTextureFromBMP();
+	data->texture->m_textureName = textureFileName;
+	data->texture->m_fileNameFullPath = this->m_basePath + "\\" + textureFileName;
+	data->texture_manager = this;
+
+	this->m_map_TexNameToTexture[textureFileName] = data->texture;
+
+	std::thread thread(load_texture_threaded_function, data);
+	thread.detach();
+
+
+	return true;
+}
+
+int cBasicTextureManager::push_loaded_textures_to_gpu()
+{
+	int count = 0;
+	for (auto& x : m_map_TexNameToTexture)
+	{
+		if (x.second->status == CTextureFromBMP::eTextureStatus::ready_to_goto_gpu)
+		{
+			if (!x.second->push_texture_to_gpc())
+			{
+				x.second->status = CTextureFromBMP::eTextureStatus::error;
+				continue;
+			}
+			count++;
+		}
+	}
+
+
+	return count;
 }
 
 
@@ -53,9 +95,10 @@ GLuint cBasicTextureManager::getTextureIDFromName( std::string textureFileName )
 	std::map< std::string, CTextureFromBMP* >::iterator itTexture
 		= this->m_map_TexNameToTexture.find( textureFileName );
 	// Found it?
-	if ( itTexture == this->m_map_TexNameToTexture.end() )
+	if ( itTexture == this->m_map_TexNameToTexture.end() || itTexture->second->status != CTextureFromBMP::eTextureStatus::on_gpu)
 	{
-		return 0;
+		//return 0;
+		return (GLuint)std::numeric_limits<unsigned>::max;
 	}
 	// Reutrn texture number (from OpenGL genTexture)
 	return itTexture->second->getTextureNumber();
