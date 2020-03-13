@@ -23,6 +23,7 @@ namespace physLib
 		virtual std::string GetAiType() = 0;
 		virtual void setVelocity(glm::vec3 velocity) = 0;
 		virtual void setAcceleration(glm::vec3 accl) = 0;
+		
 
 	protected:
 		cCollisionBody(eBodyType bodyType)

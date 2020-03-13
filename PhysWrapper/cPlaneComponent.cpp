@@ -23,12 +23,13 @@ void cPlaneComponent::ApplyRotation(const glm::vec3& rotation)
 
 int cPlaneComponent::GetNumberOfPhysicalObject()
 {
-	return 0;
+	return rigid_body->GetNumberOfPhysicalObjects();
 }
 
 bool cPlaneComponent::GetTransform(int index, glm::mat4& transformOut)
 {
-	return false;
+	rigid_body->GetTransform(transformOut);
+	return true;
 }
 
 

@@ -1675,7 +1675,7 @@
     }
     ,
     {
-      "meshname": "sphere2",
+      "meshname": "sphere5",
       "friendlyname": "softbody",
       "position": {
         "x": 0.0,
@@ -1701,7 +1701,7 @@
         "b": 1.0,
         "a": 1.0
       },
-      "tex": [ "violettex.bmp", "", "", "" ],
+      "tex": [ "yellowtex.bmp", "", "", "" ],
       "texratio": [ 1, 0, 0, 0 ],
       "isStatic": 0,
       "physicsshapetype": 2,
@@ -1722,12 +1722,12 @@
       "cloth":{
         "CornerA":{
           "x": 0.0,
-          "y": 100.0,
+          "y": 200.0,
           "z": 0.0
         },
         "CornerB":{
           "x": 100.0,
-          "y": 100.0,
+          "y": 200.0,
           "z": 0.0
 	    },
         "DownDirection":{

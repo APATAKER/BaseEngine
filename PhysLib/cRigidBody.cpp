@@ -49,6 +49,10 @@ namespace physLib
 		glm::mat4 rotation_transform = glm::mat4(this->getQOrientation());
 		transformOut *= rotation_transform;
 	}
+	int cRigidBody::GetNumberOfPhysicalObjects()
+	{
+		return this->numberOfPhysicalObjects;
+	}
 
 	void cRigidBody::ApplyForce(const glm::vec3& force)
 	{

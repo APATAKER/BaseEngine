@@ -111,6 +111,13 @@ namespace physLib
 		}
 		mSprings.clear();
 	}
+
+	void cSoftBody::GetTransform(int index, glm::mat4& transformOut)
+	{
+		glm::mat4 translation_transform = glm::translate(glm::mat4(1.f), mNodes[index]->Position);
+		transformOut *= translation_transform;
+	}
+
 	void cSoftBody::ClearAccelerations()
 	{
 		size_t numNodes = mNodes.size();

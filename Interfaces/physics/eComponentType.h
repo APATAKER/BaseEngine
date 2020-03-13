@@ -2,7 +2,7 @@
 
 namespace nPhysics
 {
-	enum class eComponentType
+	enum eComponentType
 	{
 		SPHERE,
 		PLANE,

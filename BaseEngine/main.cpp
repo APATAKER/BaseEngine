@@ -37,8 +37,7 @@ glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int punchcounter;
 
 // Global Functions
-void DrawObject(glm::mat4 matWorld,
-	cGameObject* pCurrentObject,
+void DrawObject(glm::mat4 matWorld,cGameObject* pCurrentObject,
 	GLint shaderProgID,
 	cVAOManager* pVAOManager);
 glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld);
@@ -221,15 +220,13 @@ int main()
 		// GameObject Draw Call
 		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
 		{
+			glm::mat4 matWorld = glm::mat4(1.f);
 			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-			
-			if(pCurrentObject->m_physics_component)
-			{
-				pCurrentObject->m_physics_component->GetTransform(matModel);
+			if (pCurrentObject->m_physics_component) {
+				pCurrentObject->m_physics_component->GetTransform(matWorld);
 			}
-			else{}
-			DrawObject(matModel, pCurrentObject,
+			else {}
+			DrawObject(matWorld,pCurrentObject,
 				g_shader_program_ID, p_vao_manager);
 		}//for (int index...
 		
@@ -244,15 +241,13 @@ int main()
 		// GameObject Draw Call
 		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
 		{
+			glm::mat4 matWorld = glm::mat4(1.f);
 			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-
-			if (pCurrentObject->m_physics_component)
-			{
-				pCurrentObject->m_physics_component->GetTransform(matModel);
+			if (pCurrentObject->m_physics_component) {
+				pCurrentObject->m_physics_component->GetTransform(matWorld);
 			}
 			else {}
-			DrawObject(matModel, pCurrentObject,
+			DrawObject(matWorld,pCurrentObject,
 				g_shader_program_ID, p_vao_manager);
 		}//for (int index...
 		// PASS 2 *****************************************************
@@ -324,20 +319,26 @@ int main()
 		for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
 		{
 			cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-			glm::mat4 matModel = glm::mat4(1.0f);	// Identity matrix
-
+			glm::mat4 matWorld = glm::mat4(1.f);
 			if (pCurrentObject->m_physics_component)
 			{
-				pCurrentObject->m_physics_component->GetTransform(matModel);
+				int number_of_physical_objects = pCurrentObject->m_physics_component->GetNumberOfPhysicalObject();
+				for (int i = 0; i < number_of_physical_objects; i++)
+				{
+					glm::mat4 matWorldPhy = glm::mat4(1.f);
+					pCurrentObject->m_physics_component->GetTransform(i, matWorldPhy);
+					DrawObject(matWorldPhy, pCurrentObject,
+						g_shader_program_ID, p_vao_manager);
+				}
 			}
 			else
-			{}
-			if ((pCurrentObject->friendlyName) != "tvscreen1"
-				&& (pCurrentObject->friendlyName) != "tvscreen2"
-				&& (pCurrentObject->friendlyName) != "tvscreen3" 
-				&& (pCurrentObject->friendlyName) != "tvscreen4")
-			DrawObject(matModel, pCurrentObject,
-				g_shader_program_ID, p_vao_manager);
+			{
+				if ((pCurrentObject->friendlyName) != "tvscreen1"
+					&& (pCurrentObject->friendlyName) != "tvscreen2"
+					&& (pCurrentObject->friendlyName) != "tvscreen3"
+					&& (pCurrentObject->friendlyName) != "tvscreen4")
+					DrawObject(matWorld, pCurrentObject, g_shader_program_ID, p_vao_manager);
+			}
 
 		}//for (int index...
 		{
@@ -354,24 +355,24 @@ int main()
 		glUniform1i(passNumber_UniLoc, 2);
 		cGameObject* p_TV_screen1 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen1");
 		glm::mat4 mat4_TV_screen1 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen1, p_TV_screen1, g_shader_program_ID, p_vao_manager);
+		DrawObject(mat4_TV_screen1,p_TV_screen1, g_shader_program_ID, p_vao_manager);
 
 
 		
 		glUniform1i(passNumber_UniLoc, 3);
 		cGameObject* p_TV_screen2 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen2");
 		glm::mat4 mat4_TV_screen2 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen2, p_TV_screen2, g_shader_program_ID, p_vao_manager);
+		DrawObject(mat4_TV_screen2,p_TV_screen2, g_shader_program_ID, p_vao_manager);
 
 		glUniform1i(passNumber_UniLoc, 4);
 		cGameObject* p_TV_screen3 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen3");
 		glm::mat4 mat4_TV_screen3 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen3, p_TV_screen3, g_shader_program_ID, p_vao_manager);
+		DrawObject(mat4_TV_screen3,p_TV_screen3, g_shader_program_ID, p_vao_manager);
 
 		glUniform1i(passNumber_UniLoc, 5);
 		cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
 		glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen4, p_TV_screen4, g_shader_program_ID, p_vao_manager);
+		DrawObject(mat4_TV_screen4,p_TV_screen4, g_shader_program_ID, p_vao_manager);
 
 
 		
@@ -400,7 +401,7 @@ int main()
 
 		p_TV_screen3->isVisible = true;
 		p_TV_screen3->disableDepthBufferWrite = true;
-		DrawObject(mat4_TV_screen3, p_TV_screen3, g_shader_program_ID, p_vao_manager);
+		DrawObject(mat4_TV_screen3,p_TV_screen3, g_shader_program_ID, p_vao_manager);
 		p_TV_screen3->isVisible = false;
 
 		glDepthMask(GL_TRUE);
@@ -472,8 +473,7 @@ int main()
 
 
 
-void DrawObject(glm::mat4 matModel,
-	cGameObject* pCurrentObject,
+void DrawObject(glm::mat4 matWorld,cGameObject* pCurrentObject,
 	GLint shaderProgID,
 	cVAOManager* pVAOManager)
 {
@@ -527,18 +527,11 @@ void DrawObject(glm::mat4 matModel,
 		glUniform1i(skyBoxSampler_UL, 26);	// Texture unit 26
 	}
 	// ************
-	glm::mat4 matModelDir = glm::mat4(1.0f);
-	if (pCurrentObject->m_physics_component)
-	{
-		pCurrentObject->m_physics_component->GetTransform(matModelDir);
-	}
-	else
-	{
-	}
-
-
+	
+	
 	// Calculating the Transforms (T/R/S)
-	glm::mat4 matWorldCurrentGO = calculateWorldMatrix(pCurrentObject, matModelDir);
+	
+	glm::mat4 matWorldCurrentGO = calculateWorldMatrix(pCurrentObject, matWorld);
 	glUniformMatrix4fv(matModel_UL, 1, GL_FALSE, glm::value_ptr(matWorldCurrentGO));
 
 	// Calcualte the inverse transpose of the model matrix and pass that...
@@ -762,6 +755,15 @@ glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld)
 		glm::mat4 matRotation = glm::mat4(pCurrentObject->getQOrientation());
 		matWorld = matWorld * matRotation;
 	}
+	//if(pCurrentObject->m_physics_component)
+	//{
+	//	int check = pCurrentObject->m_physics_component->GetNumberOfPhysicalObject();
+	//	if (check > 1)
+	//	{
+	//		glm::mat4 matRotation = glm::mat4(pCurrentObject->getQOrientation());
+	//		matWorld = matWorld * matRotation;
+	//	}
+	//}
 	// ******* SCALE TRANSFORM *********
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f),
 		glm::vec3(pCurrentObject->scale,

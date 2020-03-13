@@ -24,12 +24,13 @@ void cBallComponent::ApplyRotation(const glm::vec3& rotation)
 
 int cBallComponent::GetNumberOfPhysicalObject()
 {
-	return 0;
+	return rigid_body->GetNumberOfPhysicalObjects();
 }
 
 bool cBallComponent::GetTransform(int index, glm::mat4& transformOut)
 {
-	return false;
+	rigid_body->GetTransform(transformOut);
+	return true;
 }
 
 

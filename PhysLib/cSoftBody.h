@@ -56,6 +56,8 @@ namespace physLib
 		cSoftBody(const sSoftBodyDef& def);
 		~cSoftBody();
 
+		void GetTransform(int index,glm::mat4& transformOut);
+
 		void ClearAccelerations() override;
 		glm::vec3 GetVelocity() override;
 		glm::vec3 GetAccelerations() override;

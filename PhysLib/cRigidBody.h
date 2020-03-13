@@ -40,6 +40,7 @@ namespace physLib
 		std::string AiType;
 		// Orientation
 		glm::quat Orientation;
+		
 	};
 
 	// cRigidBody
@@ -73,6 +74,10 @@ namespace physLib
 		// GetTransform
 		// Retrieve a rendering-friendly form of position + rotation
 		void GetTransform(glm::mat4& transformOut);
+
+		// GetNumberOfPhysicalObjects
+		// Retrieve number of objects to render
+		int GetNumberOfPhysicalObjects();
 
 		// ApplyForce
 		// Apply an external force to this rigid body.
@@ -126,6 +131,8 @@ namespace physLib
 		std::string mAiType;
 		// Steering Force
 		glm::vec3 mSteerForce;
+		// NumberOfPhysicalObjects
+		int numberOfPhysicalObjects = 1;
 		// Orientation Functions
 		void updateAtFromOrientation(void);
 		glm::vec3 getAtInWorldSpace(void);
