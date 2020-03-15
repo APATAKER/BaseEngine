@@ -4,7 +4,14 @@
 
 #include "nCollide.h"  // collision detection functions from
                        // REAL-TIME COLLISION DETECTION, ERICSON
-
+template <class T>
+T randInRange(T min, T max)
+{
+	double value =
+		min + static_cast <double> (rand())
+		/ (static_cast <double> (RAND_MAX / (static_cast<double>(max - min))));
+	return static_cast<T>(value);
+};
 
 namespace physLib
 {
@@ -211,8 +218,14 @@ namespace physLib
 
 	void cWorld::IntegrateSoftBody(cSoftBody* body,float dt)
 	{
-		
-		body->Intergrate(dt, glm::vec3(1, -10, 0));
+		glm::vec3 gravityPlusWind;								// Change WIND here
+		GetGravity(gravityPlusWind);
+		float wind_forceX = 100.f;
+		float wind_forceZ = 50.f;
+		gravityPlusWind.x = randInRange<float>(-wind_forceX, wind_forceX);
+		//gravityPlusWind.z = randInRange<float>(-wind_forceZ, wind_forceZ);
+
+		body->Intergrate(dt, gravityPlusWind);
 		
 	}
 	bool cWorld::CollideRigidRigid(cRigidBody* bodyA, cRigidBody* bodyB)

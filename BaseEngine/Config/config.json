@@ -1478,7 +1478,7 @@
 		  "z": 0.0
 		},
 		"CornerB":{
-		  "x": 50.0,
+		  "x": 125.0,
 		  "y": 200.0,
 		  "z": 0.0
 		},
@@ -1487,8 +1487,8 @@
 		  "y": -1.0,
 		  "z": 0.0
 		},
-		"NumNodesAcross": 5,
-		"NumNodesDown":5,
+		"NumNodesAcross": 10,
+		"NumNodesDown":10,
 		"NodeMass":10.0,
 		"SpringConstant":100.0
 	  },
