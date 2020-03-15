@@ -17,6 +17,9 @@ void cPlaneComponent::ApplyForce(const glm::vec3& force)
 {
 	rigid_body->ApplyForce(force);
 }
+void cPlaneComponent::JumpForce(const glm::vec3& force)
+{
+}
 void cPlaneComponent::ApplyRotation(const glm::vec3& rotation)
 {
 }

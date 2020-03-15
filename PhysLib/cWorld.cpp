@@ -11,7 +11,7 @@ namespace physLib
 	cWorld::cWorld()
 	{
 		this->m_dt_ = 0.f;
-		this->m_gravity_ = glm::vec3(0.f, -1.f, 0.f);
+		this->m_gravity_ = glm::vec3(0.f, -10.f, 0.f);
 		//this->ai = new physLib::cAI();
 	}
 
@@ -94,9 +94,10 @@ namespace physLib
 
 		for (size_t idx = 0; idx < numBodies; idx++) //4)
 		{
-			m_bodies_[idx]->setAcceleration(m_bodies_[idx]->GetAccelerations() + glm::vec3(0.f, 0.f, 0.f));
+			//m_bodies_[idx]->setAcceleration(m_bodies_[idx]->GetAccelerations() + glm::vec3(0.f, 0.f, 0.f));
+			m_bodies_[idx]->setAcceleration( glm::vec3(0.f, 0.f, 0.f));
 			//m_bodies_[idx]->mAcceleration = glm::vec3(0.f, 0.f, 0.f);
-			m_bodies_[idx]->setVelocity(m_bodies_[idx]->GetVelocity() * glm::vec3(0.9));
+			//m_bodies_[idx]->setVelocity(m_bodies_[idx]->GetVelocity() * glm::vec3(0.9));
 
 			//m_bodies_[idx]->mVelocity *= 0.9;
 		}
@@ -242,6 +243,30 @@ namespace physLib
 		
 	}
 
+	bool cWorld::CollideSoftRigid(cSoftBody* bodyA, cRigidBody* bodyB)
+	{
+		if(!bodyB)
+		{
+			return false;
+		}
+		if (bodyB->IsStatic())
+		{
+			return false;
+		}
+		eShapeType shapeTypeB = bodyB->GetShapeType();
+
+		if (shapeTypeB == eShapeType::plane)
+		{
+			return false;
+		}
+		if (shapeTypeB == eShapeType::sphere)
+		{
+			bool result = bodyA->collideSpherecloth(bodyB);
+			return result;
+		}
+		return false;
+	}
+
 	bool cWorld::Collide(cCollisionBody* bodyA, cCollisionBody* bodyB)
 	{
 		eBodyType typeA = bodyA->GetBodyType();
@@ -251,11 +276,10 @@ namespace physLib
 			return Collide(dynamic_cast<cRigidBody*>(bodyA), dynamic_cast<cRigidBody*>(bodyB));
 		
 		}
-		else if (typeA == eBodyType::soft && typeB == eBodyType::soft)
+		else if (typeA == eBodyType::rigid && typeB == eBodyType::soft)
 		{
 			std::cout << "SoftBody" << std::endl;
-			//return Collide(dynamic_cast<cSoftBody*>(bodyA), dynamic_cast<cSoftBody*>(bodyB));
-			return false;
+			return CollideSoftRigid(dynamic_cast<cSoftBody*>(bodyA), dynamic_cast<cRigidBody*>(bodyB));
 		}
 	}
 

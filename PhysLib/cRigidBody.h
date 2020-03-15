@@ -83,6 +83,7 @@ namespace physLib
 		// Apply an external force to this rigid body.
 		// The force is applied center-mass, affecting the acceleration.
 		void ApplyForce(const glm::vec3& force);
+		void jump(const glm::vec3& force);
 
 		void ApplyRotation(const glm::vec3& rotation);
 
@@ -134,6 +135,7 @@ namespace physLib
 		// NumberOfPhysicalObjects
 		int numberOfPhysicalObjects = 1;
 		// Orientation Functions
+	public:
 		void updateAtFromOrientation(void);
 		glm::vec3 getAtInWorldSpace(void);
 		void updateOrientation(glm::vec3 EulerAngleDegreesXYZ);
@@ -141,11 +143,14 @@ namespace physLib
 
 		glm::quat safeQuatLookAt(glm::vec3 const& lookFrom, glm::vec3 const& lookTo, glm::vec3 const& up);
 
+		
 		void setAcceleration(glm::vec3 accl) override;
 		void setVelocity(glm::vec3 velocity) override;
 		glm::vec3 GetAccelerations() override;
 		glm::vec3 GetVelocity() override;
 		std::string GetAiType() override;
+		glm::vec3 GetPosition();
+		glm::vec3 GetPreviousPosition();
 		
 		// Mass
 		// Expected to be non-negative.

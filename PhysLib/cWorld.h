@@ -102,6 +102,8 @@ namespace physLib
 		// Returns the result of specific Collide[shapeA][ShapeB] methods.
 		bool Collide(cRigidBody* bodyA, cRigidBody* bodyB);
 		
+		bool CollideSoftRigid(cSoftBody* bodyA, cRigidBody* bodyB);
+		
 		bool Collide(cCollisionBody* bodyA, cCollisionBody* bodyB);
 
 		// CollideSpherePlane

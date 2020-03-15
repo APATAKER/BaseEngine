@@ -24,6 +24,10 @@ void cClothComponent::ApplyRotation(const glm::vec3& rotation)
 {
 }
 
+void cClothComponent::JumpForce(const glm::vec3& force)
+{
+}
+
 size_t cClothComponent::NumNodes()
 {
 	return mBody->NumNodes();

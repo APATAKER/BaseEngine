@@ -12,6 +12,7 @@ public:
 	
 	void GetTransform(glm::mat4& transformOut) override;
 	void ApplyForce(const glm::vec3& force) override;
+	void JumpForce(const glm::vec3& force) override;
 	void ApplyRotation(const glm::vec3& rotation) override;
 	int GetNumberOfPhysicalObject() override;
 	bool GetTransform(int index, glm::mat4& transformOut) override;

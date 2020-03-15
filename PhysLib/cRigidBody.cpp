@@ -17,14 +17,11 @@ namespace physLib
 		mShape = shape;
 		mAT = glm::vec3(0, 0, 1);
 		mUp = glm::vec3(0, 1, 0);
-		glm::quat baseglm = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
-		if (baseglm != def.Orientation)
+		glm::quat baseglm(glm::vec3(0.0f, 0.0f, 0.0f));
+		mOrientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
+		if (mOrientation != def.Orientation)
 		{
 			mOrientation = def.Orientation;
-		}
-		else
-		{
-			mOrientation = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
 		}
 		mAiType = def.AiType;
 		
@@ -62,6 +59,11 @@ namespace physLib
 		direction = normalize(direction);
 		glm::vec3 forceToBeApplied = mag_force * direction;
 		this->mAcceleration += (forceToBeApplied / this->mMass);	
+	}
+
+	void cRigidBody::jump(const glm::vec3& force)
+	{
+		this->mAcceleration += (force / this->mMass);
 	}
 
 	void cRigidBody::ApplyRotation(const glm::vec3& rotation)
@@ -149,6 +151,16 @@ namespace physLib
 	std::string cRigidBody::GetAiType()
 	{
 		return mAiType;
+	}
+
+	glm::vec3 cRigidBody::GetPosition()
+	{
+		return this->mPosition;
+	}
+
+	glm::vec3 cRigidBody::GetPreviousPosition()
+	{
+		return this->mPreviousPosition;
 	}
 
 	//constructor for RigidBodyDef

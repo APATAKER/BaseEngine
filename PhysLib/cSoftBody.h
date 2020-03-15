@@ -3,6 +3,7 @@
 #include "glm_headers.h"
 #include <vector>
 #include "cCollisionBody.h"
+#include "cRigidBody.h"
 
 namespace physLib
 {
@@ -34,6 +35,7 @@ namespace physLib
 			float Radius;
 			float Mass;
 			glm::vec3 Position;
+			glm::vec3 PreviousPosition;
 			glm::vec3 Velocity;
 			glm::vec3 Acceleration;
 			
@@ -68,6 +70,8 @@ namespace physLib
 		size_t NumNodes();
 		bool GetNodeRadius(size_t index, float& radiusOut);
 		bool GetNodePosition(size_t index, glm::vec3& positionOut);
+
+		bool collideSpherecloth(cRigidBody* theSphere);
 
 		
 

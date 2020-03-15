@@ -15,7 +15,7 @@ public:
 	void GetTransform(glm::mat4& transformOut) override;
 	void ApplyForce(const glm::vec3& force) override;
 	void ApplyRotation(const glm::vec3& rotation) override;
-
+	void JumpForce(const glm::vec3& force) override;
 	size_t NumNodes()override;
 	bool GetNodeRadius(size_t index, float& radiusout) override;
 	bool GetNodePosition(size_t index, glm::vec3& positionOut) override;
