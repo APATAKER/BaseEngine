@@ -72,6 +72,7 @@ namespace physLib
 		bool GetNodePosition(size_t index, glm::vec3& positionOut);
 
 		bool collideSpherecloth(cRigidBody* theSphere);
+		bool collideNodeNode(cNode* bodyA, cNode* bodyB);
 
 		
 

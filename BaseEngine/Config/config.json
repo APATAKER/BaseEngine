@@ -11,6 +11,7 @@
 	"assets/models/Sphere_Radius_2_XYZ_n_uv.ply",
 	"assets/models/Sphere_Radius_3_XYZ_n_uv.ply",
 	"assets/models/Sphere_Radius_5_XYZ_n_uv.ply",
+	"assets/models/Sphere_Radius_10_XYZ_n_uv.ply",
 	"assets/models/Sphere_Radius_0.5_XYZ_n_uv.ply",
 	"assets/models/kunai_n_uv.ply",
 	"assets/models/cube_flat_shaded_xyz_n_uv.ply",
@@ -25,6 +26,7 @@
 	"sphere2",
 	"sphere3",
 	"sphere5",
+	"sphere10",
 	"bullet",
 	"kunai",
 	"mazecube",
@@ -432,7 +434,7 @@
 	  "aiType": "coordinator"
 	},
 	{
-	  "meshname": "sphere2",
+	  "meshname": "sphere10",
 	  "friendlyname": "player",
 	  "position": {
 		"x": -10.0,
@@ -463,7 +465,7 @@
 	  "isStatic": 0,
 	  "physicsshapetype": 0,
 	  "objectype": 0,
-	  "sphereRadius": 2.0,
+	  "sphereRadius": 10.0,
 	  "bulletCollisionRadius": 0.0,
 	  "plane": {
 		"normal": {
@@ -474,7 +476,7 @@
 		"constant": 0
 	  },
 	  "sphere": {
-		"radius": 2
+		"radius": 10
 	  },
 	  "mass": 1,
 	  "isVisible": 1,
@@ -1476,7 +1478,7 @@
 		  "z": 0.0
 		},
 		"CornerB":{
-		  "x": 100.0,
+		  "x": 50.0,
 		  "y": 200.0,
 		  "z": 0.0
 		},

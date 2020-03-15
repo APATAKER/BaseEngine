@@ -212,10 +212,10 @@ namespace physLib
 	void cWorld::IntegrateSoftBody(cSoftBody* body,float dt)
 	{
 		
-		body->Intergrate(dt, glm::vec3(0, -10, 0));
+		body->Intergrate(dt, glm::vec3(1, -10, 0));
 		
 	}
-	bool cWorld::Collide(cRigidBody* bodyA, cRigidBody* bodyB)
+	bool cWorld::CollideRigidRigid(cRigidBody* bodyA, cRigidBody* bodyB)
 	{
 	
 		// 1) Based on shape type, determine which specific collision handling
@@ -231,7 +231,7 @@ namespace physLib
 			const auto planeShapeB = dynamic_cast<cSphere*>(bodyB->GetShape());
 			return CollideSpherePlane(bodyB, planeShapeB, bodyA, sphereShapeA);  //2)
 		}
-		 if (bodyAshape == eShapeType::sphere && bodyBshape == eShapeType::sphere)
+		if (bodyAshape == eShapeType::sphere && bodyBshape == eShapeType::sphere)
 		{
 			 const auto sphereShapeA = dynamic_cast<cSphere*>(bodyA->GetShape());
 			 const auto sphereShapeB = dynamic_cast<cSphere*>(bodyB->GetShape());
@@ -273,13 +273,12 @@ namespace physLib
 		eBodyType typeB = bodyB->GetBodyType();
 		if (typeA == eBodyType::rigid && typeB == eBodyType::rigid)
 		{
-			return Collide(dynamic_cast<cRigidBody*>(bodyA), dynamic_cast<cRigidBody*>(bodyB));
+			return CollideRigidRigid(dynamic_cast<cRigidBody*>(bodyA), dynamic_cast<cRigidBody*>(bodyB));
 		
 		}
-		else if (typeA == eBodyType::rigid && typeB == eBodyType::soft)
+		if (typeA == eBodyType::rigid && typeB == eBodyType::soft)
 		{
-			std::cout << "SoftBody" << std::endl;
-			return CollideSoftRigid(dynamic_cast<cSoftBody*>(bodyA), dynamic_cast<cRigidBody*>(bodyB));
+			return CollideSoftRigid(dynamic_cast<cSoftBody*>(bodyB), dynamic_cast<cRigidBody*>(bodyA));
 		}
 	}
 

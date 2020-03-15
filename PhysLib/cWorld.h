@@ -100,7 +100,7 @@ namespace physLib
 		// Collide
 		// Entry point for collision detection.
 		// Returns the result of specific Collide[shapeA][ShapeB] methods.
-		bool Collide(cRigidBody* bodyA, cRigidBody* bodyB);
+		bool CollideRigidRigid(cRigidBody* bodyA, cRigidBody* bodyB);
 		
 		bool CollideSoftRigid(cSoftBody* bodyA, cRigidBody* bodyB);
 		

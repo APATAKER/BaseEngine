@@ -1,12 +1,14 @@
 #include "cSoftBody.h"
 
 #include "nCollide.h"
+#include "shapes.h"
 
 namespace physLib
 {
 	cSoftBody::cNode::cNode(const sSoftBodyNodeDef& node_def)
 		:Position(node_def.Position),Mass(node_def.Mass),Velocity(glm::vec3(0,0,0)),Acceleration(glm::vec3(0,0,0)),Radius(5.f)
 	{
+		PreviousPosition = Position;
 	}
 
 	void cSoftBody::cNode::CalculateRadius()
@@ -170,8 +172,8 @@ namespace physLib
 		glm::vec3 spherePosition = sphere->GetPosition();
 		
 		glm::vec3 spherePreviousPosition = sphere->GetPreviousPosition();
-		
-		float sphereRadius = 2.f;
+		const auto sphereShape = dynamic_cast<cSphere*>(sphere->GetShape());
+		float sphereRadius = sphereShape->GetRadius();
 		float sphereMass = 1.f;
 		glm::vec3 sphereVelocity = sphere->GetVelocity();
 		//sphere->GetVelocity(sphereVelocity);
@@ -193,6 +195,7 @@ namespace physLib
 			glm::vec3 vA = spherePosition - spherePreviousPosition;
 			glm::vec3 vB = closeNodes[idx]->Position - closeNodes[idx]->PreviousPosition;
 			float rA = sphereRadius;
+			//closeNodes[idx]->CalculateRadius();
 			float rB = closeNodes[idx]->Radius;
 			float t(0.0f);
 
@@ -253,6 +256,73 @@ namespace physLib
 		}
 		return true;
 	}
+	bool cSoftBody::collideNodeNode(cNode* bodyA, cNode* bodyB)
+	{
+		glm::vec3 cA = bodyA->PreviousPosition;
+		glm::vec3 cB = bodyB->PreviousPosition;
+		glm::vec3 vA = bodyA->Position - bodyA->PreviousPosition;
+		glm::vec3 vB = bodyB->Position - bodyB->PreviousPosition;
+		float rA = bodyA->Radius;
+		float rB = bodyB->Radius;
+		float t(0.0f);
+
+		int result = nCollide::intersect_moving_sphere_sphere(cA, rA, vA, cB, rB, vB, t);
+		if (result == 0)
+		{
+			// no collision
+			return false;
+		}
+
+		// get the masses
+		float ma = bodyA->Mass;
+		float mb = bodyB->Mass;
+		float mt = ma + mb;
+
+		if (result == -1)
+		{
+			// already colliding
+
+			float initialDistance = glm::distance(bodyA->PreviousPosition, bodyB->PreviousPosition);
+			float targetDistance = rA + rB;
+
+			glm::vec3 impulseToA = glm::normalize(bodyA->PreviousPosition - bodyB->PreviousPosition);
+			impulseToA *= (targetDistance - initialDistance);
+
+			// back to ones
+			bodyA->Position = bodyA->PreviousPosition;
+			bodyB->Position = bodyB->PreviousPosition;
+			// apply the impulse
+			bodyA->Velocity += impulseToA * (mb / mt);
+			bodyB->Velocity -= impulseToA * (ma / mt);
+
+			//integrate
+
+			//IntegrateRigidBody(bodyA, mDeltaTime);
+			//IntegrateRigidBody(bodyB, mDeltaTime);
+
+			return true;
+		}
+
+		// collided
+
+		// everybody to ones
+		// rewind to point of collision
+		bodyA->Position = bodyA->PreviousPosition + vA * t;
+		bodyB->Position = bodyB->PreviousPosition + vB * t;
+
+		vA = bodyA->Velocity;
+		vB = bodyB->Velocity;
+
+		float c = 0.2f;
+		bodyA->Velocity = (c * mb * (vB - vA) + ma * vA + mb * vB) / mt;
+		bodyB->Velocity = (c * ma * (vA - vB) + ma * vA + mb * vB) / mt;
+
+		// integrate
+		//IntegrateRigidBody(bodyA, mDeltaTime * (1.0f - t));
+		//IntegrateRigidBody(bodyB, mDeltaTime * (1.0f - t));
+
+		return true;
+	}
 	void cSoftBody::Intergrate(float dt, const glm::vec3& gravity)
 	{
 		size_t numNodes = mNodes.size();
@@ -279,6 +349,19 @@ namespace physLib
 			node->Velocity *= glm::pow(0.6f, dt);
 		}
 		// STEP 4 : DO Internal collision
+		for (size_t idxA = 0; idxA < numNodes - 1; idxA++)
+		{
+			for (size_t idxB = idxA + 1; idxB < numNodes; idxB++)
+			{
+				if (mNodes[idxA]->IsNeighbor(mNodes[idxB]))
+				{
+					continue;
+				}
+				if (collideNodeNode(mNodes[idxA], mNodes[idxB]))
+				{
+				}
+			}
+		}
 		
 	}
 	void cSoftBody::IntegrateNode(cNode* node)
