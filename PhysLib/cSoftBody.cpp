@@ -149,6 +149,25 @@ namespace physLib
 	{
 		
 	}
+	void cSoftBody::GetAabb(glm::vec3& minBoundsOut, glm::vec3& maxBoundsOut)
+	{
+	}
+	void cSoftBody::RecalculateAABB()
+	{
+		this->mAabb.mMinBound = glm::vec3(FLT_MAX);
+		this->mAabb.mMaxBound = glm::vec3(0);
+
+		for (cNode* node : mNodes)
+		{
+			this->mAabb.mMinBound.x = glm::min(this->mAabb.mMinBound.x, node->Position.x);
+			this->mAabb.mMaxBound.x = glm::max(this->mAabb.mMaxBound.x, node->Position.x);
+			this->mAabb.mMinBound.y = glm::min(this->mAabb.mMinBound.y, node->Position.y);
+			this->mAabb.mMaxBound.y = glm::max(this->mAabb.mMaxBound.y, node->Position.y);
+			this->mAabb.mMinBound.z = glm::min(this->mAabb.mMinBound.z, node->Position.z);
+			this->mAabb.mMaxBound.z = glm::max(this->mAabb.mMaxBound.z, node->Position.z);
+
+		}
+	}
 	size_t cSoftBody::NumNodes()
 	{
 		return mNodes.size();

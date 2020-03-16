@@ -90,12 +90,16 @@ namespace physLib
 		//	ai->aiupdate(ai->coordinator->coordinator, dt, ai->maxVelocityCoord);
 		//	
 		//}
+
 		
 		for (size_t outerloopindex = 0; outerloopindex < numBodies-1; outerloopindex++) //3)
 		{
 			for (size_t innerloopindex = outerloopindex + 1; innerloopindex < numBodies; innerloopindex++)
 			{
-				Collide(m_bodies_[outerloopindex], m_bodies_[innerloopindex]);
+				if(CheckIfAABBIntersecting(m_bodies_[outerloopindex],m_bodies_[innerloopindex]))
+				{
+					Collide(m_bodies_[outerloopindex], m_bodies_[innerloopindex]);
+				}
 			}
 		}
 
@@ -193,10 +197,12 @@ namespace physLib
 		if(collision_body->GetBodyType() == eBodyType::rigid)
 		{
 			IntegrateRigidBody(dynamic_cast<cRigidBody*>(collision_body), dt);
+			collision_body->RecalculateAABB();
 		}
 		else if(collision_body->GetBodyType() == eBodyType::soft)
 		{
 			IntegrateSoftBody(dynamic_cast<cSoftBody*>(collision_body), dt);
+			collision_body->RecalculateAABB();
 			//std::cout << "Why no intergrate" << std::endl;
 		}
 	}
@@ -227,6 +233,36 @@ namespace physLib
 
 		body->Intergrate(dt, gravityPlusWind);
 		
+	}
+	bool cWorld::CheckIfAABBIntersecting(cCollisionBody* bodyA, cCollisionBody* bodyB)
+	{
+		eBodyType typeA = bodyA->GetBodyType();
+		eBodyType typeB = bodyB->GetBodyType();
+
+		if (typeA == eBodyType::rigid && typeB == eBodyType::rigid)
+		{
+			return AABBRigidRigid(dynamic_cast<cRigidBody*>(bodyA), dynamic_cast<cRigidBody*>(bodyB));
+
+		}
+		if (typeA == eBodyType::rigid && typeB == eBodyType::soft)
+		{
+			return AABBSoftRigid(dynamic_cast<cSoftBody*>(bodyB), dynamic_cast<cRigidBody*>(bodyA));
+		}
+		
+	}
+	bool cWorld::AABBRigidRigid(cRigidBody* bodyA, cRigidBody* bodyB)
+	{
+		return IsAabbIntersecting(bodyA->mAabb,bodyB->mAabb);
+	}
+	bool cWorld::AABBSoftRigid(cSoftBody* bodyA, cRigidBody* bodyB)
+	{
+		return IsAabbIntersecting(bodyA->mAabb,bodyB->mAabb);
+	}
+	bool cWorld::IsAabbIntersecting(cCollisionBody::sAABB bb1, cCollisionBody::sAABB bb2)
+	{
+		return (bb1.mMinBound.x <= bb2.mMaxBound.x && bb1.mMaxBound.x >= bb2.mMinBound.x) &&
+			   (bb1.mMinBound.y <= bb2.mMaxBound.y && bb1.mMaxBound.y >= bb2.mMinBound.y) &&
+			   (bb1.mMinBound.z <= bb2.mMaxBound.z && bb1.mMaxBound.z >= bb2.mMinBound.z);
 	}
 	bool cWorld::CollideRigidRigid(cRigidBody* bodyA, cRigidBody* bodyB)
 	{

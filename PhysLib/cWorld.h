@@ -97,6 +97,11 @@ namespace physLib
 
 		void IntegrateSoftBody(cSoftBody* body, float dt);
 
+		bool CheckIfAABBIntersecting(cCollisionBody* bodyA, cCollisionBody* bodyB);
+		bool AABBRigidRigid(cRigidBody* bodyA, cRigidBody* bodyB);
+		bool AABBSoftRigid(cSoftBody* bodyA, cRigidBody* bodyB);
+		bool IsAabbIntersecting(cCollisionBody::sAABB bb1, cCollisionBody::sAABB bb2);
+
 		// Collide
 		// Entry point for collision detection.
 		// Returns the result of specific Collide[shapeA][ShapeB] methods.

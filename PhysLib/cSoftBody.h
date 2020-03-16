@@ -3,6 +3,7 @@
 #include "glm_headers.h"
 #include <vector>
 #include "cCollisionBody.h"
+#include "iCommonPhysicsBase.h"
 #include "cRigidBody.h"
 
 namespace physLib
@@ -20,8 +21,9 @@ namespace physLib
 		
 	};
 
-	class cSoftBody :public cCollisionBody
+	class cSoftBody :public cCollisionBody,public iCommonPhysicsBase
 	{
+		friend class cWorld;
 	private:
 		class cSpring;
 		class cNode
@@ -66,6 +68,9 @@ namespace physLib
 		std::string GetAiType() override;
 		void setVelocity(glm::vec3 velocity) override;
 		void setAcceleration(glm::vec3 accl) override;
+
+		void GetAabb(glm::vec3& minBoundsOut, glm::vec3& maxBoundsOut) override;
+		void RecalculateAABB() override;
 		
 		size_t NumNodes();
 		bool GetNodeRadius(size_t index, float& radiusOut);
@@ -83,6 +88,8 @@ namespace physLib
 	private:
 		std::vector<cNode*> mNodes;
 		std::vector<cSpring*> mSprings;
+		
+		sAABB mAabb;
 
 	};
 }

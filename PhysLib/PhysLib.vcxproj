@@ -26,6 +26,7 @@
     <ClCompile Include="nCollide.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cAABB.h" />
     <ClInclude Include="cIntegrator.h" />
     <ClInclude Include="cRigidBody.h" />
     <ClInclude Include="cSoftBody.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="eShapeType.h" />
     <ClInclude Include="glm_headers.h" />
     <ClInclude Include="cCollisionBody.h" />
+    <ClInclude Include="iCommonPhysicsBase.h" />
     <ClInclude Include="iShape.h" />
     <ClInclude Include="nCollide.h" />
     <ClInclude Include="phys.h" />

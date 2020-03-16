@@ -68,5 +68,11 @@
     <ClInclude Include="cCollisionBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="iCommonPhysicsBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cAABB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

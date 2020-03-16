@@ -4,6 +4,7 @@
 #include "glm_headers.h"
 #include "iShape.h"     // iShape base class for all shapes
 #include "cCollisionBody.h"
+#include "iCommonPhysicsBase.h"
 
 namespace physLib
 {
@@ -50,7 +51,7 @@ namespace physLib
 	// Shapes may be shared between rigid bodies.
 	// Does not own the iShape* used to create it.
 	// Will not delete the iShape* it contains when it is deleted.
-	class cRigidBody :public cCollisionBody
+	class cRigidBody :public cCollisionBody, public iCommonPhysicsBase
 	{
 		// cWorld will be operating on cRigidBody values quite a bit
 		// We will trust it to do everything correctly.
@@ -108,6 +109,7 @@ namespace physLib
 		inline eShapeType GetShapeType() { return mShape->GetShapeType(); }
 
 	private:
+		
 
 		void* mUserPointer;
 		// My shape, expected to be valid.
@@ -134,6 +136,9 @@ namespace physLib
 		glm::vec3 mSteerForce;
 		// NumberOfPhysicalObjects
 		int numberOfPhysicalObjects = 1;
+
+		sAABB mAabb;
+		
 		// Orientation Functions
 	public:
 		void updateAtFromOrientation(void);
@@ -151,7 +156,11 @@ namespace physLib
 		std::string GetAiType() override;
 		glm::vec3 GetPosition();
 		glm::vec3 GetPreviousPosition();
-		
+
+
+		void GetAabb(glm::vec3& minBoundsOut, glm::vec3& maxBoundsOut)override;
+
+		void RecalculateAABB() override;
 		// Mass
 		// Expected to be non-negative.
 		// A value of 0 infers a static rigid body.

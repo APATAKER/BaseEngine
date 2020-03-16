@@ -163,6 +163,37 @@ namespace physLib
 		return this->mPreviousPosition;
 	}
 
+	void cRigidBody::GetAabb(glm::vec3& minBoundsOut, glm::vec3& maxBoundsOut)
+	{
+	}
+
+	void cRigidBody::RecalculateAABB()
+	{
+		this->mAabb.mMinBound = glm::vec3(FLT_MAX);
+		this->mAabb.mMaxBound = glm::vec3(0);
+
+		if(this->GetShape()->GetShapeType() == eShapeType::plane)
+		{
+			this->mAabb.mMinBound.x = -256.f;
+			this->mAabb.mMaxBound.x = 256.f;
+			this->mAabb.mMinBound.y = 0.f;
+			this->mAabb.mMaxBound.y = 10.f;
+			this->mAabb.mMinBound.z = -256.f;
+			this->mAabb.mMaxBound.z = 256.f;
+		}
+		else
+		{
+			this->mAabb.mMinBound.x = glm::min(this->mAabb.mMinBound.x, (this->mPosition.x - 10));
+			this->mAabb.mMaxBound.x = glm::max(this->mAabb.mMaxBound.x, (this->mPosition.x + 10));
+			this->mAabb.mMinBound.y = glm::min(this->mAabb.mMinBound.y, (this->mPosition.y - 10));
+			this->mAabb.mMaxBound.y = glm::max(this->mAabb.mMaxBound.y, (this->mPosition.y + 10));
+			this->mAabb.mMinBound.z = glm::min(this->mAabb.mMinBound.z, (this->mPosition.z - 10));
+			this->mAabb.mMaxBound.z = glm::max(this->mAabb.mMaxBound.z, (this->mPosition.z + 10));
+		}
+		
+		
+	}
+
 	//constructor for RigidBodyDef
 	sRigidBodyDef::sRigidBodyDef()
 		:Mass(0),Velocity(glm::vec3(0,0,0)),Position(glm::vec3(0,0,0)),At(glm::vec3(0,0,1))

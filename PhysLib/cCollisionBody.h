@@ -9,6 +9,12 @@ namespace physLib
 	class cCollisionBody
 	{
 	public:
+		struct sAABB
+		{
+			// AABB
+			glm::vec3 mMinBound;
+			glm::vec3 mMaxBound;
+		};
 		virtual ~cCollisionBody(){}
 
 		inline  const eBodyType& GetBodyType() { return mBodyType; }
@@ -23,7 +29,7 @@ namespace physLib
 		virtual std::string GetAiType() = 0;
 		virtual void setVelocity(glm::vec3 velocity) = 0;
 		virtual void setAcceleration(glm::vec3 accl) = 0;
-		
+		virtual void RecalculateAABB() = 0;
 
 	protected:
 		cCollisionBody(eBodyType bodyType)
