@@ -13,7 +13,7 @@ public:
 	void updateTime(double& deltaTime);
 
 private:
-	double last_time;
+	double current_time;
 	std::vector<double> vecTimes;
 	std::vector<double>::size_type m_NextLocation;
 

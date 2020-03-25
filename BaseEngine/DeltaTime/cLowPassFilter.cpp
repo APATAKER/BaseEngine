@@ -39,19 +39,26 @@ double cLowPassFilter::getAverage(void)
 
 void cLowPassFilter::startTime()
 {
-	last_time = glfwGetTime();
+	current_time = glfwGetTime();
 }
 
 void cLowPassFilter::updateTime(double &deltaTime)
 {
-	double current_time = glfwGetTime();
+	double new_time = glfwGetTime();
 	// Frame time... (how many seconds since last frame)
-	deltaTime = current_time - last_time;
-	last_time = current_time;
-	const double SOME_HUGE_TIME = 0.1;	// 100 ms;
-	if (deltaTime > SOME_HUGE_TIME)
+	deltaTime = new_time - current_time;
+	current_time = new_time;
+
+	double framerate = 1.f / 60.f;
+	//while(deltaTime > 0.0)
+	//{
+	//	float dt = (deltaTime < framerate) ? static_cast<float>(deltaTime) : framerate;
+	//	deltaTime -= dt;
+	//}
+	//const double SOME_HUGE_TIME = 0.1;	// 100 ms;
+	if (deltaTime > framerate)
 	{
-		deltaTime = SOME_HUGE_TIME;
+		deltaTime = framerate;
 	}
 }
 
