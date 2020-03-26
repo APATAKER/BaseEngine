@@ -4,6 +4,7 @@
 	"frag": "assets/shaders/fragmentShader01.glsl"
   },
   "models": [
+	"assets/models/QUAD_xyz_n_UV.ply",
 	"assets/models/AIGroundTerrain.ply",
 	"assets/models/AIGroundTerrain_Scalex2.ply",
 	"assets/models/AIGroundTerrain_wall_left(z-90).ply",
@@ -19,6 +20,7 @@
 	"assets/models/RetroTV.edited.screenonly.ply"
   ],
   "MeshName": [
+	"QUAD",
 	"ground",
 	"ground2",
 	"wall1",
@@ -48,9 +50,9 @@
 	{
 	  "lightID": 1,
 	  "lightPosition": {
-		"x": -25.0,
-		"y": 300.0,
-		"z": -150.0
+		"x": 250.0,
+		"y": 500.0,
+		"z": 250.0
 	  },
 	  "lightConstAtten": 0.0000001,
 	  "lightLinearAtten": 0.00119,
@@ -62,13 +64,12 @@
 		"y": -1.0,
 		"z": 0.0
 	  }
-	},
-	{
+	},{
 	  "lightID": 2,
 	  "lightPosition": {
-		"x": 25.0,
+		"x": -250.0,
 		"y": 500.0,
-		"z": 150.0
+		"z": 250.0
 	  },
 	  "lightConstAtten": 0.0000001,
 	  "lightLinearAtten": 0.00119,
@@ -81,6 +82,8 @@
 		"z": 0.0
 	  }
 	}
+
+
   ],
   "GameObjects": [
 	{
@@ -460,8 +463,8 @@
 		"b": 1.0,
 		"a": 1.0
 	  },
-	  "tex": [ "redtex.bmp", "", "", "" ],
-	  "texratio": [ 1, 0, 0, 0 ],
+	  "tex": [ "redtex.bmp", "PlasmaRing.bmp", "", "" ],
+	  "texratio": [ 0.5, 0.5, 0, 0 ],
 	  "isStatic": 0,
 	  "physicsshapetype": 0,
 	  "objectype": 0,
@@ -1494,6 +1497,56 @@
 	  },
 	  "mass": 1,
 	  "isVisible": 1,
+	  "isSkinnedMesh": 0
+	}
+	,
+	{
+	  "meshname": "QUAD",
+	  "friendlyname": "QUAD",
+	  "position": {
+		"x": 0.0,
+		"y": 0.0,
+		"z": 0.0
+	  },
+	  "rotation": {
+		"x": 0.0,
+		"y": 0.0,
+		"z": 0.0
+	  },
+	  "scale": 1.0,
+	  "objectcolor": {
+		"r": 1.0,
+		"g": 1.0,
+		"b": 1.0,
+		"a": 1.0
+	  },
+	  "isWireframe": 0,
+	  "debugcolor": {
+		"r": 1.0,
+		"g": 1.0,
+		"b": 1.0,
+		"a": 1.0
+	  },
+	  "tex": [ "violettex.bmp", "", "", "" ],
+	  "texratio": [ 1, 0, 0, 0 ],
+	  "isStatic": 1,
+	  "physicsshapetype": 3,
+	  "objectype": 1,
+	  "sphereRadius": 2.0,
+	  "bulletCollisionRadius": 10.0,
+	  "plane": {
+		"normal": {
+		  "x": 0.0,
+		  "y": -1.0,
+		  "z": 0.0
+		},
+		"constant": 0
+	  },
+	  "sphere": {
+		"radius": 0
+	  },
+	  "mass": 1,
+	  "isVisible": 0,
 	  "isSkinnedMesh": 0
 	}
   ]

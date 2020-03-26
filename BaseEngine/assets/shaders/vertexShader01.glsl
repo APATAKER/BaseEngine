@@ -2,7 +2,6 @@
 
 //uniform mat4 MVP;
 uniform mat4 matModel;		// Model or World 
-uniform mat4 matModelInverseTranspose;		// For normal calculation
 uniform mat4 matView; 		// View or camera
 uniform mat4 matProj;		// Projection transform
 
@@ -112,7 +111,7 @@ void main()
 		//mat4 matModelInverseTranspose = inverse(transpose(matModel));
 
 		vec3 theNormal = normalize(vNormal.xyz);
-		fNormal = matModelInverseTranspose * vec4(theNormal, 1.0f);
+		fNormal = inverse(transpose(matModel)) * vec4(theNormal, 1.0f);
 		fNormal.xyz = normalize(fNormal.xyz);
 
 		// Pass the colour and UV unchanged.

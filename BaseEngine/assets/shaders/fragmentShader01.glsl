@@ -88,7 +88,7 @@ const int SPOT_LIGHT_TYPE = 1;
 const int DIRECTIONAL_LIGHT_TYPE = 2;
 
 //const int NUMBEROFLIGHTS = 10;
-const int NUMBEROFLIGHTS = 2;
+const int NUMBEROFLIGHTS = 4;
 uniform sLight theLights[NUMBEROFLIGHTS];  	// 80 uniforms
 
 // Really appears as:
@@ -104,7 +104,7 @@ uniform sLight theLights[NUMBEROFLIGHTS];  	// 80 uniforms
 vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal, 
                             vec3 vertexWorldPos, vec4 vertexSpecular );
 
-void colorOutput();
+void ForwardOutput();
 void DepthOutput();
 void DeferredOutput();
 	 
@@ -148,8 +148,10 @@ void main()
 		float scrHeight = 1080;
 //		vec2 textCoords = vec2(gl_FragCoord.x / screenWidth,
 //			gl_FragCoord.y / screenHeight);
-		vec2 textCoords = vec2(gl_FragCoord.x / scrWidth,
-			gl_FragCoord.y / scrHeight);
+//		vec2 textCoords = vec2(gl_FragCoord.x,
+//			gl_FragCoord.y);
+//		vec2 textCoords = vec2(gl_FragCoord.x / scrWidth,
+//			gl_FragCoord.y / scrHeight);
 //		vec2 textCoords = vec2(fVertWorldLocation.x ,
 //			fVertWorldLocation.y);
 //fUVx2
@@ -245,7 +247,7 @@ void main()
 			pixelColour.a = 1.0f;				// NOT transparent
 			return;
 		}
-		colorOutput();
+		ForwardOutput();
 	}
 	else if (selectEffect == 1)
 	{
@@ -306,16 +308,15 @@ void DeferredOutput()
 	pixelColour.rgb = surfaceColour.rgb;
 	pixelColour.a = diffuseColour.a;	// Alpha 
 
-	pixelNormal = pixelColour;
-	pixelNormal.rgb = fNormal.xyz;
+	pixelNormal.xyz = fNormal.xyz;
+	pixelNormal.w = 1.f;
 
 	pixelVertWorldPosition = fVertWorldLocation;
 
 	pixelSpecular = specularColour;
 }
 
-void colorOutput()
-{
+void ForwardOutput(){
 	vec4 materialColour = diffuseColour;
 	vec3 tex0_RGB = texture(textSamp00, fUVx2.st).rgb;
 	vec3 tex1_RGB = texture(textSamp01, fUVx2.st).rgb;
@@ -338,12 +339,10 @@ void colorOutput()
 	
 	vec4 outColour = calcualteLightContrib(surfaceColour.rgb, fNormal.xyz,	// Light Calculation
 		fVertWorldLocation.xyz, specularColour);
-
 	pixelColour.rgb = outColour.rgb;
 	//pixelColour.rgb = surfaceColour.rgb;
 	pixelColour.a = diffuseColour.a;	// Alpha 
 }
-
 
 
 void DepthOutput()
