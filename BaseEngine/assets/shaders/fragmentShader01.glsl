@@ -278,7 +278,7 @@ void main()
 	//pixelColour.rgb += fNormal.xyz;
 	//pixelColour.rgb += fVertWorldLocation.xyz;
 	pixelColour.rgb *= 1.8f;
-
+	return;
 }	
 
 void DeferredOutput()

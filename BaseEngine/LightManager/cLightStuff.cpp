@@ -17,6 +17,7 @@ namespace mLight
 		, light_quad_atten(9.21e-7f)
 		, light_spot_inner_angle(5.0f)
 		, light_spot_outer_angle(7.5f)
+		, isOn(1.f)
 		, light_spot_direction(glm::vec3(0.0f, -1.0f, 0.0f))
 	{
 	}
@@ -60,7 +61,7 @@ namespace mLight
 				1000000.0f);	// Distance cut off
 			// Point light:
 			glUniform4f(L_param1, 0.0f /*POINT light*/, 0.0f, 0.0f, 1.0f);
-			glUniform4f(L_param2, 1.0f /*Light is on*/, 0.0f, 0.0f, 1.0f);
+			glUniform4f(L_param2, vec_lightObjects[index]->isOn /*Light is on*/, 0.0f, 0.0f, 1.0f);
 		}
 	}
 

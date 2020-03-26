@@ -17,7 +17,7 @@ namespace mLight
 		friend void LoadLightFromJson();
 		void loadLightIntoShader(GLuint shader_program_id, int num_of_lights);
 	
-	private:
+	//private:
 		int light_id;
 		glm::vec3 light_position;
 		float light_const_atten;
@@ -25,6 +25,7 @@ namespace mLight
 		float light_quad_atten;
 		float light_spot_inner_angle;
 		float light_spot_outer_angle;
+		float isOn;
 		glm::vec3 light_spot_direction;
 		
 	};

@@ -1,8 +1,7 @@
 #include"openGLStuff.h"
 #include"../FlyCamera/cFlyCamera.h"
 #include "../GameObject/cGameObject.h"
-#include "../global.h"
-#include "../Animations/cAnimationState.h"
+#include "../LightManager/cLightStuff.h"
 
 bool g_MouseIsInsideWindow = false;
 bool g_MouseLeftButtonIsDown = false;
@@ -12,6 +11,7 @@ bool is_flock = false;
 int currentSphere = 6;
 int changePlayer = 0;
 int punchcounter = 0;
+int currentLight = 0;
 extern cFlyCamera* g_pFlyCamera;
 extern nPhysics::iPhysicsWorld* physics_world;
 extern bool changePhys;
@@ -28,6 +28,7 @@ bool isAltDown(GLFWwindow* window);
 bool areAllModifiersUp(GLFWwindow* window);
 
 extern std::vector<cGameObject*> g_vec_pGameObjects;
+extern std::vector<mLight::cLightStuff*> vec_lightObjects;
 
 extern cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
 
@@ -180,6 +181,62 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			dataLoaded = 0;
 		}*/
 	}
+	// Light Controls
+	if(!isCtrlDown(window) && isAltDown(window))
+	{
+		if (glfwGetKey(window, GLFW_KEY_W))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_position.z -= MOVESPEED;
+		}
+		if (glfwGetKey(window, GLFW_KEY_S))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_position.z += MOVESPEED;
+		}
+		if (glfwGetKey(window, GLFW_KEY_A))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_position.x -= MOVESPEED;
+		}
+		if (glfwGetKey(window, GLFW_KEY_D))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_position.x += MOVESPEED;
+		}
+		if (glfwGetKey(window, GLFW_KEY_Q))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_position.y -= MOVESPEED;
+		}
+		if (glfwGetKey(window, GLFW_KEY_E))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_position.y += MOVESPEED;
+		}
+		if (glfwGetKey(window, GLFW_KEY_I))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_linear_atten *= 0.99f;
+		}
+		if (glfwGetKey(window, GLFW_KEY_O))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_linear_atten *= 1.01f;
+		}
+		if (glfwGetKey(window, GLFW_KEY_J))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_quad_atten *= 0.99f;
+		}
+		if (glfwGetKey(window, GLFW_KEY_K))// && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->light_quad_atten *= 1.01f;
+		}
+		if (glfwGetKey(window, GLFW_KEY_Y) && action == GLFW_PRESS)
+		{
+			vec_lightObjects[currentLight]->isOn = (vec_lightObjects[currentLight]->isOn > 0) ? 0 : 1;
+		}
+		if (glfwGetKey(window, GLFW_KEY_N) && action == GLFW_PRESS)
+		{
+			currentLight++;
+			if (currentLight == vec_lightObjects.size())
+			{
+				currentLight = 0;
+			}
+		}
+	}
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
@@ -283,7 +340,7 @@ void ProcessAsyncKeys(GLFWwindow* window)
 
 	// If no keys are down, move the camera
 	//if (areAllModifiersUp(window))
-	if(isCtrlDown(window))
+	if(isCtrlDown(window) && !isAltDown(window))
 	{
 		// Note: The "== GLFW_PRESS" isn't really needed as it's actually "1" 
 		// (so the if() treats the "1" as true...)

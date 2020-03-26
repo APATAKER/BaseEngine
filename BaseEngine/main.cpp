@@ -34,6 +34,7 @@ std::vector<cMesh> vec_model_mesh;
 
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int punchcounter;
+extern int currentLight;
 
 // Global Functions
 void DrawObject(glm::mat4 matWorld,cGameObject* pCurrentObject,
@@ -81,6 +82,7 @@ int main()
 
 	cGameObject* QUAD = new cGameObject();
 	QUAD->meshName = "QUAD";
+	QUAD->m_position = glm::vec3(0, 0, 0);
 	QUAD->scale = 1.f;
 	QUAD->isVisible = 1.f;
 	QUAD->physicsShapeType = eShapeTypes::STATIC;
@@ -165,10 +167,13 @@ int main()
 			<< g_pFlyCamera->eye.x << ", "
 			<< g_pFlyCamera->eye.y << ", "
 			<< g_pFlyCamera->eye.z
-			<< "object postion: "
-			<< g_vec_pGameObjects[4]->friendlyName << " "
-			<< "at vector player: " << g_vec_pGameObjects[4]->m_at.x << " " << g_vec_pGameObjects[4]->m_at.y << " " << g_vec_pGameObjects[4]->m_at.z << ",ai: "
-			<< g_vec_pGameObjects[5]->m_at.x << " " << g_vec_pGameObjects[5]->m_at.y << " " << g_vec_pGameObjects[5]->m_at.z;
+			<< "Light No: "
+			<< vec_lightObjects[currentLight]->light_id<<" "
+			<< "Light postion: "
+			<< vec_lightObjects[currentLight]->light_position.x<<" "
+			<< vec_lightObjects[currentLight]->light_position.y<<" "
+			<< vec_lightObjects[currentLight]->light_position.z
+			<< std::endl;
 		glfwSetWindowTitle(window, ssTitle.str().c_str());
 		
 		// Updating DeltaTime *********************************************
@@ -336,20 +341,24 @@ int main()
 		//v = glm::lookAt(::g_pFlyCamera->getEye(),
 		//	::g_pFlyCamera->getAtInWorldSpace(),
 		//	::g_pFlyCamera->getUpVector());
-		v = glm::lookAt(glm::vec3(-45.66f, 115.6f, 1796.14f),
-			glm::vec3(0.f),
+		v = glm::lookAt(glm::vec3(0,0,2000.f)/*glm::vec3(-45.66f, 115.6f, 1796.14f)*/,
+			glm::vec3(0.f,0.f,0.f),
 			glm::vec3(0.f,1.f,0.f));
 		//view and projection into shader
 		glUniformMatrix4fv(matView_UL, 1, GL_FALSE, glm::value_ptr(v));
 		glUniformMatrix4fv(matProj_UL, 1, GL_FALSE, glm::value_ptr(p));
+		//glUniform4f(eyeLocation_UL,
+		//	-45.66f,
+		//	115.6f,
+		//	1796.14f, 1.0f);
 		
 		
 										
 		
 		
 		// 4. Draw the TV and Screen
+		glUniform1i(SelectEffect_UL, 2);
 		glUniform1i(passNumber_UniLoc, 6);
-		glUniform1i(SelectEffect_UL, 0);
 		//cGameObject* quad = findGameObjectByFriendlyName(g_vec_pGameObjects, "QUAD");
 		glm::mat4 matWorld = glm::mat4(1.f);
 		DrawObject(matWorld, QUAD, g_shader_program_ID, p_vao_manager);
