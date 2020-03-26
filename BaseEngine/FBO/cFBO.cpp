@@ -41,13 +41,13 @@ bool cFBO::init( int width, int height, std::string &error )
 	glGenTextures(1, &(this->colourTexture_0_ID ) );		//g_FBO_colourTexture
 	glBindTexture(GL_TEXTURE_2D, this->colourTexture_0_ID);
 
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8,		// 8 bits per colour
-//	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA32F,		// 8 bits per colour
+//	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8,		// 8 bits per colour
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA32F,		// 8 bits per colour
 				   this->width,				// g_FBO_SizeInPixes
 				   this->height);			// g_FBO_SizeInPixes
 
-	/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 //***************************************************************
 
 //************************************************************
@@ -55,8 +55,8 @@ bool cFBO::init( int width, int height, std::string &error )
 	glGenTextures(1, &(this->normalTexture_ID));		//g_FBO_normalTexture
 	glBindTexture(GL_TEXTURE_2D, this->normalTexture_ID);
 
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8,		// 8 bits per colour
-//	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA32F,		// 8 bits per colour
+//	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8,		// 8 bits per colour
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA32F,		// 8 bits per colour
 					this->width,				// g_FBO_SizeInPixes
 					this->height);			// g_FBO_SizeInPixes
 
@@ -74,8 +74,8 @@ bool cFBO::init( int width, int height, std::string &error )
 this->width,				// g_FBO_SizeInPixes
 this->height);			// g_FBO_SizeInPixes
 
-/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 //***************************************************************
 	//************************************************************
 	// Create the colour buffer (texture)
@@ -87,8 +87,8 @@ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
 this->width,				// g_FBO_SizeInPixes
 this->height);			// g_FBO_SizeInPixes
 
-/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 //***************************************************************
 
 
