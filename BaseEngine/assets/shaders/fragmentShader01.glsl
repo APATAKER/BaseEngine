@@ -108,13 +108,16 @@ void ForwardOutput();
 void DepthOutput();
 void DeferredOutput();
 	 
+const int VERTEX_LIT = 0;
+const int VERTEX_NOT_LIT = 1;
+
 void main()  
 {
 	// regular color
 	if ( passNumber == 1 )
 	{
-		vec3 texRGB = texture(secondPassColourTexture, fUVx2.st).rgb;
-		pixelColour.rgb = texRGB;
+		vec4 texRGB = texture(secondPassColourTexture, fUVx2.st).rgba;
+		pixelColour.rgb = texRGB.rgb;
 		pixelColour.a = 1.f;
 		return;
 	}
@@ -155,8 +158,8 @@ void main()
 //		vec2 textCoords = vec2(fVertWorldLocation.x ,
 //			fVertWorldLocation.y);
 //fUVx2
-		vec3 normRGB = texture(secondPassNormalTexture, fUVx2.st).rgb;
-		pixelColour.rgb = normRGB;
+		vec4 normRGB = texture(secondPassNormalTexture, fUVx2.st).rgba;
+		pixelColour.rgb = normRGB.rgb;
 		pixelColour.a = 1.f;
 		return;
 	}
@@ -181,17 +184,32 @@ void main()
 	// Deferred rendering
 	if (passNumber == 6)
 	{
-		vec3 colourRGB = texture(secondPassColourTexture, fUVx2.st).rgb;
-		vec3 normalRGB = texture(secondPassNormalTexture, fUVx2.st).rgb;
-		vec3 vertWorldPosRGB = texture(secondPassVertWorldPositionTexture, fUVx2.st).rgb;
+		float scrWidth = 1920;
+		float scrHeight = 1080;
+		vec2 textCoords = fUVx2.st;
+
+		textCoords.s = gl_FragCoord.x / screenWidth;
+		textCoords.t = gl_FragCoord.y / screenHeight;
+
+		vec4 colourRGB = texture(secondPassColourTexture, textCoords.st).rgba;
+		vec4 normalRGB = texture(secondPassNormalTexture, textCoords.st).rgba;
+		vec4 vertWorldPosRGB = texture(secondPassVertWorldPositionTexture, textCoords.st).rgba;
 		vec4 specular;
-		specular.rgb = texture(secondPassSpecularTexture, fUVx2.st).rgb;
-		specular.a = 1.f;
+		specular = texture(secondPassSpecularTexture, textCoords.st).rgba;
+		//specular.a = 1.f;
 
-		vec4 Deferred = calcualteLightContrib(colourRGB.rgb, normalRGB.xyz, vertWorldPosRGB.xyz, specular);
+		if(int(normalRGB.w) == VERTEX_NOT_LIT)
+		{
+			pixelColour.rgb = colourRGB.rgb;
+			pixelColour.a = 1.0f;
+		}
+		else
+		{
+			vec4 Deferred = calcualteLightContrib(colourRGB.rgb, normalRGB.xyz, vertWorldPosRGB.xyz, specular);
+			pixelColour.rgb = Deferred.rgb;
+			pixelColour.a = 1.0f;
+		}
 
-		pixelColour.rgb = Deferred.rgb;
-		pixelColour.a = 1.0f;
 		return;
 	}
 	
@@ -200,12 +218,7 @@ void main()
 
 // Shader Type #1  	
 
-	if (bDoNotLight)
-	{
-		pixelColour.rgb = debugColour.rgb;
-		pixelColour.a = 1.0f;				// NOT transparent
-		return;
-	}
+	
 	if (useHeightMap)
 	{
 		pixelColour.rgb = vec3(1.0f, 0.0f, 0.0f);
@@ -239,6 +252,12 @@ void main()
 
 	if (selectEffect == 0)
 	{
+		if (bDoNotLight)
+		{
+			pixelColour.rgb = debugColour.rgb;
+			pixelColour.a = 1.0f;				// NOT transparent
+			return;
+		}
 		if (bIsSkyBox)
 		{
 			// I sample the skybox using the normal from the surface
@@ -251,24 +270,36 @@ void main()
 	}
 	else if (selectEffect == 1)
 	{
-		//if (bIsSkyBox)
-		//{
-		//	// I sample the skybox using the normal from the surface
-		//	vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
-		//	pixelColour.rgb = skyColour.rgb;
-		//	pixelColour.a = 1.0f;				// NOT transparent
-		//	return;
-		//}
+		if (bDoNotLight)
+		{
+			pixelColour.rgb = debugColour.rgb;
+			pixelColour.a = 1.0f;				// NOT transparent
+			return;
+		}
 		DepthOutput();
 	}
 	else if (selectEffect == 2)
 	{
+		if (bDoNotLight)
+		{
+			pixelColour.rgb = debugColour.rgb;
+			pixelColour.a = 1.0f;				// NOT transparent
+
+			pixelNormal.xyz = fNormal.xyz;
+			pixelNormal.w = float(VERTEX_NOT_LIT);
+
+			return;
+		}
 		if (bIsSkyBox)
 		{
 			// I sample the skybox using the normal from the surface
 			vec3 skyColour = texture(skyBox, fNormal.xyz).rgb;
 			pixelColour.rgb = skyColour.rgb;
 			pixelColour.a = 1.0f;				// NOT transparent
+
+			pixelNormal.xyz = fNormal.xyz;
+			pixelNormal.w = float(VERTEX_NOT_LIT);
+
 			return;
 		}
 		DeferredOutput();
@@ -309,9 +340,10 @@ void DeferredOutput()
 	pixelColour.a = diffuseColour.a;	// Alpha 
 
 	pixelNormal.xyz = fNormal.xyz;
-	pixelNormal.w = 1.f;
+	pixelNormal.w = float(VERTEX_LIT);
 
-	pixelVertWorldPosition = fVertWorldLocation;
+	pixelVertWorldPosition.xyz = fVertWorldLocation.xyz;
+	pixelVertWorldPosition.w = 1.f;
 
 	pixelSpecular = specularColour;
 }

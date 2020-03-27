@@ -81,6 +81,40 @@
 		"y": -1.0,
 		"z": 0.0
 	  }
+	},{
+	  "lightID": 3,
+	  "lightPosition": {
+		"x": 250.0,
+		"y": 500.0,
+		"z": -250.0
+	  },
+	  "lightConstAtten": 0.0000001,
+	  "lightLinearAtten": 0.00119,
+	  "lightQuadAtten": 9.21e-7,
+	  "lightInnerAngle": 5.0,
+	  "lightOuterAngle": 7.5,
+	  "lightDirection": {
+		"x": 0.0,
+		"y": -1.0,
+		"z": 0.0
+	  }
+	},{
+	  "lightID": 4,
+	  "lightPosition": {
+		"x": -250.0,
+		"y": 500.0,
+		"z": -250.0
+	  },
+	  "lightConstAtten": 0.0000001,
+	  "lightLinearAtten": 0.00119,
+	  "lightQuadAtten": 9.21e-7,
+	  "lightInnerAngle": 5.0,
+	  "lightOuterAngle": 7.5,
+	  "lightDirection": {
+		"x": 0.0,
+		"y": -1.0,
+		"z": 0.0
+	  }
 	}
 
 

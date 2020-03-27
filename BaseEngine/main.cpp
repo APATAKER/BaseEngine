@@ -173,6 +173,10 @@ int main()
 			<< vec_lightObjects[currentLight]->light_position.x<<" "
 			<< vec_lightObjects[currentLight]->light_position.y<<" "
 			<< vec_lightObjects[currentLight]->light_position.z
+			<< "Light linear atten: "
+			<< vec_lightObjects[currentLight]->light_linear_atten<<" "
+			<< "Quad atten: "
+			<< vec_lightObjects[currentLight]->light_quad_atten<<" "
 			<< std::endl;
 		glfwSetWindowTitle(window, ssTitle.str().c_str());
 		
@@ -357,7 +361,7 @@ int main()
 		
 		
 		// 4. Draw the TV and Screen
-		glUniform1i(SelectEffect_UL, 2);
+		glUniform1i(SelectEffect_UL, 0);
 		glUniform1i(passNumber_UniLoc, 6);
 		//cGameObject* quad = findGameObjectByFriendlyName(g_vec_pGameObjects, "QUAD");
 		glm::mat4 matWorld = glm::mat4(1.f);
@@ -398,25 +402,25 @@ int main()
 		//	////debug_sphere->m_position = debug_sphere_old;	
 		//}
 		//
-		//glUniform1i(passNumber_UniLoc, 2);
-		//cGameObject* p_TV_screen1 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen1");
-		//glm::mat4 mat4_TV_screen1 = glm::mat4(1.f);
-		//DrawObject(mat4_TV_screen1,p_TV_screen1, g_shader_program_ID, p_vao_manager);
-		//
-		//glUniform1i(passNumber_UniLoc, 3);
-		//cGameObject* p_TV_screen2 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen2");
-		//glm::mat4 mat4_TV_screen2 = glm::mat4(1.f);
-		//DrawObject(mat4_TV_screen2,p_TV_screen2, g_shader_program_ID, p_vao_manager);
+		////glUniform1i(passNumber_UniLoc, 2);
+		////cGameObject* p_TV_screen1 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen1");
+		////glm::mat4 mat4_TV_screen1 = glm::mat4(1.f);
+		////DrawObject(mat4_TV_screen1,p_TV_screen1, g_shader_program_ID, p_vao_manager);
+		////
+		////glUniform1i(passNumber_UniLoc, 3);
+		////cGameObject* p_TV_screen2 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen2");
+		////glm::mat4 mat4_TV_screen2 = glm::mat4(1.f);
+		////DrawObject(mat4_TV_screen2,p_TV_screen2, g_shader_program_ID, p_vao_manager);
 
-		//glUniform1i(passNumber_UniLoc, 4);
-		//cGameObject* p_TV_screen3 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen3");
-		//glm::mat4 mat4_TV_screen3 = glm::mat4(1.f);
-		//DrawObject(mat4_TV_screen3,p_TV_screen3, g_shader_program_ID, p_vao_manager);
+		////glUniform1i(passNumber_UniLoc, 4);
+		////cGameObject* p_TV_screen3 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen3");
+		////glm::mat4 mat4_TV_screen3 = glm::mat4(1.f);
+		////DrawObject(mat4_TV_screen3,p_TV_screen3, g_shader_program_ID, p_vao_manager);
 
-		//glUniform1i(passNumber_UniLoc, 5);
-		//cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
-		//glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
-		//DrawObject(mat4_TV_screen4,p_TV_screen4, g_shader_program_ID, p_vao_manager);
+		////glUniform1i(passNumber_UniLoc, 5);
+		////cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
+		////glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
+		////DrawObject(mat4_TV_screen4,p_TV_screen4, g_shader_program_ID, p_vao_manager);
 
 		//glUniform1i(passNumber_UniLoc, 0);
 				
