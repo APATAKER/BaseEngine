@@ -8,6 +8,7 @@ struct Node
 	bool hasGoal;
 	bool visited;
 	float costsofar;
+	float hDistance;
 	struct Node* parent;
 	std::vector<std::pair<Node*, float>> children;	//Edge<child node,edge weight>
 };

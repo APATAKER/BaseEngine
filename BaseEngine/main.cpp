@@ -40,6 +40,15 @@ std::vector<cMesh> vec_model_mesh;
 std::vector<char> vec_map_points;
 std::map<std::pair<int, int>, char> m_map_points;
 std::vector<glm::vec3> vec_free_space_in_map;
+struct s_gatherer_data
+{
+	int m_gatherer_id;
+	glm::vec3 m_gatherer_pos;
+	int num_of_traverseable_points;
+	std::vector<glm::vec3> vec_traverseable_points;
+	
+};
+
 
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int punchcounter;
@@ -66,6 +75,7 @@ int main()
 		std::cout << "Map not loaded!!" << std::endl;
 		return -1;
 	}
+	Graph* graph = new Graph();
 	char* data = p_map_from_bmp->GetData();
 	unsigned long imageWidth = p_map_from_bmp->GetImageWidth();
 	unsigned long imageHeight = p_map_from_bmp->GetImageHeight();
@@ -74,10 +84,12 @@ int main()
 	int point = 0;
 	for (unsigned long x = 0; x < imageWidth; x++) {
 		for (unsigned long y = 0; y < imageHeight; y++,point++) {
-			m_map_points.insert(std::pair<std::pair<int, int>, char>(std::pair<int, int>(x, y), GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++])));
+			graph->CreateNode(GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++]));
+			//m_map_points.insert(std::pair<std::pair<int, int>, char>(std::pair<int, int>(x, y), GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++])));
 			//vec_map_points.push_back(GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++]));
 			//printf("%c", vec_map_points[point]);
-			printf("%c", m_map_points.at(std::pair<int,int>(x,y)));
+			//printf("%c", m_map_points.at(std::pair<int,int>(x,y)));
+			printf("%c", graph->nodes.at(point)->id);
 		}
 		printf("\n");
 	}
@@ -90,10 +102,12 @@ int main()
 	//		}
 	//	}
 	//system("pause");
-	Graph* graph = new Graph();
 
-	graph->CreateNode('a');
-	
+	//for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
+	//	for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
+	//	{
+	//		graph->CreateNode(m_map_points.at(std::pair<int, int>(a, b)));
+	//	}
 	// opengl call
 	window = creatOpenGL(window);
 
@@ -182,7 +196,8 @@ int main()
 		for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
 		{
 			//if (vec_map_points[imageindex] == '_')
-			char check = m_map_points.at(std::pair<int, int>(a, b));
+			//char check = m_map_points.at(std::pair<int, int>(a, b));
+			char check = graph->nodes[imageindex]->id;
 			if (check == '_')
 			{
 				std::pair<int, int> index;
@@ -373,7 +388,7 @@ int main()
 			for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
 			{
 				//if (vec_map_points[imageindex] == '_')
-				char check = m_map_points.at(std::pair<int, int>(a, b));
+				char check = graph->nodes.at(imageindex)->id;
 				if (check == '_')
 				{
 					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");

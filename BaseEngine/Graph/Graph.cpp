@@ -2,13 +2,7 @@
 #include <iostream>
 
 
-Graph::Graph()
-{
-	
-}
-
-
-
+Graph::Graph(){}
 
 void Graph::CreateNode(char id, bool bHasGoal)
 {
@@ -16,8 +10,10 @@ void Graph::CreateNode(char id, bool bHasGoal)
 
 	node->id = id;
 	node->hasGoal = bHasGoal;
+	node->costsofar = FLT_MAX;
 	node->parent = NULL;
-	node->visited = false;
+	node->hDistance = 0;
+	node->visited = false; 
 
 	this->nodes.push_back(node);
 }
@@ -40,5 +36,10 @@ void Graph::printGraph()
 
 void Graph::ResetGraph()
 {
-	
+	for (Node*& currNode : this->nodes)
+	{
+		currNode->visited = false;
+		currNode->parent = NULL;
+		currNode->costsofar = FLT_MAX;
+	}
 }
