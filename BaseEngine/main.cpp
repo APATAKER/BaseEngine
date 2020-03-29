@@ -10,6 +10,8 @@
 #include "MazeGen/cMazeMaker.h"
 #include "LightManager/cLightStuff.h"
 #include "Graph/Graph.h"
+#include "MapLoader/ResourceManager.h"
+#include "MapLoader/BMPImage.h"
 
 // Global Pointers and variables
 GLFWwindow* window = nullptr;
@@ -22,7 +24,10 @@ cFlyCamera* g_pFlyCamera = nullptr;
 //cLowPassFilter* avgDeltaTimeThingy = nullptr;
 cLowPassFilter* p_low_pass_filter = nullptr;
 cMazeMaker* p_maze_maker = nullptr;
+BMPImage* p_map_from_bmp = nullptr;
 double deltaTime = 0;
+
+ResourceManager gResourceManager;
 
 cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
 GLuint g_shader_program_ID;
@@ -31,6 +36,10 @@ std::vector<cGameObject*> g_vec_pGameObjects;
 std::vector<mLight::cLightStuff*> vec_lightObjects;
 std::vector<cGameObject*> vec_bullets;
 std::vector<cMesh> vec_model_mesh;
+
+std::vector<char> vec_map_points;
+std::map<std::pair<int, int>, char> m_map_points;
+std::vector<glm::vec3> vec_free_space_in_map;
 
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int punchcounter;
@@ -46,10 +55,41 @@ void SetUpTextureBindingsForObject(
 	GLint shaderProgID);
 cMesh findMeshByName(std::vector<cMesh> vMesh, std::string Meshname);
 cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
+char GetColourCharacter(unsigned char r, unsigned char g, unsigned char b);
 
 
 int main()
 {
+	p_map_from_bmp = new BMPImage("assets/maps/resourceMap.bmp");
+	if(!p_map_from_bmp->IsLoaded())
+	{
+		std::cout << "Map not loaded!!" << std::endl;
+		return -1;
+	}
+	char* data = p_map_from_bmp->GetData();
+	unsigned long imageWidth = p_map_from_bmp->GetImageWidth();
+	unsigned long imageHeight = p_map_from_bmp->GetImageHeight();
+
+	int colour_index_rgb = 0;
+	int point = 0;
+	for (unsigned long x = 0; x < imageWidth; x++) {
+		for (unsigned long y = 0; y < imageHeight; y++,point++) {
+			m_map_points.insert(std::pair<std::pair<int, int>, char>(std::pair<int, int>(x, y), GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++])));
+			//vec_map_points.push_back(GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++]));
+			//printf("%c", vec_map_points[point]);
+			printf("%c", m_map_points.at(std::pair<int,int>(x,y)));
+		}
+		printf("\n");
+	}
+	//for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
+	//	for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
+	//	{
+	//		if (vec_map_points == false)
+	//		{
+	//			vec_free_space_in_maze.push_back(glm::vec3(a + draw1, 0, b + draw2));
+	//		}
+	//	}
+	//system("pause");
 	Graph* graph = new Graph();
 
 	graph->CreateNode('a');
@@ -132,6 +172,82 @@ int main()
 	int maze_width =  20;
 	int maze_height = 20;
 	p_maze_maker->GenerateMaze(maze_width, maze_height);
+
+	// Map Loading
+	int imageindex = 0;
+	int worldx = -10;
+	int worldz = 100;
+	std::map<std::pair<int, int>, glm::vec3> m_map_positions;
+	for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
+		for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
+		{
+			//if (vec_map_points[imageindex] == '_')
+			char check = m_map_points.at(std::pair<int, int>(a, b));
+			if (check == '_')
+			{
+				std::pair<int, int> index;
+				index.first = a;
+				index.second = b;
+				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+				m_map_positions.insert(std::pair<std::pair<int,int>,glm::vec3>(index, pos));
+				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+			}
+			if (check == 'r')
+			{
+				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+				std::pair<int, int> index;
+				index.first = a;
+				index.second = b;
+				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+
+			}
+			if (check == 'g')
+			{
+				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+				std::pair<int, int> index;
+				index.first = a;
+				index.second = b;
+				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+
+			}
+			if (check == 'b')
+			{
+				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+				std::pair<int, int> index;
+				index.first = a;
+				index.second = b;
+				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+
+			}
+			if (check == 'w')
+			{
+				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+				std::pair<int, int> index;
+				index.first = a;
+				index.second = b;
+				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+
+			}
+			if (check == 'x')
+			{
+				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+				std::pair<int, int> index;
+				index.first = a;
+				index.second = b;
+				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+
+			}
+			imageindex++;
+		}
+
+	// Map Loading
+
+	
 
 	g_pFlyCamera->setAt(-g_pFlyCamera->getAt());
 
@@ -248,8 +364,79 @@ int main()
 				DrawObject(matWorld, pCurrentObject, g_shader_program_ID, p_vao_manager);
 			}
 		}//for (int index...
-		//
+		// MAP Draw
+		int imageindex = 0;
+		int worldx = -10;
+		int worldz = 100;
+		glm::vec3 gatherer_starting_position;
+		for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
+			for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
+			{
+				//if (vec_map_points[imageindex] == '_')
+				char check = m_map_points.at(std::pair<int, int>(a, b));
+				if (check == '_')
+				{
+					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
+					glm::mat4 matModel = glm::mat4(1.0f);
+					//wall->m_position = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+					//glm::vec3 temp = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+					wall->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					wall->textures[0] = "blacktexclean.bmp";
+					DrawObject(matModel, wall, g_shader_program_ID, p_vao_manager);
+				}
+				if (check == 'r')
+				{
+					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+					glm::mat4 matModel = glm::mat4(1.0f);
+					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					floor->textures[0] = "redtex.bmp";
+					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
+				}
+				if (check == 'g')
+				{
+					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+					glm::mat4 matModel = glm::mat4(1.0f);
+					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					gatherer_starting_position = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+					floor->textures[0] = "greentex.bmp";
+					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
+
+				}
+				if (check == 'b')
+				{
+					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+					glm::mat4 matModel = glm::mat4(1.0f);
+					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					floor->textures[0] = "bluetex.bmp";
+					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
+
+				}
+				if (check == 'w')
+				{
+					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+					glm::mat4 matModel = glm::mat4(1.0f);
+					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					floor->textures[0] = "whitetex.bmp";
+					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
+
+				}
+				if (check == 'x')
+				{
+					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+					glm::mat4 matModel = glm::mat4(1.0f);
+					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					floor->textures[0] = "yellowtex.bmp";
+					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
+
+				}
+				imageindex++;
+			}
+		 //MAP Draw
+		cGameObject* gartherer = findGameObjectByFriendlyName(g_vec_pGameObjects, "dalek1");
+		glm::mat4 matModel = glm::mat4(1.0f);
+		gartherer->m_position = gatherer_starting_position; 
+		DrawObject(matModel, gartherer, g_shader_program_ID, p_vao_manager);
 		// 3. Set up the textures for the TV screen (From the FBO)
 		glActiveTexture(GL_TEXTURE0 + 40);				// Texture Unit 40
 		glBindTexture(GL_TEXTURE_2D, p_fbo1->colourTexture_0_ID);	// Texture now asbsoc with texture unit 40      // Basically binding to
@@ -703,4 +890,13 @@ cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects
 		if (vGameObjects[i]->friendlyName == friendlyname)
 			return vGameObjects[i];
 	}
+}
+char GetColourCharacter(unsigned char r, unsigned char g, unsigned char b)
+{
+	if (r == 255 && g == 0 && b == 0)		return 'r';
+	if (r == 0 && g == 255 && b == 0)		return 'g';
+	if (r == 0 && g == 0 && b == 255)	return 'b';
+	if (r == 255 && g == 255 && b == 255)	return 'w';
+	if (r == 0 && g == 0 && b == 0)		return '_';
+	return 'x';
 }

@@ -159,7 +159,7 @@ void main()
 //			fVertWorldLocation.y);
 //fUVx2
 		vec4 normRGB = texture(secondPassNormalTexture, fUVx2.st).rgba;
-		pixelColour.rgb = normRGB.rgb;
+		pixelColour.rgb = normRGB.rgb * 2.f;
 		pixelColour.a = 1.f;
 		return;
 	}

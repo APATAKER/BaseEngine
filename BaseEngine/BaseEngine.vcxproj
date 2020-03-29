@@ -183,6 +183,8 @@
     <ClCompile Include="JsonLoader\cLoad.cpp" />
     <ClCompile Include="LightManager\cLightStuff.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapLoader\BMPImage.cpp" />
+    <ClCompile Include="MapLoader\ResourceManager.cpp" />
     <ClCompile Include="MazeGen\cMazeMaker.cpp" />
     <ClCompile Include="ModelLoadingAndVAO\cMesh.cpp" />
     <ClCompile Include="ModelLoadingAndVAO\cModelLoader.cpp" />
@@ -214,6 +216,8 @@
     <ClInclude Include="Graph\Graph.h" />
     <ClInclude Include="JsonLoader\cLoad.h" />
     <ClInclude Include="LightManager\cLightStuff.h" />
+    <ClInclude Include="MapLoader\BMPImage.h" />
+    <ClInclude Include="MapLoader\ResourceManager.h" />
     <ClInclude Include="MazeGen\cMazeMaker.h" />
     <ClInclude Include="ModelLoadingAndVAO\cMesh.h" />
     <ClInclude Include="ModelLoadingAndVAO\cModelLoader.h" />
