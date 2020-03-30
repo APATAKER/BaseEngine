@@ -13,6 +13,10 @@ void Graph::CreateNode(char id)
 		node->isTraversal = false;
 	if (node->id == 'r' || node->id == 'b')
 		node->hasGoal = true;
+	if (node->id == 'r')
+		node->hasResource = true;
+	if (node->id == 'b')
+		node->isDropPoint = true;
 	if (node->id == 'x')
 		node->hasTerrain = true;
 	node->costsofar = FLT_MAX;
@@ -36,6 +40,26 @@ void Graph::printGraph()
 	for(Node*& currNode :this->nodes)
 	{
 		std::cout << "Node: " << currNode->id << " -> ";
+	}
+}
+void Graph::PrintParents(bool includeCost)
+{
+	for (Node*& currNode : this->nodes)
+	{
+		std::cout << "Node: " << currNode->id << " -> ";
+		if (currNode->parent != NULL)
+		{
+			std::cout << currNode->parent->id;
+		}
+		else
+		{
+			std::cout << "NULL";
+		}
+		if (includeCost)
+		{
+			std::cout << " cost so far: " << currNode->costsofar << " hDist= " << currNode->hDistance << " f= " << currNode->costsofar + currNode->hDistance;
+		}
+		std::cout << std::endl;
 	}
 }
 

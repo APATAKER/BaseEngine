@@ -76,12 +76,16 @@ int main()
 		return -1;
 	}
 	Graph* graph = new Graph();
+	Node* start_node = new Node();
+	Node* return_node = new Node();
 	char* data = p_map_from_bmp->GetData();
 	unsigned long imageWidth = p_map_from_bmp->GetImageWidth();
 	unsigned long imageHeight = p_map_from_bmp->GetImageHeight();
 
 	int colour_index_rgb = 0;
 	int point = 0;
+	int worldx = -10;
+	int worldz = 100;
 	for (unsigned long x = 0; x < imageWidth; x++) {
 		for (unsigned long y = 0; y < imageHeight; y++,point++) {
 			graph->CreateNode(GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++]));
@@ -93,8 +97,53 @@ int main()
 	point = 0;
 	int weight_hori_vert = 10;
 	int weight_dia = 14;
-	for (unsigned long x = 0; x < imageWidth; x++) {
-		for (unsigned long y = 0; y < imageHeight; y++, point++) {
+	//for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
+	//	for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
+
+	for ( long x = 0, draw1 = 0; x < imageWidth; x++, draw1 += 1) {
+		for ( long y = 0, draw2 = 0; y < imageHeight; y++, draw2 += 1, point++) {
+			char check = graph->nodes[point]->id;
+			if(check == '_')
+			{
+				glm::vec3 pos = glm::vec3(x + draw1 + worldx, 5, y + draw2 + worldz);
+				graph->nodes[point]->position = pos;
+
+			}
+			if(check == 'r')
+			{
+				glm::vec3 pos = glm::vec3(x + draw1 + worldx, 5, y + draw2 + worldz);
+				graph->nodes[point]->position = pos;
+
+			}
+			if (check == 'g')
+			{
+				start_node = graph->nodes[point];
+				
+				glm::vec3 pos = glm::vec3(x + draw1 + worldx, 5, y + draw2 + worldz);
+				graph->nodes[point]->position = pos;
+
+			}
+			if (check == 'b')
+			{
+				return_node = graph->nodes[point];
+
+				glm::vec3 pos = glm::vec3(x + draw1 + worldx, 5, y + draw2 + worldz);
+				graph->nodes[point]->position = pos;
+
+			}
+			if (check == 'w')
+			{
+				glm::vec3 pos = glm::vec3(x + draw1 + worldx, 5, y + draw2 + worldz);
+				graph->nodes[point]->position = pos;
+
+			}
+			if (check == 'x')
+			{
+				glm::vec3 pos = glm::vec3(x + draw1 + worldx, 5, y + draw2 + worldz);
+				graph->nodes[point]->position = pos;
+
+			}
+			
 			if(graph->nodes[point]->isTraversal)
 			{
 				int top_right_point = point - imageWidth + 1;
@@ -197,15 +246,11 @@ int main()
 			}
 		}
 	}
-	//for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
-	//	for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
-	//	{
-	//		if (vec_map_points == false)
-	//		{
-	//			vec_free_space_in_maze.push_back(glm::vec3(a + draw1, 0, b + draw2));
-	//		}
-	//	}
-	//system("pause");
+	Node* res_node = Dijkstra(start_node, graph);
+	int total_steps_needed_to_reach_resource = TotalSteps(res_node);
+	
+	Node* returned_node = AStar(res_node, graph, return_node);
+	int total_steps_needed_to_reach_home_base = TotalSteps(returned_node);
 	// opengl call
 	window = creatOpenGL(window);
 
@@ -285,80 +330,80 @@ int main()
 	int maze_height = 20;
 	p_maze_maker->GenerateMaze(maze_width, maze_height);
 
-	// Map Loading
-	int imageindex = 0;
-	int worldx = -10;
-	int worldz = 100;
-	std::map<std::pair<int, int>, glm::vec3> m_map_positions;
-	for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
-		for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
-		{
-			//if (vec_map_points[imageindex] == '_')
-			//char check = m_map_points.at(std::pair<int, int>(a, b));
-			char check = graph->nodes[imageindex]->id;
-			if (check == '_')
-			{
-				std::pair<int, int> index;
-				index.first = a;
-				index.second = b;
-				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-				m_map_positions.insert(std::pair<std::pair<int,int>,glm::vec3>(index, pos));
-				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-			}
-			if (check == 'r')
-			{
-				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-				std::pair<int, int> index;
-				index.first = a;
-				index.second = b;
-				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+	//// Map Loading
+	//int imageindex = 0;
+	//
+	//std::map<std::pair<int, int>, glm::vec3> m_map_positions;
+	//for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
+	//	for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
+	//	{
+	//		//if (vec_map_points[imageindex] == '_')
+	//		//char check = m_map_points.at(std::pair<int, int>(a, b));
+	//		char check = graph->nodes[imageindex]->id;
+	//		if (check == '_')
+	//		{
+	//			std::pair<int, int> index;
+	//			index.first = a;
+	//			index.second = b;
+	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+	//			graph->nodes[imageindex]->position = pos;
+	//			m_map_positions.insert(std::pair<std::pair<int,int>,glm::vec3>(index, pos));
+	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+	//		}
+	//		if (check == 'r')
+	//		{
+	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+	//			std::pair<int, int> index;
+	//			index.first = a;
+	//			index.second = b;
+	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+	//			graph->nodes[imageindex]->position = pos;
+	//		}
+	//		if (check == 'g')
+	//		{
+	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+	//			std::pair<int, int> index;
+	//			index.first = a;
+	//			index.second = b;
+	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+	//			graph->nodes[imageindex]->position = pos;
+	//		}
+	//		if (check == 'b')
+	//		{
+	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+	//			std::pair<int, int> index;
+	//			index.first = a;
+	//			index.second = b;
+	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+	//			graph->nodes[imageindex]->position = pos;
+	//		}
+	//		if (check == 'w')
+	//		{
+	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+	//			std::pair<int, int> index;
+	//			index.first = a;
+	//			index.second = b;
+	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+	//			graph->nodes[imageindex]->position = pos;
+	//		}
+	//		if (check == 'x')
+	//		{
+	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
+	//			std::pair<int, int> index;
+	//			index.first = a;
+	//			index.second = b;
+	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
+	//			graph->nodes[imageindex]->position = pos;
+	//		}
+	//		imageindex++;
+	//	}
 
-			}
-			if (check == 'g')
-			{
-				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-				std::pair<int, int> index;
-				index.first = a;
-				index.second = b;
-				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
-
-			}
-			if (check == 'b')
-			{
-				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-				std::pair<int, int> index;
-				index.first = a;
-				index.second = b;
-				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
-
-			}
-			if (check == 'w')
-			{
-				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-				std::pair<int, int> index;
-				index.first = a;
-				index.second = b;
-				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
-
-			}
-			if (check == 'x')
-			{
-				//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-				std::pair<int, int> index;
-				index.first = a;
-				index.second = b;
-				glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-				m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
-
-			}
-			imageindex++;
-		}
-
-	// Map Loading
+	//// Map Loading
 
 	
 
@@ -493,7 +538,8 @@ int main()
 					glm::mat4 matModel = glm::mat4(1.0f);
 					//wall->m_position = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
 					//glm::vec3 temp = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-					wall->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					//wall->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					wall->m_position = graph->nodes[imageindex]->position;
 					wall->textures[0] = "blacktexclean.bmp";
 					DrawObject(matModel, wall, g_shader_program_ID, p_vao_manager);
 				}
@@ -501,7 +547,7 @@ int main()
 				{
 					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
 					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					floor->m_position = graph->nodes[imageindex]->position;
 					floor->textures[0] = "redtex.bmp";
 					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
@@ -510,7 +556,7 @@ int main()
 				{
 					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
 					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					floor->m_position = graph->nodes[imageindex]->position;
 					gatherer_starting_position = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
 					floor->textures[0] = "greentex.bmp";
 					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
@@ -520,7 +566,7 @@ int main()
 				{
 					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
 					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					floor->m_position = graph->nodes[imageindex]->position;
 					floor->textures[0] = "bluetex.bmp";
 					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
@@ -529,7 +575,7 @@ int main()
 				{
 					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
 					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					floor->m_position = graph->nodes[imageindex]->position;
 					floor->textures[0] = "whitetex.bmp";
 					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
@@ -538,7 +584,7 @@ int main()
 				{
 					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
 					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = m_map_positions.at(std::pair<int, int>(a, b));
+					floor->m_position = graph->nodes[imageindex]->position;
 					floor->textures[0] = "yellowtex.bmp";
 					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
