@@ -5,7 +5,10 @@
 struct Node
 {
 	char id;
-	bool hasGoal;
+	std::pair<int, int> nodePoint;
+	bool hasGoal = false;
+	bool isTraversal = true;
+	bool hasTerrain = false;
 	bool visited;
 	float costsofar;
 	float hDistance;
@@ -18,7 +21,7 @@ class Graph
 {
 public:
 	Graph();
-	void CreateNode(char id, bool bHasGoal = false);
+	void CreateNode(char id);
 	void AddEdge(Node* parent, Node* child, float weight);
 	void printGraph();
 	void ResetGraph();

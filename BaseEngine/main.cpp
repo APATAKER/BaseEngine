@@ -85,13 +85,117 @@ int main()
 	for (unsigned long x = 0; x < imageWidth; x++) {
 		for (unsigned long y = 0; y < imageHeight; y++,point++) {
 			graph->CreateNode(GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++]));
-			//m_map_points.insert(std::pair<std::pair<int, int>, char>(std::pair<int, int>(x, y), GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++])));
-			//vec_map_points.push_back(GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++]));
-			//printf("%c", vec_map_points[point]);
-			//printf("%c", m_map_points.at(std::pair<int,int>(x,y)));
+			graph->nodes[point]->nodePoint = std::pair<int, int>(static_cast<int>(x), static_cast<int>(y));
 			printf("%c", graph->nodes.at(point)->id);
 		}
 		printf("\n");
+	}
+	point = 0;
+	int weight_hori_vert = 10;
+	int weight_dia = 14;
+	for (unsigned long x = 0; x < imageWidth; x++) {
+		for (unsigned long y = 0; y < imageHeight; y++, point++) {
+			if(graph->nodes[point]->isTraversal)
+			{
+				int top_right_point = point - imageWidth + 1;
+				int top_point = point - imageWidth;
+				int top_left_point = point - imageWidth - 1;
+				int left_point = point - 1;
+				
+				int bot_left_point = point + imageWidth - 1;
+				int bot_point = point + imageWidth;
+				int bot_right_point = point + imageWidth + 1;
+				int right_point = point + 1;
+				
+				if (graph->nodes[top_right_point]->isTraversal)										// TOP-RIGHT NODE from the current NODE
+				{
+					if (graph->nodes[top_point]->isTraversal && graph->nodes[right_point]->isTraversal)
+					{
+						if (graph->nodes[top_right_point]->id == 'x')
+						{
+							graph->AddEdge(graph->nodes[point], graph->nodes[top_right_point], weight_dia * 2);
+						}
+						else
+						{
+							graph->AddEdge(graph->nodes[point], graph->nodes[top_right_point], weight_dia);
+						}
+					}
+				}
+				if(graph->nodes[top_point]->isTraversal)													// TOP NODE from the current NODE
+				{
+					if (graph->nodes[top_point]->id == 'x')
+						graph->AddEdge(graph->nodes[point], graph->nodes[top_point], weight_hori_vert * 2);
+					else
+						graph->AddEdge(graph->nodes[point], graph->nodes[top_point], weight_hori_vert);
+
+				}
+				if(graph->nodes[top_left_point]->isTraversal)												// TOP-LEFT NODE from the current NODE
+				{
+					if (graph->nodes[top_point]->isTraversal && graph->nodes[left_point]->isTraversal)
+					{
+						if (graph->nodes[top_left_point]->id == 'x')
+						{
+							graph->AddEdge(graph->nodes[point], graph->nodes[top_left_point], weight_dia * 2);
+						}
+						else
+						{
+							graph->AddEdge(graph->nodes[point], graph->nodes[top_left_point], weight_dia);
+						}
+					}
+				}
+				
+				if(graph->nodes[left_point]->isTraversal)													// LEFT NODE from the current NODE
+				{
+					if (graph->nodes[left_point]->id == 'x')
+						graph->AddEdge(graph->nodes[point], graph->nodes[left_point], weight_hori_vert * 2);
+					else
+						graph->AddEdge(graph->nodes[point], graph->nodes[left_point], weight_hori_vert);
+				}
+
+				if (graph->nodes[bot_right_point]->isTraversal)												// BOT-RIGHT NODE from the current NODE
+				{
+					if (graph->nodes[bot_point]->isTraversal && graph->nodes[right_point]->isTraversal)
+					{
+						if (graph->nodes[bot_right_point]->id == 'x')
+						{
+							graph->AddEdge(graph->nodes[point], graph->nodes[bot_right_point], weight_dia * 2);
+						}
+						else
+						{
+							graph->AddEdge(graph->nodes[point], graph->nodes[bot_right_point], weight_dia);
+						}
+					}
+				}
+				if (graph->nodes[bot_point]->isTraversal)													// BOT NODE from the current NODE
+				{
+					if (graph->nodes[bot_point]->id == 'x')
+						graph->AddEdge(graph->nodes[point], graph->nodes[bot_point], weight_hori_vert * 2);
+					else
+						graph->AddEdge(graph->nodes[point], graph->nodes[bot_point], weight_hori_vert);
+				}
+				if (graph->nodes[bot_left_point]->isTraversal)												// BOT-LEFT NODE from the current NODE
+				{
+					if (graph->nodes[bot_point]->isTraversal && graph->nodes[left_point]->isTraversal)
+					{
+						if (graph->nodes[bot_left_point]->id == 'x')
+						{
+							graph->AddEdge(graph->nodes[point], graph->nodes[bot_left_point], weight_dia * 2);
+						}
+						else
+						{
+							graph->AddEdge(graph->nodes[point], graph->nodes[bot_left_point], weight_dia);
+						}
+					}
+				}
+				if(graph->nodes[right_point]->isTraversal)													// RIGHT NODE from the current NODE
+				{
+					if (graph->nodes[right_point]->id == 'x')
+						graph->AddEdge(graph->nodes[point], graph->nodes[right_point], weight_hori_vert * 2);
+					else
+						graph->AddEdge(graph->nodes[point], graph->nodes[right_point], weight_hori_vert);
+				}
+			}
+		}
 	}
 	//for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
 	//	for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
@@ -102,12 +206,6 @@ int main()
 	//		}
 	//	}
 	//system("pause");
-
-	//for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
-	//	for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
-	//	{
-	//		graph->CreateNode(m_map_points.at(std::pair<int, int>(a, b)));
-	//	}
 	// opengl call
 	window = creatOpenGL(window);
 

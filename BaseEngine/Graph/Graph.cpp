@@ -4,12 +4,17 @@
 
 Graph::Graph(){}
 
-void Graph::CreateNode(char id, bool bHasGoal)
+void Graph::CreateNode(char id)
 {
 	Node* node = new Node;
 
 	node->id = id;
-	node->hasGoal = bHasGoal;
+	if (node->id == '_')
+		node->isTraversal = false;
+	if (node->id == 'r' || node->id == 'b')
+		node->hasGoal = true;
+	if (node->id == 'x')
+		node->hasTerrain = true;
 	node->costsofar = FLT_MAX;
 	node->parent = NULL;
 	node->hDistance = 0;
