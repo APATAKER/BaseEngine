@@ -1,20 +1,22 @@
-# Project 3 Physics 2
+# Project 3 AI
 
-## runing the code
-	- build the solution and run in Debug/Release any congif (Release Recommended)
+## running the code
+- build the solution and run in Debug/Release any config (Release Recommended)
 
-# I am doing Reloading of Dll
-	Press CTRL + 1 = to switch from MyOwnPhysics Lib to BulletPhysics and press again to prefrom vice versa
-
+# Things Done,
+-Graph Generation(20)
+-Pathfinding
+-Dijkstra's Algorithm for finding Resources(red tile)(20)
+-AStar for finding Home Base(blue tile)(20)
+-Behavior
+-gartherer collects resources immediatly and drops it
 
 # controls
-	Camera,
-		WASDQE - to move the Fly Camera
-		use mouse - to look around
-	Spheres,
-		(HOLD)CTRL + WASD  - applied force to 4 direction
-		(HOLD)CTRL + SPACE - Jump
-		(HOLD)CTRL + N     - Change Sphere control
+Camera,
+(HOLD)CTRL + WASDQE - to move the Fly Camera
+use the mouse - to look around
+
+Note - Maps can be added by put them inside "assets/map" folder and loaded in by editing LINE 104 of main.cpp
 
 #contributor 
 Dhilip Raja Nagarajan

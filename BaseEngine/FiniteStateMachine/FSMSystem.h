@@ -15,7 +15,7 @@ public:
 	void AddState(FSMState* state);
 	void TransitionToState(FSMState* state);
 
-	void Update(void);
+	void Update(cGameObject* cur_gameObject);
 
 	void Start(void);
 	void Reset(void);

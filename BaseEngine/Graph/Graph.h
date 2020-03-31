@@ -22,10 +22,14 @@ struct Node
 };
 class Graph
 {
+	int graphWidth;
+	int graphHeight;
 public:
-	Graph();
+	Graph(int width,int height);
 	void CreateNode(char id);
 	void AddEdge(Node* parent, Node* child, float weight);
+	int GetGraphWidth();
+	int GetGraphHeight();
 	void printGraph();
 	void ResetGraph();
 	void PrintParents(bool includeCost);

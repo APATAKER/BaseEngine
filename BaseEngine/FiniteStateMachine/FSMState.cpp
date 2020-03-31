@@ -41,10 +41,15 @@ bool FSMState::IsDone(void) {
 	return mCurrentCondition != 0;
 }
 
+void FSMState::linkState(FSMState* state)
+{
+	mLinkedState = state;
+}
+
 //Actions
 //runs the internal logic of your AI. You can include just one action or a list of actions you want your state machine to loop through.
 //These actions are just virtual functions that will be overridden by the functions in the specific state classes (IdleState.h, SearchState.h, etc)
-void FSMState::Update()
+void FSMState::Update(cGameObject* cur_gameObject)
 {
 
 }
@@ -64,5 +69,6 @@ void FSMState::OnEnterState() {
 void FSMState::OnExitState() {
 	printf("Exiting %s state... \n", mStateName.c_str());
 }
+
 
 

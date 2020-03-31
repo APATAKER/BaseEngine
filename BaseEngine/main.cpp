@@ -27,6 +27,7 @@ cFlyCamera* g_pFlyCamera = nullptr;
 //cLowPassFilter* avgDeltaTimeThingy = nullptr;
 cLowPassFilter* p_low_pass_filter = nullptr;
 BMPImage* p_map_from_bmp = nullptr;
+FSMSystem* p_fsm_system = nullptr;
 cAI* p_AI = nullptr;
 double deltaTime = 0;
 int gNumResources;
@@ -84,20 +85,6 @@ void singlePathfindingFunctionBeforeThreading(s_gatherer_data& data);
 
 int main()
 {
-	gNumResources = 0;
-	stateIdle = new IdleState();
-	stateSearch = new SearchState();
-	stateGather = new GatherState();
-	stateReturn = new ReturnState();
-
-	stateIdle->AddTransition(1, stateSearch);
-
-	stateSearch->AddTransition(1, stateGather);
-	stateSearch->AddTransition(2, 0);
-
-	stateGather->AddTransition(1, stateReturn);
-
-	stateReturn->AddTransition(1, stateSearch);
 
 	
 	
@@ -107,7 +94,7 @@ int main()
 		std::cout << "Map not loaded!!" << std::endl;
 		return -1;
 	}
-	Graph* graph = new Graph();
+	Graph* graph = new Graph(static_cast<int>(p_map_from_bmp->GetImageWidth()), static_cast<int>(p_map_from_bmp->GetImageHeight()));
 	Node* start_node = new Node();
 	Node* return_node = new Node();
 	char* data = p_map_from_bmp->GetData();
@@ -278,28 +265,48 @@ int main()
 			}
 		}
 	}
-	Node* res_node = Dijkstra(start_node, graph);
-	int total_steps_needed_to_reach_resource = TotalSteps(res_node);
-
 	std::vector<glm::vec3> vec_path_going_to_resources;
-	Node* temp_node = res_node;
-	for (int index = 0; index < total_steps_needed_to_reach_resource; index++)
-	{
-		vec_path_going_to_resources.push_back(temp_node->position);
-		temp_node = temp_node->parent;
-	}
-	//delete temp_node;
-	
-	Node* returned_node = AStar(res_node, graph, return_node);
-	int total_steps_needed_to_reach_home_base = TotalSteps(returned_node);
-
 	std::vector<glm::vec3> vec_path_going_to_home;
-	Node* temp_node2 = returned_node;
-	for (int index = 0; index < total_steps_needed_to_reach_home_base; index++)
-	{
-		vec_path_going_to_home.push_back(temp_node2->position);
-		temp_node2 = temp_node2->parent;
-	}
+	//Node* res_node = Dijkstra(start_node, graph);
+	//int total_steps_needed_to_reach_resource = TotalSteps(res_node);
+
+	//Node* temp_node = res_node;
+	//for (int index = 0; index < total_steps_needed_to_reach_resource; index++)
+	//{
+	//	vec_path_going_to_resources.push_back(temp_node->position);
+	//	temp_node = temp_node->parent;
+	//}
+	////delete temp_node;
+	//
+	//Node* returned_node = AStar(res_node, graph, return_node);
+	//int total_steps_needed_to_reach_home_base = TotalSteps(returned_node);
+
+	//Node* temp_node2 = returned_node;
+	//for (int index = 0; index < total_steps_needed_to_reach_home_base; index++)
+	//{
+	//	vec_path_going_to_home.push_back(temp_node2->position);
+	//	temp_node2 = temp_node2->parent;
+	//}
+
+	p_fsm_system = new FSMSystem();
+	//gNumResources = 0;
+	stateIdle = new IdleState();
+	stateSearch = new SearchState(vec_path_going_to_resources,graph);
+	stateGather = new GatherState();
+	stateReturn = new ReturnState(vec_path_going_to_home,graph);
+
+	stateIdle->AddTransition(1, stateSearch);
+
+	stateSearch->AddTransition(1, stateGather);
+	stateSearch->AddTransition(2, 0);
+
+	stateGather->AddTransition(1, stateReturn);
+
+	stateReturn->AddTransition(1, stateSearch);
+
+	//stateSearch->linkState(stateReturn);
+	stateReturn->linkState(stateSearch);
+
 
 	
 	// opengl call
@@ -320,12 +327,12 @@ int main()
 	//########################################## Json is loader Here ###############################################
 	p_AI = new cAI();
 	
-	//g_vec_pGameObjects[20]->m_fsm_system->AddState(stateIdle);
-	//g_vec_pGameObjects[20]->m_fsm_system->AddState(stateSearch);
-	//g_vec_pGameObjects[20]->m_fsm_system->AddState(stateGather);
-	//g_vec_pGameObjects[20]->m_fsm_system->AddState(stateReturn);
-
-	//g_vec_pGameObjects[20]->m_fsm_system->Start();
+	p_fsm_system->AddState(stateIdle);
+	p_fsm_system->AddState(stateSearch);
+	p_fsm_system->AddState(stateGather);
+	p_fsm_system->AddState(stateReturn);
+	
+	p_fsm_system->Start();
 
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################(ONLY FOR DEBUG AND MULTIPLE)#############
 	cGameObject* debug_sphere = new cGameObject();
@@ -743,49 +750,52 @@ int main()
 		//glUniform1i(passNumber_UniLoc, 0);
 				
 		//Physics implementation
-		if(!is_ended)
-		{
-			if(!is_going_home)
-			{
-				g_vec_pGameObjects[20]->m_velocity = p_AI->seekR(vec_path_going_to_resources[start_Res], g_vec_pGameObjects[20],is_ended);
-				
-			}
-			else
-			{
-				g_vec_pGameObjects[20]->m_velocity = p_AI->seekR(vec_path_going_to_home[start_Home], g_vec_pGameObjects[20],is_ended);
-			}
-			
-			
-		}
-		else
-		{
-			if (!is_going_home)
-				start_Res--;
-			else
-				start_Home--;
-			
-			if (start_Res < 0)
-			{
-				g_vec_pGameObjects[20]->m_velocity = glm::vec3(0);
-				g_vec_pGameObjects[20]->m_physics_component->SetPosition(vec_path_going_to_resources[0]);
-				is_going_home = true;
-				is_ended = false;
-				start_Res = FLT_MAX;
-				
-			}
-			else
-			{
-				is_ended = false;
-			}
 
-			if(start_Home < 0)
-			{
-				g_vec_pGameObjects[20]->m_velocity = glm::vec3(0);
-				g_vec_pGameObjects[20]->m_physics_component->SetPosition(vec_path_going_to_home[0]);
-				is_ended = true;
+		p_fsm_system->Update(g_vec_pGameObjects[20]);
+		
+		//if(!is_ended)
+		//{
+		//	if(!is_going_home)
+		//	{
+		//		g_vec_pGameObjects[20]->m_velocity = p_AI->seekR(vec_path_going_to_resources[start_Res], g_vec_pGameObjects[20],is_ended);
+		//		
+		//	}
+		//	else
+		//	{
+		//		g_vec_pGameObjects[20]->m_velocity = p_AI->seekR(vec_path_going_to_home[start_Home], g_vec_pGameObjects[20],is_ended);
+		//	}
+		//	
+		//	
+		//}
+		//else
+		//{
+		//	if (!is_going_home)
+		//		start_Res--;
+		//	else
+		//		start_Home--;
+		//	
+		//	if (start_Res < 0)
+		//	{
+		//		g_vec_pGameObjects[20]->m_velocity = glm::vec3(0);
+		//		g_vec_pGameObjects[20]->m_physics_component->SetPosition(vec_path_going_to_resources[0]);
+		//		is_going_home = true;
+		//		is_ended = false;
+		//		start_Res = FLT_MAX;
+		//		
+		//	}
+		//	else
+		//	{
+		//		is_ended = false;
+		//	}
 
-			}
-		}
+		//	if(start_Home < 0)
+		//	{
+		//		g_vec_pGameObjects[20]->m_velocity = glm::vec3(0);
+		//		g_vec_pGameObjects[20]->m_physics_component->SetPosition(vec_path_going_to_home[0]);
+		//		is_ended = true;
+
+		//	}
+		//}
 		g_vec_pGameObjects[20]->m_physics_component->ApplyForce(g_vec_pGameObjects[20]->m_velocity);
 		PhysicsUpdate(deltaTime);
 

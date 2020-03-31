@@ -13,7 +13,7 @@
 #include "../Animations/cAnimationState.h"
 #include "../ModelLoadingAndVAO/cSimpleAssimpSkinnedMeshLoader_OneMesh.h"
 #include "physics/iPhysInterfaces.h"
-#include "../FiniteStateMachine/FSMSystem.h"
+//#include "../FiniteStateMachine/FSMSystem.h"
 
 
 class cGameObject
@@ -79,8 +79,8 @@ public:
 	cSimpleAssimpSkinnedMesh* p_skinned_mesh;
 	cAnimationState* pAniState;
 
-	// FiniteState
-	FSMSystem* m_fsm_system;
+	//// FiniteState
+	//FSMSystem* m_fsm_system;
 	
 
 	// Physics things are in here

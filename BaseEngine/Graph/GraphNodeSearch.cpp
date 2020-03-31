@@ -126,6 +126,7 @@ Node* Dijkstra(Node* rootNode, Graph* graph)
         currNode->visited = true;
         if (currNode->hasResource)
         {
+            currNode->hasResource = false;
             return currNode;
         }
 

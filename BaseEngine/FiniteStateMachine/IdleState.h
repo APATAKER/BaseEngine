@@ -10,10 +10,12 @@ public:
 	IdleState(void);
 	virtual ~IdleState(void);
 
-	virtual void Update(void);
+	virtual void Update(cGameObject* cur_gameObject);
 
 	virtual void OnEnterState(void);
 	virtual void OnExitState(void);
+	
+	virtual Node* GetResNode(void);
 
 };
 

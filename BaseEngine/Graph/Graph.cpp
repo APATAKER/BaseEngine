@@ -2,7 +2,12 @@
 #include <iostream>
 
 
-Graph::Graph(){}
+
+Graph::Graph(int width, int height)
+{
+	graphWidth = width;
+	graphHeight = height;
+}
 
 void Graph::CreateNode(char id)
 {
@@ -33,6 +38,16 @@ void Graph::AddEdge(Node* parent, Node* child, float weight)
 	edge.first = child;
 	edge.second = weight;
 	parent->children.push_back(edge);
+}
+
+int Graph::GetGraphWidth()
+{
+	return graphWidth;
+}
+
+int Graph::GetGraphHeight()
+{
+	return graphHeight;
 }
 
 void Graph::printGraph()

@@ -34,7 +34,7 @@ void FSMSystem::AddState(FSMState* state) {
 //calls the Update function of our currently active state.
 //checks every frame if a condition is met that triggers changing to a new state
 //if triggered, than transition to the new state
-void FSMSystem::Update(void)
+void FSMSystem::Update(cGameObject* cur_gameObject)
 {
 	if (!mIsRunning) return;
 
@@ -44,7 +44,7 @@ void FSMSystem::Update(void)
 		return;
 	}
 
-	mCurrentState->Update();
+	mCurrentState->Update(cur_gameObject);
 
 	if (mCurrentState->IsDone()) {
 		FSMState* newState = mCurrentState->GetTransition();
@@ -58,7 +58,8 @@ void FSMSystem::Update(void)
 //we then have our new state call onEnterState()
 void FSMSystem::TransitionToState(FSMState* state) {
 	if (state == 0) {
-		printf("Error: [FSMSystem::TransitionToState: The state is null");
+		//printf("Error: [FSMSystem::TransitionToState: The state is null");
+		printf("ALL States Done!!!");
 		mIsRunning = false;
 		return;
 	}
