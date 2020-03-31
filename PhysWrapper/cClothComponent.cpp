@@ -24,6 +24,15 @@ void cClothComponent::ApplyRotation(const glm::vec3& rotation)
 {
 }
 
+void cClothComponent::SetPosition(const glm::vec3& pos)
+{
+}
+
+glm::vec3 cClothComponent::GetPosition()
+{
+	return glm::vec3();
+}
+
 void cClothComponent::JumpForce(const glm::vec3& force)
 {
 }

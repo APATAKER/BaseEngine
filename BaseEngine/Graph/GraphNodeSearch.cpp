@@ -198,7 +198,7 @@ Node* AStar(Node* rootNode, Graph* graph, Node* goal)
         }
         closedList.push_back(currNode);
 
-        std::cout << currNode->id << std::endl;
+        //std::cout << currNode->id << std::endl;
         currNode->visited = true;
         if (currNode->isDropPoint)
         {

@@ -87,6 +87,8 @@ namespace physLib
 		void jump(const glm::vec3& force);
 
 		void ApplyRotation(const glm::vec3& rotation);
+		void SetPosition(const glm::vec3& position);
+		//glm::vec3 GetPosition();
 
 		// TODO:
 		// ApplyImpulse

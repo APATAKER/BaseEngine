@@ -55,6 +55,8 @@ cGameObject::cGameObject()
 
 	this->p_skinned_mesh = nullptr;
 
+	this->m_fsm_system = new FSMSystem();
+
 	return;
 }
 

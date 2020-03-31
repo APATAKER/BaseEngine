@@ -51,14 +51,19 @@ namespace physLib
 		return this->numberOfPhysicalObjects;
 	}
 
+	//void cRigidBody::ApplyForce(const glm::vec3& force)
+	//{
+	//	this->updateAtFromOrientation();
+	//	float mag_force = force.z;
+	//	glm::vec3 direction = this->getAtInWorldSpace() - this->mPosition;
+	//	direction = normalize(direction);
+	//	glm::vec3 forceToBeApplied = mag_force * direction;
+	//	this->mAcceleration += (forceToBeApplied / this->mMass);	
+	//}
+
 	void cRigidBody::ApplyForce(const glm::vec3& force)
 	{
-		this->updateAtFromOrientation();
-		float mag_force = force.z;
-		glm::vec3 direction = this->getAtInWorldSpace() - this->mPosition;
-		direction = normalize(direction);
-		glm::vec3 forceToBeApplied = mag_force * direction;
-		this->mAcceleration += (forceToBeApplied / this->mMass);	
+		this->mVelocity = force;
 	}
 
 	void cRigidBody::jump(const glm::vec3& force)
@@ -69,6 +74,11 @@ namespace physLib
 	void cRigidBody::ApplyRotation(const glm::vec3& rotation)
 	{
 		updateOrientation(rotation);
+	}
+
+	void cRigidBody::SetPosition(const glm::vec3& position)
+	{
+		this->mPosition = position;
 	}
 
 	void cRigidBody::updateAtFromOrientation(void)

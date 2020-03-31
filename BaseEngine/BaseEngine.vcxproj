@@ -166,6 +166,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AIBehaviour\cAI.cpp" />
     <ClCompile Include="Animations\cAnimationState.cpp" />
     <ClCompile Include="DebugRenderer\cDebugRenderer.cpp" />
     <ClCompile Include="DebugRenderer\cDebugRenderer_BuiltInShapes.cpp" />
@@ -174,6 +175,12 @@
     <ClCompile Include="DebugRenderer\COpenGLError.cpp" />
     <ClCompile Include="DeltaTime\cLowPassFilter.cpp" />
     <ClCompile Include="FBO\cFBO.cpp" />
+    <ClCompile Include="FiniteStateMachine\FSMState.cpp" />
+    <ClCompile Include="FiniteStateMachine\FSMSystem.cpp" />
+    <ClCompile Include="FiniteStateMachine\GatherState.cpp" />
+    <ClCompile Include="FiniteStateMachine\IdleState.cpp" />
+    <ClCompile Include="FiniteStateMachine\ReturnState.cpp" />
+    <ClCompile Include="FiniteStateMachine\SearchState.cpp" />
     <ClCompile Include="FlyCamera\cFlyCamera.cpp" />
     <ClCompile Include="GameObject\cGameObject.cpp" />
     <ClCompile Include="glad.c" />
@@ -199,6 +206,7 @@
     <ClCompile Include="Textures\CTextureFromBMP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIBehaviour\cAI.h" />
     <ClInclude Include="Animations\cAnimationState.h" />
     <ClInclude Include="commonHeaders.h" />
     <ClInclude Include="DebugRenderer\cDebugRenderer.h" />
@@ -209,6 +217,14 @@
     <ClInclude Include="DebugRenderer\iDebugRenderer.h" />
     <ClInclude Include="DeltaTime\cLowPassFilter.h" />
     <ClInclude Include="FBO\cFBO.h" />
+    <ClInclude Include="FiniteStateMachine\FSMState.h" />
+    <ClInclude Include="FiniteStateMachine\FSMSystem.h" />
+    <ClInclude Include="FiniteStateMachine\GatherState.h" />
+    <ClInclude Include="FiniteStateMachine\IdleState.h" />
+    <ClInclude Include="FiniteStateMachine\MapInfo.h" />
+    <ClInclude Include="FiniteStateMachine\ReturnState.h" />
+    <ClInclude Include="FiniteStateMachine\SearchState.h" />
+    <ClInclude Include="FiniteStateMachine\States.h" />
     <ClInclude Include="FlyCamera\cFlyCamera.h" />
     <ClInclude Include="FlyCamera\iCamera.h" />
     <ClInclude Include="GameObject\cGameObject.h" />

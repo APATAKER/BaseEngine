@@ -1143,7 +1143,7 @@
       "position": {
         "x": 0.0,
         "y": 50.0,
-        "z": 0.0
+        "z": 100.0
       },
       "rotation": {
         "x": 0.0,
@@ -1166,8 +1166,8 @@
       },
       "tex": [ "bluetex.bmp", "", "", "" ],
       "texratio": [ 1, 0, 0, 0 ],
-      "isStatic": 1,
-      "physicsshapetype": 3,
+      "isStatic": 0,
+      "physicsshapetype": 0,
       "objectype": 1,
       "sphereRadius": 2.0,
       "bulletCollisionRadius": 10.0,
@@ -1180,11 +1180,12 @@
         "constant": 0
       },
       "sphere": {
-        "radius": 0
+        "radius": 1
       },
       "mass": 1,
       "isVisible": 1,
-      "isSkinnedMesh": 0
+      "isSkinnedMesh": 0,
+	  "aiType": ""
     }
   ]
   

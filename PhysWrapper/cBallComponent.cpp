@@ -21,6 +21,14 @@ void cBallComponent::JumpForce(const glm::vec3& force)
 {
 	rigid_body->jump(force);
 }
+void cBallComponent::SetPosition(const glm::vec3& pos)
+{
+	rigid_body->SetPosition(pos);
+}
+glm::vec3 cBallComponent::GetPosition()
+{
+	return rigid_body->GetPosition();
+}
 void cBallComponent::ApplyRotation(const glm::vec3& rotation)
 {
 	rigid_body->ApplyRotation(rotation);

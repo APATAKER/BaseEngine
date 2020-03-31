@@ -12,6 +12,9 @@
 #include "Graph/Graph.h"
 #include "MapLoader/ResourceManager.h"
 #include "MapLoader/BMPImage.h"
+#include "FiniteStateMachine/States.h"
+#include "FiniteStateMachine/MapInfo.h"
+#include "AIBehaviour/cAI.h"
 
 // Global Pointers and variables
 GLFWwindow* window = nullptr;
@@ -23,11 +26,16 @@ cDebugRenderer* g_pDebugRenderer = nullptr;
 cFlyCamera* g_pFlyCamera = nullptr;
 //cLowPassFilter* avgDeltaTimeThingy = nullptr;
 cLowPassFilter* p_low_pass_filter = nullptr;
-cMazeMaker* p_maze_maker = nullptr;
 BMPImage* p_map_from_bmp = nullptr;
+cAI* p_AI = nullptr;
 double deltaTime = 0;
+int gNumResources;
+glm::vec3 gatherer_starting_position;
 
-ResourceManager gResourceManager;
+FSMState* stateIdle = nullptr;
+FSMState* stateSearch = nullptr;
+FSMState* stateGather = nullptr;
+FSMState* stateReturn = nullptr;
 
 cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
 GLuint g_shader_program_ID;
@@ -48,7 +56,13 @@ struct s_gatherer_data
 	std::vector<glm::vec3> vec_traverseable_points;
 	
 };
-
+void thread_funtion(s_gatherer_data data)
+{
+	for(;;)
+	{
+		
+	}
+}
 
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int punchcounter;
@@ -65,10 +79,28 @@ void SetUpTextureBindingsForObject(
 cMesh findMeshByName(std::vector<cMesh> vMesh, std::string Meshname);
 cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
 char GetColourCharacter(unsigned char r, unsigned char g, unsigned char b);
+void singlePathfindingFunctionBeforeThreading(s_gatherer_data& data);
 
 
 int main()
 {
+	gNumResources = 0;
+	stateIdle = new IdleState();
+	stateSearch = new SearchState();
+	stateGather = new GatherState();
+	stateReturn = new ReturnState();
+
+	stateIdle->AddTransition(1, stateSearch);
+
+	stateSearch->AddTransition(1, stateGather);
+	stateSearch->AddTransition(2, 0);
+
+	stateGather->AddTransition(1, stateReturn);
+
+	stateReturn->AddTransition(1, stateSearch);
+
+	
+	
 	p_map_from_bmp = new BMPImage("assets/maps/resourceMap.bmp");
 	if(!p_map_from_bmp->IsLoaded())
 	{
@@ -90,6 +122,8 @@ int main()
 		for (unsigned long y = 0; y < imageHeight; y++,point++) {
 			graph->CreateNode(GetColourCharacter(data[colour_index_rgb++], data[colour_index_rgb++], data[colour_index_rgb++]));
 			graph->nodes[point]->nodePoint = std::pair<int, int>(static_cast<int>(x), static_cast<int>(y));
+			if (graph->nodes.at(point)->id == 'r')
+				gNumResources++;
 			printf("%c", graph->nodes.at(point)->id);
 		}
 		printf("\n");
@@ -97,8 +131,6 @@ int main()
 	point = 0;
 	int weight_hori_vert = 10;
 	int weight_dia = 14;
-	//for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
-	//	for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
 
 	for ( long x = 0, draw1 = 0; x < imageWidth; x++, draw1 += 1) {
 		for ( long y = 0, draw2 = 0; y < imageHeight; y++, draw2 += 1, point++) {
@@ -120,6 +152,7 @@ int main()
 				start_node = graph->nodes[point];
 				
 				glm::vec3 pos = glm::vec3(x + draw1 + worldx, 5, y + draw2 + worldz);
+				gatherer_starting_position = pos;
 				graph->nodes[point]->position = pos;
 
 			}
@@ -143,7 +176,6 @@ int main()
 				graph->nodes[point]->position = pos;
 
 			}
-			
 			if(graph->nodes[point]->isTraversal)
 			{
 				int top_right_point = point - imageWidth + 1;
@@ -248,9 +280,28 @@ int main()
 	}
 	Node* res_node = Dijkstra(start_node, graph);
 	int total_steps_needed_to_reach_resource = TotalSteps(res_node);
+
+	std::vector<glm::vec3> vec_path_going_to_resources;
+	Node* temp_node = res_node;
+	for (int index = 0; index < total_steps_needed_to_reach_resource; index++)
+	{
+		vec_path_going_to_resources.push_back(temp_node->position);
+		temp_node = temp_node->parent;
+	}
+	//delete temp_node;
 	
 	Node* returned_node = AStar(res_node, graph, return_node);
 	int total_steps_needed_to_reach_home_base = TotalSteps(returned_node);
+
+	std::vector<glm::vec3> vec_path_going_to_home;
+	Node* temp_node2 = returned_node;
+	for (int index = 0; index < total_steps_needed_to_reach_home_base; index++)
+	{
+		vec_path_going_to_home.push_back(temp_node2->position);
+		temp_node2 = temp_node2->parent;
+	}
+
+	
 	// opengl call
 	window = creatOpenGL(window);
 
@@ -267,7 +318,14 @@ int main()
 	LoadStuff(vec_model_mesh, g_shader_program_ID, g_pTextureManager,g_vec_pGameObjects);
 	g_pTextureManager = cBasicTextureManager::getInstance();
 	//########################################## Json is loader Here ###############################################
+	p_AI = new cAI();
+	
+	//g_vec_pGameObjects[20]->m_fsm_system->AddState(stateIdle);
+	//g_vec_pGameObjects[20]->m_fsm_system->AddState(stateSearch);
+	//g_vec_pGameObjects[20]->m_fsm_system->AddState(stateGather);
+	//g_vec_pGameObjects[20]->m_fsm_system->AddState(stateReturn);
 
+	//g_vec_pGameObjects[20]->m_fsm_system->Start();
 
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################(ONLY FOR DEBUG AND MULTIPLE)#############
 	cGameObject* debug_sphere = new cGameObject();
@@ -325,99 +383,18 @@ int main()
 		std::cout << "FBO Error: " << FBOError << std::endl;
 	}
 
-	p_maze_maker = new cMazeMaker();
-	int maze_width =  20;
-	int maze_height = 20;
-	p_maze_maker->GenerateMaze(maze_width, maze_height);
-
-	//// Map Loading
-	//int imageindex = 0;
-	//
-	//std::map<std::pair<int, int>, glm::vec3> m_map_positions;
-	//for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
-	//	for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
-	//	{
-	//		//if (vec_map_points[imageindex] == '_')
-	//		//char check = m_map_points.at(std::pair<int, int>(a, b));
-	//		char check = graph->nodes[imageindex]->id;
-	//		if (check == '_')
-	//		{
-	//			std::pair<int, int> index;
-	//			index.first = a;
-	//			index.second = b;
-	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-	//			graph->nodes[imageindex]->position = pos;
-	//			m_map_positions.insert(std::pair<std::pair<int,int>,glm::vec3>(index, pos));
-	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-	//		}
-	//		if (check == 'r')
-	//		{
-	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-	//			std::pair<int, int> index;
-	//			index.first = a;
-	//			index.second = b;
-	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
-	//			graph->nodes[imageindex]->position = pos;
-	//		}
-	//		if (check == 'g')
-	//		{
-	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-	//			std::pair<int, int> index;
-	//			index.first = a;
-	//			index.second = b;
-	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
-	//			graph->nodes[imageindex]->position = pos;
-	//		}
-	//		if (check == 'b')
-	//		{
-	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-	//			std::pair<int, int> index;
-	//			index.first = a;
-	//			index.second = b;
-	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
-	//			graph->nodes[imageindex]->position = pos;
-	//		}
-	//		if (check == 'w')
-	//		{
-	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-	//			std::pair<int, int> index;
-	//			index.first = a;
-	//			index.second = b;
-	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
-	//			graph->nodes[imageindex]->position = pos;
-	//		}
-	//		if (check == 'x')
-	//		{
-	//			//vec_map_position.push_back(glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz));
-	//			std::pair<int, int> index;
-	//			index.first = a;
-	//			index.second = b;
-	//			glm::vec3 pos = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-	//			m_map_positions.insert(std::pair<std::pair<int, int>, glm::vec3>(index, pos));
-	//			graph->nodes[imageindex]->position = pos;
-	//		}
-	//		imageindex++;
-	//	}
-
-	//// Map Loading
-
-	
 
 	g_pFlyCamera->setAt(-g_pFlyCamera->getAt());
 
 	p_light_stuff = new mLight::cLightStuff();
 	mLight::LoadLightFromJson();
+	PhysicsInit();
+	g_vec_pGameObjects[20]->m_physics_component->SetPosition(gatherer_starting_position);
 
-	//int numberOfStencilBits = 0;
-	//glGetFramebufferAttachmentParameteriv(
-	//	GL_FRAMEBUFFER,
-	//	GL_STENCIL,
-	//	GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE, &numberOfStencilBits);
-	//std::cout << "Stencil buffer is " << numberOfStencilBits << " bits" << std::endl;
+	bool is_ended = false;
+	bool is_going_home = false;
+	int start_Res = vec_path_going_to_resources.size() - 1;
+	int start_Home = vec_path_going_to_home.size() - 1;
 
 	//############################## Game Loop Starts Here ##################################################################
 	while (!glfwWindowShouldClose(window))
@@ -456,7 +433,7 @@ int main()
 		
 		// Updating DeltaTime *********************************************
 		p_low_pass_filter->updateTime(deltaTime);
-		PhysicsInit();
+		
 		// Updating DeltaTime *********************************************
 
 		ProcessAsyncKeys(window);		// Listening to keyboard keys
@@ -524,21 +501,16 @@ int main()
 		}//for (int index...
 		// MAP Draw
 		int imageindex = 0;
-		int worldx = -10;
-		int worldz = 100;
-		glm::vec3 gatherer_starting_position;
-		for (int a = 0, draw1 = 0; a < imageWidth; a++, draw1 += 1)
-			for (int b = 0, draw2 = 0; b < imageHeight; b++, draw2 += 1)
+
+		
+		for (int a = 0; a < imageWidth; a++)
+			for (int b = 0; b < imageHeight; b++)
 			{
-				//if (vec_map_points[imageindex] == '_')
 				char check = graph->nodes.at(imageindex)->id;
 				if (check == '_')
 				{
 					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
 					glm::mat4 matModel = glm::mat4(1.0f);
-					//wall->m_position = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-					//glm::vec3 temp = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
-					//wall->m_position = m_map_positions.at(std::pair<int, int>(a, b));
 					wall->m_position = graph->nodes[imageindex]->position;
 					wall->textures[0] = "blacktexclean.bmp";
 					DrawObject(matModel, wall, g_shader_program_ID, p_vao_manager);
@@ -557,7 +529,7 @@ int main()
 					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
 					glm::mat4 matModel = glm::mat4(1.0f);
 					floor->m_position = graph->nodes[imageindex]->position;
-					gatherer_starting_position = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
+					//gatherer_starting_position = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
 					floor->textures[0] = "greentex.bmp";
 					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
@@ -592,10 +564,10 @@ int main()
 				imageindex++;
 			}
 		 //MAP Draw
-		cGameObject* gartherer = findGameObjectByFriendlyName(g_vec_pGameObjects, "dalek1");
-		glm::mat4 matModel = glm::mat4(1.0f);
-		gartherer->m_position = gatherer_starting_position; 
-		DrawObject(matModel, gartherer, g_shader_program_ID, p_vao_manager);
+		//cGameObject* gartherer = findGameObjectByFriendlyName(g_vec_pGameObjects, "dalek1");
+		//glm::mat4 matModel = glm::mat4(1.0f);
+		//gartherer->m_position = gatherer_starting_position; 
+		//DrawObject(matModel, gartherer, g_shader_program_ID, p_vao_manager);
 		// 3. Set up the textures for the TV screen (From the FBO)
 		glActiveTexture(GL_TEXTURE0 + 40);				// Texture Unit 40
 		glBindTexture(GL_TEXTURE_2D, p_fbo1->colourTexture_0_ID);	// Texture now asbsoc with texture unit 40      // Basically binding to
@@ -771,7 +743,50 @@ int main()
 		//glUniform1i(passNumber_UniLoc, 0);
 				
 		//Physics implementation
-		
+		if(!is_ended)
+		{
+			if(!is_going_home)
+			{
+				g_vec_pGameObjects[20]->m_velocity = p_AI->seekR(vec_path_going_to_resources[start_Res], g_vec_pGameObjects[20],is_ended);
+				
+			}
+			else
+			{
+				g_vec_pGameObjects[20]->m_velocity = p_AI->seekR(vec_path_going_to_home[start_Home], g_vec_pGameObjects[20],is_ended);
+			}
+			
+			
+		}
+		else
+		{
+			if (!is_going_home)
+				start_Res--;
+			else
+				start_Home--;
+			
+			if (start_Res < 0)
+			{
+				g_vec_pGameObjects[20]->m_velocity = glm::vec3(0);
+				g_vec_pGameObjects[20]->m_physics_component->SetPosition(vec_path_going_to_resources[0]);
+				is_going_home = true;
+				is_ended = false;
+				start_Res = FLT_MAX;
+				
+			}
+			else
+			{
+				is_ended = false;
+			}
+
+			if(start_Home < 0)
+			{
+				g_vec_pGameObjects[20]->m_velocity = glm::vec3(0);
+				g_vec_pGameObjects[20]->m_physics_component->SetPosition(vec_path_going_to_home[0]);
+				is_ended = true;
+
+			}
+		}
+		g_vec_pGameObjects[20]->m_physics_component->ApplyForce(g_vec_pGameObjects[20]->m_velocity);
 		PhysicsUpdate(deltaTime);
 
 		//Physics implementation
@@ -794,7 +809,6 @@ int main()
 	delete g_pFlyCamera;
 	delete g_pDebugRenderer;
 	delete g_pTextureManager;
-	delete p_maze_maker;
 	delete p_light_stuff;
 	delete p_low_pass_filter;
 	/*delete pPhysics;*/
@@ -1058,4 +1072,8 @@ char GetColourCharacter(unsigned char r, unsigned char g, unsigned char b)
 	if (r == 255 && g == 255 && b == 255)	return 'w';
 	if (r == 0 && g == 0 && b == 0)		return '_';
 	return 'x';
+}
+void singlePathfindingFunctionBeforeThreading(s_gatherer_data& data)
+{
+	
 }

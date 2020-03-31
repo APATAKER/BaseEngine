@@ -13,6 +13,8 @@ namespace nPhysics
 		
 	virtual void GetTransform(glm::mat4& transformOut) = 0;
 	virtual void ApplyForce(const glm::vec3& force) = 0;
+	virtual void SetPosition(const glm::vec3& pos) = 0;
+	virtual glm::vec3 GetPosition() = 0;
 	virtual void JumpForce(const glm::vec3& force) = 0;
 	virtual void ApplyRotation(const glm::vec3& rotation) = 0;
 	virtual int GetNumberOfPhysicalObject() = 0;

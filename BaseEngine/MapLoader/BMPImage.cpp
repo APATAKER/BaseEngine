@@ -5,7 +5,7 @@
 
 #include "ResourceManager.h"
 
-extern ResourceManager			gResourceManager;
+class ResourceManager gResourceManager;
 
 class BMPFileHeader {
 public:

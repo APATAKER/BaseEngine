@@ -20,6 +20,13 @@ void cPlaneComponent::ApplyForce(const glm::vec3& force)
 void cPlaneComponent::JumpForce(const glm::vec3& force)
 {
 }
+void cPlaneComponent::SetPosition(const glm::vec3& pos)
+{
+}
+glm::vec3 cPlaneComponent::GetPosition()
+{
+	return glm::vec3();
+}
 void cPlaneComponent::ApplyRotation(const glm::vec3& rotation)
 {
 }

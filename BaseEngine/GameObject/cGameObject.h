@@ -13,6 +13,7 @@
 #include "../Animations/cAnimationState.h"
 #include "../ModelLoadingAndVAO/cSimpleAssimpSkinnedMeshLoader_OneMesh.h"
 #include "physics/iPhysInterfaces.h"
+#include "../FiniteStateMachine/FSMSystem.h"
 
 
 class cGameObject
@@ -25,6 +26,7 @@ public:
 	unsigned int friendlyIDNumber;
 	std::string friendlyName;
 	glm::vec3 m_position;
+	glm::vec3 m_velocity;
 	glm::quat m_qRotation;					// Orientation as a quaternion
 	glm::vec3 m_up;
 	glm::vec3 m_at;
@@ -77,7 +79,8 @@ public:
 	cSimpleAssimpSkinnedMesh* p_skinned_mesh;
 	cAnimationState* pAniState;
 
-
+	// FiniteState
+	FSMSystem* m_fsm_system;
 	
 
 	// Physics things are in here
