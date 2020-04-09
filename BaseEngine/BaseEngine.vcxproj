@@ -201,6 +201,7 @@
     <ClCompile Include="ProjectStuff\openGLStuff.cpp" />
     <ClCompile Include="shader\cShader.cpp" />
     <ClCompile Include="shader\cShaderManager.cpp" />
+    <ClCompile Include="Sudoku\sudoku.cpp" />
     <ClCompile Include="Textures\C24BitBMPpixel.cpp" />
     <ClCompile Include="Textures\cBasicTextureManager.cpp" />
     <ClCompile Include="Textures\CTextureFromBMP.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="physWrapper\eShapeType.h" />
     <ClInclude Include="ProjectStuff\openGLStuff.h" />
     <ClInclude Include="shader\cShaderManager.h" />
+    <ClInclude Include="Sudoku\sudoku.h" />
     <ClInclude Include="Textures\C24BitBMPpixel.h" />
     <ClInclude Include="Textures\cBasicTextureManager.h" />
     <ClInclude Include="Textures\CTextureFromBMP.h" />

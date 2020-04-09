@@ -15,6 +15,7 @@
 #include "FiniteStateMachine/States.h"
 #include "FiniteStateMachine/MapInfo.h"
 #include "AIBehaviour/cAI.h"
+#include "Sudoku/sudoku.h"
 
 // Global Pointers and variables
 GLFWwindow* window = nullptr;
@@ -83,9 +84,15 @@ char GetColourCharacter(unsigned char r, unsigned char g, unsigned char b);
 void singlePathfindingFunctionBeforeThreading(s_gatherer_data& data);
 
 
+
 int main()
 {
+	cSudoku* sudoku = new cSudoku(9, 20);
 
+	sudoku->fillValues();
+	sudoku->printSudoku();
+
+	system("pause");
 	
 	
 	p_map_from_bmp = new BMPImage("assets/maps/resourceMap.bmp");

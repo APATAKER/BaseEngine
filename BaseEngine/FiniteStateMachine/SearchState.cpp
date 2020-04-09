@@ -5,6 +5,8 @@
 SearchState::SearchState(std::vector<glm::vec3> vec_pos, Graph* graph)
 	: FSMState("Search State") {
 	vec_positions_to_reach_resource = vec_pos;
+	start_node = new Node();
+	home_node = new Node();
 	this->graph = graph;
 	int point = 0;
 	for (int x = 0, draw1 = 0; x < graph->GetGraphWidth(); x++, draw1 += 1) {
