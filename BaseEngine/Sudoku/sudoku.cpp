@@ -120,6 +120,7 @@ void cSudoku::removeDigits()
         {
             count--;
             map_mat.insert_or_assign(std::pair<int, int>(i, j), 0);
+           
         }
     }
 }

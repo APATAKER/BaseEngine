@@ -92,7 +92,7 @@ int main()
 	sudoku->fillValues();
 	sudoku->printSudoku();
 
-	system("pause");
+	//system("pause");
 	
 	
 	p_map_from_bmp = new BMPImage("assets/maps/resourceMap.bmp");
