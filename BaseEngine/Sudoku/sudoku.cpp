@@ -1,6 +1,7 @@
 #include "sudoku.h"
-
+#include <ctime>
 #include <iostream>
+
 
 template <class T>
 T randInRange(T min, T max)
@@ -36,6 +37,7 @@ void cSudoku::fillValues()
 
 void cSudoku::fillDiagonal()
 {
+    srand(time(0));
 	for (int i = 0; i < N; i = i + SRN)
 		fillBox(i, i);
 }
