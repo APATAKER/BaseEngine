@@ -7,30 +7,16 @@
 #include "JsonLoader/cLoad.h"											// Json Loader
 #include "global.h"														// Global Loading AND func in future
 #include "FBO/cFBO.h"
-#include "MazeGen/cMazeMaker.h"
 #include "LightManager/cLightStuff.h"
 #include "Graph/Graph.h"
 #include "MapLoader/ResourceManager.h"
 #include "MapLoader/BMPImage.h"
 #include "FiniteStateMachine/States.h"
 #include "FiniteStateMachine/MapInfo.h"
-#include "AIBehaviour/cAI.h"
 #include "Sudoku/sudoku.h"
 
 // Global Pointers and variables
-GLFWwindow* window = nullptr;
-mLight::cLightStuff* p_light_stuff = nullptr;
-cBasicTextureManager* g_pTextureManager = nullptr;
-cFBO* p_fbo1 = nullptr;
-cFBO* p_fbo2 = nullptr;
-cDebugRenderer* g_pDebugRenderer = nullptr;
-cFlyCamera* g_pFlyCamera = nullptr;
-//cLowPassFilter* avgDeltaTimeThingy = nullptr;
-cLowPassFilter* p_low_pass_filter = nullptr;
-BMPImage* p_map_from_bmp = nullptr;
-FSMSystem* p_fsm_system = nullptr;
-cAI* p_AI = nullptr;
-double deltaTime = 0;
+
 int gNumResources;
 glm::vec3 gatherer_starting_position;
 
@@ -42,14 +28,6 @@ FSMState* stateReturn = nullptr;
 cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
 GLuint g_shader_program_ID;
 
-std::vector<cGameObject*> g_vec_pGameObjects;
-std::vector<mLight::cLightStuff*> vec_lightObjects;
-std::vector<cGameObject*> vec_bullets;
-std::vector<cMesh> vec_model_mesh;
-
-std::vector<char> vec_map_points;
-std::map<std::pair<int, int>, char> m_map_points;
-std::vector<glm::vec3> vec_free_space_in_map;
 struct s_gatherer_data
 {
 	int m_gatherer_id;
@@ -71,9 +49,7 @@ extern int punchcounter;
 extern int currentLight;
 
 // Global Functions
-void DrawObject(glm::mat4 matWorld,cGameObject* pCurrentObject,
-	GLint shaderProgID,
-	cVAOManager* pVAOManager);
+
 glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld);
 void SetUpTextureBindingsForObject(
 	cGameObject* pCurrentObject,
@@ -274,29 +250,8 @@ int main()
 	}
 	std::vector<glm::vec3> vec_path_going_to_resources;
 	std::vector<glm::vec3> vec_path_going_to_home;
-	//Node* res_node = Dijkstra(start_node, graph);
-	//int total_steps_needed_to_reach_resource = TotalSteps(res_node);
-
-	//Node* temp_node = res_node;
-	//for (int index = 0; index < total_steps_needed_to_reach_resource; index++)
-	//{
-	//	vec_path_going_to_resources.push_back(temp_node->position);
-	//	temp_node = temp_node->parent;
-	//}
-	////delete temp_node;
-	//
-	//Node* returned_node = AStar(res_node, graph, return_node);
-	//int total_steps_needed_to_reach_home_base = TotalSteps(returned_node);
-
-	//Node* temp_node2 = returned_node;
-	//for (int index = 0; index < total_steps_needed_to_reach_home_base; index++)
-	//{
-	//	vec_path_going_to_home.push_back(temp_node2->position);
-	//	temp_node2 = temp_node2->parent;
-	//}
 
 	p_fsm_system = new FSMSystem();
-	//gNumResources = 0;
 	stateIdle = new IdleState();
 	stateSearch = new SearchState(vec_path_going_to_resources,graph);
 	stateGather = new GatherState();
@@ -332,7 +287,6 @@ int main()
 	LoadStuff(vec_model_mesh, g_shader_program_ID, g_pTextureManager,g_vec_pGameObjects);
 	g_pTextureManager = cBasicTextureManager::getInstance();
 	//########################################## Json is loader Here ###############################################
-	p_AI = new cAI();
 	
 	p_fsm_system->AddState(stateIdle);
 	p_fsm_system->AddState(stateSearch);

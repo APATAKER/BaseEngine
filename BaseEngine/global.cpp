@@ -1,7 +1,6 @@
 #include "global.h"
-#include "Windows.h"
+
 #include "physics/iPhysInterfaces.h"
-#include <iostream>
 #include "JsonLoader/cLoad.h"
 
 
@@ -127,3 +126,8 @@ void PhysicsUpdate(float dt)
 {
 	physics_world->Update(dt);
 }
+
+
+
+
+
