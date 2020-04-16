@@ -10,6 +10,7 @@
 #include "Textures/cBasicTextureManager.h"
 
 class cVAOManager;
+// Global Variables
 inline GLFWwindow* window = nullptr;
 inline mLight::cLightStuff* p_light_stuff = nullptr;
 inline cBasicTextureManager* g_pTextureManager = nullptr;
@@ -28,12 +29,21 @@ inline std::vector<mLight::cLightStuff*> vec_lightObjects;
 inline std::vector<cGameObject*> vec_bullets;
 inline std::vector<cMesh> vec_model_mesh;
 
-
+// Physics Start Code
 void PhysicsInit();
 void PhysicsEnd();
 void PhysicsUpdate(float dt);
 
+// Global Functions
 void DrawObject(glm::mat4 matWorld, cGameObject* pCurrentObject,
 	GLint shaderProgID,
 	cVAOManager* pVAOManager);
+glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld);
+void SetUpTextureBindingsForObject(
+	cGameObject* pCurrentObject,
+	GLint shaderProgID);
+cMesh findMeshByName(std::vector<cMesh> vMesh, std::string Meshname);
+cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
+char GetColourCharacter(unsigned char r, unsigned char g, unsigned char b);
+
 	

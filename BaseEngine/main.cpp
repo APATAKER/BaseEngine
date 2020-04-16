@@ -6,8 +6,6 @@
 #include "DeltaTime/cLowPassFilter.h"									// DeltaTime calcu
 #include "JsonLoader/cLoad.h"											// Json Loader
 #include "global.h"														// Global Loading AND func in future
-#include "FBO/cFBO.h"
-#include "LightManager/cLightStuff.h"
 #include "Graph/Graph.h"
 #include "MapLoader/ResourceManager.h"
 #include "MapLoader/BMPImage.h"
@@ -17,8 +15,7 @@
 
 // Global Pointers and variables
 
-int gNumResources;
-glm::vec3 gatherer_starting_position;
+
 
 FSMState* stateIdle = nullptr;
 FSMState* stateSearch = nullptr;
@@ -28,36 +25,14 @@ FSMState* stateReturn = nullptr;
 cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
 GLuint g_shader_program_ID;
 
-struct s_gatherer_data
-{
-	int m_gatherer_id;
-	glm::vec3 m_gatherer_pos;
-	int num_of_traverseable_points;
-	std::vector<glm::vec3> vec_traverseable_points;
-	
-};
-void thread_funtion(s_gatherer_data data)
-{
-	for(;;)
-	{
-		
-	}
-}
+
 
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
-extern int punchcounter;
+
 extern int currentLight;
 
 // Global Functions
 
-glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld);
-void SetUpTextureBindingsForObject(
-	cGameObject* pCurrentObject,
-	GLint shaderProgID);
-cMesh findMeshByName(std::vector<cMesh> vMesh, std::string Meshname);
-cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects, std::string friendlyname);
-char GetColourCharacter(unsigned char r, unsigned char g, unsigned char b);
-void singlePathfindingFunctionBeforeThreading(s_gatherer_data& data);
 
 
 
@@ -359,11 +334,6 @@ int main()
 	PhysicsInit();
 	g_vec_pGameObjects[20]->m_physics_component->SetPosition(gatherer_starting_position);
 
-	bool is_ended = false;
-	bool is_going_home = false;
-	int start_Res = vec_path_going_to_resources.size() - 1;
-	int start_Home = vec_path_going_to_home.size() - 1;
-
 	//############################## Game Loop Starts Here ##################################################################
 	while (!glfwWindowShouldClose(window))
 	{
@@ -497,7 +467,6 @@ int main()
 					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
 					glm::mat4 matModel = glm::mat4(1.0f);
 					floor->m_position = graph->nodes[imageindex]->position;
-					//gatherer_starting_position = glm::vec3(a + draw1 + worldx, 5, b + draw2 + worldz);
 					floor->textures[0] = "greentex.bmp";
 					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
@@ -532,10 +501,6 @@ int main()
 				imageindex++;
 			}
 		 //MAP Draw
-		//cGameObject* gartherer = findGameObjectByFriendlyName(g_vec_pGameObjects, "dalek1");
-		//glm::mat4 matModel = glm::mat4(1.0f);
-		//gartherer->m_position = gatherer_starting_position; 
-		//DrawObject(matModel, gartherer, g_shader_program_ID, p_vao_manager);
 		// 3. Set up the textures for the TV screen (From the FBO)
 		glActiveTexture(GL_TEXTURE0 + 40);				// Texture Unit 40
 		glBindTexture(GL_TEXTURE_2D, p_fbo1->colourTexture_0_ID);	// Texture now asbsoc with texture unit 40      // Basically binding to
@@ -642,124 +607,18 @@ int main()
 		//	115.6f,
 		//	1796.14f, 1.0f);
 		
-		
-										
-		
-		
-		// 4. Draw the TV and Screen
+		// 4. Draw the Screen on the Quad for deferred Rendering
 		glUniform1i(SelectEffect_UL, 0);
 		glUniform1i(passNumber_UniLoc, 6);
 		//cGameObject* quad = findGameObjectByFriendlyName(g_vec_pGameObjects, "QUAD");
 		glm::mat4 matWorld = glm::mat4(1.f);
 		DrawObject(matWorld, QUAD, g_shader_program_ID, p_vao_manager);
-		//// GameObject Draw Call
-		//for (int index = 0; index != ::g_vec_pGameObjects.size(); index++)
-		//{
-		//	cGameObject* pCurrentObject = ::g_vec_pGameObjects[index];
-		//	glm::mat4 matWorld = glm::mat4(1.f);
-		//	if (pCurrentObject->m_physics_component)
-		//	{
-		//		int number_of_physical_objects = pCurrentObject->m_physics_component->GetNumberOfPhysicalObject();
-		//		for (int i = 0; i < number_of_physical_objects; i++)
-		//		{
-		//			glm::mat4 matWorldPhy = glm::mat4(1.f);
-		//			pCurrentObject->m_physics_component->GetTransform(i, matWorldPhy);
-		//			DrawObject(matWorldPhy, pCurrentObject,
-		//				g_shader_program_ID, p_vao_manager);
-		//		}
-		//	}
-		//	else
-		//	{
-		//		if ((pCurrentObject->friendlyName) != "tvscreen1"
-		//			&& (pCurrentObject->friendlyName) != "tvscreen2"
-		//			&& (pCurrentObject->friendlyName) != "tvscreen3"
-		//			&& (pCurrentObject->friendlyName) != "tvscreen4")
-		//			DrawObject(matWorld, pCurrentObject, g_shader_program_ID, p_vao_manager);
-		//	}
 
-		//}//for (int index...
-		//{
-		//	////cGameObject* debug_sphere = findGameObjectByFriendlyName(g_vec_pGameObjects, "debugsphere");
-		//	//debug_sphere->isVisible = true;
-		//	//debug_sphere->m_position = g_HACK_vec3_BoneLocationFK;
-		//	//glm::mat4 identmat = glm::mat4(1.0f);
-		//	//DrawObject(identmat, debug_sphere, g_shader_program_ID, p_vao_manager);
-		//	//debug_sphere->isVisible = false;
-		//	////debug_sphere->m_position = debug_sphere_old;	
-		//}
-		//
-		////glUniform1i(passNumber_UniLoc, 2);
-		////cGameObject* p_TV_screen1 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen1");
-		////glm::mat4 mat4_TV_screen1 = glm::mat4(1.f);
-		////DrawObject(mat4_TV_screen1,p_TV_screen1, g_shader_program_ID, p_vao_manager);
-		////
-		////glUniform1i(passNumber_UniLoc, 3);
-		////cGameObject* p_TV_screen2 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen2");
-		////glm::mat4 mat4_TV_screen2 = glm::mat4(1.f);
-		////DrawObject(mat4_TV_screen2,p_TV_screen2, g_shader_program_ID, p_vao_manager);
-
-		////glUniform1i(passNumber_UniLoc, 4);
-		////cGameObject* p_TV_screen3 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen3");
-		////glm::mat4 mat4_TV_screen3 = glm::mat4(1.f);
-		////DrawObject(mat4_TV_screen3,p_TV_screen3, g_shader_program_ID, p_vao_manager);
-
-		////glUniform1i(passNumber_UniLoc, 5);
-		////cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
-		////glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
-		////DrawObject(mat4_TV_screen4,p_TV_screen4, g_shader_program_ID, p_vao_manager);
-
-		//glUniform1i(passNumber_UniLoc, 0);
-				
-		//Physics implementation
-
-		p_fsm_system->Update(g_vec_pGameObjects[20]);
 		
-		//if(!is_ended)
-		//{
-		//	if(!is_going_home)
-		//	{
-		//		g_vec_pGameObjects[20]->m_velocity = p_AI->seekR(vec_path_going_to_resources[start_Res], g_vec_pGameObjects[20],is_ended);
-		//		
-		//	}
-		//	else
-		//	{
-		//		g_vec_pGameObjects[20]->m_velocity = p_AI->seekR(vec_path_going_to_home[start_Home], g_vec_pGameObjects[20],is_ended);
-		//	}
-		//	
-		//	
-		//}
-		//else
-		//{
-		//	if (!is_going_home)
-		//		start_Res--;
-		//	else
-		//		start_Home--;
-		//	
-		//	if (start_Res < 0)
-		//	{
-		//		g_vec_pGameObjects[20]->m_velocity = glm::vec3(0);
-		//		g_vec_pGameObjects[20]->m_physics_component->SetPosition(vec_path_going_to_resources[0]);
-		//		is_going_home = true;
-		//		is_ended = false;
-		//		start_Res = FLT_MAX;
-		//		
-		//	}
-		//	else
-		//	{
-		//		is_ended = false;
-		//	}
-
-		//	if(start_Home < 0)
-		//	{
-		//		g_vec_pGameObjects[20]->m_velocity = glm::vec3(0);
-		//		g_vec_pGameObjects[20]->m_physics_component->SetPosition(vec_path_going_to_home[0]);
-		//		is_ended = true;
-
-		//	}
-		//}
+		//Physics implementation
+		p_fsm_system->Update(g_vec_pGameObjects[20]);
 		g_vec_pGameObjects[20]->m_physics_component->ApplyForce(g_vec_pGameObjects[20]->m_velocity);
 		PhysicsUpdate(deltaTime);
-
 		//Physics implementation
 
 		glfwSwapBuffers(window);		// Buffer Swap
@@ -768,10 +627,7 @@ int main()
 	}
 	//############################## Game Loop Ends Here ##################################################################
 
-
-
-
-	// Destroy 
+	// Destroy (Garbage Collection)
 	glfwDestroyWindow(window);
 	glfwTerminate();
 
@@ -782,269 +638,9 @@ int main()
 	delete g_pTextureManager;
 	delete p_light_stuff;
 	delete p_low_pass_filter;
-	/*delete pPhysics;*/
 	PhysicsEnd();
 	for (int i = 0; i < g_vec_pGameObjects.size(); i++)
 		delete g_vec_pGameObjects[i];
+	
 	exit(EXIT_SUCCESS);
-
-	return 0;
-}
-
-void DrawObject(glm::mat4 matWorld,cGameObject* pCurrentObject,
-	GLint shaderProgID,
-	cVAOManager* pVAOManager)
-{
-	// Uniforms in shaders
-	GLint bIsSkyBox_UL = glGetUniformLocation(shaderProgID, "bIsSkyBox");
-	GLint matModel_UL = glGetUniformLocation(shaderProgID, "matModel");
-	GLint diffuseColour_UL = glGetUniformLocation(shaderProgID, "diffuseColour");
-	GLint specularColour_UL = glGetUniformLocation(shaderProgID, "specularColour");
-	GLint debugColour_UL = glGetUniformLocation(shaderProgID, "debugColour");
-	GLint bDoNotLight_UL = glGetUniformLocation(shaderProgID, "bDoNotLight");
-	GLint isSkinnedMesh_UniLoc = glad_glGetUniformLocation(shaderProgID, "isSkinnedMesh");
-	GLint matBonesArray_UniLoc = glGetUniformLocation(shaderProgID, "matBonesArray");
-	// TO Draw Or Not
-	if (pCurrentObject->isVisible == false)
-	{
-		return;
-	}
-	// Turns on "alpha transparency"
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	// ************ 
-	// Set the texture bindings and samplers
-	// See if this is a skybox object? 
-	if (pCurrentObject->friendlyName != "skybox")
-	{
-		// Is a regular 2D textured object
-		SetUpTextureBindingsForObject(pCurrentObject, shaderProgID);			// Binding textures for normal object (4 Textures[4])
-		glUniform1f(bIsSkyBox_UL, (float)GL_FALSE);
-		// Don't draw back facing triangles (default)
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);		// Don't draw "back facing" triangles
-	}
-	else
-	{
-		// Draw the back facing triangles. 
-		// Because we are inside the object, so it will force a draw on the "back" of the sphere 
-		//glCullFace(GL_FRONT_AND_BACK);
-		glDisable(GL_CULL_FACE);	// Draw everything
-		glUniform1f(bIsSkyBox_UL, (float)GL_TRUE);
-		GLuint skyBoxTextureID = ::g_pTextureManager->getTextureIDFromName("space");
-		glActiveTexture(GL_TEXTURE0 +10);				// Texture Unit 10
-		glBindTexture(GL_TEXTURE_CUBE_MAP, skyBoxTextureID);	// Texture now assoc with texture unit 0
-		// Tie the texture units to the samplers in the shader
-		GLint skyBoxSampler_UL = glGetUniformLocation(shaderProgID, "skyBox");		// Binding SKYBOX TEXTURES
-		glUniform1i(skyBoxSampler_UL, 10);	// Texture unit 10
-	}
-	// ************	
-	// Calculating the Transforms (T/R/S)
-	glm::mat4 matWorldCurrentGO = calculateWorldMatrix(pCurrentObject, matWorld);
-	glUniformMatrix4fv(matModel_UL, 1, GL_FALSE, glm::value_ptr(matWorldCurrentGO));
-
-	// Setting the Diffuse Color
-	glUniform4f(diffuseColour_UL,
-		pCurrentObject->objectColourRGBA.r,
-		pCurrentObject->objectColourRGBA.g,
-		pCurrentObject->objectColourRGBA.b,
-		pCurrentObject->alphaTransparency);	
-
-	// Setting the Specular Color
-	glUniform4f(specularColour_UL,
-		1.0f,	// R
-		1.0f,	// G
-		1.0f,	// B
-		1000.0f);	// Specular "power" (how shinny the object is)
-					// 1.0 to really big (10000.0f)
-
-	// Is WireFrame or Not
-	if (pCurrentObject->isWireframe)
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);		// LINES
-		glUniform4f(debugColour_UL,
-			pCurrentObject->debugColour.r,
-			pCurrentObject->debugColour.g,
-			pCurrentObject->debugColour.b,
-			pCurrentObject->debugColour.a);
-		glUniform1f(bDoNotLight_UL, (float)GL_TRUE);
-	}
-	else
-	{	// Regular object (lit and not wireframe)
-		glUniform1f(bDoNotLight_UL, (float)GL_FALSE);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);		// SOLID
-	}
-
-	if (pCurrentObject->disableDepthBufferTest)
-	{
-		glDisable(GL_DEPTH_TEST);					// DEPTH Test OFF
-	}
-	else
-	{
-		glEnable(GL_DEPTH_TEST);						// Turn ON depth test
-	}
-
-	if (pCurrentObject->disableDepthBufferWrite)
-	{
-		glDisable(GL_DEPTH);						// DON'T Write to depth buffer
-	}
-	else
-	{
-		glEnable(GL_DEPTH);								// Write to depth buffer
-	}
-
-	// Performing Animations
-	if (pCurrentObject->p_skinned_mesh != NULL)
-	{
-		glUniform1f(isSkinnedMesh_UniLoc, (float)GL_TRUE);
-		std::string animationToPlay = "";
-		float curFrameTime = 0.0;
-		cAnimationState* pAniState = pCurrentObject->pAniState;
-		// Are there any animations in the queue of animations
-		if (!pAniState->vecAnimationQueue.empty())
-		{
-			// Play the "1st" animation in the queue 
-			animationToPlay = pAniState->vecAnimationQueue[0].name;
-			curFrameTime = pAniState->vecAnimationQueue[0].currentTime;
-			// Increment the top animation in the queue
-			if (pAniState->vecAnimationQueue[0].IncrementTime())
-			{ 
-				if(pAniState->vecAnimationQueue.begin()->name == "punchright" || pAniState->vecAnimationQueue.begin()->name == "punchleft")
-				{
-					punchcounter = 0;
-				}
-				pAniState->vecAnimationQueue.erase(pAniState->vecAnimationQueue.begin());
-
-			}//vecAnimationQueue[0].IncrementTime()
-		}
-		else
-		{	// Use the default animation.
-			pAniState->defaultAnimation.IncrementTime();
-			animationToPlay = pAniState->defaultAnimation.name;
-			curFrameTime = pAniState->defaultAnimation.currentTime;
-
-		}//if ( pAniState->vecAnimationQueue.empty()
-		// Taken from "Skinned Mesh 2
-		std::vector< glm::mat4x4 > vecFinalTransformation;
-		std::vector< glm::mat4x4 > vecOffsets;
-		std::vector< glm::mat4x4 > vecObjectBoneTransformation;
-		
-		// This loads the bone transforms from the animation model
-		pCurrentObject->p_skinned_mesh->BoneTransform(curFrameTime,	
-			animationToPlay,
-			vecFinalTransformation,
-			vecObjectBoneTransformation,
-			vecOffsets);
-		
-		// Forward kinematic stuff
-		{	
-			// "Bone" location is at the origin
-			glm::vec4 boneLocation = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-			glm::mat4 matSpecificBone = vecObjectBoneTransformation[22];
-			// bone #22 is "B_R_Hand" in this model
-			// Transformed into "model" space where that bone is.
-			::g_HACK_vec3_BoneLocationFK = matSpecificBone * boneLocation;	
-			//			// If it's in world space
-			//			::g_HACK_vec3_BoneLocationFK = matModel * ::g_HACK_vec3_BoneLocationFK;
-		}
-		// Forward kinematic 
-		GLint numBonesUsed = (GLint)vecFinalTransformation.size();
-		glUniformMatrix4fv(matBonesArray_UniLoc, numBonesUsed,
-			GL_FALSE,
-			glm::value_ptr(vecFinalTransformation[0]));
-	}
-	else
-	{
-		glUniform1f(isSkinnedMesh_UniLoc, (float)GL_FALSE);
-	}
-	// ************************************************
-	
-	sModelDrawInfo drawInfo;
-	if (pVAOManager->FindDrawInfoByModelName(pCurrentObject->meshName, drawInfo))
-	{
-		glBindVertexArray(drawInfo.VAO_ID);
-		glDrawElementsBaseVertex(GL_TRIANGLES,
-			drawInfo.numberOfIndices,
-			GL_UNSIGNED_INT,
-			0,
-			0);
-		glBindVertexArray(0);
-	}
-	return;
-} // DrawObject;
-
-void SetUpTextureBindingsForObject(
-	cGameObject* pCurrentObject,
-	GLint shaderProgID)
-{
-	// Tie the texture to the texture unit
-	for(int i=0;i<4;i++)
-	{
-		GLuint texSamp_UL = ::g_pTextureManager->getTextureIDFromName(pCurrentObject->textures[i]);
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, texSamp_UL);
-
-		std::string texsample = "textSamp0"+std::to_string(i);
-		//std::cout << texsample << std::endl;
-		GLint textSamp_UL = glGetUniformLocation(shaderProgID, texsample.c_str());
-		glUniform1i(textSamp_UL, i);
-	}	
-	GLint tex0_ratio_UL = glGetUniformLocation(shaderProgID, "tex_0_3_ratio");
-	glUniform4f(tex0_ratio_UL,
-		pCurrentObject->textureRatio[0],		// 1.0
-		pCurrentObject->textureRatio[1],
-		pCurrentObject->textureRatio[2],
-		pCurrentObject->textureRatio[3]);
-	return;
-}
-
-glm::mat4 calculateWorldMatrix(cGameObject* pCurrentObject, glm::mat4 matWorld)
-{
-	if (!pCurrentObject->m_physics_component)
-	{
-		glm::mat4 matTrans = glm::translate(glm::mat4(1.f), pCurrentObject->m_position);
-		matWorld = matWorld * matTrans;
-
-		glm::mat4 matRotation = glm::mat4(pCurrentObject->getQOrientation());
-		matWorld = matWorld * matRotation;
-	}
-	// ******* SCALE TRANSFORM *********
-	glm::mat4 scale = glm::scale(glm::mat4(1.0f),
-		glm::vec3(pCurrentObject->scale,
-			pCurrentObject->scale,
-			pCurrentObject->scale));
-	matWorld = matWorld * scale;
-	// ******* SCALE TRANSFORM *********
-	return matWorld;
-}
-
-cMesh findMeshByName(std::vector<cMesh> vMesh,std::string Meshname)
-{
-	for(int i=0;i<vMesh.size();i++)
-	{
-		if (vMesh[i].meshname == Meshname)
-			return  vMesh[i];
-	}
-}
-
-cGameObject* findGameObjectByFriendlyName(std::vector<cGameObject*> vGameObjects,std::string friendlyname)
-{
-	for(int i =0;i<vGameObjects.size();i++)
-	{
-		if (vGameObjects[i]->friendlyName == friendlyname)
-			return vGameObjects[i];
-	}
-}
-char GetColourCharacter(unsigned char r, unsigned char g, unsigned char b)
-{
-	if (r == 255 && g == 0 && b == 0)		return 'r';
-	if (r == 0 && g == 255 && b == 0)		return 'g';
-	if (r == 0 && g == 0 && b == 255)	return 'b';
-	if (r == 255 && g == 255 && b == 255)	return 'w';
-	if (r == 0 && g == 0 && b == 0)		return '_';
-	return 'x';
-}
-void singlePathfindingFunctionBeforeThreading(s_gatherer_data& data)
-{
-	
 }

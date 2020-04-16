@@ -32,7 +32,7 @@ void cSudoku::fillValues()
 
 	fillRemaining(0, SRN);
 
-	removeDigits();
+	//removeDigits();
 }
 
 void cSudoku::fillDiagonal()

@@ -38,6 +38,7 @@ cGameObject::cGameObject()
 	this->intialFront = glm::vec3(0, 0, 1);
 	this->initalUp = glm::vec3(0, 1, 0);
 	this->m_up = this->initalUp;
+	this->updateAtFromOrientation();
 	
 	this->textures[0] = "defaultTex.bmp";
 
