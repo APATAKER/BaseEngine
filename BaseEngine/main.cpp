@@ -14,36 +14,18 @@
 #include "Sudoku/sudoku.h"
 
 // Global Pointers and variables
-
-
-
 FSMState* stateIdle = nullptr;
 FSMState* stateSearch = nullptr;
 FSMState* stateGather = nullptr;
 FSMState* stateReturn = nullptr;
-
 cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
 GLuint g_shader_program_ID;
-
-
-
 glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
-
 extern int currentLight;
 
-// Global Functions
-
-
-
-
+// Global Functions is Not at Global header file
 int main()
 {
-	cSudoku* sudoku = new cSudoku(9, 20);
-
-	sudoku->fillValues();
-	sudoku->printSudoku();
-
-	//system("pause");
 	
 	
 	p_map_from_bmp = new BMPImage("assets/maps/resourceMap.bmp");
