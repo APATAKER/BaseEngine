@@ -90,10 +90,20 @@ void LoadTextures(cBasicTextureManager* g_pTextureManager)
 	// CubeMap Texture
 	g_pTextureManager->SetBasePath("assets/textures/cubemaps/");
 
+	// Cube map Placement guide
+	// parameter 1 - positive x (right)
+	// parameter 2 - negative x (left)
+	// parameter 3 - positive y (top)
+	// parameter 4 - negative y (bottom)
+	// parameter 5 - positive z (front)
+	// parameter 6 - negative z (back)
+	//
+	// invert the image if the image is inverted
+	
 	if (g_pTextureManager->CreateCubeTextureFromBMPFiles("space",
-		"SpaceBox_right1_posX.bmp", "SpaceBox_left2_negX.bmp",
-		"SpaceBox_top3_posY.bmp", "SpaceBox_bottom4_negY.bmp",
-		"SpaceBox_front5_posZ.bmp", "SpaceBox_back6_negZ.bmp", true, error_string))
+		"posx.bmp", "negx.bmp",
+		"posy.bmp", "negy.bmp",
+		"posz.bmp", "negz.bmp", true, error_string))
 		std::cout << "\nSpace skybox loaded" << std::endl;
 	else
 		std::cout << "\nskybox error: " << error_string << std::endl;

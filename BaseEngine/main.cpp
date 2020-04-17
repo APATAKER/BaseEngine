@@ -11,7 +11,6 @@
 #include "MapLoader/BMPImage.h"
 #include "FiniteStateMachine/States.h"
 #include "FiniteStateMachine/MapInfo.h"
-#include "Sudoku/sudoku.h"
 
 // Global Pointers and variables
 FSMState* stateIdle = nullptr;
