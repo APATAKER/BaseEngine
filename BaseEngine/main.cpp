@@ -11,6 +11,7 @@
 #include "MapLoader/BMPImage.h"
 #include "FiniteStateMachine/States.h"
 #include "FiniteStateMachine/MapInfo.h"
+#include "Sudoku/sudoku.h"
 
 // Global Pointers and variables
 FSMState* stateIdle = nullptr;
@@ -25,7 +26,11 @@ extern int currentLight;
 // Global Functions is Not at Global header file
 int main()
 {
-	
+	cSudoku* sudoku = new cSudoku(9, 20);
+	sudoku->fillValues();
+	sudoku->printSudoku();
+	system("pause");
+
 	
 	p_map_from_bmp = new BMPImage("assets/maps/resourceMap.bmp");
 	if(!p_map_from_bmp->IsLoaded())
