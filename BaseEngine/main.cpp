@@ -26,12 +26,6 @@ extern int currentLight;
 // Global Functions is Not at Global header file
 int main()
 {
-	cSudoku* sudoku = new cSudoku(9, 20);
-	sudoku->fillValues();
-	sudoku->printSudoku();
-	system("pause");
-
-	
 	p_map_from_bmp = new BMPImage("assets/maps/resourceMap.bmp");
 	if(!p_map_from_bmp->IsLoaded())
 	{
@@ -318,7 +312,7 @@ int main()
 	p_light_stuff = new mLight::cLightStuff();
 	mLight::LoadLightFromJson();
 	PhysicsInit();
-	g_vec_pGameObjects[20]->m_physics_component->SetPosition(gatherer_starting_position);
+	//g_vec_pGameObjects[20]->m_physics_component->SetPosition(gatherer_starting_position);
 
 	//############################## Game Loop Starts Here ##################################################################
 	while (!glfwWindowShouldClose(window))
@@ -423,70 +417,70 @@ int main()
 				DrawObject(matWorld, pCurrentObject, g_shader_program_ID, p_vao_manager);
 			}
 		}//for (int index...
-		// MAP Draw
-		int imageindex = 0;
+		//// MAP Draw
+		//int imageindex = 0;
 
-		
-		for (int a = 0; a < imageWidth; a++)
-			for (int b = 0; b < imageHeight; b++)
-			{
-				char check = graph->nodes.at(imageindex)->id;
-				if (check == '_')
-				{
-					cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					wall->m_position = graph->nodes[imageindex]->position;
-					wall->textures[0] = "blacktexclean.bmp";
-					DrawObject(matModel, wall, g_shader_program_ID, p_vao_manager);
-				}
-				if (check == 'r')
-				{
-					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = graph->nodes[imageindex]->position;
-					floor->textures[0] = "redtex.bmp";
-					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
+		//
+		//for (int a = 0; a < imageWidth; a++)
+		//	for (int b = 0; b < imageHeight; b++)
+		//	{
+		//		char check = graph->nodes.at(imageindex)->id;
+		//		if (check == '_')
+		//		{
+		//			cGameObject* wall = findGameObjectByFriendlyName(g_vec_pGameObjects, "staticObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			wall->m_position = graph->nodes[imageindex]->position;
+		//			wall->textures[0] = "blacktexclean.bmp";
+		//			DrawObject(matModel, wall, g_shader_program_ID, p_vao_manager);
+		//		}
+		//		if (check == 'r')
+		//		{
+		//			cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			floor->m_position = graph->nodes[imageindex]->position;
+		//			floor->textures[0] = "redtex.bmp";
+		//			DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
-				}
-				if (check == 'g')
-				{
-					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = graph->nodes[imageindex]->position;
-					floor->textures[0] = "greentex.bmp";
-					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
+		//		}
+		//		if (check == 'g')
+		//		{
+		//			cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			floor->m_position = graph->nodes[imageindex]->position;
+		//			floor->textures[0] = "greentex.bmp";
+		//			DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
-				}
-				if (check == 'b')
-				{
-					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = graph->nodes[imageindex]->position;
-					floor->textures[0] = "bluetex.bmp";
-					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
+		//		}
+		//		if (check == 'b')
+		//		{
+		//			cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			floor->m_position = graph->nodes[imageindex]->position;
+		//			floor->textures[0] = "bluetex.bmp";
+		//			DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
-				}
-				if (check == 'w')
-				{
-					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = graph->nodes[imageindex]->position;
-					floor->textures[0] = "whitetex.bmp";
-					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
+		//		}
+		//		if (check == 'w')
+		//		{
+		//			cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			floor->m_position = graph->nodes[imageindex]->position;
+		//			floor->textures[0] = "whitetex.bmp";
+		//			DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
-				}
-				if (check == 'x')
-				{
-					cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
-					glm::mat4 matModel = glm::mat4(1.0f);
-					floor->m_position = graph->nodes[imageindex]->position;
-					floor->textures[0] = "yellowtex.bmp";
-					DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
+		//		}
+		//		if (check == 'x')
+		//		{
+		//			cGameObject* floor = findGameObjectByFriendlyName(g_vec_pGameObjects, "floorObject");
+		//			glm::mat4 matModel = glm::mat4(1.0f);
+		//			floor->m_position = graph->nodes[imageindex]->position;
+		//			floor->textures[0] = "yellowtex.bmp";
+		//			DrawObject(matModel, floor, g_shader_program_ID, p_vao_manager);
 
-				}
-				imageindex++;
-			}
-		 //MAP Draw
+		//		}
+		//		imageindex++;
+		//	}
+		// //MAP Draw
 		// 3. Set up the textures for the TV screen (From the FBO)
 		glActiveTexture(GL_TEXTURE0 + 40);				// Texture Unit 40
 		glBindTexture(GL_TEXTURE_2D, p_fbo1->colourTexture_0_ID);	// Texture now asbsoc with texture unit 40      // Basically binding to
@@ -512,25 +506,25 @@ int main()
 		GLint specular_pass_texture_UL = glGetUniformLocation(g_shader_program_ID, "secondPassSpecularTexture");
 		glUniform1i(specular_pass_texture_UL, 43);	// Texture unit 43
 
-		glUniform1i(passNumber_UniLoc, 2);
-		cGameObject* p_TV_screen1 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen1");
-		glm::mat4 mat4_TV_screen1 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen1,p_TV_screen1, g_shader_program_ID, p_vao_manager);
-		
-		glUniform1i(passNumber_UniLoc, 3);
-		cGameObject* p_TV_screen2 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen2");
-		glm::mat4 mat4_TV_screen2 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen2,p_TV_screen2, g_shader_program_ID, p_vao_manager);
+		//glUniform1i(passNumber_UniLoc, 2);
+		//cGameObject* p_TV_screen1 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen1");
+		//glm::mat4 mat4_TV_screen1 = glm::mat4(1.f);
+		//DrawObject(mat4_TV_screen1,p_TV_screen1, g_shader_program_ID, p_vao_manager);
+		//
+		//glUniform1i(passNumber_UniLoc, 3);
+		//cGameObject* p_TV_screen2 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen2");
+		//glm::mat4 mat4_TV_screen2 = glm::mat4(1.f);
+		//DrawObject(mat4_TV_screen2,p_TV_screen2, g_shader_program_ID, p_vao_manager);
 
-		glUniform1i(passNumber_UniLoc, 4);
-		cGameObject* p_TV_screen3 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen3");
-		glm::mat4 mat4_TV_screen3 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen3,p_TV_screen3, g_shader_program_ID, p_vao_manager);
+		//glUniform1i(passNumber_UniLoc, 4);
+		//cGameObject* p_TV_screen3 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen3");
+		//glm::mat4 mat4_TV_screen3 = glm::mat4(1.f);
+		//DrawObject(mat4_TV_screen3,p_TV_screen3, g_shader_program_ID, p_vao_manager);
 
-		glUniform1i(passNumber_UniLoc, 5);
-		cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
-		glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
-		DrawObject(mat4_TV_screen4,p_TV_screen4, g_shader_program_ID, p_vao_manager);
+		//glUniform1i(passNumber_UniLoc, 5);
+		//cGameObject* p_TV_screen4 = findGameObjectByFriendlyName(g_vec_pGameObjects, "tvscreen4");
+		//glm::mat4 mat4_TV_screen4 = glm::mat4(1.f);
+		//DrawObject(mat4_TV_screen4,p_TV_screen4, g_shader_program_ID, p_vao_manager);
 		//PASS 1 *********************************************************
 
 		// PASS 2 - Depth color return *****************************
@@ -602,8 +596,8 @@ int main()
 
 		
 		//Physics implementation
-		p_fsm_system->Update(g_vec_pGameObjects[20]);
-		g_vec_pGameObjects[20]->m_physics_component->ApplyForce(g_vec_pGameObjects[20]->m_velocity);
+		//p_fsm_system->Update(g_vec_pGameObjects[20]);
+		//g_vec_pGameObjects[20]->m_physics_component->ApplyForce(g_vec_pGameObjects[20]->m_velocity);
 		PhysicsUpdate(deltaTime);
 		//Physics implementation
 

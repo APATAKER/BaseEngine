@@ -15,6 +15,13 @@ public:
 	void ApplyForce(const glm::vec3& force) override;
 	void ApplyRotation(const glm::vec3& rotation) override;
 
+	void SetPosition(const glm::vec3& pos) override;
+	glm::vec3 GetPosition() override;
+	void JumpForce(const glm::vec3& force) override;
+	int GetNumberOfPhysicalObject() override;
+	bool GetTransform(int index, glm::mat4& transformOut) override;
+
+
 	// constructor  (creates rigidbodies)
 	cBallComponent(const nPhysics::sBallDef& ball_def);
 

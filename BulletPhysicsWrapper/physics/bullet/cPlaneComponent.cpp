@@ -24,6 +24,27 @@ void cPlaneComponent::ApplyRotation(const glm::vec3& rotation)
 {
 }
 
+void cPlaneComponent::SetPosition(const glm::vec3& pos)
+{
+
+}
+glm::vec3 cPlaneComponent::GetPosition()
+{
+	return glm::vec3(1);
+}
+void cPlaneComponent::JumpForce(const glm::vec3& force)
+{
+
+}
+int cPlaneComponent::GetNumberOfPhysicalObject()
+{
+	return -1;
+}
+bool cPlaneComponent::GetTransform(int index, glm::mat4& transformOut)
+{
+	return false;
+}
+
 
 cPlaneComponent::cPlaneComponent(nPhysics::sPlaneDef plane_def)
 	:iPlaneComponent(plane_def)

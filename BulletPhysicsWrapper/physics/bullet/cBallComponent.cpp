@@ -26,6 +26,27 @@ void cBallComponent::ApplyRotation(const glm::vec3& rotation)
 {
 }
 
+void cBallComponent::SetPosition(const glm::vec3& pos)
+{
+	
+}
+glm::vec3 cBallComponent::GetPosition()
+{
+	return glm::vec3(1);
+}
+void cBallComponent::JumpForce(const glm::vec3& force)
+{
+	
+}
+int cBallComponent::GetNumberOfPhysicalObject()
+{
+	return -1;
+}
+bool cBallComponent::GetTransform(int index, glm::mat4& transformOut)
+{
+	return false;
+}
+
 
 cBallComponent::cBallComponent(const nPhysics::sBallDef& ball_def)
 	:iBallComponent(ball_def)
