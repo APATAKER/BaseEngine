@@ -5,21 +5,13 @@
 #include "FlyCamera/cFlyCamera.h"										// Camera
 #include "DeltaTime/cLowPassFilter.h"									// DeltaTime calcu
 #include "JsonLoader/cLoad.h"											// Json Loader
-#include "global.h"														// Global Loading AND func in future
-#include "Graph/Graph.h"
+#include "global.h"
 #include "MapLoader/ResourceManager.h"
-#include "MapLoader/BMPImage.h"
 #include "FiniteStateMachine/States.h"
-#include "FiniteStateMachine/MapInfo.h"
 
 // Global Pointers and variables
-FSMState* stateIdle = nullptr;
-FSMState* stateSearch = nullptr;
-FSMState* stateGather = nullptr;
-FSMState* stateReturn = nullptr;
 cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
 GLuint g_shader_program_ID;
-glm::vec3 g_HACK_vec3_BoneLocationFK = glm::vec3(0.0f);
 extern int currentLight;
 
 // Global Functions is Not at Global header file
@@ -42,12 +34,6 @@ int main()
 	g_pTextureManager = cBasicTextureManager::getInstance();
 	//########################################## Json is loader Here ###############################################
 	
-	p_fsm_system->AddState(stateIdle);
-	p_fsm_system->AddState(stateSearch);
-	p_fsm_system->AddState(stateGather);
-	p_fsm_system->AddState(stateReturn);
-	
-	p_fsm_system->Start();
 
 	//##### GAME ### OBJECTS ### TO ### CREATED ### HERE ##################(ONLY FOR DEBUG AND MULTIPLE)#############
 	cGameObject* debug_sphere = new cGameObject();
