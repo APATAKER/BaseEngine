@@ -154,10 +154,10 @@ void LoadingGameObjects(std::vector<cGameObject*>& g_vec_pGameObjects, GLuint& s
 			gameobject->textures[i] = jgameobj["tex"][i].GetString();
 			gameobject->textureRatio[i] = jgameobj["texratio"][i].GetFloat();
 		}
-		gameobject->objectType = (cGameObject::eObjectType)jgameobj["objectype"].GetInt();
+		//gameobject->objectType = (cGameObject::eObjectType)jgameobj["objectype"].GetInt();
 		//gameobject->GameObjectMesh = findMeshByName(vec_model_mesh, gameobject->meshName);
-		gameobject->SPHERE_radius = jgameobj["sphereRadius"].GetFloat();
-		gameobject->collision_radius = jgameobj["bulletCollisionRadius"].GetFloat();
+		//gameobject->SPHERE_radius = jgameobj["sphereRadius"].GetFloat();
+		//gameobject->collision_radius = jgameobj["bulletCollisionRadius"].GetFloat();
 		gameobject->isVisible = jgameobj["isVisible"].GetInt();
 		gameobject->is_static = jgameobj["isStatic"].GetInt();
 

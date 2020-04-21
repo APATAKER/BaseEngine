@@ -4,6 +4,7 @@ enum class eShapeTypes
 {
 	SPHERE,
 	PLANE,
+	FLIPPER,
 	CLOTH,
 	STATIC
 };

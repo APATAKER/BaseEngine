@@ -53,7 +53,7 @@ int main()
 
 	// Camera Created here
 	::g_pFlyCamera = new cFlyCamera();
-	::g_pFlyCamera->eye = glm::vec3(-2.5,175,323.9);
+	::g_pFlyCamera->eye = glm::vec3(-34.632,493.674,1606.22);
 	::g_pFlyCamera->movementSpeed = 0.25f;
 	::g_pFlyCamera->movementSpeed = 2.5f;
 	// Camera Created here

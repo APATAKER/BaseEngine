@@ -3,24 +3,26 @@
 	"vert": "assets/shaders/vertexShader01.glsl",
 	"frag": "assets/shaders/fragmentShader01.glsl"
   },
-  "models": [
-	"assets/models/QUAD_xyz_n_UV.ply",
-	"assets/models/AIGroundTerrain.ply",
-	"assets/models/AIGroundTerrain_Scalex2.ply",
-	"assets/models/AIGroundTerrain_wall_left(z-90).ply",
-	"assets/models/Sphere_Radius_1_XYZ_n_uv.ply",
-	"assets/models/Sphere_Radius_2_XYZ_n_uv.ply",
-	"assets/models/Sphere_Radius_3_XYZ_n_uv.ply",
-	"assets/models/Sphere_Radius_5_XYZ_n_uv.ply",
-	"assets/models/Sphere_Radius_10_XYZ_n_uv.ply",
-	"assets/models/Sphere_Radius_0.5_XYZ_n_uv.ply",
-	"assets/models/kunai_n_uv.ply",
-	"assets/models/dalek2005_xyz_uv_res_3_up.ply",
-	"assets/models/cube_flat_shaded_xyz_n_uv.ply",
-	"assets/models/Square_flat_shaded_xyz_n_uv.ply",
-	"assets/models/RetroTV.edited.bodyonly.ply",
-	"assets/models/RetroTV.edited.screenonly.ply"
-  ],
+	"models": [
+		"assets/models/QUAD_xyz_n_UV.ply",
+		"assets/models/AIGroundTerrain.ply",
+		"assets/models/AIGroundTerrain_Scalex2.ply",
+		"assets/models/AIGroundTerrain_wall_left(z-90).ply",
+		"assets/models/Sphere_Radius_1_XYZ_n_uv.ply",
+		"assets/models/Sphere_Radius_2_XYZ_n_uv.ply",
+		"assets/models/Sphere_Radius_3_XYZ_n_uv.ply",
+		"assets/models/Sphere_Radius_5_XYZ_n_uv.ply",
+		"assets/models/Sphere_Radius_10_XYZ_n_uv.ply",
+		"assets/models/Sphere_Radius_0.5_XYZ_n_uv.ply",
+		"assets/models/kunai_n_uv.ply",
+		"assets/models/dalek2005_xyz_uv_res_3_up.ply",
+		"assets/models/cube_flat_shaded_xyz_n_uv.ply",
+		"assets/models/Square_flat_shaded_xyz_n_uv.ply",
+		"assets/models/RetroTV.edited.bodyonly.ply",
+		"assets/models/RetroTV.edited.screenonly.ply",
+		"assets/models/flipper_xyz_n_uv.ply",
+		"assets/models/PinWall_xyz_n_UV.ply"
+	],
   "MeshName": [
 	"QUAD",
 	"ground",
@@ -37,7 +39,9 @@
 	"mazecube",
 	"squarecube",
 	"tvbody",
-	"tvscreen"
+	"tvscreen",
+	"flipper",
+	"pinwall"
   ],
   "Textures": [
 	"defaultTex.bmp",
@@ -125,57 +129,195 @@
 
 
   ],
-  "GameObjects": [
-	{
-	  "meshname": "sphere1",
-	  "friendlyname": "skybox",
-	  "position": {
-		"x": 0.0,
-		"y": 0.0,
-		"z": 0.0
-	  },
-	  "rotation": {
-		"x": 0.0,
-		"y": 0.0,
-		"z": 0.0
-	  },
-	  "scale": 7500.0,
-	  "objectcolor": {
-		"r": 1.0,
-		"g": 1.0,
-		"b": 1.0,
-		"a": 1.0
-	  },
-	  "isWireframe": 0,
-	  "debugcolor": {
-		"r": 1.0,
-		"g": 1.0,
-		"b": 1.0,
-		"a": 1.0
-	  },
-	  "tex": [ "defaultTex.bmp", "", "", "" ],
-	  "texratio": [ 1, 0, 0, 0 ],
-	  "isStatic": 1,
-	  "physicsshapetype": 3,
-	  "objectype": 2,
-	  "sphereRadius": 0.0,
-	  "bulletCollisionRadius": 0.0,
-	  "plane": {
-		"normal": {
-		  "x": 0.0,
-		  "y": 1.0,
-		  "z": 0.0
+	"GameObjects": [
+		{
+			"meshname": "sphere1",
+			"friendlyname": "skybox",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 7500.0,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "defaultTex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 1,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 1.0,
+					"z": 0.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 0,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
 		},
-		"constant": 0
-	  },
-	  "sphere": {
-		"radius": 0
-	  },
-	  "mass": 0,
-	  "isVisible": 1,
-	  "isSkinnedMesh": 0,
-	  "aiType": "none"
-	}
-  ]
+		{
+			"meshname": "pinwall",
+			"friendlyname": "backwall",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 0.5,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "defaultTex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 1.0,
+					"z": 0.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 0,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "flipper",
+			"friendlyname": "flipper1",
+			"position": {
+				"x": 50.00,
+				"y": -320.00,
+				"z": 20.00
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 2,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 1.0,
+					"z": 0.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 0,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "flipper",
+			"friendlyname": "flipper2",
+			"position": {
+				"x": -50.00,
+				"y": -320.00,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 2,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 1.0,
+					"z": 0.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 0,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		}
+	]
   
 }
