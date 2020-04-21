@@ -155,6 +155,7 @@
     <ClInclude Include="physics\iClothComponent.h" />
     <ClInclude Include="physics\iCollisionListener.h" />
     <ClInclude Include="physics\iDebugRenderer.h" />
+    <ClInclude Include="physics\iFlipperComponent.h" />
     <ClInclude Include="physics\iPhysicsComponent.h" />
     <ClInclude Include="physics\iPhysicsFactory.h" />
     <ClInclude Include="physics\iPhysicsWorld.h" />

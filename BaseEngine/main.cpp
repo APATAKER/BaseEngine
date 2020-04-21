@@ -118,9 +118,12 @@ int main()
 
 		// Window title Printing (top of the window)
 		ssTitle
-			<< g_pFlyCamera->eye.x << ", "
+			<< g_vec_pGameObjects[4]->m_position.x << ", "
+			<< g_vec_pGameObjects[4]->m_position.y << ", "
+			<< g_vec_pGameObjects[4]->m_position.z
+			/*<< g_pFlyCamera->eye.x << ", "
 			<< g_pFlyCamera->eye.y << ", "
-			<< g_pFlyCamera->eye.z
+			<< g_pFlyCamera->eye.z*/
 			<< "Light No: "
 			<< vec_lightObjects[currentLight]->light_id<<" "
 			<< "Light postion: "

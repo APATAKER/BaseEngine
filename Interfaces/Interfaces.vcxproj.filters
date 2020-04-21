@@ -45,6 +45,9 @@
     <ClInclude Include="physics\iClothComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\iFlipperComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

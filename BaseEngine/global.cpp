@@ -2,8 +2,6 @@
 
 #include "physics/iPhysInterfaces.h"
 #include "JsonLoader/cLoad.h"
-
-
 #include "GameObject/cGameObject.h"
 
 extern int punchcounter;

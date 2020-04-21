@@ -6,6 +6,7 @@ namespace nPhysics
 	{
 		SPHERE,
 		PLANE,
-		CLOTH
+		CLOTH,
+		FLIPPER
 	};
 }

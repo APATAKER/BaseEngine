@@ -738,6 +738,9 @@
     <ClInclude Include="physics\bullet\cPhysDebugRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\bullet\cBtFlipperComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics\bullet\BulletCollision\BroadphaseCollision\btAxisSweep3.cpp">
@@ -1212,6 +1215,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="physics\bullet\cPhysDebugRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\bullet\cBtFlipperComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

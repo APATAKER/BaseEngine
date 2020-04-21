@@ -40,11 +40,14 @@ void cBallComponent::JumpForce(const glm::vec3& force)
 }
 int cBallComponent::GetNumberOfPhysicalObject()
 {
-	return -1;
+	return 1;
 }
 bool cBallComponent::GetTransform(int index, glm::mat4& transformOut)
 {
-	return false;
+	btTransform transform;
+	m_body_->getMotionState()->getWorldTransform(transform);
+	nConvert::ToSimple(transform, transformOut);
+	return true;
 }
 
 

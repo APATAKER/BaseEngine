@@ -348,7 +348,7 @@
 			"tex": [ "cyantex.bmp", "", "", "" ],
 			"texratio": [ 1, 0, 0, 0 ],
 			"isStatic": 0,
-			"physicsshapetype": 2,
+			"physicsshapetype": 0,
 			"plane": {
 				"normal": {
 					"x": 0.0,
@@ -358,9 +358,9 @@
 				"constant": 0
 			},
 			"sphere": {
-				"radius": 0
+				"radius": 3
 			},
-			"mass": 0,
+			"mass": 2,
 			"isVisible": 1,
 			"isSkinnedMesh": 0,
 			"aiType": "none"

@@ -68,118 +68,17 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	cGameObject* player;
 	if(changePlayer == 0)
 	{
-		player = findGameObjectByFriendlyName(g_vec_pGameObjects, "player");
+		//player = findGameObjectByFriendlyName(g_vec_pGameObjects, "player");
 	}
 	else
 	{
-		player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar2"); 
+		//player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar2"); 
 	}
-	cGameObject* current_sphere_in_control = g_vec_pGameObjects[currentSphere];
+	//cGameObject* current_sphere_in_control = g_vec_pGameObjects[currentSphere];
 	//if(isOnlyCtrlKeyDown(mods))
 	//if (areAllModifiersUp(window))
 	if(!isAltDown(window) && !isCtrlDown(window))
 	{
-		if (glfwGetKey(window, GLFW_KEY_0))		// Turn on/off path following
-		{
-			on_path = !on_path;
-			physics_world->GetOnPath(on_path);
-			
-		}
-		if (glfwGetKey(window, GLFW_KEY_6))		// Turn on Flock
-		{
-			is_flock = true;
-			physics_world->GetIsFlock(is_flock);
-
-		}
-		if (glfwGetKey(window, GLFW_KEY_7))		// Turn off Flock
-		{
-			is_flock = false;
-			physics_world->GetIsFlock(is_flock);
-
-		}
-		if (glfwGetKey(window, GLFW_KEY_9))		// Reverse the path
-		{
-			revesre = !revesre;
-			physics_world->GetIsReverse(revesre);
-
-		}
-		if (glfwGetKey(window, GLFW_KEY_1))		// Formation 1 Circle
-		{
-			physics_world->GetFormationType(0);
-		}
-		if (glfwGetKey(window, GLFW_KEY_2))		// Formation 2 V
-		{
-			physics_world->GetFormationType(1);
-			
-		}
-		if (glfwGetKey(window, GLFW_KEY_3))		// Formation 1 Square
-		{
-			physics_world->GetFormationType(2);
-			
-		}
-		if (glfwGetKey(window, GLFW_KEY_4))		// Formation 1 Line
-		{
-			
-			physics_world->GetFormationType(3);
-		}
-		if (glfwGetKey(window, GLFW_KEY_5))		// Formation 1 Rows
-		{
-			physics_world->GetFormationType(4);
-			
-		}
-		if(glfwGetKey(window, GLFW_KEY_W))		// walk forward
-		{
-			//player->updateAtFromOrientation();
-			//player->velocity.z += MOVESPEED;
-			//player->m_physics_component->ApplyForce(glm::vec3(0,0,MOVESPEED));
-			
-		}
-		if(glfwGetKey(window, GLFW_KEY_S))		// walk backward
-		{
-			//player->updateAtFromOrientation();
-			//player->m_physics_component->ApplyForce(glm::vec3(0,0,-MOVESPEED));
-			//player->MoveForward_Z(-MOVESPEED);
-		}
-		if (glfwGetKey(window, GLFW_KEY_D))
-		{
-			//player->updateOrientation(glm::vec3(0, -1, 0));
-			//player->m_physics_component->ApplyRotation(glm::vec3(0, -1, 0));
-			//player->updateAtFromOrientation();
-		}
-			
-		if (glfwGetKey(window, GLFW_KEY_A))
-		{
-			//player->m_physics_component->ApplyRotation(glm::vec3(0, 1, 0));
-			//player->updateOrientation(glm::vec3(0, 1, 0));
-		//	player->updateAtFromOrientation();
-		}
-		//if (glfwGetKey(window, GLFW_KEY_Q))
-		//{
-		//	
-		//}
-		//if (glfwGetKey(window, GLFW_KEY_E))
-		//{
-		//	
-		//}
-		
-
-		if(glfwGetKey(window,GLFW_KEY_SPACE) && action == GLFW_PRESS)
-		{
-			//player->m_physics_component->JumpForce(glm::vec3(0, 500, 0));
-		}
-		/*if(glfwGetKey(window,GLFW_KEY_N) && action == GLFW_PRESS)
-		{
-
-			changePlayer = changePlayer==1?0:1;
-			
-			
-		}*/
-		/*if (glfwGetKey(window, GLFW_KEY_1) && action == GLFW_PRESS)
-		{
-			PhysicsEnd();
-			changePhys = !changePhys;
-			dataLoaded = 0;
-		}*/
 	}
 	// Light Controls
 	if(!isCtrlDown(window) && isAltDown(window))
