@@ -3,6 +3,7 @@
 #include "cPhysWorld.h"
 #include "cBallComponent.h"
 #include "cPlaneComponent.h"
+#include "cBtFlipperComponent.h"
 
 
 
@@ -29,4 +30,9 @@ nPhysics::iPlaneComponent* cPhysFactory::CreatePlane(const nPhysics::sPlaneDef& 
 nPhysics::iClothComponent* cPhysFactory::CreateCloth(const nPhysics::sClothDef& def)
 {
 	return nullptr;
+}
+
+nPhysics::iFlipperComponent* cPhysFactory::CreateFlipper(const nPhysics::sFlipperDef& def)
+{
+	return new cBtFlipperComponent(def);
 }

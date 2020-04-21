@@ -99,8 +99,19 @@ void PhysicsInit()
 				cloth_def.NodeMass = jgameobj["cloth"]["NodeMass"].GetFloat();
 				cloth_def.SpringConstant = jgameobj["cloth"]["SpringConstant"].GetFloat();
 				g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateCloth(cloth_def);
-
-
+			}
+			break;
+			case eShapeTypes::FLIPPER:
+			{
+				nPhysics::sFlipperDef flipper_def;
+				flipper_def.Position = glm::vec3(jgameobj["position"]["x"].GetFloat(),
+					jgameobj["position"]["y"].GetFloat(),
+					jgameobj["position"]["z"].GetFloat());
+				flipper_def.Mass = jgameobj["mass"].GetFloat();
+				flipper_def.half_length = glm::vec3(jgameobj["halfLength"]["x"].GetFloat(),
+					jgameobj["halfLength"]["y"].GetFloat(),
+					jgameobj["halfLength"]["z"].GetFloat());
+				g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateFlipper(flipper_def);
 			}
 			break;
 			}

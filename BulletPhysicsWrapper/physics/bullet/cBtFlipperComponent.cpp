@@ -34,7 +34,7 @@ void cBtFlipperComponent::JumpForce(const glm::vec3& force)
 
 int cBtFlipperComponent::GetNumberOfPhysicalObject()
 {
-	return 0;
+	return 1;
 }
 
 bool cBtFlipperComponent::GetTransform(int index, glm::mat4& transformOut)
@@ -48,11 +48,16 @@ bool cBtFlipperComponent::GetTransform(int index, glm::mat4& transformOut)
 cBtFlipperComponent::cBtFlipperComponent(const nPhysics::sFlipperDef& Flipper_def)
 	:iFlipperComponent(Flipper_def)
 {
-	btCollisionShape* shape = new btBoxShape(btVector3(5.f,5.f,5.f));
+	btCollisionShape* shape = new btBoxShape(btVector3(nConvert::ToBullet(Flipper_def.half_length)));
 	btTransform transform;
 	btScalar mass(Flipper_def.Mass);
 	transform.setIdentity();
 	transform.setOrigin(nConvert::ToBullet(Flipper_def.Position));
 	btVector3 local_inertia(0, 0, 0);
 	shape->calculateLocalInertia(mass, local_inertia);
+	btDefaultMotionState* motion_state = new btDefaultMotionState(transform);
+	btRigidBody::btRigidBodyConstructionInfo rigid_body_construction_info(mass, motion_state, shape, local_inertia);
+	m_body_ = new btRigidBody(rigid_body_construction_info);
+	m_body_->setUserPointer(this);
+
 }

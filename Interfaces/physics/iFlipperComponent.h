@@ -13,6 +13,7 @@ namespace nPhysics
 		float Mass;
 		float Radius;
 		glm::vec3 Position;
+		glm::vec3 half_length;
 		glm::quat orientation;
 		std::string AiType;
 	};

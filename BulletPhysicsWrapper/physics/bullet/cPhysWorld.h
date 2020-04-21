@@ -3,6 +3,7 @@
 #include <vector>
 #include "cBallComponent.h">
 #include "cPlaneComponent.h">
+#include "cBtFlipperComponent.h"
 #include "cPhysCollisionListener.h"
 
 
@@ -39,6 +40,7 @@ public:
 private:
 	bool AddRigidBodies(cBallComponent* component);
 	bool AddRigidBodies(cPlaneComponent* component);
+	bool AddRigidBodies(cBtFlipperComponent* component);
 
 	btDefaultCollisionConfiguration* m_collision_configuration;
 	btCollisionDispatcher* m_collision_dispatcher;

@@ -3,6 +3,7 @@
 #include "iPlaneComponent.h"
 #include "iPhysicsWorld.h"
 #include "iClothComponent.h"
+#include "iFlipperComponent.h"
 
 namespace nPhysics
 {
@@ -15,5 +16,6 @@ namespace nPhysics
 		virtual iBallComponent* CreateBall(const sBallDef& def) = 0;
 		virtual iPlaneComponent* CreatePlane(const sPlaneDef& def) = 0;
 		virtual iClothComponent* CreateCloth(const sClothDef& def) = 0;
+		virtual iFlipperComponent* CreateFlipper(const sFlipperDef& def) = 0;
 	};
 }

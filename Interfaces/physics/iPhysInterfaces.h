@@ -7,3 +7,4 @@
 #include"iPhysicsFactory.h"
 #include"iPhysicsWorld.h"
 #include"iPlaneComponent.h"
+#include"iFlipperComponent.h"

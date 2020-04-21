@@ -219,7 +219,7 @@
 			"sphere": {
 				"radius": 0
 			},
-			"mass": 0,
+			"mass": 1,
 			"isVisible": 1,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
@@ -266,7 +266,12 @@
 			"sphere": {
 				"radius": 0
 			},
-			"mass": 0,
+			"halfLength": {
+				"x": 20.0,
+				"y": 5.0,
+				"z": 5.0
+			},
+			"mass": 5,
 			"isVisible": 1,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
@@ -313,7 +318,12 @@
 			"sphere": {
 				"radius": 0
 			},
-			"mass": 0,
+			"halfLength": {
+				"x": 20.0,
+				"y": 5.0,
+				"z": 5.0
+			},
+			"mass": 5,
 			"isVisible": 1,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
@@ -322,7 +332,7 @@
 			"meshname": "sphere3",
 			"friendlyname": "pinball",
 			"position": {
-				"x": 0.00,
+				"x": 50.00,
 				"y": 0.00,
 				"z": 20.0
 			},

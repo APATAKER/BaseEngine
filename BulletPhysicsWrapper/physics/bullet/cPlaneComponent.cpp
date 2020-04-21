@@ -38,11 +38,14 @@ void cPlaneComponent::JumpForce(const glm::vec3& force)
 }
 int cPlaneComponent::GetNumberOfPhysicalObject()
 {
-	return -1;
+	return 1;
 }
 bool cPlaneComponent::GetTransform(int index, glm::mat4& transformOut)
 {
-	return false;
+	btTransform transform;
+	m_body_->getMotionState()->getWorldTransform(transform);
+	nConvert::ToSimple(transform, transformOut);
+	return true;
 }
 
 

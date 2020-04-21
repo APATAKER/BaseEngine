@@ -5,6 +5,7 @@
 
 class cBtFlipperComponent : public nPhysics::iFlipperComponent
 {
+	friend class cPhysWorld;
 public:
 	virtual ~cBtFlipperComponent();
 
