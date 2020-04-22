@@ -148,5 +148,7 @@ bool cPhysWorld::AddRigidBodies(cBtFlipperComponent* component)
 		return false;
 	}
 	m_dynamics_world_->addRigidBody(component->m_body_);
+	btHingeConstraint* hinge = new btHingeConstraint(*component->m_body_, nConvert::ToBullet(glm::vec3(20.f,5.f,5.f)), nConvert::ToBullet(glm::vec3(0,0,1)), true);
+	m_dynamics_world_->addConstraint(hinge);
 	return true;
 }

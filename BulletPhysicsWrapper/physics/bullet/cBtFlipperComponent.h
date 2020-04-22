@@ -27,6 +27,7 @@ public:
 
 private:
 	btRigidBody* m_body_;
+	glm::vec3 m_half_length;
 	//not to be used
 	cBtFlipperComponent() = delete;
 	cBtFlipperComponent(const cBtFlipperComponent& other) = delete;

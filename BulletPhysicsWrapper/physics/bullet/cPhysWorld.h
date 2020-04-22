@@ -34,6 +34,12 @@ public:
 	void SetCollisionListener(nPhysics::iCollisionListener* collision_listener);
 
 
+	// constraints
+	void hingeConstraint(btRigidBody* body, btVector3 pivot, btVector3 axis);
+	void hingeConstraint(btRigidBody* body1, btVector3 pivot1, btVector3 axis1, btRigidBody* body2, btVector3 pivot2, btVector3 axis2);
+
+
+
 	// cons-tor  
 	cPhysWorld();
 
