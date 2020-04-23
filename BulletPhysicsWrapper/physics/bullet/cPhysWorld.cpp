@@ -18,19 +18,19 @@ void cPhysWorld::Update(float dt)
 	nPhysics::iFlipperComponent* flipper1 = dynamic_cast<nPhysics::iFlipperComponent*>(vp_phy_components[0]);
 	nPhysics::iFlipperComponent* flipper2 = dynamic_cast<nPhysics::iFlipperComponent*>(vp_phy_components[1]);
 
-	if(GetkeyPressed()=='x')
+	if(GetkeyPressed()=='c')
 	{
 		flipper1->GoToAngle(2.f, dt,20);
 	}
-	if(GetkeyPressed()=='z')
+	if(GetkeyPressed()=='v')
 	{
 		flipper1->GoToAngle(2.f, dt,-20);
 	}
-	if(GetkeyPressed()=='c')
+	if(GetkeyPressed()=='x')
 	{
 		flipper2->GoToAngle(2.f, dt,20);
 	}
-	if(GetkeyPressed()=='v')
+	if(GetkeyPressed()=='z')
 	{
 		flipper2->GoToAngle(2.f, dt,-20);
 	}
@@ -187,7 +187,7 @@ bool cPhysWorld::AddRigidBodies(cBtFlipperComponent* component)
 
 bool cPhysWorld::AddHingeConstraint(cBtFlipperComponent* component)
 {
-	component->m_constraint_ = new btHingeConstraint(*component->m_body_, nConvert::ToBullet(glm::vec3(20.f, 5.f, 5.f)), nConvert::ToBullet(glm::vec3(0, 0, 1)), true);
+	component->m_constraint_ = new btHingeConstraint(*component->m_body_, nConvert::ToBullet(component->m_half_length), nConvert::ToBullet(glm::vec3(0, 0, 1)), true);
 	m_dynamics_world_->addConstraint(component->m_constraint_);
 	return true;
 }

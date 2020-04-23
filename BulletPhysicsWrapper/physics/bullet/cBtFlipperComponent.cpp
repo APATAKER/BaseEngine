@@ -59,6 +59,7 @@ bool cBtFlipperComponent::GetTransform(int index, glm::mat4& transformOut)
 cBtFlipperComponent::cBtFlipperComponent(const nPhysics::sFlipperDef& Flipper_def)
 	:iFlipperComponent(Flipper_def)
 {
+	m_half_length = Flipper_def.half_length;
 	btCollisionShape* shape = new btBoxShape(btVector3(nConvert::ToBullet(Flipper_def.half_length)));
 	btTransform transform;
 	btScalar mass(Flipper_def.Mass);
