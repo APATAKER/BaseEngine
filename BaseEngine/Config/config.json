@@ -370,7 +370,7 @@
 			"sphere": {
 				"radius": 3
 			},
-			"mass": 2,
+			"mass": 0.2,
 			"isVisible": 1,
 			"isSkinnedMesh": 0,
 			"aiType": "none"

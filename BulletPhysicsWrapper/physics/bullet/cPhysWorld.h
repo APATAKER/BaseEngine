@@ -31,8 +31,8 @@ public:
 	void GetIsReverse(bool isReserve) override;
 	void GetFormationType(int type) override;
 
-	char GetkeyPressed() override;
-	char SetkeyPressed(const char keyPressed) override;
+	bool GetkeyPressed(int obj) override;
+	bool SetkeyPressed(bool keyPressed, int obj) override;
 
 	
 
@@ -65,6 +65,8 @@ private:
 	cPhysCollisionListener* m_collision_listener_;
 
 	char input = ' ';
+	bool input_L_ = false;
+	bool input_R_ = false;
 	
 	
 

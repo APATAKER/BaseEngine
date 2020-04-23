@@ -18,21 +18,31 @@ void cPhysWorld::Update(float dt)
 	nPhysics::iFlipperComponent* flipper1 = dynamic_cast<nPhysics::iFlipperComponent*>(vp_phy_components[0]);
 	nPhysics::iFlipperComponent* flipper2 = dynamic_cast<nPhysics::iFlipperComponent*>(vp_phy_components[1]);
 
-	if(GetkeyPressed()=='c')
+	//if(GetkeyPressed(1) == 'c')
+	if(GetkeyPressed(1))
 	{
 		flipper1->GoToAngle(2.f, dt,20);
 	}
-	if(GetkeyPressed()=='v')
+	else
 	{
 		flipper1->GoToAngle(2.f, dt,-20);
 	}
-	if(GetkeyPressed()=='x')
-	{
-		flipper2->GoToAngle(2.f, dt,20);
-	}
-	if(GetkeyPressed()=='z')
+	//if(GetkeyPressed()=='v')
+	//{
+	//	flipper1->GoToAngle(2.f, dt,-20);
+	//}
+	//if(GetkeyPressed()=='z')
+	//{
+	//	flipper2->GoToAngle(2.f, dt,20);
+	//}
+	//if(GetkeyPressed(0)=='x')
+	if(GetkeyPressed(0))
 	{
 		flipper2->GoToAngle(2.f, dt,-20);
+	}
+	else
+	{
+		flipper2->GoToAngle(2.f, dt,20);
 	}
 	if(m_collision_listener_)
 	{
@@ -101,13 +111,30 @@ void cPhysWorld::GetIsReverse(bool isReserve)
 void cPhysWorld::GetFormationType(int type)
 {
 }
-char cPhysWorld::GetkeyPressed()
+bool cPhysWorld::GetkeyPressed(int obj)
 {
-	return input;
+	if(obj == 0)
+	{
+		return input_L_;
+	}
+	else if(obj == 1)
+	{
+		return input_R_;
+	}
+
+	//return input;
 }
-char cPhysWorld::SetkeyPressed(const char keyPressed)
+bool cPhysWorld::SetkeyPressed(bool keyPressed, int obj)
 {
-	input = keyPressed;
+	if (obj == 0)
+	{
+		input_L_ = keyPressed;
+	}
+	else if (obj == 1)
+	{
+		input_R_ = keyPressed;
+	}
+	//input = keyPressed;
 	return 1;
 }
 void cPhysWorld::SetCollisionListener(nPhysics::iCollisionListener* collision_listener)

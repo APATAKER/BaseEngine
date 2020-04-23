@@ -80,22 +80,30 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	//if (areAllModifiersUp(window))
 	if(!isAltDown(window) && !isCtrlDown(window))
 	{
-		if (glfwGetKey(window, GLFW_KEY_Z))
-		{
-			physics_world->SetkeyPressed('z');
-		}
+		//if (glfwGetKey(window, GLFW_KEY_Z))
+		//{
+		//	physics_world->SetkeyPressed('z');
+		//}
 		if (glfwGetKey(window, GLFW_KEY_X))
 		{
-			physics_world->SetkeyPressed('x');
+			physics_world->SetkeyPressed(true,0);
+		}
+		else
+		{
+			physics_world->SetkeyPressed(false,0);
 		}
 		if (glfwGetKey(window, GLFW_KEY_C))
 		{
-			physics_world->SetkeyPressed('c');
+			physics_world->SetkeyPressed(true,1);
 		}
-		if (glfwGetKey(window, GLFW_KEY_V))
+		else
 		{
-			physics_world->SetkeyPressed('v');
+			physics_world->SetkeyPressed(false,1);
 		}
+		//if (glfwGetKey(window, GLFW_KEY_V))
+		//{
+		//	physics_world->SetkeyPressed('v');
+		//}
 
 	}
 	// Light Controls
