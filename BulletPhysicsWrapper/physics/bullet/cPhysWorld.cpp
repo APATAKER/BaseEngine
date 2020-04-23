@@ -19,7 +19,12 @@ void cPhysWorld::Update(float dt)
 
 	if(GetkeyPressed()=='x')
 	{
-		flipper->GoToAngle(2.f, dt,-1);
+		flipper->GoToAngle(2.f, dt,20);
+	}
+	if(GetkeyPressed()=='z')
+	{
+		flipper->GoToAngle(2.f, dt,-20);
+		
 	}
 	if(m_collision_listener_)
 	{
