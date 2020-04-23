@@ -22,6 +22,8 @@ public:
 	bool GetTransform(int index, glm::mat4& transformOut) override;
 
 
+
+
 	// constructor  (creates rigidbodies)
 	cBallComponent(const nPhysics::sBallDef& ball_def);
 

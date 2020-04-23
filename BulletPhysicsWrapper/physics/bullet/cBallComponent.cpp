@@ -51,6 +51,8 @@ bool cBallComponent::GetTransform(int index, glm::mat4& transformOut)
 }
 
 
+
+
 cBallComponent::cBallComponent(const nPhysics::sBallDef& ball_def)
 	:iBallComponent(ball_def)
 {

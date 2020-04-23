@@ -10,6 +10,7 @@
 
 class cPhysWorld : public nPhysics::iPhysicsWorld
 {
+	friend class cBtFlipperComponent;
 public:
 	// des-tor
 	virtual ~cPhysWorld();
@@ -30,6 +31,11 @@ public:
 	void GetIsReverse(bool isReserve) override;
 	void GetFormationType(int type) override;
 
+	char GetkeyPressed() override;
+	char SetkeyPressed(const char keyPressed) override;
+
+	
+
 	// not used
 	void SetCollisionListener(nPhysics::iCollisionListener* collision_listener);
 
@@ -39,7 +45,7 @@ public:
 	void hingeConstraint(btRigidBody* body1, btVector3 pivot1, btVector3 axis1, btRigidBody* body2, btVector3 pivot2, btVector3 axis2);
 
 
-
+	std::vector<nPhysics::iPhysicsComponent*> vp_phy_components;
 	// cons-tor  
 	cPhysWorld();
 
@@ -47,6 +53,7 @@ private:
 	bool AddRigidBodies(cBallComponent* component);
 	bool AddRigidBodies(cPlaneComponent* component);
 	bool AddRigidBodies(cBtFlipperComponent* component);
+	bool AddHingeConstraint(cBtFlipperComponent* component);
 
 	btDefaultCollisionConfiguration* m_collision_configuration;
 	btCollisionDispatcher* m_collision_dispatcher;
@@ -56,7 +63,9 @@ private:
 
 	
 	cPhysCollisionListener* m_collision_listener_;
-	std::vector<nPhysics::iPhysicsComponent*> vp_phy_components;
+
+	char input = ' ';
+	
 	
 
 	cPhysWorld(const cPhysWorld& other) = delete;

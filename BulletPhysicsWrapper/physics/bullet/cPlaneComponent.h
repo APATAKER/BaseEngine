@@ -21,6 +21,7 @@ public:
 	void JumpForce(const glm::vec3& force) override;
 	int GetNumberOfPhysicalObject() override;
 	bool GetTransform(int index, glm::mat4& transformOut) override;
+
 	
 	// constructor
 	cPlaneComponent(nPhysics::sPlaneDef plane_def);

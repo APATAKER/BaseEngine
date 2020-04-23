@@ -22,6 +22,7 @@ namespace nPhysics
 	{
 	public:
 		virtual ~iFlipperComponent() {}
+		virtual void GoToAngle(float angle, float dt, float target_velocity) = 0;
 
 	protected:
 		iFlipperComponent(const sFlipperDef& flipper_def) : iPhysicsComponent(eComponentType::FLIPPER) {}

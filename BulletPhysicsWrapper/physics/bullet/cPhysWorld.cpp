@@ -13,6 +13,14 @@ cPhysWorld::~cPhysWorld()
 void cPhysWorld::Update(float dt)
 {
 	m_dynamics_world_->stepSimulation(dt, 10);
+
+	
+	nPhysics::iFlipperComponent* flipper = dynamic_cast<nPhysics::iFlipperComponent*>(vp_phy_components[0]);
+
+	if(GetkeyPressed()=='x')
+	{
+		flipper->GoToAngle(2.f, dt,-1);
+	}
 	if(m_collision_listener_)
 	{
 		//TODO
@@ -27,15 +35,19 @@ bool cPhysWorld::AddComponent(nPhysics::iPhysicsComponent* component)
 	}
 	
 
-
+	vp_phy_components.push_back(component);
 	switch (component->GetComponentType())
 	{
 	case nPhysics::eComponentType::SPHERE:
+		
 		return AddRigidBodies(dynamic_cast<cBallComponent*>(component));
 	case nPhysics::eComponentType::PLANE:
 		return AddRigidBodies(dynamic_cast<cPlaneComponent*>(component));
 	case nPhysics::eComponentType::FLIPPER:
+		{
+		AddHingeConstraint(dynamic_cast<cBtFlipperComponent*>(component));
 		return AddRigidBodies(dynamic_cast<cBtFlipperComponent*>(component));
+		}
 	default:
 		break;
 	}
@@ -75,6 +87,15 @@ void cPhysWorld::GetIsReverse(bool isReserve)
 
 void cPhysWorld::GetFormationType(int type)
 {
+}
+char cPhysWorld::GetkeyPressed()
+{
+	return input;
+}
+char cPhysWorld::SetkeyPressed(const char keyPressed)
+{
+	input = keyPressed;
+	return 1;
 }
 void cPhysWorld::SetCollisionListener(nPhysics::iCollisionListener* collision_listener)
 {
@@ -148,7 +169,12 @@ bool cPhysWorld::AddRigidBodies(cBtFlipperComponent* component)
 		return false;
 	}
 	m_dynamics_world_->addRigidBody(component->m_body_);
-	btHingeConstraint* hinge = new btHingeConstraint(*component->m_body_, nConvert::ToBullet(glm::vec3(20.f,5.f,5.f)), nConvert::ToBullet(glm::vec3(0,0,1)), true);
-	m_dynamics_world_->addConstraint(hinge);
+	return true;
+}
+
+bool cPhysWorld::AddHingeConstraint(cBtFlipperComponent* component)
+{
+	component->m_constraint_ = new btHingeConstraint(*component->m_body_, nConvert::ToBullet(glm::vec3(20.f, 5.f, 5.f)), nConvert::ToBullet(glm::vec3(0, 0, 1)), true);
+	m_dynamics_world_->addConstraint(component->m_constraint_);
 	return true;
 }

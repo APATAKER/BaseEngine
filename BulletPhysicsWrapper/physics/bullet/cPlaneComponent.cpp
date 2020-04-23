@@ -49,6 +49,8 @@ bool cPlaneComponent::GetTransform(int index, glm::mat4& transformOut)
 }
 
 
+
+
 cPlaneComponent::cPlaneComponent(nPhysics::sPlaneDef plane_def)
 	:iPlaneComponent(plane_def)
 {

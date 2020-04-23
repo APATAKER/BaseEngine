@@ -18,6 +18,10 @@ namespace nPhysics
 		virtual void GetFormationType(int type) = 0;
 		virtual bool AddComponent(iPhysicsComponent* component) = 0;
 		virtual bool RemoveComponent(iPhysicsComponent* component) = 0;
+
+		virtual char GetkeyPressed() = 0;
+		virtual char SetkeyPressed(const char keyPressed) = 0;
+
 		//virtual void SetCollisionListener(nPhysics::iCollisionListener* collision_listener) = 0;
 	};
 }

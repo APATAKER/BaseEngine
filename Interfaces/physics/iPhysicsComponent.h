@@ -19,6 +19,7 @@ namespace nPhysics
 	virtual void ApplyRotation(const glm::vec3& rotation) = 0;
 	virtual int GetNumberOfPhysicalObject() = 0;
 	virtual bool GetTransform(int index,glm::mat4& transformOut) = 0;
+
 		
 protected:
 		iPhysicsComponent(eComponentType componentType)
