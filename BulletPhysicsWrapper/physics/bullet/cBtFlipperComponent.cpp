@@ -24,7 +24,7 @@ void cBtFlipperComponent::GoToAngle(float angle,float dt,float target_velocity)
 	m_constraint_->enableMotor(true);
 	m_constraint_->setLimit(-1.f, 1.f);
 	m_constraint_->setMotorTarget(angle,dt);
-	m_constraint_->setMaxMotorImpulse(200.f);
+	m_constraint_->setMaxMotorImpulse(2000.f);
 	m_constraint_->setMotorTargetVelocity(target_velocity);
 }
 

@@ -374,6 +374,53 @@
 			"isVisible": 1,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
+		},
+		{
+			"meshname": "pinwall",
+			"friendlyname": "plane1",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 0.5,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "defaultTex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 1,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
 		}
 	]
   
