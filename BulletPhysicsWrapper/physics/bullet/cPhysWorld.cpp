@@ -15,16 +15,24 @@ void cPhysWorld::Update(float dt)
 	m_dynamics_world_->stepSimulation(dt, 10);
 
 	
-	nPhysics::iFlipperComponent* flipper = dynamic_cast<nPhysics::iFlipperComponent*>(vp_phy_components[0]);
+	nPhysics::iFlipperComponent* flipper1 = dynamic_cast<nPhysics::iFlipperComponent*>(vp_phy_components[0]);
+	nPhysics::iFlipperComponent* flipper2 = dynamic_cast<nPhysics::iFlipperComponent*>(vp_phy_components[1]);
 
 	if(GetkeyPressed()=='x')
 	{
-		flipper->GoToAngle(2.f, dt,20);
+		flipper1->GoToAngle(2.f, dt,20);
 	}
 	if(GetkeyPressed()=='z')
 	{
-		flipper->GoToAngle(2.f, dt,-20);
-		
+		flipper1->GoToAngle(2.f, dt,-20);
+	}
+	if(GetkeyPressed()=='c')
+	{
+		flipper2->GoToAngle(2.f, dt,20);
+	}
+	if(GetkeyPressed()=='v')
+	{
+		flipper2->GoToAngle(2.f, dt,-20);
 	}
 	if(m_collision_listener_)
 	{

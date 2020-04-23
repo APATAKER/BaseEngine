@@ -88,6 +88,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		{
 			physics_world->SetkeyPressed('x');
 		}
+		if (glfwGetKey(window, GLFW_KEY_C))
+		{
+			physics_world->SetkeyPressed('c');
+		}
+		if (glfwGetKey(window, GLFW_KEY_V))
+		{
+			physics_world->SetkeyPressed('v');
+		}
+
 	}
 	// Light Controls
 	if(!isCtrlDown(window) && isAltDown(window))
