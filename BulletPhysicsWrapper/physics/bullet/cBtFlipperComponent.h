@@ -16,6 +16,7 @@ public:
 	void ApplyRotation(const glm::vec3& rotation) override;
 
 	void GoToAngle(float angle, float dt, float target_velocity) override;
+	void disableMotor() override;
 
 	void SetPosition(const glm::vec3& pos) override;
 	glm::vec3 GetPosition() override;
@@ -31,7 +32,7 @@ public:
 private:
 	btRigidBody* m_body_;
 	btHingeConstraint* m_constraint_;
-	glm::vec3 m_half_length;
+	glm::vec3 m_pivot;
 	
 	//not to be used
 	cBtFlipperComponent() = delete;

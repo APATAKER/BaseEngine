@@ -21,12 +21,16 @@ void cBtFlipperComponent::ApplyRotation(const glm::vec3& rotation)
 
 void cBtFlipperComponent::GoToAngle(float angle,float dt,float target_velocity)
 {
-	
 	m_constraint_->enableMotor(true);
 	m_constraint_->setLimit(-1.f, 1.f);
 	m_constraint_->setMotorTarget(angle,dt);
 	m_constraint_->setMaxMotorImpulse(2000.f);
 	m_constraint_->setMotorTargetVelocity(target_velocity);
+}
+
+void cBtFlipperComponent::disableMotor()
+{
+	m_constraint_->enableMotor(false);
 }
 
 void cBtFlipperComponent::SetPosition(const glm::vec3& pos)
@@ -60,7 +64,7 @@ bool cBtFlipperComponent::GetTransform(int index, glm::mat4& transformOut)
 cBtFlipperComponent::cBtFlipperComponent(const nPhysics::sFlipperDef& Flipper_def)
 	:iFlipperComponent(Flipper_def)
 {
-	m_half_length = Flipper_def.half_length;
+	m_pivot = Flipper_def.pivot;
 	btCollisionShape* shape = new btBoxShape(btVector3(nConvert::ToBullet(Flipper_def.half_length)));
 	btTransform transform;
 	btScalar mass(Flipper_def.Mass);

@@ -111,6 +111,9 @@ void PhysicsInit()
 				flipper_def.half_length = glm::vec3(jgameobj["halfLength"]["x"].GetFloat(),
 					jgameobj["halfLength"]["y"].GetFloat(),
 					jgameobj["halfLength"]["z"].GetFloat());
+				flipper_def.pivot = glm::vec3(jgameobj["pivot"]["x"].GetFloat(),
+					jgameobj["pivot"]["y"].GetFloat(),
+					jgameobj["pivot"]["z"].GetFloat());
 				g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateFlipper(flipper_def);
 			}
 			break;

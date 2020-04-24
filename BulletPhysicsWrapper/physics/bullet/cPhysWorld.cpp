@@ -21,11 +21,13 @@ void cPhysWorld::Update(float dt)
 	//if(GetkeyPressed(1) == 'c')
 	if(GetkeyPressed(1))
 	{
+		
 		flipper1->GoToAngle(0.1f, dt,20);
 	}
 	else
 	{
 		flipper1->GoToAngle(0.1f, dt,-20);
+		//flipper1->disableMotor();
 	}
 	//if(GetkeyPressed()=='v')
 	//{
@@ -58,17 +60,19 @@ bool cPhysWorld::AddComponent(nPhysics::iPhysicsComponent* component)
 	}
 	
 
-	vp_phy_components.push_back(component);
+	
 	switch (component->GetComponentType())
 	{
 	case nPhysics::eComponentType::SPHERE:
-		
+		vp_phy_components.push_back(component);
 		return AddRigidBodies(dynamic_cast<cBallComponent*>(component));
 	case nPhysics::eComponentType::PLANE:
+		vp_phy_components.push_back(component);
 		return AddRigidBodies(dynamic_cast<cPlaneComponent*>(component));
 	case nPhysics::eComponentType::FLIPPER:
 		{
 		AddHingeConstraint(dynamic_cast<cBtFlipperComponent*>(component));
+		vp_phy_components.push_back(component);
 		return AddRigidBodies(dynamic_cast<cBtFlipperComponent*>(component));
 		}
 	default:
@@ -176,7 +180,7 @@ cPhysWorld::cPhysWorld()
 
 	 m_dynamics_world_ = new btDiscreteDynamicsWorld(m_collision_dispatcher, m_overlapping_pair_cache, m_solver, m_collision_configuration);
 
-	 m_dynamics_world_->setGravity(btVector3(0, -10, 0));
+	 m_dynamics_world_->setGravity(btVector3(0, -100, 0));
 
 	///-----initialization_end-----
 
@@ -214,7 +218,7 @@ bool cPhysWorld::AddRigidBodies(cBtFlipperComponent* component)
 
 bool cPhysWorld::AddHingeConstraint(cBtFlipperComponent* component)
 {
-	component->m_constraint_ = new btHingeConstraint(*component->m_body_, nConvert::ToBullet(component->m_half_length), nConvert::ToBullet(glm::vec3(0, 0, 1)), true);
+	component->m_constraint_ = new btHingeConstraint(*component->m_body_, nConvert::ToBullet(component->m_pivot), nConvert::ToBullet(glm::vec3(0, 0, 1)), true);
 	m_dynamics_world_->addConstraint(component->m_constraint_);
 	return true;
 }

@@ -63,7 +63,7 @@ cPlaneComponent::cPlaneComponent(nPhysics::sPlaneDef plane_def)
 	//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
 	btDefaultMotionState* motion_state = new btDefaultMotionState(transform);
 	btRigidBody::btRigidBodyConstructionInfo rigid_body_construction_info(0.f, motion_state, shape, btVector3(0,0,0));
-	rigid_body_construction_info.m_restitution = 1.f;
+	rigid_body_construction_info.m_restitution = 2.f;
 	m_body_ = new btRigidBody(rigid_body_construction_info);
 	m_body_->setUserPointer(this);
 }

@@ -271,6 +271,11 @@
 				"y": 5.0,
 				"z": 5.0
 			},
+			"pivot": {
+				"x": 20.0,
+				"y": 5.0,
+				"z": 5.0
+			},
 			"mass": 5,
 			"isVisible": 1,
 			"isSkinnedMesh": 0,
@@ -319,6 +324,11 @@
 				"radius": 0
 			},
 			"halfLength": {
+				"x": 20.0,
+				"y": 5.0,
+				"z": 5.0
+			},
+			"pivot": {
 				"x": -20.0,
 				"y": 5.0,
 				"z": 5.0
@@ -332,7 +342,7 @@
 			"meshname": "sphere3",
 			"friendlyname": "pinball",
 			"position": {
-				"x": 50.00,
+				"x": -50.00,
 				"y": 0.00,
 				"z": 20.0
 			},
@@ -512,7 +522,7 @@
 				"radius": 0
 			},
 			"mass": 1,
-			"isVisible": 1,
+			"isVisible": 0,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
 		},
@@ -559,10 +569,184 @@
 				"radius": 0
 			},
 			"mass": 1,
-			"isVisible": 1,
+			"isVisible": 0,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
+		},
+		{
+			"meshname": "pinwall",
+			"friendlyname": "plane5",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 30.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 0.5,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "defaultTex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 1,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": -1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 0,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "pinwall",
+			"friendlyname": "plane6",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 15.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 0.5,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "defaultTex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 1,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 0,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "rpgcharbindpose",
+			"friendlyname": "rpgchar1",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1.0,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "violettex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 1,
+			"physicsshapetype": 4,
+			"objectype": 1,
+			"sphereRadius": 2.0,
+			"bulletCollisionRadius": 10.0,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": -1.0,
+					"z": 0.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 10
+			},
+			"mass": 0,
+			"isVisible": 1,
+			"isSkinnedMesh": 1,
+			"meshfile": "assets/models/RPG-Character(FBX2013).FBX",
+			"animations": [
+				"assets/models/RPG-Character_Unarmed-Jump(FBX2013).FBX",
+				"assets/models/RPG-Character_Unarmed-Idle(FBX2013).FBX",
+				"assets/models/RPG-Character_Unarmed-Walk(FBX2013).fbx",
+				"assets/models/RPG-Character_Unarmed-Run(FBX2013).FBX",
+				"assets/models/RPG-Character_Unarmed-Attack-L3(FBX2013).FBX",
+				"assets/models/RPG-Character_Unarmed-Attack-R3(FBX2013).FBX",
+				"assets/models/RPG-Character_Unarmed-Strafe-Left(FBX2013).FBX",
+				"assets/models/RPG-Character_Unarmed-Strafe-Right(FBX2013).FBX",
+				"assets/models/RPG-Character_Unarmed-Strafe-Backward(FBX2013).FBX",
+				"assets/models/RPGTurnLeft.fbx",
+				"assets/models/RPGTurnRight.fbx",
+				"assets/models/RPGWalkBack.fbx"
+			],
+			"animationName": [
+				"jump",
+				"idle",
+				"walk",
+				"run",
+				"punchleft",
+				"punchright",
+				"strafeleft",
+				"straferight",
+				"strafeback",
+				"turnleft",
+				"turnright",
+				"walkback"
+			],
+			"defaultAnimation": "idle"
 		}
+
 	]
   
 }
