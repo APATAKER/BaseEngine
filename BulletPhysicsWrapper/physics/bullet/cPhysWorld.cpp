@@ -21,11 +21,11 @@ void cPhysWorld::Update(float dt)
 	//if(GetkeyPressed(1) == 'c')
 	if(GetkeyPressed(1))
 	{
-		flipper1->GoToAngle(0.5f, dt,20);
+		flipper1->GoToAngle(0.1f, dt,20);
 	}
 	else
 	{
-		flipper1->GoToAngle(0.5f, dt,-20);
+		flipper1->GoToAngle(0.1f, dt,-20);
 	}
 	//if(GetkeyPressed()=='v')
 	//{
@@ -38,11 +38,11 @@ void cPhysWorld::Update(float dt)
 	//if(GetkeyPressed(0)=='x')
 	if(GetkeyPressed(0))
 	{
-		flipper2->GoToAngle(0.5f, dt,-20);
+		flipper2->GoToAngle(0.1f, dt,-20);
 	}
 	else
 	{
-		flipper2->GoToAngle(0.5f, dt,20);
+		flipper2->GoToAngle(0.1f, dt,20);
 	}
 	if(m_collision_listener_)
 	{
