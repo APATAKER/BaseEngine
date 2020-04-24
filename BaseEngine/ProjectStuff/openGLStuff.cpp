@@ -74,8 +74,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		player = findGameObjectByFriendlyName(g_vec_pGameObjects, "rpgchar2"); 
 	}
-	//cGameObject* current_sphere_in_control = g_vec_pGameObjects[currentSphere];
-	//cGameObject* flipper = findGameObjectByFriendlyName(g_vec_pGameObjects, "flipper2");
 	//if(isOnlyCtrlKeyDown(mods))
 	//if (areAllModifiersUp(window))
 	if(!isAltDown(window) && !isCtrlDown(window))
@@ -97,6 +95,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		{
 			physics_world->SetkeyPressed(false,1);
 		}
+		
 		// Animated character controls
 		if(glfwGetKey(window,GLFW_KEY_N))
 		{
