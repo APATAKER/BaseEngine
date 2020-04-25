@@ -30,7 +30,8 @@
 		"assets/models/Building6_xyz_n_uv.ply",
 		"assets/models/Building7_xyz_n_uv.ply",
 		"assets/models/Building8_xyz_n_uv.ply",
-		"assets/models/Building9_xyz_n_uv.ply"
+		"assets/models/Building9_xyz_n_uv.ply",
+		"assets/models/DisplayScreen_xyz_n_uv.ply"
 	],
   "MeshName": [
 	"QUAD",
@@ -59,7 +60,8 @@
 	"building6",
 	"building7",
 	"building8",
-	"building9"
+	"building9",
+	"display"
   ],
   "Textures": [
 	"defaultTex.bmp",
@@ -1275,6 +1277,53 @@
 				"x": 1000.0,
 				"y": -530.0,
 				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "display",
+			"friendlyname": "display",
+			"position": {
+				"x": 0.0,
+				"y": 500.0,
+				"z": -2000.0
 			},
 			"rotation": {
 				"x": 0.0,

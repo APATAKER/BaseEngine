@@ -204,7 +204,7 @@ int main()
 			}
 			else
 			{
-				if ((pCurrentObject->friendlyName) != "tvscreen1"
+				if ((pCurrentObject->friendlyName) != "display"
 					&& (pCurrentObject->friendlyName) != "tvscreen2"
 					&& (pCurrentObject->friendlyName) != "tvscreen3"
 					&& (pCurrentObject->friendlyName) != "tvscreen4")
@@ -284,6 +284,10 @@ int main()
 			}
 		}
 		// Building Draw
+		glUniform1i(passNumber_UniLoc, 2);
+		cGameObject* display = findGameObjectByFriendlyName(g_vec_pGameObjects, "display");
+		glm::mat4 mat_display = glm::mat4(1.0f);
+		DrawObject(mat_display, display, g_shader_program_ID, p_vao_manager);
 		
 		
 		// 3. Set up the textures for the TV screen (From the FBO)
@@ -311,6 +315,11 @@ int main()
 		GLint specular_pass_texture_UL = glGetUniformLocation(g_shader_program_ID, "secondPassSpecularTexture");
 		glUniform1i(specular_pass_texture_UL, 43);	// Texture unit 43
 
+
+		// Drawing the Display
+		//
+
+		
 		//PASS 1 *********************************************************
 
 		// PASS 2 - Depth color return *****************************
