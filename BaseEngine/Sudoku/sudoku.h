@@ -8,8 +8,8 @@ class cSudoku
 	int N;
 	int SRN;
 	int K;
-	std::map<std::pair<int, int>,int> map_mat;
 public:
+	std::map<std::pair<int, int>,int> map_mat;
 	cSudoku(int N, int K);
 
 	void fillValues();

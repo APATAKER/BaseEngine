@@ -21,7 +21,16 @@
 		"assets/models/RetroTV.edited.bodyonly.ply",
 		"assets/models/RetroTV.edited.screenonly.ply",
 		"assets/models/flipper_xyz_n_uv.ply",
-		"assets/models/PinWall_xyz_n_UV.ply"
+		"assets/models/PinWall_xyz_n_UV.ply",
+		"assets/models/Building1_xyz_n_uv.ply",
+		"assets/models/Building2_xyz_n_uv.ply",
+		"assets/models/Building3_xyz_n_uv.ply",
+		"assets/models/Building4_xyz_n_uv.ply",
+		"assets/models/Building5_xyz_n_uv.ply",
+		"assets/models/Building6_xyz_n_uv.ply",
+		"assets/models/Building7_xyz_n_uv.ply",
+		"assets/models/Building8_xyz_n_uv.ply",
+		"assets/models/Building9_xyz_n_uv.ply"
 	],
   "MeshName": [
 	"QUAD",
@@ -41,7 +50,16 @@
 	"tvbody",
 	"tvscreen",
 	"flipper",
-	"pinwall"
+	"pinwall",
+	"building1",
+	"building2",
+	"building3",
+	"building4",
+	"building5",
+	"building6",
+	"building7",
+	"building8",
+	"building9"
   ],
   "Textures": [
 	"defaultTex.bmp",
@@ -873,6 +891,429 @@
 				"walkback"
 			],
 			"defaultAnimation": "idle"
+		},
+		{
+			"meshname": "building1",
+			"friendlyname": "building1",
+			"position": {
+				"x": 200.0,
+				"y": -530.0,
+				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "building2",
+			"friendlyname": "building2",
+			"position": {
+				"x": 300.0,
+				"y": -530.0,
+				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "building3",
+			"friendlyname": "building3",
+			"position": {
+				"x": 400.0,
+				"y": -530.0,
+				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "building4",
+			"friendlyname": "building4",
+			"position": {
+				"x": 500.0,
+				"y": -530.0,
+				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "building5",
+			"friendlyname": "building5",
+			"position": {
+				"x": 600.0,
+				"y": -530.0,
+				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "building6",
+			"friendlyname": "building6",
+			"position": {
+				"x": 700.0,
+				"y": -530.0,
+				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "building7",
+			"friendlyname": "building7",
+			"position": {
+				"x": 800.0,
+				"y": -530.0,
+				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "building8",
+			"friendlyname": "building8",
+			"position": {
+				"x": 900.0,
+				"y": -530.0,
+				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "building9",
+			"friendlyname": "building9",
+			"position": {
+				"x": 1000.0,
+				"y": -530.0,
+				"z": 1000.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "cyantex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
 		}
 
 	]

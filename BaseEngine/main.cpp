@@ -8,6 +8,7 @@
 #include "global.h"
 #include "MapLoader/ResourceManager.h"
 #include "FiniteStateMachine/States.h"
+#include "Sudoku/sudoku.h"
 
 // Global Pointers and variables
 cVAOManager* p_vao_manager = cVAOManager::getInstance();   // Singleton Here
@@ -17,6 +18,11 @@ extern int currentLight;
 // Global Functions is Not at Global header file
 int main()
 {
+	cSudoku* sudoku = new cSudoku(9, 20);
+	sudoku->fillValues();
+	sudoku->printSudoku();
+	//system("pause");
+
 	// opengl call
 	window = creatOpenGL(window);
 
@@ -205,6 +211,81 @@ int main()
 				DrawObject(matWorld, pCurrentObject, g_shader_program_ID, p_vao_manager);
 			}
 		}//for (int index...
+
+		// Building Draw
+		for (int a = 0, draw1 = -2560; a < 9; a++, draw1 += 200)
+		{
+			for (int b = 0, draw2 = -2560; b < 9; b++, draw2 += 200)
+			{
+				if(sudoku->map_mat.at(std::pair<int,int>(a,b)) == 1)
+				{
+					cGameObject* building = findGameObjectByFriendlyName(g_vec_pGameObjects, "building1");
+					glm::mat4 matModel = glm::mat4(1.f);
+					building->m_position = glm::vec3(a + draw1, -530, b + draw2);
+					DrawObject(matModel, building, g_shader_program_ID, p_vao_manager);
+				}
+				if(sudoku->map_mat.at(std::pair<int,int>(a,b)) == 2)
+				{
+					cGameObject* building = findGameObjectByFriendlyName(g_vec_pGameObjects, "building2");
+					glm::mat4 matModel = glm::mat4(1.f);
+					building->m_position = glm::vec3(a + draw1, -530, b + draw2);
+					DrawObject(matModel, building, g_shader_program_ID, p_vao_manager);
+				}
+				if(sudoku->map_mat.at(std::pair<int,int>(a,b)) == 3)
+				{
+					cGameObject* building = findGameObjectByFriendlyName(g_vec_pGameObjects, "building3");
+					glm::mat4 matModel = glm::mat4(1.f);
+					building->m_position = glm::vec3(a + draw1, -530, b + draw2);
+					DrawObject(matModel, building, g_shader_program_ID, p_vao_manager);
+				}
+				if(sudoku->map_mat.at(std::pair<int,int>(a,b)) == 4)
+				{
+					cGameObject* building = findGameObjectByFriendlyName(g_vec_pGameObjects, "building4");
+					glm::mat4 matModel = glm::mat4(1.f);
+					building->m_position = glm::vec3(a + draw1, -530, b + draw2);
+					DrawObject(matModel, building, g_shader_program_ID, p_vao_manager);
+				}
+				if(sudoku->map_mat.at(std::pair<int,int>(a,b)) == 5)
+				{
+					cGameObject* building = findGameObjectByFriendlyName(g_vec_pGameObjects, "building5");
+					glm::mat4 matModel = glm::mat4(1.f);
+					building->m_position = glm::vec3(a + draw1, -530, b + draw2);
+					DrawObject(matModel, building, g_shader_program_ID, p_vao_manager);
+				}
+				if(sudoku->map_mat.at(std::pair<int,int>(a,b)) == 6)
+				{
+					cGameObject* building = findGameObjectByFriendlyName(g_vec_pGameObjects, "building6");
+					glm::mat4 matModel = glm::mat4(1.f);
+					building->m_position = glm::vec3(a + draw1, -530, b + draw2);
+					DrawObject(matModel, building, g_shader_program_ID, p_vao_manager);
+				}
+				if(sudoku->map_mat.at(std::pair<int,int>(a,b)) == 7)
+				{
+					cGameObject* building = findGameObjectByFriendlyName(g_vec_pGameObjects, "building7");
+					glm::mat4 matModel = glm::mat4(1.f);
+					building->m_position = glm::vec3(a + draw1, -530, b + draw2);
+					DrawObject(matModel, building, g_shader_program_ID, p_vao_manager);
+				}
+				if(sudoku->map_mat.at(std::pair<int,int>(a,b)) == 8)
+				{
+					cGameObject* building = findGameObjectByFriendlyName(g_vec_pGameObjects, "building8");
+					glm::mat4 matModel = glm::mat4(1.f);
+					building->m_position = glm::vec3(a + draw1, -530, b + draw2);
+					DrawObject(matModel, building, g_shader_program_ID, p_vao_manager);
+				}
+				if(sudoku->map_mat.at(std::pair<int,int>(a,b)) == 9)
+				{
+					cGameObject* building = findGameObjectByFriendlyName(g_vec_pGameObjects, "building9");
+					glm::mat4 matModel = glm::mat4(1.f);
+					building->m_position = glm::vec3(a + draw1, -530, b + draw2);
+					DrawObject(matModel, building, g_shader_program_ID, p_vao_manager);
+				}
+				
+			}
+		}
+		// Building Draw
+		
+		
 		// 3. Set up the textures for the TV screen (From the FBO)
 		glActiveTexture(GL_TEXTURE0 + 40);				// Texture Unit 40
 		glBindTexture(GL_TEXTURE_2D, p_fbo1->colourTexture_0_ID);	// Texture now asbsoc with texture unit 40      // Basically binding to
