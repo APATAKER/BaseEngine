@@ -1,6 +1,8 @@
 #include "cPhysWorld.h"
 
 
+
+
 cPhysWorld::~cPhysWorld()
 {
 	delete m_dynamics_world_;
@@ -77,6 +79,8 @@ bool cPhysWorld::AddComponent(nPhysics::iPhysicsComponent* component)
 		}
 	case nPhysics::eComponentType::STATIC:
 		return AddRigidBodies(dynamic_cast<cStaticComponent*>(component));
+	case nPhysics::eComponentType::BUMPER:
+		return AddRigidBodies(dynamic_cast<cBumperComponent*>(component));
 	default:
 		break;
 	}
@@ -219,6 +223,16 @@ bool cPhysWorld::AddRigidBodies(cBtFlipperComponent* component)
 }
 
 bool cPhysWorld::AddRigidBodies(cStaticComponent* component)
+{
+	if (!component)
+	{
+		return false;
+	}
+	m_dynamics_world_->addRigidBody(component->m_body_);
+	return true;
+}
+
+bool cPhysWorld::AddRigidBodies(cBumperComponent* component)
 {
 	if (!component)
 	{

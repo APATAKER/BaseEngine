@@ -352,6 +352,7 @@
     <ClInclude Include="physics\bullet\BulletDynamics\Vehicle\btWheelInfo.h" />
     <ClInclude Include="physics\bullet\cBallComponent.h" />
     <ClInclude Include="physics\bullet\cBtFlipperComponent.h" />
+    <ClInclude Include="physics\bullet\cBumperComponent.h" />
     <ClInclude Include="physics\bullet\cPhysDebugRenderer.h" />
     <ClInclude Include="physics\bullet\cPhysCollisionListener.h" />
     <ClInclude Include="physics\bullet\cPhysFactory.h" />
@@ -536,6 +537,7 @@
     <ClCompile Include="physics\bullet\BulletDynamics\Vehicle\btWheelInfo.cpp" />
     <ClCompile Include="physics\bullet\cBallComponent.cpp" />
     <ClCompile Include="physics\bullet\cBtFlipperComponent.cpp" />
+    <ClCompile Include="physics\bullet\cBumperComponent.cpp" />
     <ClCompile Include="physics\bullet\cPhysCollisionListener.cpp" />
     <ClCompile Include="physics\bullet\cPhysDebugRenderer.cpp" />
     <ClCompile Include="physics\bullet\cPhysFactory.cpp" />

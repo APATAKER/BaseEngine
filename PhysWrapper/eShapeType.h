@@ -7,5 +7,6 @@ enum class eShapeTypes
 	FLIPPER,
 	CLOTH,
 	STATIC,
-	FIXED
+	FIXED,
+	BUMPER
 };

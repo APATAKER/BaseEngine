@@ -744,6 +744,9 @@
     <ClInclude Include="physics\bullet\cStaticBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\bullet\cBumperComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics\bullet\BulletCollision\BroadphaseCollision\btAxisSweep3.cpp">
@@ -1224,6 +1227,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="physics\bullet\cStaticBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\bullet\cBumperComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

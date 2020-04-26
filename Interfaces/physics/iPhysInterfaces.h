@@ -9,3 +9,4 @@
 #include"iPlaneComponent.h"
 #include"iFlipperComponent.h"
 #include"iStaticComponent.h"
+#include"iBumperComponent.h"

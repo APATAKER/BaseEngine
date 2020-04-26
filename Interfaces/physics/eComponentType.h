@@ -8,6 +8,7 @@ namespace nPhysics
 		PLANE,
 		CLOTH,
 		FLIPPER,
-		STATIC
+		STATIC,
+		BUMPER
 	};
 }

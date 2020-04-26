@@ -5,6 +5,7 @@
 #include "cPlaneComponent.h"
 #include "cBtFlipperComponent.h"
 #include "cStaticBody.h"
+#include "cBumperComponent.h"
 
 
 
@@ -41,4 +42,9 @@ nPhysics::iFlipperComponent* cPhysFactory::CreateFlipper(const nPhysics::sFlippe
 nPhysics::iStaticComponent* cPhysFactory::CreateFixed(const nPhysics::sStaticDef& def)
 {
 	return new cStaticComponent(def);
+}
+
+nPhysics::iBumperComponent* cPhysFactory::CreateBumper(const nPhysics::sBumperDef& def)
+{
+	return new cBumperComponent(def);
 }

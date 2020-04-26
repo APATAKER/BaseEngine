@@ -33,7 +33,8 @@
 		"assets/models/Building8_xyz_n_uv.ply",
 		"assets/models/Building9_xyz_n_uv.ply",
 		"assets/models/DisplayScreen_xyz_n_uv.ply",
-		"assets/models/BaseSlitStaticXYZ_N_UV.ply"
+		"assets/models/BaseSlitStaticXYZ_N_UV.ply",
+		"assets/models/BumperXYZ_N_UV.ply"
 	],
   "MeshName": [
 	"QUAD",
@@ -65,7 +66,8 @@
 	"building8",
 	"building9",
 	"display",
-	"slits"
+	"slits",
+	"bumper"
   ],
   "Textures": [
 	"defaultTex.bmp",
@@ -368,8 +370,8 @@
 			"meshname": "sphere10",
 			"friendlyname": "pinball",
 			"position": {
-				"x": -70.00,
-				"y": 0.00,
+				"x": 30.00,
+				"y": 100.00,
 				"z": 20.0
 			},
 			"rotation": {
@@ -598,7 +600,8 @@
 			"isVisible": 0,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
-		},{
+		},
+		{
 			"meshname": "pinwall",
 			"friendlyname": "plane5",
 			"position": {
@@ -644,7 +647,8 @@
 			"isVisible": 0,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
-		},{
+		},
+		{
 			"meshname": "pinwall",
 			"friendlyname": "plane6",
 			"position": {
@@ -789,6 +793,162 @@
 				"x": 125.0,
 				"y": 5.0,
 				"z": 5.0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "bumper",
+			"friendlyname": "bumper1",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "orange.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 6,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"halfLength": {
+				"x": 4.5,
+				"y": 10.0,
+				"z": 10.0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "bumper",
+			"friendlyname": "bumper2",
+			"position": {
+				"x": 30.0,
+				"y": 0.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "orange.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 6,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"halfLength": {
+				"x": 4.5,
+				"y": 10.0,
+				"z": 10.0
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "bumper",
+			"friendlyname": "bumper3",
+			"position": {
+				"x": 20.0,
+				"y": 30.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "orange.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 6,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"halfLength": {
+				"x": 4.5,
+				"y": 10.0,
+				"z": 10.0
 			},
 			"mass": 1,
 			"isVisible": 1,

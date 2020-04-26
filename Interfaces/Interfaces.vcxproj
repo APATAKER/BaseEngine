@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="physics\eComponentType.h" />
     <ClInclude Include="physics\iBallComponent.h" />
+    <ClInclude Include="physics\iBumperComponent.h" />
     <ClInclude Include="physics\iClothComponent.h" />
     <ClInclude Include="physics\iCollisionListener.h" />
     <ClInclude Include="physics\iDebugRenderer.h" />
