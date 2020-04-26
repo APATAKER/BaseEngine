@@ -21,6 +21,7 @@
 		"assets/models/RetroTV.edited.bodyonly.ply",
 		"assets/models/RetroTV.edited.screenonly.ply",
 		"assets/models/flipper_xyz_n_uv.ply",
+		"assets/models/flipper_xyz_n_uv_60.ply",
 		"assets/models/PinWall_xyz_n_UV.ply",
 		"assets/models/Building1_xyz_n_uv.ply",
 		"assets/models/Building2_xyz_n_uv.ply",
@@ -52,6 +53,7 @@
 	"tvbody",
 	"tvscreen",
 	"flipper",
+	"flipper60",
 	"pinwall",
 	"building1",
 	"building2",
@@ -249,10 +251,10 @@
 			"aiType": "none"
 		},
 		{
-			"meshname": "flipper",
+			"meshname": "flipper60",
 			"friendlyname": "flipper1",
 			"position": {
-				"x": 30.00,
+				"x": 14.00,
 				"y": -320.00,
 				"z": 20.00
 			},
@@ -291,12 +293,12 @@
 				"radius": 0
 			},
 			"halfLength": {
-				"x": 20.0,
+				"x": 26.0,
 				"y": 5.0,
 				"z": 5.0
 			},
 			"pivot": {
-				"x": 20.0,
+				"x": 26.0,
 				"y": 5.0,
 				"z": 5.0
 			},
@@ -306,7 +308,7 @@
 			"aiType": "none"
 		},
 		{
-			"meshname": "flipper",
+			"meshname": "flipper60",
 			"friendlyname": "flipper2",
 			"position": {
 				"x": -70.00,
@@ -348,12 +350,12 @@
 				"radius": 0
 			},
 			"halfLength": {
-				"x": 20.0,
+				"x": 26.0,
 				"y": 5.0,
 				"z": 5.0
 			},
 			"pivot": {
-				"x": -20.0,
+				"x": -26.0,
 				"y": 5.0,
 				"z": 5.0
 			},
@@ -363,10 +365,10 @@
 			"aiType": "none"
 		},
 		{
-			"meshname": "sphere5",
+			"meshname": "sphere10",
 			"friendlyname": "pinball",
 			"position": {
-				"x": -50.00,
+				"x": -70.00,
 				"y": 0.00,
 				"z": 20.0
 			},
@@ -596,13 +598,105 @@
 			"isVisible": 0,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
+		},{
+			"meshname": "pinwall",
+			"friendlyname": "plane5",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 15.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 0.5,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "defaultTex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 1,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 0,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},{
+			"meshname": "pinwall",
+			"friendlyname": "plane6",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 25.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 0.5,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "defaultTex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 1,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": -1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 0,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
 		},
 		{
 			"meshname": "slits",
 			"friendlyname": "slitright",
 			"position": {
-				"x": 145.0,
-				"y": -230.0,
+				"x": 135.0,
+				"y": -223.0,
 				"z": 20.0
 			},
 			"rotation": {
