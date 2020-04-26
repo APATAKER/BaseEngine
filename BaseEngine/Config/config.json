@@ -367,11 +367,11 @@
 			"aiType": "none"
 		},
 		{
-			"meshname": "sphere10",
+			"meshname": "sphere5",
 			"friendlyname": "pinball",
 			"position": {
-				"x": 30.00,
-				"y": 100.00,
+				"x": 130.00,
+				"y": 200.00,
 				"z": 20.0
 			},
 			"rotation": {
@@ -406,7 +406,7 @@
 				"constant": 0
 			},
 			"sphere": {
-				"radius": 3
+				"radius": 5
 			},
 			"mass": 0.2,
 			"isVisible": 1,
@@ -842,9 +842,9 @@
 				"radius": 0
 			},
 			"halfLength": {
-				"x": 4.5,
+				"x": 10.0,
 				"y": 10.0,
-				"z": 10.0
+				"z": 4.5
 			},
 			"mass": 1,
 			"isVisible": 1,
@@ -894,9 +894,9 @@
 				"radius": 0
 			},
 			"halfLength": {
-				"x": 4.5,
+				"x": 10.0,
 				"y": 10.0,
-				"z": 10.0
+				"z": 4.5
 			},
 			"mass": 1,
 			"isVisible": 1,
@@ -946,9 +946,320 @@
 				"radius": 0
 			},
 			"halfLength": {
-				"x": 4.5,
+				"x": 10.0,
 				"y": 10.0,
-				"z": 10.0
+				"z": 4.5
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "bumper",
+			"friendlyname": "bumper4",
+			"position": {
+				"x": 100.0,
+				"y": 100.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "orange.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 6,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"halfLength": {
+				"x": 10.0,
+				"y": 10.0,
+				"z": 4.5
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "bumper",
+			"friendlyname": "bumper5",
+			"position": {
+				"x": 130.0,
+				"y": 100.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "orange.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 6,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"halfLength": {
+				"x": 10.0,
+				"y": 10.0,
+				"z": 4.5
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "bumper",
+			"friendlyname": "bumper6",
+			"position": {
+				"x": 120.0,
+				"y": 130.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "orange.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 6,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"halfLength": {
+				"x": 10.0,
+				"y": 10.0,
+				"z": 4.5
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},{
+			"meshname": "bumper",
+			"friendlyname": "bumper7",
+			"position": {
+				"x": -100.0,
+				"y": 200.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "orange.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 6,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"halfLength": {
+				"x": 10.0,
+				"y": 10.0,
+				"z": 4.5
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "bumper",
+			"friendlyname": "bumper8",
+			"position": {
+				"x": -130.0,
+				"y": 200.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "orange.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 6,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"halfLength": {
+				"x": 10.0,
+				"y": 10.0,
+				"z": 4.5
+			},
+			"mass": 1,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},
+		{
+			"meshname": "bumper",
+			"friendlyname": "bumper9",
+			"position": {
+				"x": -120.0,
+				"y": 230.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "orange.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 6,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"halfLength": {
+				"x": 10.0,
+				"y": 10.0,
+				"z": 4.5
 			},
 			"mass": 1,
 			"isVisible": 1,

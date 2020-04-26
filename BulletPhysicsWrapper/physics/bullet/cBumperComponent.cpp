@@ -3,7 +3,7 @@
 cBumperComponent::cBumperComponent(const nPhysics::sBumperDef& bumper_def)
 	:iBumperComponent(bumper_def)
 {
-	btCollisionShape* shape = new btCylinderShapeZ(nConvert::ToBullet(glm::vec3(10,10,4.5)));
+	btCollisionShape* shape = new btCylinderShapeZ(nConvert::ToBullet(bumper_def.half_length));
 	btTransform transform;
 	btScalar mass(0);
 	transform.setIdentity();
