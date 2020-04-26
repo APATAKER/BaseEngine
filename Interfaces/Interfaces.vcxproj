@@ -161,6 +161,7 @@
     <ClInclude Include="physics\iPhysicsWorld.h" />
     <ClInclude Include="physics\iPhysInterfaces.h" />
     <ClInclude Include="physics\iPlaneComponent.h" />
+    <ClInclude Include="physics\iStaticComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

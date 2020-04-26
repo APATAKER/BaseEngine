@@ -31,7 +31,8 @@
 		"assets/models/Building7_xyz_n_uv.ply",
 		"assets/models/Building8_xyz_n_uv.ply",
 		"assets/models/Building9_xyz_n_uv.ply",
-		"assets/models/DisplayScreen_xyz_n_uv.ply"
+		"assets/models/DisplayScreen_xyz_n_uv.ply",
+		"assets/models/BaseSlitStaticXYZ_N_UV.ply"
 	],
   "MeshName": [
 	"QUAD",
@@ -61,7 +62,8 @@
 	"building7",
 	"building8",
 	"building9",
-	"display"
+	"display",
+	"slits"
   ],
   "Textures": [
 	"defaultTex.bmp",
@@ -250,7 +252,7 @@
 			"meshname": "flipper",
 			"friendlyname": "flipper1",
 			"position": {
-				"x": 50.00,
+				"x": 30.00,
 				"y": -320.00,
 				"z": 20.00
 			},
@@ -307,7 +309,7 @@
 			"meshname": "flipper",
 			"friendlyname": "flipper2",
 			"position": {
-				"x": -50.00,
+				"x": -70.00,
 				"y": -320.00,
 				"z": 20.0
 			},
@@ -596,19 +598,19 @@
 			"aiType": "none"
 		},
 		{
-			"meshname": "pinwall",
-			"friendlyname": "plane5",
+			"meshname": "slits",
+			"friendlyname": "slitright",
 			"position": {
-				"x": 0.0,
-				"y": 0.0,
-				"z": 30.0
+				"x": 145.0,
+				"y": -230.0,
+				"z": 20.0
 			},
 			"rotation": {
 				"x": 0.0,
 				"y": 0.0,
-				"z": 0.0
+				"z": 45.0
 			},
-			"scale": 0.5,
+			"scale": 1,
 			"objectcolor": {
 				"r": 1.0,
 				"g": 1.0,
@@ -625,54 +627,7 @@
 			"tex": [ "defaultTex.bmp", "", "", "" ],
 			"texratio": [ 1, 0, 0, 0 ],
 			"isStatic": 0,
-			"physicsshapetype": 1,
-			"plane": {
-				"normal": {
-					"x": 0.0,
-					"y": 0.0,
-					"z": -1.0
-				},
-				"constant": 0
-			},
-			"sphere": {
-				"radius": 0
-			},
-			"mass": 1,
-			"isVisible": 0,
-			"isSkinnedMesh": 0,
-			"aiType": "none"
-		},
-		{
-			"meshname": "pinwall",
-			"friendlyname": "plane6",
-			"position": {
-				"x": 0.0,
-				"y": 0.0,
-				"z": 15.0
-			},
-			"rotation": {
-				"x": 0.0,
-				"y": 0.0,
-				"z": 0.0
-			},
-			"scale": 0.5,
-			"objectcolor": {
-				"r": 1.0,
-				"g": 1.0,
-				"b": 1.0,
-				"a": 1.0
-			},
-			"isWireframe": 0,
-			"debugcolor": {
-				"r": 1.0,
-				"g": 1.0,
-				"b": 1.0,
-				"a": 1.0
-			},
-			"tex": [ "defaultTex.bmp", "", "", "" ],
-			"texratio": [ 1, 0, 0, 0 ],
-			"isStatic": 0,
-			"physicsshapetype": 1,
+			"physicsshapetype": 4,
 			"plane": {
 				"normal": {
 					"x": 0.0,
@@ -685,7 +640,53 @@
 				"radius": 0
 			},
 			"mass": 1,
-			"isVisible": 0,
+			"isVisible": 1,
+			"isSkinnedMesh": 0,
+			"aiType": "none"
+		},{
+			"meshname": "slits",
+			"friendlyname": "slitleft",
+			"position": {
+				"x": -185.0,
+				"y": -225.0,
+				"z": 20.0
+			},
+			"rotation": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": -45.0
+			},
+			"scale": 1,
+			"objectcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"isWireframe": 0,
+			"debugcolor": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"tex": [ "defaultTex.bmp", "", "", "" ],
+			"texratio": [ 1, 0, 0, 0 ],
+			"isStatic": 0,
+			"physicsshapetype": 4,
+			"plane": {
+				"normal": {
+					"x": 0.0,
+					"y": 0.0,
+					"z": 1.0
+				},
+				"constant": 0
+			},
+			"sphere": {
+				"radius": 0
+			},
+			"mass": 1,
+			"isVisible": 1,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
 		},

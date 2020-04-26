@@ -358,6 +358,7 @@
     <ClInclude Include="physics\bullet\cPhysWorld.h" />
     <ClInclude Include="physics\bullet\cPhysWrapper.h" />
     <ClInclude Include="physics\bullet\cPlaneComponent.h" />
+    <ClInclude Include="physics\bullet\cStaticBody.h" />
     <ClInclude Include="physics\bullet\eShapeType.h" />
     <ClInclude Include="physics\bullet\LinearMath\btAabbUtil2.h" />
     <ClInclude Include="physics\bullet\LinearMath\btAlignedAllocator.h" />
@@ -540,6 +541,7 @@
     <ClCompile Include="physics\bullet\cPhysFactory.cpp" />
     <ClCompile Include="physics\bullet\cPhysWorld.cpp" />
     <ClCompile Include="physics\bullet\cPlaneComponent.cpp" />
+    <ClCompile Include="physics\bullet\cStaticBody.cpp" />
     <ClCompile Include="physics\bullet\LinearMath\btAlignedAllocator.cpp" />
     <ClCompile Include="physics\bullet\LinearMath\btConvexHull.cpp" />
     <ClCompile Include="physics\bullet\LinearMath\btConvexHullComputer.cpp" />

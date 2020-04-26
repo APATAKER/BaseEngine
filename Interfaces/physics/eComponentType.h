@@ -7,6 +7,7 @@ namespace nPhysics
 		SPHERE,
 		PLANE,
 		CLOTH,
-		FLIPPER
+		FLIPPER,
+		STATIC
 	};
 }
