@@ -8,3 +8,4 @@
 #include"iPhysicsWorld.h"
 #include"iPlaneComponent.h"
 #include"iFlipperComponent.h"
+#include"iStaticComponent.h"

@@ -4,6 +4,7 @@
 #include "iPhysicsWorld.h"
 #include "iClothComponent.h"
 #include "iFlipperComponent.h"
+#include "iStaticComponent.h"
 
 namespace nPhysics
 {
@@ -17,5 +18,6 @@ namespace nPhysics
 		virtual iPlaneComponent* CreatePlane(const sPlaneDef& def) = 0;
 		virtual iClothComponent* CreateCloth(const sClothDef& def) = 0;
 		virtual iFlipperComponent* CreateFlipper(const sFlipperDef& def) = 0;
+		virtual iStaticComponent* CreateFixed(const sStaticDef& def) = 0;
 	};
 }

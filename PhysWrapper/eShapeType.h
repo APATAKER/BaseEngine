@@ -6,5 +6,6 @@ enum class eShapeTypes
 	PLANE,
 	FLIPPER,
 	CLOTH,
-	STATIC
+	STATIC,
+	FIXED
 };

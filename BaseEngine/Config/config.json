@@ -627,7 +627,7 @@
 			"tex": [ "defaultTex.bmp", "", "", "" ],
 			"texratio": [ 1, 0, 0, 0 ],
 			"isStatic": 0,
-			"physicsshapetype": 4,
+			"physicsshapetype": 5,
 			"plane": {
 				"normal": {
 					"x": 0.0,
@@ -639,11 +639,17 @@
 			"sphere": {
 				"radius": 0
 			},
+			"halfLength": {
+				"x": 125.0,
+				"y": 5.0,
+				"z": 5.0
+			},
 			"mass": 1,
 			"isVisible": 1,
 			"isSkinnedMesh": 0,
 			"aiType": "none"
-		},{
+		},
+		{
 			"meshname": "slits",
 			"friendlyname": "slitleft",
 			"position": {
@@ -673,7 +679,7 @@
 			"tex": [ "defaultTex.bmp", "", "", "" ],
 			"texratio": [ 1, 0, 0, 0 ],
 			"isStatic": 0,
-			"physicsshapetype": 4,
+			"physicsshapetype": 5,
 			"plane": {
 				"normal": {
 					"x": 0.0,
@@ -684,6 +690,11 @@
 			},
 			"sphere": {
 				"radius": 0
+			},
+			"halfLength": {
+				"x": 125.0,
+				"y": 5.0,
+				"z": 5.0
 			},
 			"mass": 1,
 			"isVisible": 1,

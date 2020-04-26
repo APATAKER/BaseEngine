@@ -4,6 +4,7 @@
 #include "cBallComponent.h"
 #include "cPlaneComponent.h"
 #include "cBtFlipperComponent.h"
+#include "cStaticBody.h"
 
 
 
@@ -35,4 +36,9 @@ nPhysics::iClothComponent* cPhysFactory::CreateCloth(const nPhysics::sClothDef& 
 nPhysics::iFlipperComponent* cPhysFactory::CreateFlipper(const nPhysics::sFlipperDef& def)
 {
 	return new cBtFlipperComponent(def);
+}
+
+nPhysics::iStaticComponent* cPhysFactory::CreateFixed(const nPhysics::sStaticDef& def)
+{
+	return new cStaticComponent(def);
 }

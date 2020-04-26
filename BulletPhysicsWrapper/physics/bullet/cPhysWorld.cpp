@@ -75,6 +75,8 @@ bool cPhysWorld::AddComponent(nPhysics::iPhysicsComponent* component)
 		vp_phy_components.push_back(component);
 		return AddRigidBodies(dynamic_cast<cBtFlipperComponent*>(component));
 		}
+	case nPhysics::eComponentType::STATIC:
+		return AddRigidBodies(dynamic_cast<cStaticComponent*>(component));
 	default:
 		break;
 	}
@@ -207,6 +209,16 @@ bool cPhysWorld::AddRigidBodies(cPlaneComponent* component)
 }
 
 bool cPhysWorld::AddRigidBodies(cBtFlipperComponent* component)
+{
+	if (!component)
+	{
+		return false;
+	}
+	m_dynamics_world_->addRigidBody(component->m_body_);
+	return true;
+}
+
+bool cPhysWorld::AddRigidBodies(cStaticComponent* component)
 {
 	if (!component)
 	{

@@ -8,6 +8,7 @@ cStaticComponent::cStaticComponent(const nPhysics::sStaticDef& static_def)
 	btScalar mass(0);
 	transform.setIdentity();
 	transform.setOrigin(nConvert::ToBullet(static_def.Position));
+	transform.setRotation(nConvert::ToBullet(static_def.orientation));
 	btVector3 local_inertia(0, 0, 0);
 	shape->calculateLocalInertia(mass, local_inertia);
 	btDefaultMotionState* motion_state = new btDefaultMotionState(transform);

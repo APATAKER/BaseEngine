@@ -4,6 +4,7 @@
 #include "cBallComponent.h">
 #include "cPlaneComponent.h">
 #include "cBtFlipperComponent.h"
+#include "cStaticBody.h"
 #include "cPhysCollisionListener.h"
 
 
@@ -53,6 +54,7 @@ private:
 	bool AddRigidBodies(cBallComponent* component);
 	bool AddRigidBodies(cPlaneComponent* component);
 	bool AddRigidBodies(cBtFlipperComponent* component);
+	bool AddRigidBodies(cStaticComponent* component);
 	bool AddHingeConstraint(cBtFlipperComponent* component);
 
 	btDefaultCollisionConfiguration* m_collision_configuration;

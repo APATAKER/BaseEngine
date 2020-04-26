@@ -18,5 +18,10 @@ namespace nConvert
 	{
 		 transformIn.getOpenGLMatrix(&transformOut[0][0]);
 	}
+
+	inline btQuaternion ToBullet(const glm::quat& quad)
+	{
+		return btQuaternion(quad.x, quad.y, quad.z, quad.w);
+	}
 	
 }

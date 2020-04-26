@@ -117,6 +117,19 @@ void PhysicsInit()
 				g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateFlipper(flipper_def);
 			}
 			break;
+			case eShapeTypes::FIXED:
+			{
+				nPhysics::sStaticDef static_def;
+					static_def.Position = glm::vec3(jgameobj["position"]["x"].GetFloat(),
+						jgameobj["position"]["y"].GetFloat(),
+						jgameobj["position"]["z"].GetFloat());
+					static_def.half_length = glm::vec3(jgameobj["halfLength"]["x"].GetFloat(),
+						jgameobj["halfLength"]["y"].GetFloat(),
+						jgameobj["halfLength"]["z"].GetFloat());
+					static_def.orientation = g_vec_pGameObjects[i]->getQOrientation();
+					g_vec_pGameObjects[i]->m_physics_component = physics_factory->CreateFixed(static_def);
+			}
+			break;
 			}
 			physics_world->AddComponent(g_vec_pGameObjects[i]->m_physics_component);
 			//}
